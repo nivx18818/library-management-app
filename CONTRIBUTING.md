@@ -5,7 +5,7 @@ To maintain code quality and ensure smooth collaboration, please follow the guid
 ## 1. Pull Request (PR) Rules
 
 - All changes must be made through a **Pull Request (PR)**.
-- Direct merges to the `main` or `develop` branches are not allowed.
+- Direct merges to the `main` branch are not allowed.
 - Each PR must be reviewed and approved by at least one team member before merging.
 - The repository owner (Nguyen Xuan Vinh) will have the final decision on accepting or rejecting PRs.
 - Ensure that your PR includes a clear description of the changes being made.
