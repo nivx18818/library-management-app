@@ -1,7 +1,5 @@
 package app.libmgmt.model;
 
-import app.libmgmt.model.Book;
-
 import java.util.List;
 
 public class Category {

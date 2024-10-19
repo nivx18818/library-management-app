@@ -1,21 +1,25 @@
 package app.libmgmt.model;
 
 public abstract class User {
-    private int id;
+    private int userId;
     private String name;
     private String email;
     private String password;
     private String role;
 
-    public User() {
-    }
-
-    public User(int id, String name, String email, String password, String role) {
-        this.id = id;
+    public User(String name, String email, String password, String role) {
         this.name = name;
         this.email = email;
         this.password = password;
         this.role = role;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getName() {
@@ -34,8 +38,8 @@ public abstract class User {
         this.email = email;
     }
 
-    public boolean verifyPassword(String password) {
-        return this.password.equals(password);
+    public String getPassword() {
+        return password;
     }
 
     public void resetPassword(String newPassword) {

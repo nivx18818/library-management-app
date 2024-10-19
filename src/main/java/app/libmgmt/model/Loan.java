@@ -1,8 +1,5 @@
 package app.libmgmt.model;
 
-import app.libmgmt.model.Book;
-import app.libmgmt.model.Borrower;
-
 import java.util.Date;
 
 public class Loan {

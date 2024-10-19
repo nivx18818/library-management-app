@@ -1,9 +1,5 @@
 package app.libmgmt.model;
 
-import app.libmgmt.model.Admin;
-import app.libmgmt.model.Author;
-import app.libmgmt.model.Category;
-
 import java.util.Date;
 import java.util.List;
 
@@ -33,7 +29,7 @@ public class Book {
         this.categories = categories;
         this.admin = admin;
     }
-    
+
     public String getIsbn() {
         return isbn;
     }
@@ -44,6 +40,30 @@ public class Book {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public Date getPublishedDate() {
+        return publishedDate;
+    }
+
+    public void setPublishedDate(Date publishedDate) {
+        this.publishedDate = publishedDate;
+    }
+
+    public String getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(String publisher) {
+        this.publisher = publisher;
+    }
+
+    public String getCoverUrl() {
+        return coverUrl;
+    }
+
+    public void setCoverUrl(String coverUrl) {
+        this.coverUrl = coverUrl;
     }
 
     public int getAvailableCopies() {
