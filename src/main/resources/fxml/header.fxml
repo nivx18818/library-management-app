@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.*?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity"
+            minHeight="50.0" minWidth="1132.0" prefHeight="50.0"
+            prefWidth="1132.0" style="-fx-background-color: #fff;"
+            stylesheets="@../style/header.css" xmlns="http://javafx.com/javafx/23"
+            fx:controller="view.HeaderController">
+  <children>
+    <HBox id="user-box-container" fx:id="containerUserBox" alignment="CENTER_LEFT" prefHeight="50.0"
+          prefWidth="180.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+          AnchorPane.topAnchor="0.0">
+      <children>
+        <ImageView fx:id="avatarImage" fitHeight="25.0" fitWidth="30.0" pickOnBounds="true"
+                   preserveRatio="true">
+          <image>
+            <Image url="@../assets/icon/user 1.png"/>
+          </image>
+        </ImageView>
+        <VBox fx:id="infoUserBox" spacing="3.0">
+          <children>
+            <Text id="name-info" fx:id="nameUserText" strokeType="OUTSIDE" strokeWidth="0.0"
+                  styleClass="info-user" text="Hoang Duy Thinh" wrappingWidth="127.0">
+              <font>
+                <Font name="System Bold" size="15.0"/>
+              </font>
+            </Text>
+            <Text id="type-info" fx:id="typeUserText" strokeType="OUTSIDE" strokeWidth="0.0"
+                  styleClass="info-user" text="Admin" wrappingWidth="127.0">
+              <font>
+                <Font size="13.0"/>
+              </font>
+            </Text>
+          </children>
+          <opaqueInsets>
+            <Insets/>
+          </opaqueInsets>
+        </VBox>
+      </children>
+      <opaqueInsets>
+        <Insets/>
+      </opaqueInsets>
+      <padding>
+        <Insets bottom="5.0" left="15.0" right="15.0" top="5.0"/>
+      </padding>
+    </HBox>
+    <HBox fx:id="containerSettingBox" alignment="CENTER_RIGHT" layoutX="1037.0" layoutY="1.0"
+          prefHeight="50.0" prefWidth="169.0" spacing="10.0" AnchorPane.bottomAnchor="0.0"
+          AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <padding>
+        <Insets bottom="5.0" left="15.0" right="15.0" top="5.0"/>
+      </padding>
+      <children>
+        <VBox fx:id="timeBox" minHeight="30.0" minWidth="72.0" prefHeight="40.0" prefWidth="96.0"
+              spacing="2.0">
+          <children>
+            <Text fx:id="timeText" strokeType="OUTSIDE" strokeWidth="0.0" text="Text"
+                  textAlignment="RIGHT" wrappingWidth="89.0">
+              <font>
+                <Font name="System Bold" size="15.0"/>
+              </font>
+            </Text>
+            <Text fx:id="dateText" strokeType="OUTSIDE" strokeWidth="0.0" text="Text"
+                  textAlignment="RIGHT" wrappingWidth="90.0">
+              <font>
+                <Font size="13.0"/>
+              </font>
+            </Text>
+          </children>
+        </VBox>
+        <Line fx:id="vLIne" endY="35.0" strokeWidth="1.5"/>
+        <ImageView fx:id="settingImage" fitHeight="28.0" fitWidth="28.0" pickOnBounds="true"
+                   preserveRatio="true">
+          <image>
+            <Image url="@../assets/icon/setting-2 1.png"/>
+          </image>
+        </ImageView>
+      </children>
+    </HBox>
+  </children>
+</AnchorPane>

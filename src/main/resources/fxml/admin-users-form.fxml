@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.*?>
+<StackPane xmlns:fx="http://javafx.com/fxml/1" fx:id="stackPaneContainer"
+           xmlns="http://javafx.com/javafx/23"
+           fx:controller="view.AdminUsersLayoutController">
+  <children>
+    <Pane fx:id="userContainer" prefHeight="670.0" prefWidth="1132.0"
+          style="-fx-background-color: #F2F2F2;">
+      <children>
+        <Pane id="student-btn-container" fx:id="studentPane" layoutX="14.0" layoutY="22.0"
+              prefHeight="30.0" prefWidth="164.0"
+              style="-fx-background-color: #e3e3e3; -fx-background-radius: 12px;">
+          <children>
+            <Label id="student-lbl" fx:id="studentLabel" alignment="CENTER" prefHeight="30.0"
+                   prefWidth="164.0" text="Student" textAlignment="CENTER">
+              <font>
+                <Font size="14.0"/>
+              </font>
+            </Label>
+          </children>
+        </Pane>
+        <Pane id="guest-btn=container" fx:id="guestPane" layoutX="200.0" layoutY="22.0"
+              prefHeight="30.0" prefWidth="164.0"
+              style="-fx-background-color: black; -fx-background-radius: 12px;">
+          <children>
+            <Label id="guest-lbl" fx:id="guestLabel" alignment="CENTER" prefHeight="30.0"
+                   prefWidth="164.0" text="External Borrower" textFill="WHITE">
+              <font>
+                <Font size="14.0"/>
+              </font>
+            </Label>
+          </children>
+        </Pane>
+        <Pane layoutX="14.0" layoutY="70.0" prefHeight="588.0" prefWidth="1101.0"
+              style="-fx-background-color: white; -fx-background-radius: 12px;">
+          <children>
+            <Line endX="1000.0" layoutX="90.0" layoutY="40.0" startX="-74.0"/>
+            <HBox fx:id="hBoxStudent" alignment="CENTER_LEFT" layoutX="13.0" prefHeight="45.0"
+                  prefWidth="1080.0" spacing="30.0">
+              <children>
+                <Label alignment="CENTER" prefHeight="14.0" prefWidth="120.0" text="Student ID"
+                       textAlignment="CENTER">
+                  <font>
+                    <Font size="13.0"/>
+                  </font>
+                </Label>
+                <Label alignment="CENTER" layoutX="10.0" layoutY="30.0" prefHeight="14.0"
+                       prefWidth="220.0" text="Full Name">
+                  <font>
+                    <Font size="13.0"/>
+                  </font>
+                </Label>
+                <Label alignment="CENTER" layoutX="27.0" layoutY="30.0" prefHeight="14.0"
+                       prefWidth="220.0" text="Major">
+                  <font>
+                    <Font size="13.0"/>
+                  </font>
+                </Label>
+                <Label alignment="CENTER" layoutX="45.0" layoutY="30.0" prefHeight="14.0"
+                       prefWidth="220.0" text="Email">
+                  <font>
+                    <Font size="13.0"/>
+                  </font>
+                </Label>
+                <Label alignment="CENTER" layoutX="79.0" layoutY="30.0" prefHeight="14.0"
+                       prefWidth="180.0" text="Action">
+                  <font>
+                    <Font size="13.0"/>
+                  </font>
+                </Label>
+              </children>
+              <padding>
+                <Insets left="30.0" right="30.0"/>
+              </padding>
+            </HBox>
+            <HBox fx:id="hBoxGuest" alignment="CENTER_LEFT" layoutX="13.0" prefHeight="45.0"
+                  prefWidth="1080.0" spacing="30.0">
+              <children>
+                <Label alignment="CENTER" prefHeight="14.0" prefWidth="180.0" text="Citizen ID"
+                       textAlignment="CENTER">
+                  <font>
+                    <Font size="13.0"/>
+                  </font>
+                </Label>
+                <Label alignment="CENTER" layoutX="10.0" layoutY="30.0" prefHeight="14.0"
+                       prefWidth="220.0" text="Full Name">
+                  <font>
+                    <Font size="13.0"/>
+                  </font>
+                </Label>
+                <Label alignment="CENTER" layoutX="27.0" layoutY="30.0" prefHeight="14.0"
+                       prefWidth="180.0" text="Phone Number">
+                  <font>
+                    <Font size="13.0"/>
+                  </font>
+                </Label>
+                <Label alignment="CENTER" layoutX="45.0" layoutY="30.0" prefHeight="14.0"
+                       prefWidth="220.0" text="Email">
+                  <font>
+                    <Font size="13.0"/>
+                  </font>
+                </Label>
+                <Label alignment="CENTER" layoutX="79.0" layoutY="30.0" prefHeight="14.0"
+                       prefWidth="180.0" text="Action">
+                  <font>
+                    <Font size="13.0"/>
+                  </font>
+                </Label>
+              </children>
+              <padding>
+                <Insets left="30.0" right="30.0"/>
+              </padding>
+            </HBox>
+            <ScrollPane hbarPolicy="NEVER" layoutY="43.0" prefHeight="546.0" prefWidth="1101.0"
+                        style="-fx-background-color: white;">
+              <content>
+                <VBox fx:id="vBoxUserList" alignment="TOP_CENTER" prefHeight="546.0"
+                      prefWidth="1105.0" style="-fx-background-color: white;"/>
+              </content>
+            </ScrollPane>
+          </children>
+        </Pane>
+        <Pane fx:id="searchPane" layoutX="803.0" layoutY="22.0" prefHeight="30.0" prefWidth="270.0"
+              style="-fx-background-color: white; -fx-background-radius: 12;">
+          <children>
+            <ImageView fitHeight="15.0" fitWidth="15.0" layoutX="14.0" layoutY="7.0"
+                       pickOnBounds="true" preserveRatio="true">
+              <image>
+                <Image url="@../assets/icon/search-normal.png"/>
+              </image>
+            </ImageView>
+            <TextField fx:id="textSearch" layoutX="37.0" onAction="#txtSearchOnAction"
+                       onMouseMoved="#txtSearchOnMouseMoved" prefHeight="30.0" prefWidth="234.0"
+                       promptText="Search by Name / ID"
+                       style="-fx-background-color: white; -fx-background-radius: 0 12 12 0;">
+              <font>
+                <Font size="13.0"/>
+              </font>
+            </TextField>
+          </children>
+        </Pane>
+        <Pane fx:id="refreshPaneButton" layoutX="1085.0" layoutY="22.0" prefHeight="30.0"
+              prefWidth="30.0" style="-fx-background-color: white; -fx-background-radius: 12;">
+          <children>
+            <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="3.0" layoutY="4.0"
+                       pickOnBounds="true" preserveRatio="true">
+              <image>
+                <Image url="@../assets/icon/R.png"/>
+              </image>
+            </ImageView>
+            <JFXButton onAction="#btnRefreshTableOnAction"
+                       onMouseEntered="#btnRefreshTableOnMouseEntered"
+                       onMouseExited="#btnRefreshTableOnMouseExited" prefHeight="30.0"
+                       prefWidth="30.0" style="-fx-background-radius: 12;" text=" ">
+              <font>
+                <Font size="16.0"/>
+              </font>
+              <cursor>
+                <Cursor fx:constant="HAND"/>
+              </cursor>
+            </JFXButton>
+          </children>
+        </Pane>
+        <JFXButton fx:id="studentButton" layoutX="15.0" layoutY="22.0"
+                   onAction="#studentButtonOnAction" prefHeight="30.0" prefWidth="164.0"
+                   style="-fx-background-radius: 12px;" styleClass="student-btn" text=" "
+                   textFill="WHITE">
+          <cursor>
+            <Cursor fx:constant="HAND"/>
+          </cursor>
+        </JFXButton>
+        <JFXButton fx:id="guestButton" layoutX="200.0" layoutY="22.0"
+                   onAction="#guestButtonOnAction" prefHeight="30.0" prefWidth="164.0"
+                   style="-fx-background-radius: 12px;" styleClass="guest-btn" text=" "
+                   textFill="WHITE">
+          <cursor>
+            <Cursor fx:constant="HAND"/>
+          </cursor>
+        </JFXButton>
+        <HBox alignment="CENTER" fillHeight="false" layoutX="686.0" layoutY="22.0" prefHeight="30.0"
+              prefWidth="106.0" spacing="8.0"
+              style="-fx-background-color: #040000; -fx-background-radius: 12;">
+          <children>
+            <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+              <image>
+                <Image url="@../assets/icon/add-circle%201.png"/>
+              </image>
+            </ImageView>
+            <Label prefHeight="19.0" prefWidth="62.0" style="-fx-text-fill: white;" text="Add User">
+              <font>
+                <Font size="13.0"/>
+              </font>
+            </Label>
+          </children>
+          <padding>
+            <Insets left="8.0" right="8.0"/>
+          </padding>
+        </HBox>
+        <JFXButton fx:id="addUserButton" layoutX="686.0" layoutY="22.0"
+                   onAction="#addUserButtonOnAction" prefHeight="30.0" prefWidth="106.0"
+                   style="-fx-background-radius: 12;" text=" " textFill="WHITE">
+          <cursor>
+            <Cursor fx:constant="HAND"/>
+          </cursor>
+        </JFXButton>
+      </children>
+    </Pane>
+  </children>
+</StackPane>

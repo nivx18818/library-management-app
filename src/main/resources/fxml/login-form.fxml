@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXRadioButton?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.effect.Shadow?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.effect.Light?>
+<?import javafx.scene.effect.Light.Distant?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity"
+            minHeight="-Infinity" minWidth="-Infinity" prefHeight="575.0"
+            prefWidth="930.0" stylesheets="@../style/login.css"
+            xmlns="http://javafx.com/javafx/23" fx:controller="view.LoginController">
+  <children>
+    <BorderPane fx:id="container" prefHeight="575.0" prefWidth="930.0"
+                style="-fx-background-color: #fff;">
+      <left>
+        <StackPane prefHeight="575.0" prefWidth="461.0" style="-fx-background-color: #fff;"
+                   BorderPane.alignment="CENTER">
+          <children>
+            <Pane fx:id="sectionOne" prefHeight="575.0" prefWidth="461.0"
+                  style="-fx-background-color: #fff;" styleClass="section-1">
+              <children>
+                <Text fx:id="welcomeText" layoutX="103.0" layoutY="175.0" strokeType="OUTSIDE"
+                      strokeWidth="0.0" styleClass="welcomeText" text="Welcome Back !!"
+                      textAlignment="CENTER" wrappingWidth="273.13671875">
+                </Text>
+                <Text fx:id="descText" layoutX="94.0" layoutY="226.0" strokeType="OUTSIDE"
+                      strokeWidth="0.0" text="Please enter your credentials to log in"
+                      textAlignment="CENTER" wrappingWidth="272.9765625">
+                  <font>
+                    <Font size="13.0"/>
+                  </font>
+                </Text>
+                <VBox alignment="BOTTOM_LEFT" layoutX="97.0" layoutY="257.0" spacing="18.0">
+                  <children>
+                    <TextField fx:id="usernameField" prefHeight="42.0" prefWidth="267.0"
+                               promptText="Username">
+                      <font>
+                        <Font size="13.0"/>
+                      </font>
+                    </TextField>
+                    <PasswordField fx:id="passwordField" prefHeight="42.0" prefWidth="267.0"
+                                   promptText="Password" styleClass="text-field">
+                      <font>
+                        <Font size="13.0"/>
+                      </font>
+                    </PasswordField>
+                  </children>
+                </VBox>
+                <Button id="signInButton" fx:id="signInButton" layoutX="97.0" layoutY="415.0"
+                        mnemonicParsing="false" onMouseClicked="#handleSignInStatus"
+                        prefHeight="42.0" prefWidth="267.0" styleClass="button" text="SIGN IN"
+                        textAlignment="CENTER">
+                  <font>
+                    <Font size="13.0"/>
+                  </font>
+                </Button>
+                <Label fx:id="errorAccountNotify" alignment="CENTER" layoutX="23.0" layoutY="378.0"
+                       opacity="0.0" prefHeight="26.0" prefWidth="416.0"
+                       text="The account or password is incorrect. Please try again!"
+                       textFill="RED">
+                  <font>
+                    <Font name="System Italic" size="14.0"/>
+                  </font>
+                  <effect>
+                    <Lighting>
+                      <bumpInput>
+                        <Shadow/>
+                      </bumpInput>
+                      <light>
+                        <Light.Distant/>
+                      </light>
+                    </Lighting>
+                  </effect>
+                </Label>
+                <ImageView fitHeight="61.0" fitWidth="72.0" layoutX="194.0" layoutY="75.0"
+                           pickOnBounds="true" preserveRatio="true" styleClass="logo-image">
+                  <image>
+                    <Image url="@../assets/icon/logoImageBlack.png"/>
+                  </image>
+                </ImageView>
+              </children>
+            </Pane>
+            <Pane fx:id="sectionThree" disable="true" opacity="0.0" prefHeight="200.0"
+                  prefWidth="200.0" style="-fx-background-color: #000;" styleClass="section-3">
+              <children>
+                <Pane layoutX="99.0" layoutY="138.0" prefHeight="221.0" prefWidth="264.0"
+                      style="-fx-background-color: #000000;">
+                  <children>
+                    <ImageView fitHeight="73.0" fitWidth="88.0" layoutX="88.0" layoutY="8.0"
+                               pickOnBounds="true" preserveRatio="true" styleClass="logo-image">
+                      <image>
+                        <Image url="@../assets/icon/logoImageWhite.png"/>
+                      </image>
+                    </ImageView>
+                    <Text fill="WHITE" layoutX="15.0" layoutY="137.0" strokeType="OUTSIDE"
+                          strokeWidth="0.0" styleClass="bookwormText" text="BookWorm"
+                          textAlignment="CENTER" wrappingWidth="234.099609375">
+                    </Text>
+                    <Text fill="WHITE" layoutX="96.0" layoutY="163.0" strokeType="OUTSIDE"
+                          strokeWidth="0.0" styleClass="libraryText" text="LIBRARY"
+                          textAlignment="CENTER" wrappingWidth="72.205078125">
+                    </Text>
+                  </children>
+                </Pane>
+                <Button id="signInButton2" fx:id="signInButton2" layoutX="97.0" layoutY="402.0"
+                        mnemonicParsing="false" onMouseClicked="#handleSignInOption"
+                        prefHeight="42.0" prefWidth="267.0" styleClass="button" text="SIGN IN"
+                        textAlignment="CENTER">
+                  <font>
+                    <Font size="13.0"/>
+                  </font>
+                </Button>
+                <Text fx:id="descSignInText" fill="WHITE" layoutX="83.0" layoutY="373.0"
+                      strokeType="OUTSIDE" strokeWidth="0.0"
+                      text="Already have Account? Sign In now." textAlignment="CENTER"
+                      wrappingWidth="296.705078125">
+                  <font>
+                    <Font size="13.0"/>
+                  </font>
+                </Text>
+              </children>
+            </Pane>
+          </children>
+        </StackPane>
+      </left>
+      <right>
+        <StackPane prefHeight="575.0" prefWidth="469.0" style="-fx-background-color: #fff;"
+                   BorderPane.alignment="CENTER">
+          <children>
+            <Pane fx:id="sectionTwo" prefHeight="575.0" prefWidth="469.0"
+                  style="-fx-background-color: #000000;" styleClass="section-2">
+              <children>
+                <Pane layoutX="102.0" layoutY="138.0" prefHeight="221.0" prefWidth="264.0"
+                      style="-fx-background-color: #000000;">
+                  <children>
+                    <ImageView fitHeight="73.0" fitWidth="88.0" layoutX="88.0" layoutY="8.0"
+                               pickOnBounds="true" preserveRatio="true" styleClass="logo-image">
+                      <image>
+                        <Image url="@../assets/icon/logoImageWhite.png"/>
+                      </image>
+                    </ImageView>
+                    <Text fx:id="bookwormText" fill="WHITE" layoutX="15.0" layoutY="137.0"
+                          strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bookwormText"
+                          text="BookWorm" textAlignment="CENTER" wrappingWidth="234.099609375">
+                    </Text>
+                    <Text fx:id="libraryText" fill="WHITE" layoutX="96.0" layoutY="162.0"
+                          strokeType="OUTSIDE" strokeWidth="0.0" styleClass="libraryText"
+                          text="LIBRARY" textAlignment="CENTER" wrappingWidth="72.205078125">
+                    </Text>
+                  </children>
+                </Pane>
+                <Text fx:id="signUpText" fill="WHITE" layoutX="86.0" layoutY="374.0"
+                      strokeType="OUTSIDE" strokeWidth="0.0"
+                      text="New to our platform? Sign Up now." textAlignment="CENTER"
+                      wrappingWidth="296.705078125">
+                  <font>
+                    <Font size="13.0"/>
+                  </font>
+                </Text>
+                <Button id="signUpButton" fx:id="signUpButton" layoutX="101.0" layoutY="400.0"
+                        mnemonicParsing="false" onMouseClicked="#handleSignUpOption"
+                        prefHeight="42.0" prefWidth="267.0" styleClass="button" text="SIGN UP"
+                        textAlignment="CENTER">
+                  <font>
+                    <Font size="13.0"/>
+                  </font>
+                </Button>
+              </children>
+            </Pane>
+            <Pane fx:id="sectionFour" disable="true" opacity="0.0" prefHeight="200.0"
+                  prefWidth="200.0" style="-fx-background-color: #fff;" styleClass="section-4">
+              <children>
+                <VBox layoutX="29.0" layoutY="195.0" spacing="18.0">
+                  <children>
+                    <HBox alignment="CENTER_LEFT" prefHeight="45.0" prefWidth="412.0"
+                          spacing="25.0">
+                      <children>
+                        <TextField fx:id="fullNameSignUp" prefHeight="45.0" prefWidth="220.0"
+                                   promptText="Full Name*">
+                          <font>
+                            <Font size="13.0"/>
+                          </font>
+                        </TextField>
+                        <JFXRadioButton onMouseClicked="#handleStudentComboBoxClicked"
+                                        prefHeight="19.0" prefWidth="80.0" selected="true"
+                                        text="Student">
+                          <font>
+                            <Font size="13.0"/>
+                          </font>
+                          <unSelectedColor>
+                            <Color red="0.03947368264198303" green="0.03947368264198303"
+                                   blue="0.03947368264198303"/>
+                          </unSelectedColor>
+                          <selectedColor>
+                            <Color/>
+                          </selectedColor>
+                          <toggleGroup>
+                            <ToggleGroup fx:id="userType"/>
+                          </toggleGroup>
+                        </JFXRadioButton>
+                        <JFXRadioButton onMouseClicked="#handleGuestComboBoxClicked"
+                                        prefHeight="19.0" prefWidth="63.0" text="Guest"
+                                        toggleGroup="$userType">
+                          <font>
+                            <Font size="13.0"/>
+                          </font>
+                          <unSelectedColor>
+                            <Color red="0.03947368264198303" green="0.03947368264198303"
+                                   blue="0.03947368264198303"/>
+                          </unSelectedColor>
+                          <selectedColor>
+                            <Color/>
+                          </selectedColor>
+                        </JFXRadioButton>
+                      </children>
+                    </HBox>
+                    <JFXComboBox fx:id="majorComboBox" focusColor="WHITE" prefHeight="45.0"
+                                 prefWidth="415.0" promptText="Major*" styleClass="jfx-combo-box"
+                                 unFocusColor="WHITE" visibleRowCount="5"/>
+                    <TextField fx:id="emailSignUp" prefHeight="45.0" prefWidth="412.0"
+                               promptText="Email*">
+                      <font>
+                        <Font size="13.0"/>
+                      </font>
+                    </TextField>
+                    <HBox alignment="CENTER_LEFT" spacing="15.0">
+                      <children>
+                        <TextField fx:id="studentIDSignUp" prefHeight="45.0" prefWidth="220.0"
+                                   promptText="Student ID*">
+                          <font>
+                            <Font size="13.0"/>
+                          </font>
+                        </TextField>
+                        <PasswordField fx:id="passwordSignUp" prefHeight="45.0" prefWidth="180.0"
+                                       promptText="Password*" styleClass="text-field">
+                          <font>
+                            <Font size="13.0"/>
+                          </font>
+                        </PasswordField>
+                      </children>
+                    </HBox>
+                  </children>
+                </VBox>
+                <TextField fx:id="phoneNumberSignUp" disable="true" layoutX="29.0" layoutY="257.0"
+                           opacity="0.0" prefHeight="45.0" prefWidth="412.0"
+                           promptText="Phone Number*">
+                  <font>
+                    <Font size="13.0"/>
+                  </font>
+                </TextField>
+                <TextField fx:id="citizenIDSignUp" disable="true" layoutX="29.0" layoutY="383.0"
+                           opacity="0.0" prefHeight="45.0" prefWidth="220.0"
+                           promptText="Citizen ID*">
+                  <font>
+                    <Font size="13.0"/>
+                  </font>
+                </TextField>
+                <Button id="signUpButton2" fx:id="signUpButton2" layoutX="103.0" layoutY="484.0"
+                        mnemonicParsing="false" onMouseClicked="#handleSignUpStatus"
+                        prefHeight="42.0" prefWidth="267.0" styleClass="button" text="SIGN UP"
+                        textAlignment="CENTER">
+                  <font>
+                    <Font size="13.0"/>
+                  </font>
+                </Button>
+                <Text fx:id="descText2" layoutX="95.0" layoutY="164.0" strokeType="OUTSIDE"
+                      strokeWidth="0.0" text="Please provide your information to sign up."
+                      textAlignment="CENTER" wrappingWidth="272.9765625">
+                  <font>
+                    <Font size="13.0"/>
+                  </font>
+                </Text>
+                <ImageView fitHeight="63.0" fitWidth="72.0" layoutX="269.0" layoutY="64.0"
+                           pickOnBounds="true" preserveRatio="true" styleClass="logo-image">
+                  <image>
+                    <Image url="@../assets/icon/logoImageBlack.png"/>
+                  </image>
+                </ImageView>
+                <Text layoutX="130.0" layoutY="115.0" strokeType="OUTSIDE" strokeWidth="0.0"
+                      styleClass="welcomeText" text="Sign Up" wrappingWidth="139.13671875">
+                </Text>
+                <Label fx:id="registerNoticeText" alignment="CENTER" layoutX="17.0" layoutY="446.0"
+                       opacity="0.0" prefHeight="20.0" prefWidth="436.0" textFill="#08a80d">
+                  <font>
+                    <Font name="System Italic" size="14.0"/>
+                  </font>
+                  <effect>
+                    <Lighting>
+                      <bumpInput>
+                        <Shadow/>
+                      </bumpInput>
+                      <light>
+                        <Light.Distant/>
+                      </light>
+                    </Lighting>
+                  </effect>
+                </Label>
+              </children>
+            </Pane>
+          </children>
+        </StackPane>
+      </right>
+    </BorderPane>
+    <Pane fx:id="loadingPane" disable="true" layoutX="10.0" layoutY="10.0" opacity="0.0"
+          prefHeight="575.0" prefWidth="930.0" style="-fx-background-color: #fff;">
+      <children>
+        <ImageView id="loading-gif" fx:id="loadingGif" fitHeight="50.0" fitWidth="50.0"
+                   layoutX="440.0" layoutY="300.0" pickOnBounds="true" preserveRatio="true">
+          <image>
+            <Image url="@../../../../../../../Users/Dell/Downloads/Dual%20Ring@1x-1.1s-200px-200px.gif"/>
+          </image>
+        </ImageView>
+        <ImageView fx:id="loadingLogo" fitHeight="70.0" fitWidth="80.0" layoutX="425.0"
+                   layoutY="221.0" pickOnBounds="true" preserveRatio="true" styleClass="logo-image">
+          <image>
+            <Image url="@../assets/icon/logoImageBlack.png"/>
+          </image>
+        </ImageView>
+      </children>
+    </Pane>
+  </children>
+</AnchorPane>

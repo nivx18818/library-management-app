@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<HBox xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23"
+      fx:controller="view.AdminGlobalFormController">
+
+  <children>
+    <fx:include source="navigation.fxml"/>
+
+    <VBox fx:id="contentContainer">
+      <fx:include source="header.fxml"/>
+      <Pane fx:id="pagingPane" prefHeight="670.0" prefWidth="1132.0">
+        <children>
+          <fx:include source="admin-dashboard.fxml"/>
+        </children>
+      </Pane>
+
+    </VBox>
+  </children>
+
+</HBox>

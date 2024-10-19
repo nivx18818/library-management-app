@@ -1,0 +1,14 @@
+
+.text-field {
+    -fx-border-color: #727374;
+    -fx-border-radius: 12px;
+    -fx-background-color: #fff;
+    -fx-background-radius: 12px;
+    -fx-prompt-text-fill: #b2b2b2;
+}
+
+.text-field:focused, .jfx-combo-box:focused {
+    -fx-border-color: #242121;
+    -fx-background-color: #FFFFFF;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 8, 0.7, 0, 2);
+}
