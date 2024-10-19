@@ -1,4 +1,4 @@
-package view;
+package view.admin;
 
 import javafx.application.Platform;
 import javafx.concurrent.Task;
@@ -157,7 +157,7 @@ public class AdminUsersLayoutController {
     @FXML
     void addUserButtonOnAction(ActionEvent event) {
         Platform.runLater(() -> {
-            NavigationController.openPopUp(stackPaneContainer, "/fxml/admin-add-user-dialog.fxml");
+            AdminNavigationController.openPopUp(stackPaneContainer, "/fxml/admin-add-user-dialog.fxml");
         });
     }
 

@@ -1,4 +1,4 @@
-package view;
+package view.admin;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;

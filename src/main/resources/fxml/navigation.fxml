@@ -11,7 +11,7 @@
 <VBox xmlns:fx="http://javafx.com/fxml/1" id="navigation" fx:id="navigationContainer" alignment="TOP_CENTER"
       prefHeight="720.0" prefWidth="148.0" style="-fx-background-color: #000;"
       stylesheets="@../style/navigation.css" xmlns="http://javafx.com/javafx/23"
-      fx:controller="view.NavigationController">
+      fx:controller="view.admin.AdminNavigationController">
   <children>
     <ImageView id="logo-image" fitHeight="70.0" fitWidth="110.0" pickOnBounds="true"
                preserveRatio="true">

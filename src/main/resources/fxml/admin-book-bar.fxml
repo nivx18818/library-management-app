@@ -9,7 +9,7 @@
 <HBox xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity"
       minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="1080.0"
       spacing="30.0" xmlns="http://javafx.com/javafx/23"
-      fx:controller="view.AdminBookBarController">
+      fx:controller="view.admin.AdminBookBarController">
   <children>
     <Label fx:id="idLabel" alignment="CENTER" prefHeight="14.0" prefWidth="80.0" text="001"
            textAlignment="CENTER">

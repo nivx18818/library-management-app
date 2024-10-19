@@ -1,4 +1,4 @@
-package view;
+package view.admin;
 
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXRadioButton;
@@ -8,6 +8,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import util.Animation;
 import util.RegExPatterns;
+import view.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -281,7 +282,7 @@ public class AdminAddUserDialogController {
 
     @FXML
     void closeButtonOnAction(ActionEvent event) {
-        NavigationController.closePopUp();
+        AdminNavigationController.closePopUp();
     }
 
 }

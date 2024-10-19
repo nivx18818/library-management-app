@@ -10,7 +10,7 @@
 <?import javafx.scene.text.*?>
 <StackPane xmlns:fx="http://javafx.com/fxml/1" fx:id="stackPaneContainer"
            xmlns="http://javafx.com/javafx/23"
-           fx:controller="view.AdminBooksLayoutController">
+           fx:controller="view.admin.AdminBooksLayoutController">
   <children>
     <Pane prefHeight="670.0" prefWidth="1132.0" style="-fx-background-color: #F2F2F2;">
       <children>

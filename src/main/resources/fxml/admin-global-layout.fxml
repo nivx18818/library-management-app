@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <HBox xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23"
-      fx:controller="view.AdminGlobalFormController">
+      fx:controller="view.admin.AdminGlobalFormController">
 
   <children>
     <fx:include source="navigation.fxml"/>

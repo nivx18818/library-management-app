@@ -1,4 +1,4 @@
-package view;
+package view.admin;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
@@ -16,7 +16,7 @@ import util.Animation;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-public class NavigationController {
+public class AdminNavigationController {
 
     public static JFXDialog dialog;
     private static String latestButtonClicked = "dashboard";
@@ -50,7 +50,7 @@ public class NavigationController {
 
     public static void openPopUp(StackPane stackPane, String path) {
         try {
-            FXMLLoader loader = new FXMLLoader(NavigationController.class.getResource(path));
+            FXMLLoader loader = new FXMLLoader(AdminNavigationController.class.getResource(path));
             Pane content = loader.load();
 
             dialog = new JFXDialog(stackPane, content,
@@ -176,7 +176,7 @@ public class NavigationController {
 
         Pane pane = controller.getPagingPane();
         pane.getChildren().clear();
-        FXMLLoader loader = new FXMLLoader(NavigationController.class.getResource("/fxml/" + fxmlPath));
+        FXMLLoader loader = new FXMLLoader(AdminNavigationController.class.getResource("/fxml/" + fxmlPath));
         Parent root = loader.load();
         pane.getChildren().add(root);
         Animation.zoomIn(controller.getPagingPane(), 1.0);

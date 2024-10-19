@@ -1,4 +1,4 @@
-package view;
+package view.admin;
 
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -130,7 +130,7 @@ public class AdminAddBookDialogController {
 
     @FXML
     void closeButtonOnAction(ActionEvent event) {
-        NavigationController.closePopUp();
+        AdminNavigationController.closePopUp();
     }
 
     @FXML

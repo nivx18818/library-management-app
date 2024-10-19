@@ -1,4 +1,4 @@
-package view;
+package view.admin;
 
 import com.jfoenix.controls.JFXButton;
 import javafx.application.Platform;
@@ -90,7 +90,7 @@ public class AdminBooksLayoutController {
 
     @FXML
     void addBookButtonClicked(MouseEvent event) throws IOException{
-        NavigationController.openPopUp(stackPaneContainer, "/fxml/admin-add-book-dialog.fxml");
+        AdminNavigationController.openPopUp(stackPaneContainer, "/fxml/admin-add-book-dialog.fxml");
     }
 
     @FXML

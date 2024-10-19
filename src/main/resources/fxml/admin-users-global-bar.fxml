@@ -12,7 +12,7 @@
       maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0"
       prefWidth="1080.0"
       spacing="30.0" xmlns="http://javafx.com/javafx/23"
-      fx:controller="view.AdminUsersGlobalBarController">
+      fx:controller="view.admin.AdminUsersGlobalBarController">
   <children>
     <Label fx:id="categoryLabel" alignment="CENTER" prefHeight="60.0" prefWidth="120.0"
            text="Student" textAlignment="CENTER" wrapText="true">

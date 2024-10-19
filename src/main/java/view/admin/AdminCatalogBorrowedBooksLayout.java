@@ -1,4 +1,4 @@
-package view;
+package view.admin;
 
 import com.jfoenix.controls.JFXButton;
 import javafx.application.Platform;

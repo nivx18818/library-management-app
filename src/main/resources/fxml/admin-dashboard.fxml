@@ -10,7 +10,7 @@
 <?import javafx.scene.text.*?>
 <HBox xmlns:fx="http://javafx.com/fxml/1" fx:id="dashboardContainer" prefHeight="670.0"
       prefWidth="1132.0" stylesheets="@../style/dashboard.css"
-      xmlns="http://javafx.com/javafx/23" fx:controller="view.AdminDashboardController">
+      xmlns="http://javafx.com/javafx/23" fx:controller="view.admin.AdminDashboardController">
   <children>
     <VBox fx:id="chartBox" alignment="TOP_CENTER" fillWidth="false" prefHeight="670.0"
           prefWidth="497.0" spacing="18.0" style="-fx-background-color: #f2f2f2;">

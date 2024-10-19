@@ -9,4 +9,6 @@ module org.example.main {
     exports main;
     opens view to javafx.fxml;
     exports view;
+    exports view.admin;
+    opens view.admin to javafx.fxml;
 }
