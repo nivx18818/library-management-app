@@ -86,7 +86,7 @@ public class RegExPatterns {
     }
 
     public static boolean datePattern(String dateStr) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter formatter = DateTimeUtils.dateTimeFormatter;
 
         try {
             LocalDate date = LocalDate.parse(dateStr, formatter);

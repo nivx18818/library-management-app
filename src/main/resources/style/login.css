@@ -98,3 +98,7 @@
     -fx-background-radius: 0px 40px 40px 0px;
 }
 
+#forgot-password-lbl:hover {
+    -fx-text-fill: #9e0000;
+}
+

@@ -5,6 +5,7 @@ import animatefx.animation.FadeInRight;
 import animatefx.animation.ZoomIn;
 import animatefx.animation.ZoomOut;
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXDialog;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
@@ -15,11 +16,13 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import main.AdminInitializer;
 import util.Animation;
 import util.RegExPatterns;
+import view.admin.AdminNavigationController;
 
 import java.io.IOException;
 import java.util.logging.Logger;
@@ -35,6 +38,8 @@ public class LoginController {
             "Automation Engineering", "CN12 - Artificial intelligence", "CN13 - Energy " +
             "Engineering Technology", "CN14 - Information Systems", "CN15 - Computer Networks and" +
             " Data Communications", "CN17 - Computers and Robots"};
+    @FXML
+    private StackPane stackPaneContainer;
     @FXML
     private BorderPane container;
     @FXML
@@ -79,6 +84,9 @@ public class LoginController {
     private ToggleGroup userType;
     @FXML
     private JFXComboBox<String> majorComboBox = new JFXComboBox<>();
+    @FXML
+    private Label forgotPasswordLabel;
+    public static JFXDialog dialog;
 
     public LoginController() {
         controller = this;
@@ -211,10 +219,7 @@ public class LoginController {
         if (checkAccount(username, password)) {
             goDashboard();
         } else {
-            errorAccountNotify.setOpacity(0.8);
-
-            Animation.playNotificationTimeline(errorAccountNotify, 3.0, "red");
-
+            handleFailedLogin();
         }
     }
 
@@ -227,7 +232,7 @@ public class LoginController {
      */
     public boolean checkAccount(String username, String password) {
         //TODO: Implement this method
-        return true;
+        return false;
     }
 
     @FXML
@@ -323,6 +328,29 @@ public class LoginController {
         return true;
     }
 
+    @FXML
+    public void handleForgotPassword(MouseEvent event) {
+        openPopUp(stackPaneContainer, "/fxml/forgot-password-dialog.fxml");
+    }
+
+    public static void openPopUp(StackPane stackPane, String path) {
+        try {
+            FXMLLoader loader = new FXMLLoader(AdminNavigationController.class.getResource(path));
+            Pane content = loader.load();
+
+            dialog = new JFXDialog(stackPane, content,
+                    JFXDialog.DialogTransition.CENTER);
+
+            dialog.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void closePopUp() {
+        dialog.close();
+    }
+
     public void setDefault() {
         fullNameSignUp.setText("");
         emailSignUp.setText("");
@@ -366,6 +394,16 @@ public class LoginController {
         });
 
         zoomOut.play();
+    }
+
+    public void handleFailedLogin() {
+        errorAccountNotify.setOpacity(1.0);
+        forgotPasswordLabel.setVisible(false);
+        Animation.playNotificationTimeline(errorAccountNotify, 3.0, "red");
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(3.5), event -> {
+            forgotPasswordLabel.setVisible(true);
+        }));
+        timeline.play();
     }
 
     public String[] getMajor() {

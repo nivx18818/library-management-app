@@ -5,8 +5,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 public class DateTimeUtils {
-    public static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM" +
-            "/yyyy");
+    public static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM" +
+            "-yyyy");
 
     public static final LocalDate currentLocalTime = LocalDate.now();
 

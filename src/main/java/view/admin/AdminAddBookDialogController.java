@@ -84,12 +84,12 @@ public class AdminAddBookDialogController {
     }
 
     public boolean checkValid() {
-        String urlOriginalPromptText = txtCoverURL.getPromptText();
+//        String urlOriginalPromptText = txtCoverURL.getPromptText();
         String idBook = txtID.getText();
         String url = txtCoverURL.getText();
         String nameBook = txtName.getText();
-        String typeBook = txtType.getText();
-        String author = txtAuthor.getText();
+//        String typeBook = txtType.getText();
+//        String author = txtAuthor.getText();
         String publishedDate = txtPublishedDate.getText();
         String quantity = txtQuantity.getText();
 
@@ -109,7 +109,7 @@ public class AdminAddBookDialogController {
             notificationLabel.setText("Invalid quantity.");
             Animation.playNotificationTimeline(notificationLabel, 3, "#ff0000");
             return false;
-        } else if (!RegExPatterns.datePattern(publishedDate)) {
+        } else if (!publishedDate.isEmpty() && !RegExPatterns.datePattern(publishedDate)) {
             notificationLabel.setText("Invalid date.");
             Animation.playNotificationTimeline(notificationLabel, 3, "#ff0000");
             return false;

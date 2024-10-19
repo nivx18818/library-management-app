@@ -5,14 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5f4ecb56-7c04-443b-8640-7096c4e40595" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/AdminAddBookDialogController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/admin/AdminAddBookDialogController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/AdminAddUserDialogController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/AdminAddUserDialogController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/AdminBooksLayoutController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/AdminBooksLayoutController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/AdminUsersLayoutController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/AdminUsersLayoutController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/NavigationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/AdminNavigationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/fxml/admin-add-book-dialog.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/admin-add-book-dialog.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/fxml/navigation.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/navigation.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/view/ForgotPasswordDialogController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/fxml/forgot-password-dialog.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/util/DateTimeUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/util/DateTimeUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/util/RegExPatterns.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/util/RegExPatterns.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/LoginController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/admin/AdminAddBookDialogController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/admin/AdminAddBookDialogController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/fxml/login-form.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/login-form.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/style/login.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/style/login.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -139,7 +140,7 @@
       <workItem from="1729238426049" duration="5320000" />
       <workItem from="1729246007563" duration="2392000" />
       <workItem from="1729259802799" duration="25799000" />
-      <workItem from="1729317577315" duration="33716000" />
+      <workItem from="1729317577315" duration="42167000" />
     </task>
     <servers />
   </component>
