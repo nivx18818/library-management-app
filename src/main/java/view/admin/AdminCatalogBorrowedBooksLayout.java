@@ -11,6 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import util.Animation;
 import util.DateTimeUtils;
@@ -25,6 +26,7 @@ import java.util.logging.Logger;
 public class AdminCatalogBorrowedBooksLayout {
 
 
+    private static AdminCatalogBorrowedBooksLayout controller;
     AdminGlobalFormController adminGlobalFormController = AdminGlobalFormController.getInstance();
     private final List<String[]> borrowedBooksData = adminGlobalFormController.getBorrowedBooksData();
     private final List<String[]> overdueData = loadOverdueBorrowersList();
@@ -44,7 +46,17 @@ public class AdminCatalogBorrowedBooksLayout {
     private TextField textSearch;
     @FXML
     private VBox vBoxBorrowedBooks;
+    @FXML
+    private StackPane stackPaneContainer;
     private String status = "borrowed";
+
+    public AdminCatalogBorrowedBooksLayout() {
+        controller = this;
+    }
+
+    public static AdminCatalogBorrowedBooksLayout getInstance() {
+        return controller;
+    }
 
     @FXML
     public void initialize() {
@@ -228,5 +240,13 @@ public class AdminCatalogBorrowedBooksLayout {
     @FXML
     void txtSearchOnMouseMoved(MouseEvent event) {
 
+    }
+
+    public StackPane getStackPaneContainer() {
+        return stackPaneContainer;
+    }
+
+    public void setStackPaneContainer(StackPane stackPaneContainer) {
+        this.stackPaneContainer = stackPaneContainer;
     }
 }

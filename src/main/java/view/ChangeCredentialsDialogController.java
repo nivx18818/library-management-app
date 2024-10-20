@@ -5,22 +5,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.Pane;
 import util.Animation;
 import view.admin.AdminNavigationController;
 
-import java.util.NavigableMap;
-
 public class ChangeCredentialsDialogController {
-
-    @FXML
-    private JFXButton addButton;
-
-    @FXML
-    private JFXButton cancelButton;
 
     @FXML
     private TextField cfNewPasswordField;
@@ -29,19 +18,10 @@ public class ChangeCredentialsDialogController {
     private JFXButton closeDialogButton;
 
     @FXML
-    private Pane closePane;
-
-    @FXML
     private TextField curPasswordField;
 
     @FXML
     private ImageView imgClose;
-
-    @FXML
-    private Label lblAdd;
-
-    @FXML
-    private Label lblCancel;
 
     @FXML
     private TextField newPasswordField;
