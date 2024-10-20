@@ -1,10 +1,13 @@
 package util;
 
 import animatefx.animation.*;
+import com.jfoenix.controls.JFXButton;
 import javafx.animation.FadeTransition;
 import javafx.animation.SequentialTransition;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
@@ -50,6 +53,15 @@ public class Animation {
          ZoomIn zi = new ZoomIn(pane);
          zi.setSpeed(speed);
          zi.play();
+    }
+
+    public static void hoverCloseIcons(JFXButton closeDialogButton, ImageView imgClose) {
+        Image hoverImg =
+                new Image(Animation.class.getResource("/assets/icon/close-square2.png").toExternalForm());
+        Image defaultImg =
+                new Image(Animation.class.getResource("/assets/icon/close-square 1.png").toExternalForm());
+        closeDialogButton.setOnMouseEntered(event -> imgClose.setImage(hoverImg));
+        closeDialogButton.setOnMouseExited(event -> imgClose.setImage(defaultImg));
     }
 
 }

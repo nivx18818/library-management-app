@@ -1,10 +1,13 @@
 package view.admin;
 
+import com.jfoenix.controls.JFXButton;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import util.Animation;
@@ -35,9 +38,15 @@ public class AdminAddBookDialogController {
     private TextField txtType;
     @FXML
     private Label notificationLabel;
+    @FXML
+    private JFXButton closeDialogButton;
+    @FXML
+    private ImageView imgClose;
 
     public void initialize() {
         System.out.println("Admin Add Book Dialog initialized");
+
+        Animation.hoverCloseIcons(closeDialogButton, imgClose);
 
         container.setOnMouseClicked(
                 event -> {

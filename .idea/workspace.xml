@@ -5,16 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5f4ecb56-7c04-443b-8640-7096c4e40595" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/view/ChangeCredentialsDialogController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/fxml/change-credentials-dialog.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/HeaderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/HeaderController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/LoginController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/admin/AdminGlobalFormController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/admin/AdminGlobalFormController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/icon/R.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/fxml/admin-global-layout.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/admin-global-layout.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/fxml/header.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/header.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/util/Animation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/util/Animation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/ChangeCredentialsDialogController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/ChangeCredentialsDialogController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/admin/AdminAddBookDialogController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/admin/AdminAddBookDialogController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/admin/AdminAddUserDialogController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/admin/AdminAddUserDialogController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/fxml/admin-add-book-dialog.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/admin-add-book-dialog.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/fxml/admin-add-user-dialog.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/admin-add-user-dialog.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -142,7 +139,7 @@
       <workItem from="1729246007563" duration="2392000" />
       <workItem from="1729259802799" duration="25799000" />
       <workItem from="1729317577315" duration="42703000" />
-      <workItem from="1729408818638" duration="6436000" />
+      <workItem from="1729408818638" duration="8253000" />
     </task>
     <servers />
   </component>

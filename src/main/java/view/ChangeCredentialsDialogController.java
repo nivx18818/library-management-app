@@ -51,16 +51,8 @@ public class ChangeCredentialsDialogController {
 
     public void initialize() {
         System.out.println("ChangeCredentialsDialogController initialized");
-        changeHoverIcons();
-    }
 
-    public void changeHoverIcons() {
-        Image hoverImg =
-                new Image(getClass().getResource("/assets/icon/close-square2.png").toExternalForm());
-        Image defaultImg =
-                new Image(getClass().getResource("/assets/icon/close-square 1.png").toExternalForm());
-        closeDialogButton.setOnMouseEntered(event -> imgClose.setImage(hoverImg));
-        closeDialogButton.setOnMouseExited(event -> imgClose.setImage(defaultImg));
+        Animation.hoverCloseIcons(closeDialogButton, imgClose);
     }
 
     @FXML

@@ -1,10 +1,12 @@
 package view.admin;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXRadioButton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import util.Animation;
 import util.RegExPatterns;
@@ -69,6 +71,10 @@ public class AdminAddUserDialogController {
     private PasswordField txtPasswordStudent;
     @FXML
     private TextField txtPhoneNumberGuest;
+    @FXML
+    private JFXButton closeDialogButton;
+    @FXML
+    private ImageView imgClose;
 
     public void initialize() {
         System.out.println("Initialize Add User Dialog");
@@ -78,6 +84,8 @@ public class AdminAddUserDialogController {
         container.setOnMouseClicked(event -> {
             container.requestFocus();
         });
+
+        Animation.hoverCloseIcons(closeDialogButton, imgClose);
 
         setDefaultPane();
         studentPane.setVisible(true);
