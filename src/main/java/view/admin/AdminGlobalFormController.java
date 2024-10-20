@@ -2,10 +2,12 @@ package view.admin;
 
 import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import util.Animation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 public class AdminGlobalFormController {
 
@@ -13,6 +15,8 @@ public class AdminGlobalFormController {
     private static AdminGlobalFormController controller;
     @FXML
     private Pane pagingPane;
+    @FXML
+    private StackPane stackPaneContainer;
     private final List<String[]> borrowedBooksData = preLoadBorrowedBooksData();
     private final List<String[]> booksData = preLoadBooksData();
     private final List<String[]> usersData = preLoadUsersData();
@@ -113,4 +117,11 @@ public class AdminGlobalFormController {
         return adminData;
     }
 
+    public StackPane getStackPaneContainer() {
+        return stackPaneContainer;
+    }
+
+    public void setStackPaneContainer(StackPane stackPaneContainer) {
+        this.stackPaneContainer = stackPaneContainer;
+    }
 }

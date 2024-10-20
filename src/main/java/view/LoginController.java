@@ -232,7 +232,7 @@ public class LoginController {
      */
     public boolean checkAccount(String username, String password) {
         //TODO: Implement this method
-        return false;
+        return true;
     }
 
     @FXML

@@ -4,14 +4,18 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import util.Animation;
 import util.DateTimeUtils;
+import view.admin.AdminGlobalFormController;
+import view.admin.AdminNavigationController;
 
 import java.text.DateFormat;
 import java.time.LocalDateTime;
@@ -20,18 +24,10 @@ import java.util.Date;
 import java.util.Locale;
 
 public class HeaderController {
-
     private static int initializeTimes;
-    @FXML
-    private ImageView avatarImage;
-    @FXML
-    private HBox containerSettingBox;
-    @FXML
-    private HBox containerUserBox;
+
     @FXML
     private Text dateText;
-    @FXML
-    private VBox infoUserBox;
     @FXML
     private Text nameUserText;
     @FXML
@@ -39,13 +35,9 @@ public class HeaderController {
     @FXML
     private ImageView settingImage;
     @FXML
-    private VBox timeBox;
-    @FXML
     private Text timeText;
     @FXML
     private Text typeUserText;
-    @FXML
-    private Line vLIne;
 
     @FXML
     public void initialize() {
@@ -56,6 +48,10 @@ public class HeaderController {
         nameUserText.setText("Lionel Ronaldo");
         typeUserText.setText("Admin");
 
+        setDateAndTimeHeader();
+    }
+
+    public void setDateAndTimeHeader() {
         DateTimeFormatter time = DateTimeFormatter.ofPattern("hh:mm");
         timeText.setText(time.format(java.time.LocalTime.now()) + " " + (LocalDateTime.now().getHour() < 12 ? "AM" : "PM"));
 
@@ -74,6 +70,12 @@ public class HeaderController {
 
         clock.setCycleCount(Timeline.INDEFINITE);
         clock.play();
+    }
+
+    @FXML
+    void handleSettingOnMouseClicked(MouseEvent event) {
+        AdminNavigationController.openPopUp(AdminGlobalFormController.getInstance().
+                getStackPaneContainer(), "/fxml/change-credentials-dialog.fxml");
     }
 
     public void showAnimation() {
