@@ -26,10 +26,6 @@ public class AdminNavigationController {
     @FXML
     private ImageView booksLogo;
     @FXML
-    private JFXButton branchesButton;
-    @FXML
-    private ImageView branchesLogo;
-    @FXML
     private JFXButton catalogButton;
     @FXML
     private ImageView catalogLogo;
@@ -87,9 +83,6 @@ public class AdminNavigationController {
             case "books":
                 changeButtonLayout("/assets/icon/books-icon-2.png", booksButton, booksLogo);
                 break;
-            case "branches":
-                changeButtonLayout("/assets/icon/building-icon-2.png", branchesButton, branchesLogo);
-                break;
             case "users":
                 changeButtonLayout("/assets/icon/people-icon-2.png", usersButton, usersLogo);
                 break;
@@ -108,21 +101,18 @@ public class AdminNavigationController {
     public void setDefaultButtons() {
         Image defaultDashboardLogo = new Image(getClass().getResource("/assets/icon/dashboard-icon.png").toExternalForm());
         Image defaultBooksLogo = new Image(getClass().getResource("/assets/icon/books-icon.png").toExternalForm());
-        Image defaultBranchesLogo = new Image(getClass().getResource("/assets/icon/building-icon.png").toExternalForm());
         Image defaultCatalogLogo = new Image(getClass().getResource("/assets/icon/catalog-icon.png").toExternalForm());
         Image defaultUsersLogo = new Image(getClass().getResource("/assets/icon/people-icon.png").toExternalForm());
         Image defaultLogOutLogo = new Image(getClass().getResource("/assets/icon/logout-icon.png").toExternalForm());
 
         dashboardLogo.setImage(defaultDashboardLogo);
         booksLogo.setImage(defaultBooksLogo);
-        branchesLogo.setImage(defaultBranchesLogo);
         catalogLogo.setImage(defaultCatalogLogo);
         usersLogo.setImage(defaultUsersLogo);
         logOutLogo.setImage(defaultLogOutLogo);
 
         dashboardButton.setStyle("-fx-background-color: black; -fx-text-fill: white;");
         booksButton.setStyle("-fx-background-color: black; -fx-text-fill: white;");
-        branchesButton.setStyle("-fx-background-color: black; -fx-text-fill: white;");
         catalogButton.setStyle("-fx-background-color: black; -fx-text-fill: white;");
         usersButton.setStyle("-fx-background-color: black; -fx-text-fill: white;");
         logOutButton.setStyle("-fx-background-color: black; -fx-text-fill: white;");

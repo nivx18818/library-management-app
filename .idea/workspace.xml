@@ -5,13 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5f4ecb56-7c04-443b-8640-7096c4e40595" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/fxml/admin-navigation.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/util/Animation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/util/Animation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/ChangeCredentialsDialogController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/ChangeCredentialsDialogController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/admin/AdminAddBookDialogController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/admin/AdminAddBookDialogController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/admin/AdminAddUserDialogController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/admin/AdminAddUserDialogController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/fxml/admin-add-book-dialog.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/admin-add-book-dialog.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/fxml/admin-add-user-dialog.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/admin-add-user-dialog.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/admin/AdminNavigationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/admin/AdminNavigationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/gif/loading.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/fxml/admin-global-layout.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/admin-global-layout.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/fxml/header.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/admin-header.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/fxml/login-form.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/login-form.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/fxml/navigation.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/style/login.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/style/login.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/style/navigation.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/style/navigation.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,34 +63,34 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
-    &quot;Application.AdminInitializer.executor&quot;: &quot;Run&quot;,
-    &quot;Application.HelloApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Application.UserInitializer.executor&quot;: &quot;Run&quot;,
-    &quot;Downloaded.Files.Path&quot;: &quot;C:\\Users\\Dell\\.m2\\repository\\org\\openjfx\\javafx\\19.0.2.1&quot;,
-    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;true&quot;,
-    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;frontend&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/JavaCourse/JavaFX/jfoenix-9.0.10.jar&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.63908046&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.github.copilot.settings.ApplicationConfigurable&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
+    "Application.AdminInitializer.executor": "Run",
+    "Application.HelloApplication.executor": "Run",
+    "Application.UserInitializer.executor": "Run",
+    "Downloaded.Files.Path": "C:\\Users\\Dell\\.m2\\repository\\org\\openjfx\\javafx\\19.0.2.1",
+    "Downloaded.Files.Path.Enabled": "true",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "frontend",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/JavaCourse/OOP/DemoJavaFX",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.63908046",
+    "settings.editor.selected.configurable": "com.github.copilot.settings.ApplicationConfigurable",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\JavaCourse\OOP\FrontendBookWorm\src\main\resources\assets\icon" />
@@ -139,7 +142,7 @@
       <workItem from="1729246007563" duration="2392000" />
       <workItem from="1729259802799" duration="25799000" />
       <workItem from="1729317577315" duration="42703000" />
-      <workItem from="1729408818638" duration="8253000" />
+      <workItem from="1729408818638" duration="13627000" />
     </task>
     <servers />
   </component>

@@ -5,16 +5,15 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-
 <StackPane fx:id="stackPaneContainer" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.admin.AdminGlobalFormController">
    <children>
       <HBox>
       
         <children>
-          <fx:include source="navigation.fxml" />
+          <fx:include source="admin-navigation.fxml" />
       
           <VBox fx:id="contentContainer">
-            <fx:include source="header.fxml" />
+            <fx:include source="admin-header.fxml" />
             <Pane fx:id="pagingPane" prefHeight="670.0" prefWidth="1132.0">
               <children>
                 <fx:include source="admin-dashboard.fxml" />

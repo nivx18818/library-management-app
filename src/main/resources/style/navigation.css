@@ -1,14 +1,8 @@
-.root {
-    -fx-font-family: 'System';
-}
+
 
 .jfx-button {
     -fx-background-radius: 0;
     -fx-border-radius: 0;
-}
-
-#navigation {
-    -fx-padding: 23px 0px 0px 0px;
 }
 
 .navigator-button {
