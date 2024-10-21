@@ -6,7 +6,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import util.Animation;
+import util.ChangeScene;
 import view.admin.AdminNavigationController;
 
 public class ChangeCredentialsDialogController {
@@ -29,10 +31,19 @@ public class ChangeCredentialsDialogController {
     @FXML
     private Label notificationLabel;
 
+    @FXML
+    private Pane container;
+
     public void initialize() {
         System.out.println("ChangeCredentialsDialogController initialized");
 
         Animation.hoverCloseIcons(closeDialogButton, imgClose);
+
+        container.setOnMouseClicked(
+                event -> {
+                    container.requestFocus();
+                }
+        );
     }
 
     @FXML
@@ -73,7 +84,7 @@ public class ChangeCredentialsDialogController {
 
     @FXML
     void closeButtonOnAction(ActionEvent event) {
-        AdminNavigationController.closePopUp();
+        ChangeScene.closePopUp();
     }
 
 }

@@ -5,6 +5,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import util.ChangeScene;
 
 public class AdminBorrowedBooksBar {
 
@@ -24,7 +25,7 @@ public class AdminBorrowedBooksBar {
 
     @FXML
     void imgViewOnMouseClicked(MouseEvent event) {
-        AdminNavigationController.openPopUp(adminCatalogBorrowedBooksLayout.getStackPaneContainer(),
+        ChangeScene.openAdminPopUp(adminCatalogBorrowedBooksLayout.getStackPaneContainer(),
                 "/fxml/admin-borrowed-book-view-dialog.fxml");
     }
 

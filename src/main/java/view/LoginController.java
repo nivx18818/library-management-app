@@ -21,6 +21,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import main.AdminInitializer;
 import util.Animation;
+import util.ChangeScene;
 import util.RegExPatterns;
 import view.admin.AdminNavigationController;
 
@@ -248,7 +249,8 @@ public class LoginController {
         String password = passwordSignUp.getText();
         RadioButton selectedUserType = (RadioButton) userType.getSelectedToggle();
         String majorOrPhoneNumber = selectedUserType.getText().equals("Student") ?
-                majorComboBox.getValue() : phoneNumberSignUp.getText();
+                ((majorComboBox.getValue() != null) ? majorComboBox.getValue() : "") :
+                phoneNumberSignUp.getText();
         String username = selectedUserType.getText().equals("Student") ?
                 studentIDSignUp.getText() : citizenIDSignUp.getText();
 
@@ -330,25 +332,8 @@ public class LoginController {
 
     @FXML
     public void handleForgotPassword(MouseEvent event) {
-        openPopUp(stackPaneContainer, "/fxml/forgot-password-dialog.fxml");
-    }
-
-    public static void openPopUp(StackPane stackPane, String path) {
-        try {
-            FXMLLoader loader = new FXMLLoader(AdminNavigationController.class.getResource(path));
-            Pane content = loader.load();
-
-            dialog = new JFXDialog(stackPane, content,
-                    JFXDialog.DialogTransition.CENTER);
-
-            dialog.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void closePopUp() {
-        dialog.close();
+        ChangeScene.openAdminPopUp(stackPaneContainer, "/fxml/forgot" +
+                "-password-dialog.fxml");
     }
 
     public void setDefault() {
@@ -369,7 +354,6 @@ public class LoginController {
         ZoomOut zoomOut = new ZoomOut(container);
 
         new ZoomIn(loadingPane).play();
-        loadingPane.setDisable(false);
         loadingPane.setVisible(true);
 
         zoomOut.setOnFinished(event -> {
@@ -385,9 +369,7 @@ public class LoginController {
                 stage.centerOnScreen();
                 stage.setTitle("BookWarm Library Management System");
 
-                loadingPane.setDisable(true);
                 loadingPane.setVisible(false);
-                loadingPane.setOpacity(0.0);
             } catch (IOException e) {
                 e.printStackTrace();
             }

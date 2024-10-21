@@ -12,6 +12,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import util.Animation;
+import util.ChangeScene;
 
 import java.io.IOException;
 import java.util.List;
@@ -90,7 +91,7 @@ public class AdminBooksLayoutController {
 
     @FXML
     void addBookButtonClicked(MouseEvent event) throws IOException{
-        AdminNavigationController.openPopUp(stackPaneContainer, "/fxml/admin-add-book-dialog.fxml");
+        ChangeScene.openAdminPopUp(stackPaneContainer, "/fxml/admin-add-book-dialog.fxml");
     }
 
     @FXML

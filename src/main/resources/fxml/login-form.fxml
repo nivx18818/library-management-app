@@ -181,11 +181,10 @@
                             <Image url="@../assets/icon/logoImageWhite.png" />
                           </image>
                                        <effect>
-                                          <Bloom threshold="0.78" />
+                                          <Bloom threshold="0.9" />
                                        </effect>
                         </ImageView>
-                        <Text fx:id="bookwormText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bookwormText" text="BookWorm" textAlignment="CENTER" wrappingWidth="234.099609375">
-                        </Text>
+                        <Text fx:id="bookwormText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bookwormText" text="BookWorm" textAlignment="CENTER" wrappingWidth="234.099609375" />
                                  </children>
                                  <effect>
                                     <Reflection bottomOpacity="0.1" />
@@ -193,9 +192,8 @@
                               </HBox>
                   <Text fx:id="libraryText" fill="WHITE" layoutX="235.0" layoutY="268.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="libraryText" text="LIBRARY" textAlignment="CENTER" wrappingWidth="72.205078125">
                                  <effect>
-                                    <Bloom threshold="0.64" />
-                                 </effect>
-                              </Text>
+                                    <Bloom threshold="0.88" />
+                                 </effect></Text>
                     <Text fx:id="signUpText" fill="WHITE" layoutX="86.0" layoutY="397.0" strokeType="OUTSIDE" strokeWidth="0.0" text="New to our platform? Sign Up now." textAlignment="CENTER" wrappingWidth="296.705078125">
                       <font>
                         <Font size="14.0" />

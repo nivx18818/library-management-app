@@ -13,6 +13,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import util.Animation;
+import util.ChangeScene;
 import util.DateTimeUtils;
 import view.admin.AdminGlobalFormController;
 import view.admin.AdminNavigationController;
@@ -74,7 +75,7 @@ public class HeaderController {
 
     @FXML
     void handleSettingOnMouseClicked(MouseEvent event) {
-        AdminNavigationController.openPopUp(AdminGlobalFormController.getInstance().
+        ChangeScene.openAdminPopUp(AdminGlobalFormController.getInstance().
                 getStackPaneContainer(), "/fxml/change-credentials-dialog.fxml");
     }
 

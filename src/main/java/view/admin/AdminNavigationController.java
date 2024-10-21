@@ -12,15 +12,16 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import util.Animation;
+import util.ChangeScene;
 
 import java.io.IOException;
 import java.util.logging.Logger;
 
 public class AdminNavigationController {
 
-    public static JFXDialog dialog;
     private static String latestButtonClicked = "dashboard";
     private static int initializedTimes = 0;
+    private static AdminNavigationController controller;
     @FXML
     private JFXButton booksButton;
     @FXML
@@ -44,22 +45,12 @@ public class AdminNavigationController {
     @FXML
     private VBox navigationContainer;
 
-    public static void openPopUp(StackPane stackPane, String path) {
-        try {
-            FXMLLoader loader = new FXMLLoader(AdminNavigationController.class.getResource(path));
-            Pane content = loader.load();
-
-            dialog = new JFXDialog(stackPane, content,
-                    JFXDialog.DialogTransition.CENTER);
-
-            dialog.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public static AdminNavigationController getInstance() {
+        return controller;
     }
 
-    public static void closePopUp() {
-        dialog.close();
+    public AdminNavigationController() {
+        controller = this;
     }
 
     @FXML
@@ -127,49 +118,34 @@ public class AdminNavigationController {
         }
     }
 
+    public void handleEffectButtonClicked(JFXButton button) {
+        latestButtonClicked = button.getText().toLowerCase();
+        setDefaultButtons();
+        navigationBarButtonClick();
+    }
+
     @FXML
     public void dashboardButtonClicked(MouseEvent event) throws IOException {
-        navigateToScene(dashboardButton, dashboardLogo, "/assets/icon/dashboard-icon-2.png",
-                "admin-dashboard.fxml");
+        ChangeScene.navigateToScene(dashboardButton, "admin-dashboard.fxml", latestButtonClicked);
+        handleEffectButtonClicked(dashboardButton);
     }
 
     @FXML
     public void catalogButtonClicked(MouseEvent event) throws IOException {
-        navigateToScene(catalogButton, catalogLogo, "/assets/icon/catalog-icon-2.png", "admin" +
-                "-borrowed-books-form.fxml");
+        ChangeScene.navigateToScene(catalogButton, "admin-borrowed-books-form.fxml", latestButtonClicked);
+        handleEffectButtonClicked(catalogButton);
     }
 
     @FXML
     public void booksButtonClicked(MouseEvent event) throws IOException {
-        navigateToScene(booksButton, booksLogo, "/assets/icon/books-icon-2.png", "admin" +
-                "-books-form.fxml");
+        ChangeScene.navigateToScene(booksButton, "admin-books-form.fxml", latestButtonClicked);
+        handleEffectButtonClicked(booksButton);
     }
 
     @FXML
     public void userButtonClicked(MouseEvent event) throws IOException {
-        navigateToScene(usersButton, usersLogo, "/assets/icon/people-icon-2.png", "admin" +
-                "-users-form.fxml");
-    }
-
-    public void navigateToScene(JFXButton button, ImageView logo, String hoverLogoPath,
-                                String fxmlPath) throws IOException {
-        if (latestButtonClicked.equals(button.getText().toLowerCase())) {
-            return;
-        }
-
-        AdminGlobalFormController controller = AdminGlobalFormController.getInstance();
-
-        latestButtonClicked = button.getText().toLowerCase();
-
-        setDefaultButtons();
-        navigationBarButtonClick();
-
-        Pane pane = controller.getPagingPane();
-        pane.getChildren().clear();
-        FXMLLoader loader = new FXMLLoader(AdminNavigationController.class.getResource("/fxml/" + fxmlPath));
-        Parent root = loader.load();
-        pane.getChildren().add(root);
-        Animation.zoomIn(controller.getPagingPane(), 1.0);
+        ChangeScene.navigateToScene(usersButton, "admin-users-form.fxml", latestButtonClicked);
+        handleEffectButtonClicked(usersButton);
     }
 
 }

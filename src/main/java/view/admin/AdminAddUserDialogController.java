@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import util.Animation;
+import util.ChangeScene;
 import util.RegExPatterns;
 import view.*;
 
@@ -290,7 +291,7 @@ public class AdminAddUserDialogController {
 
     @FXML
     void closeButtonOnAction(ActionEvent event) {
-        AdminNavigationController.closePopUp();
+        ChangeScene.closePopUp();
     }
 
 }

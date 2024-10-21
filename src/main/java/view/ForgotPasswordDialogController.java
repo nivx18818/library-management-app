@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import util.Animation;
+import util.ChangeScene;
 
 import java.awt.*;
 import java.net.URI;
@@ -85,7 +86,7 @@ public class ForgotPasswordDialogController {
 
     @FXML
     void closeButtonOnAction(ActionEvent event) {
-        LoginController.closePopUp();
+        ChangeScene.closePopUp();
     }
 
     @FXML

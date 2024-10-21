@@ -12,6 +12,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import util.Animation;
+import util.ChangeScene;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -157,7 +158,7 @@ public class AdminUsersLayoutController {
     @FXML
     void addUserButtonOnAction(ActionEvent event) {
         Platform.runLater(() -> {
-            AdminNavigationController.openPopUp(stackPaneContainer, "/fxml/admin-add-user-dialog.fxml");
+            ChangeScene.openAdminPopUp(stackPaneContainer, "/fxml/admin-add-user-dialog.fxml");
         });
     }
 
