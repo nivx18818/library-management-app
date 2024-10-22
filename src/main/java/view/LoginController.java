@@ -19,11 +19,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import main.AdminInitializer;
+import initialize.AdminInitializer;
 import util.Animation;
 import util.ChangeScene;
 import util.RegExPatterns;
-import view.admin.AdminNavigationController;
 
 import java.io.IOException;
 import java.util.logging.Logger;

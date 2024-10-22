@@ -9,7 +9,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import util.Animation;
 import util.ChangeScene;
-import view.admin.AdminNavigationController;
 
 public class ChangeCredentialsDialogController {
 
