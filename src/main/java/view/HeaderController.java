@@ -6,17 +6,12 @@ import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
-import util.Animation;
+import util.AnimationUtils;
 import util.ChangeScene;
 import util.DateTimeUtils;
 import view.admin.AdminGlobalFormController;
-import view.admin.AdminNavigationController;
 
 import java.text.DateFormat;
 import java.time.LocalDateTime;
@@ -81,7 +76,7 @@ public class HeaderController {
 
     public void showAnimation() {
         if (initializeTimes == 1) {
-            Animation.fadeInDown(rootPane);
+            AnimationUtils.fadeInDown(rootPane);
         }
     }
 

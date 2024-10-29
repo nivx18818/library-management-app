@@ -7,7 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import util.Animation;
+import util.AnimationUtils;
 import util.ChangeScene;
 
 public class ChangeCredentialsDialogController {
@@ -36,7 +36,7 @@ public class ChangeCredentialsDialogController {
     public void initialize() {
         System.out.println("ChangeCredentialsDialogController initialized");
 
-        Animation.hoverCloseIcons(closeDialogButton, imgClose);
+        AnimationUtils.hoverCloseIcons(closeDialogButton, imgClose);
 
         container.setOnMouseClicked(
                 event -> {
@@ -56,16 +56,16 @@ public class ChangeCredentialsDialogController {
         String cfNewPassword = cfNewPasswordField.getText();
         if (curPassword.isEmpty() || newPassword.isEmpty() || cfNewPassword.isEmpty()) {
             notificationLabel.setText("Please fill all fields");
-            Animation.playNotificationTimeline(notificationLabel, 3, "red");
+            AnimationUtils.playNotificationTimeline(notificationLabel, 3, "red");
         } else if (!curPassword.equals(correctCurrentPassword)) {
             notificationLabel.setText("Current password is incorrect");
-            Animation.playNotificationTimeline(notificationLabel, 3, "red");
+            AnimationUtils.playNotificationTimeline(notificationLabel, 3, "red");
         } else if (!newPassword.equals(cfNewPassword)) {
             notificationLabel.setText("New password do not match");
-            Animation.playNotificationTimeline(notificationLabel, 3, "red");
+            AnimationUtils.playNotificationTimeline(notificationLabel, 3, "red");
         } else {
             notificationLabel.setText("Credentials changed successfully");
-            Animation.playNotificationTimeline(notificationLabel, 3, "green");
+            AnimationUtils.playNotificationTimeline(notificationLabel, 3, "green");
             setNewPassword(newPassword);
         }
     }

@@ -3,11 +3,10 @@ package view.admin;
 import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import util.Animation;
+import util.AnimationUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
 
 public class AdminGlobalFormController {
 
@@ -33,7 +32,7 @@ public class AdminGlobalFormController {
     public void initialize() {
         System.out.println("Admin Global Form initialized");
 
-        Animation.fadeInRight(pagingPane);
+        AnimationUtils.fadeInRight(pagingPane);
     }
 
     public Pane getPagingPane() {

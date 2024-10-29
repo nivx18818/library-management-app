@@ -1,17 +1,12 @@
 package view.admin;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXDialog;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import util.Animation;
+import util.AnimationUtils;
 import util.ChangeScene;
 
 import java.io.IOException;
@@ -45,12 +40,12 @@ public class AdminNavigationController {
     @FXML
     private VBox navigationContainer;
 
-    public static AdminNavigationController getInstance() {
-        return controller;
-    }
-
     public AdminNavigationController() {
         controller = this;
+    }
+
+    public static AdminNavigationController getInstance() {
+        return controller;
     }
 
     @FXML
@@ -111,10 +106,10 @@ public class AdminNavigationController {
 
     public void showAnimation() {
         if (initializedTimes == 1) {
-            Animation.fadeInLeft(navigationContainer);
+            AnimationUtils.fadeInLeft(navigationContainer);
         }
         if (latestButtonClicked.equals("logout")) {
-            Animation.fadeInRight(navigationContainer);
+            AnimationUtils.fadeInRight(navigationContainer);
         }
     }
 

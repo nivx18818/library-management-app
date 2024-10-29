@@ -11,7 +11,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import util.Animation;
+import util.AnimationUtils;
 import util.ChangeScene;
 
 import java.io.IOException;
@@ -73,7 +73,7 @@ public class AdminBooksLayoutController {
                     controller.setData(d[0], d[1], d[2], d[3], d[4], d[5]);
                     Platform.runLater(() -> {
                         vBoxBooksList.getChildren().add(scene);
-                        Animation.zoomIn(scene, 1.0);
+                        AnimationUtils.zoomIn(scene, 1.0);
                     });
                 }
                 return null;
@@ -85,7 +85,6 @@ public class AdminBooksLayoutController {
                 throw new RuntimeException(getException());
             }
         };
-
         new Thread(preloadTask).start();
     }
 

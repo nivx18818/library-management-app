@@ -4,14 +4,13 @@ import animatefx.animation.*;
 import com.jfoenix.controls.JFXButton;
 import javafx.animation.FadeTransition;
 import javafx.animation.SequentialTransition;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
-public class Animation {
+public class AnimationUtils {
     public static void playNotificationTimeline(Label label, double seconds, String color) {
         label.setStyle("-fx-text-fill: " + color + ";");
         FadeTransition fadeIn = new FadeTransition(Duration.seconds(0.3), label);
@@ -57,9 +56,9 @@ public class Animation {
 
     public static void hoverCloseIcons(JFXButton closeDialogButton, ImageView imgClose) {
         Image hoverImg =
-                new Image(Animation.class.getResource("/assets/icon/close-square2.png").toExternalForm());
+                new Image(AnimationUtils.class.getResource("/assets/icon/close-square2.png").toExternalForm());
         Image defaultImg =
-                new Image(Animation.class.getResource("/assets/icon/close-square 1.png").toExternalForm());
+                new Image(AnimationUtils.class.getResource("/assets/icon/close-square 1.png").toExternalForm());
         closeDialogButton.setOnMouseEntered(event -> imgClose.setImage(hoverImg));
         closeDialogButton.setOnMouseExited(event -> imgClose.setImage(defaultImg));
     }

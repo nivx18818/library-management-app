@@ -137,7 +137,7 @@ public class AdminDashboardController {
 
             Parent scene = fxmlLoader.load();
 
-            AdminDashboardOverdueBar controller = fxmlLoader.getController();
+            AdminDashboardOverdueBarController controller = fxmlLoader.getController();
             controller.setData(idText, uidText);
 
             vBoxOverdue.getChildren().add(scene);

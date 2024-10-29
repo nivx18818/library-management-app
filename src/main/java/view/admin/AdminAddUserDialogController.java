@@ -8,7 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import util.Animation;
+import util.AnimationUtils;
 import util.ChangeScene;
 import util.RegExPatterns;
 import view.*;
@@ -86,7 +86,7 @@ public class AdminAddUserDialogController {
             container.requestFocus();
         });
 
-        Animation.hoverCloseIcons(closeDialogButton, imgClose);
+        AnimationUtils.hoverCloseIcons(closeDialogButton, imgClose);
 
         setDefaultPane();
         studentPane.setVisible(true);
@@ -122,7 +122,7 @@ public class AdminAddUserDialogController {
         setDefaultPane();
         setDefaultContent();
         studentPane.setVisible(true);
-        Animation.zoomIn(studentPane, 1);
+        AnimationUtils.zoomIn(studentPane, 1);
     }
 
     @FXML
@@ -130,7 +130,7 @@ public class AdminAddUserDialogController {
         setDefaultPane();
         setDefaultContent();
         guestPane.setVisible(true);
-        Animation.zoomIn(guestPane, 1);
+        AnimationUtils.zoomIn(guestPane, 1);
     }
 
     @FXML
@@ -138,7 +138,7 @@ public class AdminAddUserDialogController {
         setDefaultPane();
         setDefaultContent();
         adminPane.setVisible(true);
-        Animation.zoomIn(adminPane, 1);
+        AnimationUtils.zoomIn(adminPane, 1);
     }
 
     @FXML
@@ -227,27 +227,27 @@ public class AdminAddUserDialogController {
                 || id.isEmpty() || majorOrContact.isEmpty()) {
             check = false;
             notificationLabel.setText("Please fill in all fields");
-            Animation.playNotificationTimeline(notificationLabel, 3, "red");
+            AnimationUtils.playNotificationTimeline(notificationLabel, 3, "red");
         } else if (!password.equals(cfPassword)) {
             check = false;
             notificationLabel.setText("Password does not match");
-            Animation.playNotificationTimeline(notificationLabel, 3, "red");
+            AnimationUtils.playNotificationTimeline(notificationLabel, 3, "red");
         } else if (!RegExPatterns.emailPattern(email)) {
             check = false;
             notificationLabel.setText("Invalid email");
-            Animation.playNotificationTimeline(notificationLabel, 3, "red");
+            AnimationUtils.playNotificationTimeline(notificationLabel, 3, "red");
         } else if (!RegExPatterns.passwordPattern(password)) {
             check = false;
             notificationLabel.setText("Invalid password");
-            Animation.playNotificationTimeline(notificationLabel, 3, "red");
+            AnimationUtils.playNotificationTimeline(notificationLabel, 3, "red");
         } else if (!(RegExPatterns.studentIDPattern(id) || RegExPatterns.citizenIDPattern(id))) {
             check = false;
             notificationLabel.setText("Invalid ID");
-            Animation.playNotificationTimeline(notificationLabel, 3, "red");
+            AnimationUtils.playNotificationTimeline(notificationLabel, 3, "red");
         } else if (majorOrContact.charAt(0) == '0' && !RegExPatterns.phoneNumberPattern(majorOrContact)) {
             check = false;
             notificationLabel.setText("Invalid phone number");
-            Animation.playNotificationTimeline(notificationLabel, 3, "red");
+            AnimationUtils.playNotificationTimeline(notificationLabel, 3, "red");
         }
         return check;
     }
@@ -261,26 +261,26 @@ public class AdminAddUserDialogController {
         if (name.isEmpty() || email.isEmpty() || password.isEmpty() || cfPassword.isEmpty()) {
             check = false;
             notificationLabel.setText("Please fill in all fields");
-            Animation.playNotificationTimeline(notificationLabel, 3, "red");
+            AnimationUtils.playNotificationTimeline(notificationLabel, 3, "red");
         } else if (!password.equals(cfPassword)) {
             check = false;
             notificationLabel.setText("Password does not match");
-            Animation.playNotificationTimeline(notificationLabel, 3, "red");
+            AnimationUtils.playNotificationTimeline(notificationLabel, 3, "red");
         } else if (!RegExPatterns.emailPattern(email)) {
             check = false;
             notificationLabel.setText("Invalid email");
-            Animation.playNotificationTimeline(notificationLabel, 3, "red");
+            AnimationUtils.playNotificationTimeline(notificationLabel, 3, "red");
         } else if (!RegExPatterns.passwordPattern(password)) {
             check = false;
             notificationLabel.setText("Invalid password");
-            Animation.playNotificationTimeline(notificationLabel, 3, "red");
+            AnimationUtils.playNotificationTimeline(notificationLabel, 3, "red");
         }
         return check;
     }
 
     public void showSuccessNotification() {
         notificationLabel.setText("Added successfully");
-        Animation.playNotificationTimeline(notificationLabel, 3, "#08a80d");
+        AnimationUtils.playNotificationTimeline(notificationLabel, 3, "#08a80d");
         setDefaultContent();
     }
 

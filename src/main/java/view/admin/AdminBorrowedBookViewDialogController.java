@@ -18,9 +18,6 @@ public class AdminBorrowedBookViewDialogController {
     private Label closeLabel;
 
     @FXML
-    private Label lblDueDate;
-
-    @FXML
     private Label lblId;
 
     @FXML
@@ -32,9 +29,38 @@ public class AdminBorrowedBookViewDialogController {
     @FXML
     private JFXButton closeButton;
 
+    AdminBorrowedBooksBar adminBorrowedBooksBar = AdminBorrowedBooksBar.getInstance();
+
     public void initialize() {
         System.out.println("AdminBorrowedBookViewDialogController initialized");
+        preLoadData();
+    }
 
+    private void preLoadData() {
+//        Task<Void> preloadTask = new Task<Void>() {
+//            @Override
+//            protected Void call() throws Exception {
+//                for (String[] d : data) {
+//                    FXMLLoader fxmlLoader = new FXMLLoader(AdminBooksLayoutController.class.getResource(
+//                            "/fxml/admin-borrowed-book-view-bar.fxml"));
+//                    Pane scene = fxmlLoader.load();
+//                    AdminBorrowedBookViewBarController controller = fxmlLoader.getController();
+//                    controller.setData(d[0], d[1], d[2], d[3]);
+//                    Platform.runLater(() -> {
+//                        vBox.getChildren().add(scene);
+//                        Animation.zoomIn(scene, 1.0);
+//                    });
+//                }
+//                return null;
+//            }
+//
+//            @Override
+//            protected void failed() {
+//                System.out.println("Error loading data table: " + getException().getMessage());
+//                throw new RuntimeException(getException());
+//            }
+//        };
+//        new Thread(preloadTask).start();
     }
 
     @FXML
@@ -52,6 +78,10 @@ public class AdminBorrowedBookViewDialogController {
     void btnCloseOnMouseExited(MouseEvent event) {
         closePane.setStyle("-fx-background-color: #000000; -fx-background-radius: 12px");
         closeLabel.setStyle("-fx-text-fill: #ffffff");
+    }
+
+    public void setId(String id) {
+        lblId.setText(id);
     }
 
 }

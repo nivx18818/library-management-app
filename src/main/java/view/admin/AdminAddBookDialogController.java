@@ -6,11 +6,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
-import util.Animation;
+import util.AnimationUtils;
 import util.ChangeScene;
 import util.RegExPatterns;
 
@@ -47,12 +46,12 @@ public class AdminAddBookDialogController {
     public void initialize() {
         System.out.println("Admin Add Book Dialog initialized");
 
-        Animation.hoverCloseIcons(closeDialogButton, imgClose);
+        AnimationUtils.hoverCloseIcons(closeDialogButton, imgClose);
 
         container.setOnMouseClicked(
-                event -> {
-                    container.requestFocus();
-                }
+            event -> {
+                container.requestFocus();
+            }
         );
     }
 
@@ -80,7 +79,7 @@ public class AdminAddBookDialogController {
                 super.succeeded();
                 AdminGlobalFormController.getInstance().getBooksData().add(bookData);
                 notificationLabel.setText("Book added successfully.");
-                Animation.playNotificationTimeline(notificationLabel, 3, "#08a80d");
+                AnimationUtils.playNotificationTimeline(notificationLabel, 3, "#08a80d");
             }
 
             @Override
@@ -105,7 +104,7 @@ public class AdminAddBookDialogController {
 
         if (idBook.isEmpty() || nameBook.isEmpty() || quantity.isEmpty() || url.isEmpty()) {
             notificationLabel.setText("Please fill in mandatory fields.");
-            Animation.playNotificationTimeline(notificationLabel, 3, "#ff0000");
+            AnimationUtils.playNotificationTimeline(notificationLabel, 3, "#ff0000");
             return false;
         }
         RegExPatterns.checkUrlAsync(url, notificationLabel);
@@ -113,15 +112,15 @@ public class AdminAddBookDialogController {
             return false;
         } else if (!RegExPatterns.bookIDPattern(idBook)) {
             notificationLabel.setText("Invalid ID.");
-            Animation.playNotificationTimeline(notificationLabel, 3, "#ff0000");
+            AnimationUtils.playNotificationTimeline(notificationLabel, 3, "#ff0000");
             return false;
         } else if (Integer.parseInt(quantity) < 0) {
             notificationLabel.setText("Invalid quantity.");
-            Animation.playNotificationTimeline(notificationLabel, 3, "#ff0000");
+            AnimationUtils.playNotificationTimeline(notificationLabel, 3, "#ff0000");
             return false;
         } else if (!publishedDate.isEmpty() && !RegExPatterns.datePattern(publishedDate)) {
             notificationLabel.setText("Invalid date.");
-            Animation.playNotificationTimeline(notificationLabel, 3, "#ff0000");
+            AnimationUtils.playNotificationTimeline(notificationLabel, 3, "#ff0000");
             return false;
         }
         return true;

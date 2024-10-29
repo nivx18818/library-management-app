@@ -13,7 +13,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import util.Animation;
+import util.AnimationUtils;
 import util.DateTimeUtils;
 
 import java.io.IOException;
@@ -23,10 +23,10 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
-public class AdminCatalogBorrowedBooksLayout {
+public class AdminCatalogBorrowedBooksLayoutController {
 
 
-    private static AdminCatalogBorrowedBooksLayout controller;
+    private static AdminCatalogBorrowedBooksLayoutController controller;
     AdminGlobalFormController adminGlobalFormController = AdminGlobalFormController.getInstance();
     private final List<String[]> borrowedBooksData = adminGlobalFormController.getBorrowedBooksData();
     private final List<String[]> overdueData = loadOverdueBorrowersList();
@@ -50,11 +50,11 @@ public class AdminCatalogBorrowedBooksLayout {
     private StackPane stackPaneContainer;
     private String status = "borrowed";
 
-    public AdminCatalogBorrowedBooksLayout() {
+    public AdminCatalogBorrowedBooksLayoutController() {
         controller = this;
     }
 
-    public static AdminCatalogBorrowedBooksLayout getInstance() {
+    public static AdminCatalogBorrowedBooksLayoutController getInstance() {
         return controller;
     }
 
@@ -73,7 +73,7 @@ public class AdminCatalogBorrowedBooksLayout {
             protected Void call() throws Exception {
                 for (String[] d : data) {
                     try {
-                        FXMLLoader fxmlLoader = new FXMLLoader(AdminCatalogBorrowedBooksLayout.class.getResource(
+                        FXMLLoader fxmlLoader = new FXMLLoader(AdminCatalogBorrowedBooksLayoutController.class.getResource(
                                 "/fxml/admin-borrowed-book-bar.fxml"));
 
                         Pane scene = fxmlLoader.load();
@@ -82,7 +82,7 @@ public class AdminCatalogBorrowedBooksLayout {
                         controller.setData(d[0], d[1], Integer.parseInt(d[2]), d[3], d[4]);
 
                         Platform.runLater(() -> vBoxBorrowedBooks.getChildren().add(scene));
-                        Animation.zoomIn(scene, 1.0);
+                        AnimationUtils.zoomIn(scene, 1.0);
                         Thread.sleep(10);
 
                     } catch (IOException e) {

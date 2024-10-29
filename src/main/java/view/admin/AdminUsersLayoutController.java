@@ -11,7 +11,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import util.Animation;
+import util.AnimationUtils;
 import util.ChangeScene;
 
 import java.io.IOException;
@@ -83,7 +83,7 @@ public class AdminUsersLayoutController {
             protected Void call() throws Exception {
                 for (String[] d : allUsersData) {
                     try {
-                        FXMLLoader fxmlLoader = new FXMLLoader(AdminCatalogBorrowedBooksLayout.class.getResource(
+                        FXMLLoader fxmlLoader = new FXMLLoader(AdminCatalogBorrowedBooksLayoutController.class.getResource(
                                 "/fxml/" + path));
 
                         Pane scene = fxmlLoader.load();
@@ -102,7 +102,7 @@ public class AdminUsersLayoutController {
                         }
 
                         Platform.runLater(() -> vBoxUserList.getChildren().add(scene));
-                        Animation.zoomIn(scene, 1.0);
+                        AnimationUtils.zoomIn(scene, 1.0);
                         Thread.sleep(10);
 
                     } catch (IOException e) {
@@ -132,7 +132,7 @@ public class AdminUsersLayoutController {
         studentPane.setStyle("-fx-background-color: #E3E3E3; -fx-background-radius: 12px;");
         studentLabel.setStyle("-fx-text-fill: black;");
         setVisibility(true,  false);
-        Animation.zoomIn(hBoxStudent, 1.0);
+        AnimationUtils.zoomIn(hBoxStudent, 1.0);
         showStudentsList();
     }
 
@@ -146,7 +146,7 @@ public class AdminUsersLayoutController {
         guestPane.setStyle("-fx-background-color: #E3E3E3; -fx-background-radius: 12px;");
         guestLabel.setStyle("-fx-text-fill: black;");
         setVisibility(false, true);
-        Animation.zoomIn(hBoxGuest, 1.0);
+        AnimationUtils.zoomIn(hBoxGuest, 1.0);
         showGuestsList();
     }
 

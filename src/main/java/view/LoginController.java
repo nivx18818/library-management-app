@@ -20,7 +20,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import initialize.AdminInitializer;
-import util.Animation;
+import util.AnimationUtils;
 import util.ChangeScene;
 import util.RegExPatterns;
 
@@ -262,7 +262,7 @@ public class LoginController {
 
         int[] countdownSeconds = {5};
 
-        Animation.playNotificationTimeline(registerNoticeText, 5.0, "08a80d");
+        AnimationUtils.playNotificationTimeline(registerNoticeText, 5.0, "08a80d");
 
         registerNoticeText.setText("Sign up successfully. Please log in! Automatically after " +
                 countdownSeconds[0] + " seconds...");
@@ -294,15 +294,15 @@ public class LoginController {
 
         if (fullName.isEmpty() || majorOrPhoneNumber.isEmpty() || email.isEmpty() || username.isEmpty() || password.isEmpty()) {
             registerNoticeText.setText("Please fill in all fields.");
-            Animation.playNotificationTimeline(registerNoticeText, 3.0, "red");
+            AnimationUtils.playNotificationTimeline(registerNoticeText, 3.0, "red");
             return false;
         } else if (!RegExPatterns.emailPattern(email)) {
             registerNoticeText.setText("Invalid email.");
-            Animation.playNotificationTimeline(registerNoticeText, 3.0, "red");
+            AnimationUtils.playNotificationTimeline(registerNoticeText, 3.0, "red");
             return false;
         } else if (!RegExPatterns.passwordPattern(password)) {
             registerNoticeText.setText("Invalid password.");
-            Animation.playNotificationTimeline(registerNoticeText, 3.0, "red");
+            AnimationUtils.playNotificationTimeline(registerNoticeText, 3.0, "red");
             return false;
         }
 
@@ -311,18 +311,18 @@ public class LoginController {
         if (selectedUserType.getText().equals("Student")) {
             if (!RegExPatterns.studentIDPattern(username)) {
                 registerNoticeText.setText("Invalid student ID.");
-                Animation.playNotificationTimeline(registerNoticeText, 3.0, "red");
+                AnimationUtils.playNotificationTimeline(registerNoticeText, 3.0, "red");
                 return false;
             }
         } else {
             if (!RegExPatterns.citizenIDPattern(username)) {
                 registerNoticeText.setText("Invalid citizen ID.");
-                Animation.playNotificationTimeline(registerNoticeText, 3.0, "red");
+                AnimationUtils.playNotificationTimeline(registerNoticeText, 3.0, "red");
                 return false;
             }
             if (!RegExPatterns.phoneNumberPattern(majorOrPhoneNumber)) {
                 registerNoticeText.setText("Invalid phone number.");
-                Animation.playNotificationTimeline(registerNoticeText, 3.0, "red");
+                AnimationUtils.playNotificationTimeline(registerNoticeText, 3.0, "red");
                 return false;
             }
         }
@@ -380,7 +380,7 @@ public class LoginController {
     public void handleFailedLogin() {
         errorAccountNotify.setOpacity(1.0);
         forgotPasswordLabel.setVisible(false);
-        Animation.playNotificationTimeline(errorAccountNotify, 3.0, "red");
+        AnimationUtils.playNotificationTimeline(errorAccountNotify, 3.0, "red");
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(3.5), event -> {
             forgotPasswordLabel.setVisible(true);
         }));
@@ -389,9 +389,5 @@ public class LoginController {
 
     public String[] getMajor() {
         return major;
-    }
-
-    public void setMajor(String[] major) {
-        this.major = major;
     }
 }

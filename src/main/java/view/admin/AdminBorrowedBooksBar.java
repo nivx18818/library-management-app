@@ -6,10 +6,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import util.ChangeScene;
+import util.EnumUtils;
 
 public class AdminBorrowedBooksBar {
 
-    AdminCatalogBorrowedBooksLayout adminCatalogBorrowedBooksLayout = AdminCatalogBorrowedBooksLayout.getInstance();
+    AdminCatalogBorrowedBooksLayoutController adminCatalogBorrowedBooksLayout = AdminCatalogBorrowedBooksLayoutController.getInstance();
     @FXML
     private Label amountLabel;
     @FXML
@@ -23,10 +24,20 @@ public class AdminBorrowedBooksBar {
     @FXML
     private Label nameLabel;
 
+    private static AdminBorrowedBooksBar controller;
+
+    public AdminBorrowedBooksBar() {
+        controller = this;
+    }
+
+    public static AdminBorrowedBooksBar getInstance() {
+        return controller;
+    }
+
     @FXML
     void imgViewOnMouseClicked(MouseEvent event) {
-        ChangeScene.openAdminPopUp(adminCatalogBorrowedBooksLayout.getStackPaneContainer(),
-                "/fxml/admin-borrowed-book-view-dialog.fxml");
+        ChangeScene.openAdminPopUp(AdminGlobalFormController.getInstance().getStackPaneContainer(),
+                "/fxml/admin-borrowed-book-view-dialog.fxml", idLabel.getText());
     }
 
     @FXML
@@ -50,4 +61,11 @@ public class AdminBorrowedBooksBar {
         borrowedDateLabel.setText(borrowedDate);
     }
 
+    public Label getIdLabel() {
+        return idLabel;
+    }
+
+    public void setIdLabel(Label idLabel) {
+        this.idLabel = idLabel;
+    }
 }

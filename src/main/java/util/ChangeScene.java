@@ -4,9 +4,9 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import view.admin.AdminBorrowedBookViewDialogController;
 import view.admin.AdminGlobalFormController;
 import view.admin.AdminNavigationController;
 
@@ -22,6 +22,26 @@ public class ChangeScene {
 
             dialog = new JFXDialog(stackPane, content,
                     JFXDialog.DialogTransition.CENTER);
+
+            dialog.setOverlayClose(false);
+
+            dialog.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void openAdminPopUp(StackPane stackPane, String path, String id) {
+        try {
+            FXMLLoader loader = new FXMLLoader(AdminNavigationController.class.getResource(path));
+            Pane content = loader.load();
+
+            dialog = new JFXDialog(stackPane, content,
+                    JFXDialog.DialogTransition.CENTER);
+
+            AdminBorrowedBookViewDialogController controller = loader.getController();
+            controller.setId(id);
+
 
             dialog.setOverlayClose(false);
 
@@ -51,6 +71,6 @@ public class ChangeScene {
         FXMLLoader loader = new FXMLLoader(AdminGlobalFormController.class.getResource("/fxml/" + fxmlPath));
         Parent root = loader.load();
         pane.getChildren().add(root);
-        Animation.zoomIn(controller.getPagingPane(), 1.0);
+        AnimationUtils.zoomIn(controller.getPagingPane(), 1.0);
     }
 }

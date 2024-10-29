@@ -56,7 +56,7 @@ public class RegExPatterns {
                     return (responseCode >= 200 && responseCode < 400);
                 } catch (Exception e) {
                     label.setText("Invalid URL");
-                    Animation.playNotificationTimeline(label, 3, "red");
+                    AnimationUtils.playNotificationTimeline(label, 3, "red");
                 }
                 return null;
             }
