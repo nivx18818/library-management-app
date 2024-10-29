@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import view.admin.AdminBookViewDialogController;
 import view.admin.AdminBorrowedBookViewDialogController;
 import view.admin.AdminGlobalFormController;
 import view.admin.AdminNavigationController;
@@ -31,16 +32,22 @@ public class ChangeScene {
         }
     }
 
-    public static void openAdminPopUp(StackPane stackPane, String path, String id) {
+    public static void openAdminPopUp(StackPane stackPane, String path, String id,
+                                      EnumUtils.PopupList popupList) {
         try {
             FXMLLoader loader = new FXMLLoader(AdminNavigationController.class.getResource(path));
             Pane content = loader.load();
 
             dialog = new JFXDialog(stackPane, content,
                     JFXDialog.DialogTransition.CENTER);
-
-            AdminBorrowedBookViewDialogController controller = loader.getController();
-            controller.setId(id);
+            if (popupList == EnumUtils.PopupList.BORROWED_BOOK_CATALOG || popupList == EnumUtils.PopupList.OVERDUE_BOOK_DASHBOARD) {
+                AdminBorrowedBookViewDialogController controller = loader.getController();
+                controller.setId(id);
+            }
+            else if (popupList == EnumUtils.PopupList.BOOK_VIEW) {
+                AdminBookViewDialogController controller = loader.getController();
+                controller.setId(id);
+            }
 
 
             dialog.setOverlayClose(false);

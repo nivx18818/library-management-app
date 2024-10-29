@@ -37,7 +37,8 @@ public class AdminBorrowedBooksBar {
     @FXML
     void imgViewOnMouseClicked(MouseEvent event) {
         ChangeScene.openAdminPopUp(AdminGlobalFormController.getInstance().getStackPaneContainer(),
-                "/fxml/admin-borrowed-book-view-dialog.fxml", idLabel.getText());
+                "/fxml/admin-borrowed-book-view-dialog.fxml", idLabel.getText(),
+                EnumUtils.PopupList.BORROWED_BOOK_CATALOG);
     }
 
     @FXML

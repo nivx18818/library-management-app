@@ -126,11 +126,6 @@ public class AdminAddBookDialogController {
         return true;
     }
 
-    @FXML
-    void authorOnAction(ActionEvent event) {
-
-    }
-
 
     @FXML
     void cancelButtonOnAction(ActionEvent event) {
@@ -140,46 +135,6 @@ public class AdminAddBookDialogController {
     @FXML
     void closeButtonOnAction(ActionEvent event) {
         ChangeScene.closePopUp();
-    }
-
-    @FXML
-    void coverURLOnAction(ActionEvent event) {
-
-    }
-
-    @FXML
-    void idOnAction(ActionEvent event) {
-
-    }
-
-    @FXML
-    void publishedDateOnAction(ActionEvent event) {
-
-    }
-
-    @FXML
-    void publisherOnAction(ActionEvent event) {
-
-    }
-
-    @FXML
-    void quantityOnAction(ActionEvent event) {
-
-    }
-
-    @FXML
-    void txtNameOnAction(ActionEvent event) {
-
-    }
-
-    @FXML
-    void txtNameOnKeyPressed(KeyEvent event) {
-
-    }
-
-    @FXML
-    void typeOnAction(ActionEvent event) {
-
     }
 
     public void setDefault() {
