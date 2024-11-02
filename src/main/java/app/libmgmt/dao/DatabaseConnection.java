@@ -5,9 +5,15 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DatabaseConnection {
-    private static final String JDBC_URL = "jdbc:sqlite:src/main/resources/database/database.db";
+    private static Connection connection = null;
+
+    private DatabaseConnection() {
+    }
 
     public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(JDBC_URL);
+        if (connection == null || connection.isClosed()) {
+            connection = DriverManager.getConnection("jdbc:sqlite:src/main/resources/database/database.db");
+        }
+        return connection;
     }
 }

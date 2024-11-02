@@ -1,13 +1,22 @@
 package app.libmgmt.dao;
 
-import java.sql.*;
+import app.libmgmt.model.Author;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AuthorDAO implements DAOInterface<Author> {
+public class AuthorDAO  {
+    private Connection connection;
 
-    @Override
-    public boolean add(Author author) {
+    public AuthorDAO() throws SQLException {
+        this.connection = DatabaseConnection.getConnection();
+    }
+
+    public boolean addAuthor(Author author) {
         String sql = "INSERT INTO Author(id, name) VALUES(?, ?)";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -21,8 +30,7 @@ public class AuthorDAO implements DAOInterface<Author> {
         return false;
     }
 
-    @Override
-    public Author getById(int id) {
+    public Author getAuthorById(int id) {
         String sql = "SELECT * FROM Author WHERE id = ?";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -41,8 +49,7 @@ public class AuthorDAO implements DAOInterface<Author> {
         return null;
     }
 
-    @Override
-    public boolean update(Author author) {
+    public boolean updateAuthor(Author author) {
         String sql = "UPDATE Author SET name = ? WHERE id = ?";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -56,8 +63,7 @@ public class AuthorDAO implements DAOInterface<Author> {
         return false;
     }
 
-    @Override
-    public boolean delete(int id) {
+    public boolean deleteAuthor(int id) {
         String sql = "DELETE FROM Author WHERE id = ?";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -70,8 +76,7 @@ public class AuthorDAO implements DAOInterface<Author> {
         return false;
     }
 
-    @Override
-    public List<Author> selectAll() {
+    public List<Author> getAllAuthor() {
         List<Author> authors = new ArrayList<>();
         String sql = "SELECT * FROM Author";
 
