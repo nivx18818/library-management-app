@@ -19,10 +19,10 @@ public class BookDAO {
     }
 
     public void addBook(Book book) {
-        String sql = "INSERT INTO Book(isbn, title, published_date, publisher, cover_url, " +
-                "available_amount, authors, categories) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
-        try {
-            PreparedStatement statement = connection.prepareStatement(sql);
+        String sql = "INSERT INTO Book(isbn, title, published_date, publisher, cover_url, "
+                + "available_amount, authors, categories) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
             String authorsString = String.join(",", book.getAuthors());
             String categoriesString = String.join(",", book.getCategories());
 
@@ -43,11 +43,10 @@ public class BookDAO {
     }
 
     public void updateBook(Book book) {
-        String sql = "UPDATE Book SET title = ?, published_date = ?, publisher = ?, cover_url = ?, " +
-                "available_amount = ?, authors = ?, categories = ? WHERE isbn = ?";
+        String sql = "UPDATE Book SET title = ?, published_date = ?, publisher = ?, cover_url = ?, "
+                + "available_amount = ?, authors = ?, categories = ? WHERE isbn = ?";
 
-        try {
-            PreparedStatement statement = connection.prepareStatement(sql);
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
             String authorsString = String.join(",", book.getAuthors());
             String categoriesString = String.join(",", book.getCategories());
 
@@ -62,7 +61,6 @@ public class BookDAO {
 
             statement.executeUpdate();
             System.out.println("Book updated");
-
         } catch (SQLException e) {
             System.out.print(e.getMessage());
         }
@@ -71,9 +69,7 @@ public class BookDAO {
     public void deleteBook(Book book) {
         String sql = "DELETE FROM Book WHERE isbn = ?";
 
-        try {
-            PreparedStatement statement = connection.prepareStatement(sql);
-
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, book.getIsbn());
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -81,8 +77,8 @@ public class BookDAO {
         }
     }
 
-    public ArrayList<Book> getAllBook() {
-        ArrayList<Book> books = new ArrayList<>();
+    public List<Book> getAllBooks() {
+        List<Book> books = new ArrayList<>();
         String sql = "SELECT * FROM Book";
 
         try (PreparedStatement statement = connection.prepareStatement(sql);
@@ -90,7 +86,7 @@ public class BookDAO {
 
             while (rs.next()) {
                 List<String> authors = parseStrings(rs.getString("authors"));
-                List<String> categorys = parseStrings(rs.getString("category_id"));
+                List<String> categories = parseStrings(rs.getString("category_id"));
                 Book book = new Book(
                         rs.getString("isbn"),
                         rs.getString("title"),
@@ -99,8 +95,9 @@ public class BookDAO {
                         rs.getString("cover_url"),
                         rs.getInt("available_amount"),
                         authors,
-                        categorys
+                        categories
                 );
+
                 books.add(book);
             }
         } catch (SQLException e) {
@@ -112,13 +109,13 @@ public class BookDAO {
 
     public Book selectBookByIsbn(String isbn) {
         String sql = "SELECT * FROM Book WHERE isbn = ?";
-        try {
-            PreparedStatement statement = connection.prepareStatement(sql);
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, isbn);
             ResultSet rs = statement.executeQuery();
-            List<String> authors = parseStrings(rs.getString("authors"));
-            List<String> categories = parseStrings(rs.getString("category_id"));
+
             if (rs.next()) {
+                List<String> authors = parseStrings(rs.getString("authors"));
+                List<String> categories = parseStrings(rs.getString("category_id"));
                 return new Book(
                         rs.getString("isbn"),
                         rs.getString("title"),
@@ -133,14 +130,15 @@ public class BookDAO {
         } catch (SQLException e) {
             System.out.print(e.getMessage());
         }
+
         return null;
     }
 
-    public ArrayList<Book> selectBooksByAuthor(String author) {
-        ArrayList<Book> books = new ArrayList<>();
+    public List<Book> selectBooksByAuthor(String author) {
+        List<Book> books = new ArrayList<>();
         String sql = "SELECT * FROM Book WHERE authors LIKE ?";
-        try {
-            PreparedStatement statement = connection.prepareStatement(sql);
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, "%" + author + "%");
             ResultSet rs = statement.executeQuery();
 
@@ -157,20 +155,21 @@ public class BookDAO {
                         authors,
                         categories
                 );
+
                 books.add(book);
             }
-
-            return books;
         } catch (SQLException e) {
             System.out.print(e.getMessage());
         }
+
+        return books;
     }
 
-    public ArrayList<Book> selectBooksByCategories(String category) {
-        ArrayList<Book> books = new ArrayList<>();
+    public List<Book> selectBooksByCategory(String category) {
+        List<Book> books = new ArrayList<>();
         String sql = "SELECT * FROM Book WHERE categories LIKE ?";
-        try {
-            PreparedStatement statement = connection.prepareStatement(sql);
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, "%" + category + "%");
             ResultSet rs = statement.executeQuery();
 
@@ -190,11 +189,11 @@ public class BookDAO {
 
                 books.add(book);
             }
-
-            return books;
         } catch (SQLException e) {
             System.out.print(e.getMessage());
         }
+
+        return books;
     }
 
     private List<String> parseStrings(String st) {
