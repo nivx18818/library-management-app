@@ -10,15 +10,11 @@ public class Book {
     private String publisher;
     private String coverUrl;
     private int availableCopies;
-    private List<Author> authors;
-    private List<Category> categories;
-    private Admin admin;
-
-    public Book() {
-    }
+    private List<String> authors;
+    private List<String> categories;
 
     public Book(String isbn, String title, Date publishedDate, String publisher, String coverUrl, int availableCopies,
-            List<Author> authors, List<Category> categories, Admin admin) {
+            List<String> authors, List<String> categories) {
         this.isbn = isbn;
         this.title = title;
         this.publishedDate = publishedDate;
@@ -27,7 +23,6 @@ public class Book {
         this.availableCopies = availableCopies;
         this.authors = authors;
         this.categories = categories;
-        this.admin = admin;
     }
 
     public String getIsbn() {
@@ -74,11 +69,11 @@ public class Book {
         this.availableCopies = availableCopies;
     }
 
-    public List<Author> getAuthors() {
+    public List<String> getAuthors() {
         return authors;
     }
 
-    public List<Category> getCategories() {
+    public List<String> getCategories() {
         return categories;
     }
 }
