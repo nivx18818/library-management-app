@@ -36,7 +36,7 @@ public class AdminBooksLayoutController {
     private VBox vBoxBooksList;
 
     @FXML
-    private StackPane stackPaneContainer;
+    public StackPane stackPaneContainer;
 
     private final AdminGlobalFormController adminGlobalFormController = AdminGlobalFormController.getInstance();
 
@@ -59,6 +59,12 @@ public class AdminBooksLayoutController {
         System.out.println("Admin Books Layout initialized");
 
         preloadData(booksData);
+
+        stackPaneContainer.setOnMouseClicked(
+            event -> {
+                stackPaneContainer.requestFocus();
+            }
+        );
     }
 
     public void preloadData(List<String[]> data) {
@@ -66,19 +72,10 @@ public class AdminBooksLayoutController {
             @Override
             protected Void call() throws Exception {
                 for (String[] d : data) {
-                    FXMLLoader fxmlLoader = new FXMLLoader(AdminBooksLayoutController.class.getResource(
-                            "/fxml/admin-book-bar.fxml"));
-                    Pane scene = fxmlLoader.load();
-                    AdminBookBarController controller = fxmlLoader.getController();
-                    controller.setData(d[0], d[1], d[2], d[3], d[4], d[5]);
-                    Platform.runLater(() -> {
-                        vBoxBooksList.getChildren().add(scene);
-                        AnimationUtils.zoomIn(scene, 1.0);
-                    });
+                    loadBookBar(d);
                 }
                 return null;
             }
-
             @Override
             protected void failed() {
                 System.out.println("Error loading data table: " + getException().getMessage());
@@ -88,6 +85,18 @@ public class AdminBooksLayoutController {
         new Thread(preloadTask).start();
     }
 
+    public void loadBookBar(String[] data) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(AdminBooksLayoutController.class.getResource(
+                "/fxml/admin-book-bar.fxml"));
+        Pane scene = fxmlLoader.load();
+        AdminBookBarController controller = fxmlLoader.getController();
+        controller.setData(data);
+        Platform.runLater(() -> {
+            vBoxBooksList.getChildren().add(scene);
+            AnimationUtils.zoomIn(scene, 1.0);
+        });
+    }
+
     @FXML
     void addBookButtonClicked(MouseEvent event) throws IOException{
         ChangeScene.openAdminPopUp(stackPaneContainer, "/fxml/admin-add-book-dialog.fxml");
@@ -95,12 +104,17 @@ public class AdminBooksLayoutController {
 
     @FXML
     void btnRefreshTableOnAction(ActionEvent event) {
+        refreshBooksList();
+    }
+
+    public void refreshBooksList() {
         vBoxBooksList.getChildren().clear();
         preloadData(booksData);
 
         textSearch.clear();
         textSearch.setEditable(true);
     }
+
 
     @FXML
     void btnRefreshTableOnMouseEntered(MouseEvent event) {
@@ -124,13 +138,28 @@ public class AdminBooksLayoutController {
         textSearch.setEditable(false);
     }
 
-    public void showFilteredData(String text) {
-        //TODO: Implement search functionality
+    private void showFilteredData(String searchText) {
+        vBoxBooksList.getChildren().clear();
+
+        adminGlobalFormController.getBooksData().stream()
+                .filter(data -> data[2].toLowerCase().contains(searchText.toLowerCase()))
+                .forEach(data -> {
+                    try {
+                        loadBookBar(data);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
     }
+
 
     @FXML
     void txtSearchOnMouseMoved(MouseEvent event) {
 
+    }
+
+    public String getSearchText() {
+        return textSearch.getText();
     }
 
 }

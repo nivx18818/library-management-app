@@ -66,7 +66,7 @@
       <children>
         <HBox alignment="CENTER" layoutY="36.0" prefHeight="28.0" prefWidth="170.0" spacing="7.0">
           <children>
-            <ImageView fx:id="editFunction" fitHeight="22.0" fitWidth="22.0" onMouseEntered="#imgEditOnMouseEntered" onMouseExited="#imgEditOnMouseExited" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="editFunction" fitHeight="22.0" fitWidth="22.0" onMouseClicked="#imgEditOnMouseClicked" onMouseEntered="#imgEditOnMouseEntered" onMouseExited="#imgEditOnMouseExited" pickOnBounds="true" preserveRatio="true">
               <image>
                 <Image url="@../assets/icon/btn%20edit.png" />
               </image>

@@ -13,6 +13,7 @@ import util.AnimationUtils;
 import util.ChangeScene;
 import util.RegExPatterns;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,10 +57,11 @@ public class AdminAddBookDialogController {
     }
 
     @FXML
-    void addButtonOnAction(ActionEvent event) {
+    void addButtonOnAction(ActionEvent event) throws IOException {
         if (checkValid()) {
             String[] bookData = new String[]{txtID.getText(), txtCoverURL.getText(), txtName.getText(),
-                    txtType.getText(), txtAuthor.getText(), "Available"};
+                    txtType.getText(), txtAuthor.getText(), txtQuantity.getText(),
+                    txtPublisher.getText(), txtPublishedDate.getText()};
             addBook(bookData);
         }
     }
@@ -68,9 +70,14 @@ public class AdminAddBookDialogController {
         Task<Void> task = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
-                List<String[]> booksData = new ArrayList<>();
-                booksData.add(bookData);
-                AdminBooksLayoutController.getInstance().preloadData(booksData);
+                AdminBooksLayoutController adminBooksLayoutController = AdminBooksLayoutController.getInstance();
+                System.out.println(adminBooksLayoutController.getSearchText());
+                if (adminBooksLayoutController.getSearchText().isEmpty()) {
+                    List<String[]> booksData = new ArrayList<>() {{
+                        add(bookData);
+                    }};
+                    adminBooksLayoutController.preloadData(booksData);
+                }
                 return null;
             }
 
@@ -92,7 +99,7 @@ public class AdminAddBookDialogController {
         setDefault();
     }
 
-    public boolean checkValid() {
+    public boolean checkValid() throws IOException {
 //        String urlOriginalPromptText = txtCoverURL.getPromptText();
         String idBook = txtID.getText();
         String url = txtCoverURL.getText();
@@ -107,8 +114,9 @@ public class AdminAddBookDialogController {
             AnimationUtils.playNotificationTimeline(notificationLabel, 3, "#ff0000");
             return false;
         }
-        RegExPatterns.checkUrlAsync(url, notificationLabel);
-        if (notificationLabel.getText().equals("Invalid URL.")) {
+        if (!RegExPatterns.bookCoverUrlPattern(url)) {
+            notificationLabel.setText("URL is invalid or not an image link.");
+            AnimationUtils.playNotificationTimeline(notificationLabel, 3, "#ff0000");
             return false;
         } else if (!RegExPatterns.bookIDPattern(idBook)) {
             notificationLabel.setText("Invalid ID.");

@@ -29,7 +29,7 @@ public class AdminBorrowedBookViewDialogController {
     @FXML
     private JFXButton closeButton;
 
-    AdminBorrowedBooksBar adminBorrowedBooksBar = AdminBorrowedBooksBar.getInstance();
+    AdminBorrowedBooksBarController adminBorrowedBooksBar = AdminBorrowedBooksBarController.getInstance();
 
     public void initialize() {
         System.out.println("AdminBorrowedBookViewDialogController initialized");

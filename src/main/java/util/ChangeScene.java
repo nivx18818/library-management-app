@@ -6,10 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import view.admin.AdminBookViewDialogController;
-import view.admin.AdminBorrowedBookViewDialogController;
-import view.admin.AdminGlobalFormController;
-import view.admin.AdminNavigationController;
+import view.admin.*;
 
 import java.io.IOException;
 
@@ -40,18 +37,21 @@ public class ChangeScene {
 
             dialog = new JFXDialog(stackPane, content,
                     JFXDialog.DialogTransition.CENTER);
-            if (popupList == EnumUtils.PopupList.BORROWED_BOOK_CATALOG || popupList == EnumUtils.PopupList.OVERDUE_BOOK_DASHBOARD) {
-                AdminBorrowedBookViewDialogController controller = loader.getController();
-                controller.setId(id);
-            }
-            else if (popupList == EnumUtils.PopupList.BOOK_VIEW) {
-                AdminBookViewDialogController controller = loader.getController();
-                controller.setId(id);
-            }
 
+            switch (popupList) {
+                case BORROWED_BOOK_CATALOG:
+                case OVERDUE_BOOK_DASHBOARD:
+                    AdminBorrowedBookViewDialogController borrowedController = loader.getController();
+                    borrowedController.setId(id);
+                    break;
+                case BOOK_VIEW:
+                case BOOK_EDIT:
+                    break;
+                default:
+                    throw new IllegalArgumentException("Unexpected value: " + popupList);
+            }
 
             dialog.setOverlayClose(false);
-
             dialog.show();
         } catch (IOException e) {
             e.printStackTrace();

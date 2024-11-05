@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.chart.PieChart;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import util.DateTimeUtils;
@@ -21,6 +22,8 @@ public class AdminDashboardController {
 
     private static AdminDashboardController controller;
     AdminGlobalFormController adminGlobalFormController = AdminGlobalFormController.getInstance();
+    @FXML
+    public StackPane stackPaneContainer;
     @FXML
     private HBox dashboardContainer;
     @FXML

@@ -2,9 +2,11 @@ package util;
 
 import javafx.animation.PauseTransition;
 import javafx.concurrent.Task;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.util.Duration;
+
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.LocalDate;
@@ -44,42 +46,19 @@ public class RegExPatterns {
         return Pattern.matches("^[0-9]{1,8}$", bookID);
     }
 
-    public static void checkUrlAsync(String urlString, Label label) {
-        Task<Boolean> urlCheckTask = new Task<Boolean>() {
-            @Override
-            protected Boolean call() {
-                try {
-                    URL url = new URL(urlString);
-                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                    connection.setRequestMethod("HEAD");
-                    int responseCode = connection.getResponseCode();
-                    return (responseCode >= 200 && responseCode < 400);
-                } catch (Exception e) {
-                    label.setText("Invalid URL");
-                    AnimationUtils.playNotificationTimeline(label, 3, "red");
-                }
-                return null;
-            }
-        };
-
-        urlCheckTask.setOnSucceeded(event -> {
-            try {
-                if (urlCheckTask.getValue()) {
-                    System.out.println("URL is valid");
-                } else {
-                    System.out.println("URL is invalid");
-                }
-            } catch (Exception e) {
-                System.out.println("URL is invalid or null");
-            }
-        });
-
-        urlCheckTask.setOnFailed(event -> {
-            System.out.println("URL check failed");
-        });
-
-        new Thread(urlCheckTask).start();
+    public static boolean bookCoverUrlPattern(String path) {
+        if (!path.startsWith("http")) {
+            return false;
+        }
+        String urlWithoutParams = path.split("\\?")[0].toLowerCase();
+        return urlWithoutParams.endsWith(".jpg") ||
+                urlWithoutParams.endsWith(".jpeg") ||
+                urlWithoutParams.endsWith(".png") ||
+                urlWithoutParams.endsWith(".gif") ||
+                urlWithoutParams.endsWith(".bmp") ||
+                urlWithoutParams.endsWith(".svg");
     }
+
 
     public static boolean globalFormPattern(String text) {
         return Pattern.matches("^.*$\n", text);

@@ -28,27 +28,33 @@ public class AdminBookBarController {
     private ImageView deleteFunction;
     @FXML
     private ImageView viewFunction;
+    private int quantity;
+    private String imgPath;
+    private String publisher;
+    private String publishedDate;
 
+    private static AdminBookBarController controller;
 
-    public void setData(String id, String imagePath, String name, String type, String author,
-                        String status) {
-        idLabel.setText(id);
-        try {
-            bookImage.setImage(new Image(imagePath));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        nameLabel.setText(name);
-        typeLabel.setText(type);
-        authorLabel.setText(author);
-        statusLabel.setText(status);
-        statusLabel.setStyle(status.equals("Available") ? "-fx-text-fill: green" : "-fx-text-fill: red");
+    public AdminBookBarController() {
+        controller = this;
+    }
+
+    public static AdminBookBarController getInstance() {
+        return controller;
     }
 
     @FXML
     void imgViewOnMouseClicked(MouseEvent event) {
-        ChangeScene.openAdminPopUp(AdminGlobalFormController.getInstance().getStackPaneContainer(),
+        ChangeScene.openAdminPopUp(AdminBooksLayoutController.getInstance().stackPaneContainer,
                 "/fxml/admin-book-view-dialog.fxml", idLabel.getText(), EnumUtils.PopupList.BOOK_VIEW);
+        AdminBookViewDialogController.getInstance().setData(getData());
+    }
+
+    @FXML
+    void imgEditOnMouseClicked(MouseEvent event) {
+        ChangeScene.openAdminPopUp(AdminBooksLayoutController.getInstance().stackPaneContainer,
+                "/fxml/admin-book-edit-dialog.fxml", idLabel.getText(), EnumUtils.PopupList.BOOK_EDIT);
+        AdminBookEditDialogController.getInstance().showOriginalBookData(getData());
     }
 
     @FXML
@@ -89,6 +95,30 @@ public class AdminBookBarController {
         Image normalImage =
                 new Image(getClass().getResource("/assets/icon/btn Delete.png").toExternalForm());
         deleteFunction.setImage(normalImage);
+    }
+
+    public void setData(String[] data) {
+        idLabel.setText(data[0]);
+        try {
+            imgPath = data[1];
+            bookImage.setImage(new Image(imgPath));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        nameLabel.setText(data[2]);
+        typeLabel.setText(data[3]);
+        authorLabel.setText(data[4]);
+        quantity = Integer.parseInt(data[5]);
+        statusLabel.setText((quantity >= 1) ? "Available" : "Borrowed");
+        statusLabel.setStyle(statusLabel.getText().equals("Available") ? "-fx-text-fill: green" : "-fx" +
+                "-text-fill: red");
+        publisher = data[6];
+        publishedDate = data[7];
+    }
+
+    public String[] getData() {
+        return new String[]{idLabel.getText(), imgPath, nameLabel.getText(), typeLabel.getText(),
+                authorLabel.getText(), Integer.toString(quantity), publisher, publishedDate};
     }
 
 }

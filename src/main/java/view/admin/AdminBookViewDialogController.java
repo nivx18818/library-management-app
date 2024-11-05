@@ -1,6 +1,7 @@
 package view.admin;
 
 import com.jfoenix.controls.JFXButton;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -34,7 +35,7 @@ public class AdminBookViewDialogController {
     private Pane container;
 
     @FXML
-    private ImageView coverBookImage;
+    private ImageView bookCoverImage;
 
     @FXML
     private ImageView imgClose;
@@ -60,27 +61,47 @@ public class AdminBookViewDialogController {
     @FXML
     private Label typeLabel;
 
-    AdminGlobalFormController adminGlobalFormController = AdminGlobalFormController.getInstance();
+    private static AdminBookViewDialogController controller;
+
+    public AdminBookViewDialogController() {
+        controller = this;
+    }
+
+    public static AdminBookViewDialogController getInstance() {
+        return controller;
+    }
 
     public void initialize() {
         System.out.println("AdminViewBookDialogController initialized!");
         AnimationUtils.hoverCloseIcons(closeDialogButton, imgClose);
     }
 
-    public void setInfo() {
-        String curId = idLabel.getText().split(" : ")[1];
-        String[] data = adminGlobalFormController.getBookData(curId);
+    public void setData(String[] data) {
         for (int i = 0; i < data.length; i++) {
             switch (i) {
                 case 0:
                     idLabel.setText("Book ID : " + data[i]);
                     break;
                 case 1:
-                    try {
-                        coverBookImage.setImage(new Image(data[i]));
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
+                    String path = data[i];
+
+                    Task<Image> loadImageTask = new Task<>() {
+                        @Override
+                        protected Image call() throws Exception {
+                            return new Image(path);
+                        }
+                    };
+
+                    loadImageTask.setOnSucceeded(event -> bookCoverImage.setImage(loadImageTask.getValue()));
+
+                    loadImageTask.setOnFailed(event -> {
+                        Throwable exception = loadImageTask.getException();
+                        System.err.println("Failed to load image: " + exception.getMessage());
+                        exception.printStackTrace();
+                    });
+
+                    new Thread(loadImageTask).start();
+
                     break;
                 case 2:
                     nameLabel.setText("Name : " + data[i]);
@@ -93,6 +114,11 @@ public class AdminBookViewDialogController {
                     break;
                 case 5:
                     quantityLabel.setText(data[i]);
+                    if (Integer.parseInt(data[i]) >= 1) {
+                        quantityLabel.setStyle("-fx-text-fill: green");
+                    } else {
+                        quantityLabel.setStyle("-fx-text-fill: red");
+                    }
                     break;
                 case 6:
                     publisherLabel.setText("Publisher : " + data[i]);
@@ -114,8 +140,24 @@ public class AdminBookViewDialogController {
         ChangeScene.closePopUp();
     }
 
-    public void setId(String id) {
-        idLabel.setText("Book ID : " + id);
-        setInfo();
+    public void setQrCodeImage(String path) {
+        Task<Image> loadImageTask = new Task<>() {
+            @Override
+            protected Image call() throws Exception {
+                return new Image(path);
+            }
+        };
+
+        loadImageTask.setOnSucceeded(event -> qrCodeImage.setImage(loadImageTask.getValue()));
+
+        loadImageTask.setOnFailed(event -> {
+            Throwable exception = loadImageTask.getException();
+            System.err.println("Failed to load image: " + exception.getMessage());
+            exception.printStackTrace();
+        });
+    }
+
+    public String getQrCodeImagePath() {
+        return qrCodeImage.getImage().getUrl();
     }
 }

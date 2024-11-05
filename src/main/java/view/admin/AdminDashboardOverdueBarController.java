@@ -24,7 +24,7 @@ public class AdminDashboardOverdueBarController {
 
     @FXML
     void handleViewImageOnMouseClicked(MouseEvent event) {
-        ChangeScene.openAdminPopUp(AdminGlobalFormController.getInstance().getStackPaneContainer(),
+        ChangeScene.openAdminPopUp(AdminDashboardController.getInstance().stackPaneContainer,
                 "/fxml/admin-borrowed-book-view-dialog.fxml", id.getText(), EnumUtils.PopupList.OVERDUE_BOOK_DASHBOARD);
     }
 

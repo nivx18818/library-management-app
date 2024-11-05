@@ -8,7 +8,7 @@ import javafx.scene.input.MouseEvent;
 import util.ChangeScene;
 import util.EnumUtils;
 
-public class AdminBorrowedBooksBar {
+public class AdminBorrowedBooksBarController {
 
     AdminCatalogBorrowedBooksLayoutController adminCatalogBorrowedBooksLayout = AdminCatalogBorrowedBooksLayoutController.getInstance();
     @FXML
@@ -24,19 +24,19 @@ public class AdminBorrowedBooksBar {
     @FXML
     private Label nameLabel;
 
-    private static AdminBorrowedBooksBar controller;
+    private static AdminBorrowedBooksBarController controller;
 
-    public AdminBorrowedBooksBar() {
+    public AdminBorrowedBooksBarController() {
         controller = this;
     }
 
-    public static AdminBorrowedBooksBar getInstance() {
+    public static AdminBorrowedBooksBarController getInstance() {
         return controller;
     }
 
     @FXML
     void imgViewOnMouseClicked(MouseEvent event) {
-        ChangeScene.openAdminPopUp(AdminGlobalFormController.getInstance().getStackPaneContainer(),
+        ChangeScene.openAdminPopUp(AdminCatalogBorrowedBooksLayoutController.getInstance().getStackPaneContainer(),
                 "/fxml/admin-borrowed-book-view-dialog.fxml", idLabel.getText(),
                 EnumUtils.PopupList.BORROWED_BOOK_CATALOG);
     }

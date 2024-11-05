@@ -47,7 +47,7 @@ public class AdminCatalogBorrowedBooksLayoutController {
     @FXML
     private VBox vBoxBorrowedBooks;
     @FXML
-    private StackPane stackPaneContainer;
+    public StackPane stackPaneContainer;
     private String status = "borrowed";
 
     public AdminCatalogBorrowedBooksLayoutController() {
@@ -72,23 +72,8 @@ public class AdminCatalogBorrowedBooksLayoutController {
             @Override
             protected Void call() throws Exception {
                 for (String[] d : data) {
-                    try {
-                        FXMLLoader fxmlLoader = new FXMLLoader(AdminCatalogBorrowedBooksLayoutController.class.getResource(
-                                "/fxml/admin-borrowed-book-bar.fxml"));
-
-                        Pane scene = fxmlLoader.load();
-
-                        AdminBorrowedBooksBar controller = fxmlLoader.getController();
-                        controller.setData(d[0], d[1], Integer.parseInt(d[2]), d[3], d[4]);
-
-                        Platform.runLater(() -> vBoxBorrowedBooks.getChildren().add(scene));
-                        AnimationUtils.zoomIn(scene, 1.0);
-                        Thread.sleep(10);
-
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-
+                    loadBorrowedBookBar(d);
+                    Thread.sleep(10);
                 }
 
                 return null;
@@ -101,6 +86,24 @@ public class AdminCatalogBorrowedBooksLayoutController {
         };
 
         new Thread(preloadTask).start();
+    }
+
+    public void loadBorrowedBookBar(String[] d) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(AdminCatalogBorrowedBooksLayoutController.class.getResource(
+                    "/fxml/admin-borrowed-book-bar.fxml"));
+
+            Pane scene = fxmlLoader.load();
+
+            AdminBorrowedBooksBarController controller = fxmlLoader.getController();
+            controller.setData(d[0], d[1], Integer.parseInt(d[2]), d[3], d[4]);
+
+            Platform.runLater(() -> vBoxBorrowedBooks.getChildren().add(scene));
+            AnimationUtils.zoomIn(scene, 1.0);
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @FXML

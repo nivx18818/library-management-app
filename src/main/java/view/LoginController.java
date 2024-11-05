@@ -23,6 +23,7 @@ import initialize.AdminInitializer;
 import util.AnimationUtils;
 import util.ChangeScene;
 import util.RegExPatterns;
+import view.admin.AdminGlobalFormController;
 
 import java.io.IOException;
 import java.util.logging.Logger;
@@ -361,14 +362,14 @@ public class LoginController {
 
                 FXMLLoader fxmlLoader = new FXMLLoader(AdminInitializer.class.getResource(
                         "/fxml/admin-global-layout.fxml"));
-                Scene scene = new Scene(fxmlLoader.load());
-
+                AdminGlobalFormController controller = new AdminGlobalFormController();
+                Scene scene = new Scene(fxmlLoader.load(), 1280, 720);
                 stage.setScene(scene);
                 stage.setResizable(false);
                 stage.centerOnScreen();
                 stage.setTitle("BookWarm Library Management System");
 
-                loadingPane.setVisible(false);
+                container.setVisible(false);
             } catch (IOException e) {
                 e.printStackTrace();
             }
