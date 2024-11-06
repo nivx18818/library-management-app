@@ -12,7 +12,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="container" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="454.0" prefWidth="692.0" style="-fx-background-color: white; -fx-background-radius: 10;" stylesheets="@../style/add-book-dialog.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.admin.AdminUserViewDialogController">
+<Pane fx:id="container" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="454.0" prefWidth="692.0" style="-fx-background-color: white; -fx-background-radius: 10;" stylesheets="@../style/add-book-dialog.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.admin.AdminUsersViewDialogController">
   <children>
     <Pane layoutX="32.0" layoutY="19.0" prefHeight="45.0" prefWidth="45.0" style="-fx-background-color: #D7D7D7; -fx-background-radius: 10;">
       <children>
@@ -52,7 +52,7 @@
     </Pane>
     <Pane layoutX="34.0" layoutY="117.0" prefHeight="254.0" prefWidth="620.0" style="-fx-background-radius: 10px; -fx-border-color: #dddddd; -fx-border-radius: 10px;">
       <children>
-        <HBox alignment="CENTER_LEFT" prefHeight="254.0" prefWidth="620.0" style="-fx-background-radius: 10px;">
+        <HBox alignment="CENTER_LEFT" fillHeight="false" prefHeight="254.0" prefWidth="620.0" style="-fx-background-radius: 10px;">
           <children>
             <VBox alignment="CENTER" prefHeight="254.0" prefWidth="414.0">
               <HBox.margin>
@@ -117,7 +117,7 @@
               </padding>
             </VBox>
             <Line endX="-101.44975280761719" endY="181.2928924560547" layoutX="232.0" layoutY="53.0" opacity="0.55" startX="-101.449951171875" startY="-26.19239044189453" />
-            <VBox alignment="CENTER" prefHeight="254.0" prefWidth="164.0" spacing="8.0">
+            <VBox alignment="CENTER" prefHeight="126.0" prefWidth="164.0" spacing="8.0">
               <children>
                 <Label text="User Type">
                   <font>

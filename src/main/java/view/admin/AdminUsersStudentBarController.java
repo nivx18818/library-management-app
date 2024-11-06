@@ -41,7 +41,17 @@ public class AdminUsersStudentBarController {
                 "-users" +
                 "-view-dialog" +
                 ".fxml");
-        AdminUserViewDialogController.getInstance().setData(getData(), EnumUtils.UserType.STUDENT);
+        AdminUsersViewDialogController.getInstance().setData(getData(), EnumUtils.UserType.STUDENT);
+    }
+
+    @FXML
+    void imgEditOnMouseClicked(MouseEvent event) {
+        System.out.println("Edit");
+        ChangeScene.openAdminPopUp(AdminUsersLayoutController.getInstance().stackPaneContainer, "/fxml/admin" +
+                "-users" +
+                "-edit-dialog" +
+                ".fxml");
+        AdminUsersEditDialogController.getInstance().showOriginalUserData(getData(), EnumUtils.UserType.STUDENT);
     }
 
     public String[] getData() {

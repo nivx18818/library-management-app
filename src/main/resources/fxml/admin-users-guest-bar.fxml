@@ -35,7 +35,7 @@
       <children>
         <HBox alignment="CENTER" prefHeight="60.0" prefWidth="164.0" spacing="7.0">
           <children>
-            <ImageView fx:id="editFunction" fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="editFunction" fitHeight="22.0" fitWidth="22.0" onMouseClicked="#imgEditOnMouseClicked" pickOnBounds="true" preserveRatio="true">
               <image>
                 <Image url="@../assets/icon/btn%20edit.png" />
               </image>

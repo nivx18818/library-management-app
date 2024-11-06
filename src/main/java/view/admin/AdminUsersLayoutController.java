@@ -165,6 +165,11 @@ public class AdminUsersLayoutController {
 
     @FXML
     void btnRefreshTableOnAction(ActionEvent event) {
+        refreshUsersList();
+    }
+
+    public void refreshUsersList() {
+        vBoxUserList.getChildren().clear();
         if (status == EnumUtils.UserType.STUDENT) {
             showStudentsList();
         } else {

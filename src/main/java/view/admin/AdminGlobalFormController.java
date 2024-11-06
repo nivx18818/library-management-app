@@ -131,6 +131,15 @@ public class AdminGlobalFormController {
         return null;
     }
 
+    public String[] getUserDataById(String id) {
+        for (String[] data : usersData) {
+            if (data[4].equals(id)) {
+                return data;
+            }
+        }
+        return null;
+    }
+
     public void deleteBookDataById(String id) {
         for (String[] data : booksData) {
             if (data[0].equals(id)) {

@@ -10,7 +10,7 @@ import util.AnimationUtils;
 import util.ChangeScene;
 import util.EnumUtils;
 
-public class AdminUserViewDialogController {
+public class AdminUsersViewDialogController {
 
     @FXML
     private JFXButton cancelButton;
@@ -48,13 +48,13 @@ public class AdminUserViewDialogController {
     @FXML
     private Label userTypeLabel;
 
-    private static AdminUserViewDialogController controller;
+    private static AdminUsersViewDialogController controller;
 
-    public AdminUserViewDialogController() {
+    public AdminUsersViewDialogController() {
         controller = this;
     }
 
-    public static AdminUserViewDialogController getInstance() {
+    public static AdminUsersViewDialogController getInstance() {
         return controller;
     }
 
