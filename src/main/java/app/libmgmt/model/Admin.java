@@ -3,8 +3,8 @@ package app.libmgmt.model;
 public class Admin extends User {
     private String adminId;
 
-    public Admin(String name, String email, String password, String role) {
-        super(name, email, password, role);
+    public Admin(String name, String email, String password) {
+        super(name, email, password);
     }
 
     public String getAdminId() {

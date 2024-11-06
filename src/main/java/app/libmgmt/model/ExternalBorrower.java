@@ -1,12 +1,12 @@
 package app.libmgmt.model;
 
-public class ExternalBorrower extends Borrower {
+public class ExternalBorrower extends User {
     private String socialId;
     private String phoneNumber;
 
-    public ExternalBorrower(String name, String email, String password, String role, String socialId,
+    public ExternalBorrower(String name, String email, String password, String socialId,
             String phoneNumber) {
-        super(name, email, password, role);
+        super(name, email, password);
         this.socialId = socialId;
         this.phoneNumber = phoneNumber;
     }

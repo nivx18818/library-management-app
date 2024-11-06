@@ -1,11 +1,11 @@
 package app.libmgmt.model;
 
-public class Student extends Borrower {
+public class Student extends User {
     private String studentId;
     private String major;
 
-    public Student(String name, String email, String password, String role, String studentId, String major) {
-        super(name, email, password, role);
+    public Student(String name, String email, String password, String studentId, String major) {
+        super(name, email, password);
         this.studentId = studentId;
         this.major = major;
     }
