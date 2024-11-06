@@ -3,7 +3,10 @@ package view.admin;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import util.ChangeScene;
+import util.EnumUtils;
 
 public class AdminUsersStudentBarController {
 
@@ -29,6 +32,20 @@ public class AdminUsersStudentBarController {
         nameLabel.setText(name);
         majorLabel.setText(major);
         emailLabel.setText(email);
+    }
+
+    @FXML
+    void imgViewOnMouseClicked(MouseEvent event) {
+        System.out.println("View");
+        ChangeScene.openAdminPopUp(AdminUsersLayoutController.getInstance().stackPaneContainer, "/fxml/admin" +
+                "-users" +
+                "-view-dialog" +
+                ".fxml");
+        AdminUserViewDialogController.getInstance().setData(getData(), EnumUtils.UserType.STUDENT);
+    }
+
+    public String[] getData() {
+        return new String[]{idLabel.getText(), nameLabel.getText(), majorLabel.getText(), emailLabel.getText()};
     }
 
 }

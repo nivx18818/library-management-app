@@ -2,7 +2,10 @@ package view.admin;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import util.ChangeScene;
+import util.EnumUtils;
 
 public class AdminUsersGuestBarController {
 
@@ -13,15 +16,30 @@ public class AdminUsersGuestBarController {
     @FXML
     private Label idLabel;
     @FXML
-    private Label majorLabel;
+    private Label phoneLabel;
     @FXML
     private Label nameLabel;
 
-    public void setData(String id, String name, String major, String email) {
+    public void setData(String id, String name, String phone, String email) {
         idLabel.setText(id);
         nameLabel.setText(name);
-        majorLabel.setText(major);
+        phoneLabel.setText(phone);
         emailLabel.setText(email);
+    }
+
+    @FXML
+    void imgViewOnMouseClicked(MouseEvent event) {
+        System.out.println("View");
+        ChangeScene.openAdminPopUp(AdminUsersLayoutController.getInstance().stackPaneContainer, "/fxml/admin" +
+                "-users" +
+                "-view-dialog" +
+                ".fxml");
+        AdminUserViewDialogController.getInstance().setData(getData(), EnumUtils.UserType.GUEST);
+    }
+
+    public String[] getData() {
+        return new String[]{idLabel.getText(), nameLabel.getText(), phoneLabel.getText(),
+                emailLabel.getText()};
     }
 
 }

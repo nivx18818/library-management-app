@@ -162,4 +162,7 @@ public class AdminBooksLayoutController {
         return textSearch.getText();
     }
 
+    public void deleteBookBar(String id) {
+    }
+
 }

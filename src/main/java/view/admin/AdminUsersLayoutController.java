@@ -13,6 +13,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import util.AnimationUtils;
 import util.ChangeScene;
+import util.EnumUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -39,10 +40,10 @@ public class AdminUsersLayoutController {
     @FXML
     private VBox vBoxUserList;
     @FXML
-    private StackPane stackPaneContainer;
+    public StackPane stackPaneContainer;
     private List<String[]> studentsData = new ArrayList<>();
     private List<String[]> guestsData = new ArrayList<>();
-    private String status = "student";
+    private EnumUtils.UserType status = EnumUtils.UserType.STUDENT;
 
     public AdminUsersLayoutController() {
         controller = this;
@@ -124,10 +125,10 @@ public class AdminUsersLayoutController {
 
     @FXML
     void studentButtonOnAction(ActionEvent event) {
-        if (status.equals("student")) {
+        if (status == EnumUtils.UserType.STUDENT) {
             return;
         }
-        status = "student";
+        status = EnumUtils.UserType.STUDENT;
         setDefaultStyle();
         studentPane.setStyle("-fx-background-color: #E3E3E3; -fx-background-radius: 12px;");
         studentLabel.setStyle("-fx-text-fill: black;");
@@ -138,10 +139,10 @@ public class AdminUsersLayoutController {
 
     @FXML
     void guestButtonOnAction(ActionEvent event) {
-        if (status.equals("guest")) {
+        if (status == EnumUtils.UserType.GUEST) {
             return;
         }
-        status = "guest";
+        status = EnumUtils.UserType.GUEST;
         setDefaultStyle();
         guestPane.setStyle("-fx-background-color: #E3E3E3; -fx-background-radius: 12px;");
         guestLabel.setStyle("-fx-text-fill: black;");
@@ -164,7 +165,7 @@ public class AdminUsersLayoutController {
 
     @FXML
     void btnRefreshTableOnAction(ActionEvent event) {
-        if (status.equals("student")) {
+        if (status == EnumUtils.UserType.STUDENT) {
             showStudentsList();
         } else {
             showGuestsList();
@@ -214,14 +215,13 @@ public class AdminUsersLayoutController {
         }
     }
 
-    public String getStatus() {
+    public EnumUtils.UserType getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(EnumUtils.UserType status) {
         this.status = status;
     }
-
 
     public List<String[]> getStudentsData() {
         return studentsData;
@@ -230,5 +230,7 @@ public class AdminUsersLayoutController {
     public List<String[]> getGuestsData() {
         return guestsData;
     }
+
+
 
 }

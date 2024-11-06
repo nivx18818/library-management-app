@@ -5,6 +5,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import util.ChangeScene;
 import util.EnumUtils;
 
@@ -55,6 +56,13 @@ public class AdminBookBarController {
         ChangeScene.openAdminPopUp(AdminBooksLayoutController.getInstance().stackPaneContainer,
                 "/fxml/admin-book-edit-dialog.fxml", idLabel.getText(), EnumUtils.PopupList.BOOK_EDIT);
         AdminBookEditDialogController.getInstance().showOriginalBookData(getData());
+    }
+
+    @FXML
+    void imgDeleteOnMouseClicked(MouseEvent event) {
+        ChangeScene.openAdminPopUp(AdminBooksLayoutController.getInstance().stackPaneContainer,
+                "/fxml/admin-delete-confirmation-dialog.fxml", idLabel.getText(),
+                EnumUtils.PopupList.BOOK_DELETE);
     }
 
     @FXML
@@ -119,6 +127,10 @@ public class AdminBookBarController {
     public String[] getData() {
         return new String[]{idLabel.getText(), imgPath, nameLabel.getText(), typeLabel.getText(),
                 authorLabel.getText(), Integer.toString(quantity), publisher, publishedDate};
+    }
+
+    public String getId() {
+        return idLabel.getText();
     }
 
 }

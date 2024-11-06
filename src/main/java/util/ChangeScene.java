@@ -45,7 +45,12 @@ public class ChangeScene {
                     borrowedController.setId(id);
                     break;
                 case BOOK_VIEW:
+                case STUDENT_VIEW:
                 case BOOK_EDIT:
+                    break;
+                case BOOK_DELETE:
+                    AdminDeleteConfirmationDialogController deleteController = loader.getController();
+                    deleteController.setId(id);
                     break;
                 default:
                     throw new IllegalArgumentException("Unexpected value: " + popupList);

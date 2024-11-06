@@ -54,6 +54,12 @@ public class AnimationUtils {
          zi.play();
     }
 
+    public static void zoomOut(Pane pane, double speed) {
+        ZoomOut zi = new ZoomOut(pane);
+        zi.setSpeed(speed);
+        zi.play();
+    }
+
     public static void hoverCloseIcons(JFXButton closeDialogButton, ImageView imgClose) {
         Image hoverImg =
                 new Image(AnimationUtils.class.getResource("/assets/icon/close-square2.png").toExternalForm());

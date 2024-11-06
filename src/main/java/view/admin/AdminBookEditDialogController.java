@@ -138,10 +138,11 @@ public class AdminBookEditDialogController {
         }
 
         if (hasChanges) {
-            String[] bookData = AdminGlobalFormController.getInstance().getBooksData().get(0);
+            String[] bookData = AdminGlobalFormController.getInstance().getBookDataById(originalData[0]);
             if (bookData != null) {
                 System.arraycopy(updatedData, 0, bookData, 0, updatedData.length);
                 notificationLabel.setText("Update successful. Please refresh the page!");
+                originalData = updatedData;
                 notificationLabel.setStyle("-fx-text-fill: #08a80d;");
                 updatePane.setVisible(false);
                 updateButton.setDisable(true);
@@ -157,7 +158,6 @@ public class AdminBookEditDialogController {
             notificationLabel.setStyle("-fx-text-fill: #ff0000;");
         }
 
-        // Show notification message
         AnimationUtils.playNotificationTimeline(notificationLabel, 2,
                 hasChanges ? "#08a80d" : "#ff0000");
     }
@@ -191,25 +191,18 @@ public class AdminBookEditDialogController {
             } else {
                 setQrCodeImage(imgUrl);
             }
-            boolean isPicture = bookCoverImage.getImage().isError();
-            if (isPicture) {
-                System.out.println("Invalid URL");
-                bookCoverLabel.setText("Invalid URL");
+            bookCoverLabel.setText("Valid URL");
+            if (UpdateType.BOOK_COVER.name().equals(currentUpdateType)) {
+                lastImageURL = imgUrl;
             } else {
-                bookCoverLabel.setText("Valid URL");
-                if (UpdateType.BOOK_COVER.name().equals(currentUpdateType)) {
-                    lastImageURL = imgUrl;
-                } else {
-                    lastQrCodeURL = imgUrl;
-                }
+                lastQrCodeURL = imgUrl;
             }
-            AnimationUtils.playNotificationTimeline(bookCoverLabel, 3,
-                    bookCoverLabel.getText().equals("Valid URL") ? "#08a80d" : "#ff0000");
         } else {
             System.out.println("Invalid URL");
             bookCoverLabel.setText("Invalid URL");
-            AnimationUtils.playNotificationTimeline(bookCoverLabel, 3, "#ff0000");
         }
+        AnimationUtils.playNotificationTimeline(bookCoverLabel, 2, bookCoverLabel.getText().equals("Valid URL") ?
+                "#08a80d" : "#ff0000");
     }
 
     public void handleToggleGroupAction() {

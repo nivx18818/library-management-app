@@ -130,4 +130,13 @@ public class AdminGlobalFormController {
         }
         return null;
     }
+
+    public void deleteBookDataById(String id) {
+        for (String[] data : booksData) {
+            if (data[0].equals(id)) {
+                booksData.remove(data);
+                break;
+            }
+        }
+    }
 }

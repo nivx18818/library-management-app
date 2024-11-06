@@ -16,5 +16,7 @@ public class EnumUtils {
         OVERDUE_BOOK_DASHBOARD,
         BOOK_VIEW,
         BOOK_EDIT,
+        BOOK_DELETE,
+        STUDENT_VIEW
     }
 }
