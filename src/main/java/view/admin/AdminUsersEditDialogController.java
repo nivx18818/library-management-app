@@ -1,6 +1,7 @@
 package view.admin;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXToggleButton;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -39,10 +40,16 @@ public class AdminUsersEditDialogController {
     private ImageView imgClose;
 
     @FXML
-    private Label majorOrPhoneLabel;
+    private Label majorLabel;
 
     @FXML
-    private TextField majorOrPhoneTextField;
+    private JFXComboBox majorComboBox;
+
+    @FXML
+    private Label phoneNumberLabel;
+
+    @FXML
+    private TextField phoneNumberTextField;
 
     @FXML
     private TextField nameTextField;
@@ -81,7 +88,8 @@ public class AdminUsersEditDialogController {
         String updatedData[] = new String[] {
                 idTextField.getText(),
                 nameTextField.getText(),
-                majorOrPhoneTextField.getText(),
+                (majorLabel.getOpacity() == 1) ? majorComboBox.getValue().toString() :
+                        phoneNumberTextField.getText(),
                 emailTextField.getText()
         };
 
@@ -136,16 +144,26 @@ public class AdminUsersEditDialogController {
         idTextField.setEditable(isEditable);
         nameTextField.setEditable(isEditable);
         emailTextField.setEditable(isEditable);
-        majorOrPhoneTextField.setEditable(isEditable);
+        majorComboBox.setEditable(isEditable);
+        phoneNumberTextField.setEditable(isEditable);
     }
 
     public void showOriginalUserData(String[] data, EnumUtils.UserType userType) {
         originalData = data;
         idTextField.setText(originalData[0]);
         nameTextField.setText(originalData[1]);
-        majorOrPhoneLabel.setText(userType == EnumUtils.UserType.GUEST ? "Phone number :" :
-                "Major :");
-        majorOrPhoneTextField.setText(originalData[2]);
+        if (userType == EnumUtils.UserType.GUEST) {
+            phoneNumberTextField.setVisible(true);
+            phoneNumberLabel.setOpacity(1);
+            phoneNumberTextField.setText(originalData[2]);
+        } else {
+            majorComboBox.getItems().addAll(EnumUtils.UETMajor);
+            majorComboBox.setOpacity(1);
+            majorComboBox.setDisable(false);
+            majorLabel.setOpacity(1);
+            majorComboBox.setValue(originalData[2]);
+        }
+
         emailTextField.setText(originalData[3]);
         userTypeLabel.setText(userType == EnumUtils.UserType.GUEST ? "External Borrower" :
                 "Student");

@@ -22,6 +22,7 @@ import javafx.util.Duration;
 import initialize.AdminInitializer;
 import util.AnimationUtils;
 import util.ChangeScene;
+import util.EnumUtils;
 import util.RegExPatterns;
 import view.admin.AdminGlobalFormController;
 
@@ -31,14 +32,6 @@ import java.util.logging.Logger;
 public class LoginController {
 
     private static LoginController controller;
-    private String[] major = {"CN1 - Information Technology", "CN2 - Computer Engineering",
-            "CN3 - Engineering Physics", "CN4 - Mechanical Engineering", "CN5 - Construction " +
-            "Engineering Technology", "CN6 - Mechatronic Engineering Technology", "CN7 - " +
-            "Aerospace Technology", "CN8 - Computer Science", "CN9 - Electronic Engineering Technology - " +
-            "Telecommunications", "CN10 - Agricultural Technology", "CN11 - Control and " +
-            "Automation Engineering", "CN12 - Artificial intelligence", "CN13 - Energy " +
-            "Engineering Technology", "CN14 - Information Systems", "CN15 - Computer Networks and" +
-            " Data Communications", "CN17 - Computers and Robots"};
     @FXML
     private StackPane stackPaneContainer;
     @FXML
@@ -103,7 +96,7 @@ public class LoginController {
 
         setDefault();
 
-        majorComboBox.getItems().addAll(major);
+        majorComboBox.getItems().addAll(EnumUtils.UETMajor);
 
         container.setOnMouseClicked(event -> {
             container.requestFocus();
@@ -386,9 +379,5 @@ public class LoginController {
             forgotPasswordLabel.setVisible(true);
         }));
         timeline.play();
-    }
-
-    public String[] getMajor() {
-        return major;
     }
 }

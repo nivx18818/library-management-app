@@ -10,6 +10,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import util.AnimationUtils;
 import util.ChangeScene;
+import util.EnumUtils;
 import util.RegExPatterns;
 import view.*;
 
@@ -21,7 +22,7 @@ public class AdminAddUserDialogController {
             AdminUsersLayoutController.getInstance();
     AdminGlobalFormController adminGlobalFormController =
             AdminGlobalFormController.getInstance();
-    private final String[] majorList = LoginController.getInstance().getMajor();
+    private final String[] majorList = EnumUtils.UETMajor;
     @FXML
     private ToggleGroup addUserType;
     @FXML
