@@ -17,6 +17,7 @@ public class LoanDAO {
 
     public void addLoan(Loan loan) {
         String sql = "INSERT INTO Loan(status, borrowed_date, returned_date, book_isbn, userId) VALUES(?, ?, ?, ?, ?)";
+
         try {
             Connection conn = DatabaseConnection.getConnection();
             PreparedStatement statement = conn.prepareStatement(sql);
@@ -29,6 +30,7 @@ public class LoanDAO {
 
             statement.executeUpdate();
             System.out.println("Loan added");
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -58,6 +60,7 @@ public class LoanDAO {
 
     public void deleteLoan(int id) {
         String sql = "DELETE FROM Loan WHERE id = ?";
+
         try {
             Connection conn = DatabaseConnection.getConnection();
             PreparedStatement statement = conn.prepareStatement(sql);
@@ -65,6 +68,7 @@ public class LoanDAO {
             statement.setInt(1, id);
             statement.executeUpdate();
             System.out.println("Loan deleted");
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -73,6 +77,7 @@ public class LoanDAO {
     public ArrayList<Loan> getAllLoan() {
         ArrayList<Loan> loans = new ArrayList<>();
         String sql = "SELECT * FROM Loan";
+
         try {
             Connection conn = DatabaseConnection.getConnection();
             Statement statement = conn.createStatement();
@@ -87,11 +92,14 @@ public class LoanDAO {
                         rs.getString("book_isbn"),
                         rs.getInt("userid")
                 );
+
                 loans.add(loan);
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
         return loans;
     }
 
@@ -114,9 +122,11 @@ public class LoanDAO {
                         resultSet.getInt("userId")
                 );
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
         return null;
     }
 }

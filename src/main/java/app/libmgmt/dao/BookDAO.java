@@ -5,7 +5,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -37,6 +36,7 @@ public class BookDAO {
 
             statement.executeUpdate();
             System.out.println("Book added");
+
         } catch (SQLException e) {
             System.out.print(e.getMessage());
         }
@@ -61,6 +61,7 @@ public class BookDAO {
 
             statement.executeUpdate();
             System.out.println("Book updated");
+
         } catch (SQLException e) {
             System.out.print(e.getMessage());
         }
@@ -72,6 +73,7 @@ public class BookDAO {
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, book.getIsbn());
             statement.executeUpdate();
+
         } catch (SQLException e) {
             System.out.print(e.getMessage());
         }
@@ -82,11 +84,12 @@ public class BookDAO {
         String sql = "SELECT * FROM Book";
 
         try (PreparedStatement statement = connection.prepareStatement(sql);
-             ResultSet rs = statement.executeQuery()) {
+            ResultSet rs = statement.executeQuery()) {
 
             while (rs.next()) {
                 List<String> authors = parseStrings(rs.getString("authors"));
                 List<String> categories = parseStrings(rs.getString("category_id"));
+
                 Book book = new Book(
                         rs.getString("isbn"),
                         rs.getString("title"),
@@ -100,6 +103,7 @@ public class BookDAO {
 
                 books.add(book);
             }
+
         } catch (SQLException e) {
             System.out.print(e.getMessage());
         }
@@ -109,6 +113,7 @@ public class BookDAO {
 
     public Book selectBookByIsbn(String isbn) {
         String sql = "SELECT * FROM Book WHERE isbn = ?";
+
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, isbn);
             ResultSet rs = statement.executeQuery();
@@ -116,6 +121,7 @@ public class BookDAO {
             if (rs.next()) {
                 List<String> authors = parseStrings(rs.getString("authors"));
                 List<String> categories = parseStrings(rs.getString("category_id"));
+
                 return new Book(
                         rs.getString("isbn"),
                         rs.getString("title"),
@@ -127,6 +133,7 @@ public class BookDAO {
                         categories
                 );
             }
+
         } catch (SQLException e) {
             System.out.print(e.getMessage());
         }
@@ -145,6 +152,7 @@ public class BookDAO {
             while (rs.next()) {
                 List<String> authors = parseStrings(rs.getString("authors"));
                 List<String> categories = parseStrings(rs.getString("category_id"));
+
                 Book book = new Book(
                         rs.getString("isbn"),
                         rs.getString("title"),
@@ -158,6 +166,7 @@ public class BookDAO {
 
                 books.add(book);
             }
+
         } catch (SQLException e) {
             System.out.print(e.getMessage());
         }
@@ -176,6 +185,7 @@ public class BookDAO {
             while (rs.next()) {
                 List<String> authors = parseStrings(rs.getString("authors"));
                 List<String> categories = parseStrings(rs.getString("category_id"));
+
                 Book book = new Book(
                         rs.getString("isbn"),
                         rs.getString("title"),
@@ -189,6 +199,7 @@ public class BookDAO {
 
                 books.add(book);
             }
+
         } catch (SQLException e) {
             System.out.print(e.getMessage());
         }
@@ -200,6 +211,7 @@ public class BookDAO {
         if (st == null || st.isEmpty()) {
             return new ArrayList<>();
         }
+
         return Arrays.asList(st.split(","));
     }
 }

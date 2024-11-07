@@ -14,6 +14,7 @@ public class DatabaseConnection {
         if (connection == null || connection.isClosed()) {
             connection = DriverManager.getConnection("jdbc:sqlite:src/main/resources/database/database.db");
         }
+
         return connection;
     }
 }
