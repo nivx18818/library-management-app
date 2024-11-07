@@ -43,7 +43,7 @@
                 <Cursor fx:constant="HAND" />
               </cursor>
             </ImageView>
-            <ImageView fx:id="deleteFunction" fitHeight="22.0" fitWidth="22.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="deleteFunction" fitHeight="22.0" fitWidth="22.0" layoutX="10.0" layoutY="10.0" onMouseClicked="#imgDeleteOnMouseClicked" pickOnBounds="true" preserveRatio="true">
               <image>
                 <Image url="@../assets/icon/btn%20Delete.png" />
               </image>

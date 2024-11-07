@@ -74,6 +74,7 @@ public class AdminUsersLayoutController {
         preloadData(studentsData, "admin-users-student-bar.fxml", "reset");
     }
 
+    // This method needed to be optimized
     public void preloadData(List<String[]> allUsersData, String path, String resetOrAdd) {
         if (!vBoxUserList.getChildren().isEmpty() && resetOrAdd.equals("reset")) {
             vBoxUserList.getChildren().clear();
@@ -83,7 +84,31 @@ public class AdminUsersLayoutController {
             @Override
             protected Void call() throws Exception {
                 for (String[] d : allUsersData) {
-                    loadUserBar(d, path);
+                    try {
+                        FXMLLoader fxmlLoader = new FXMLLoader(AdminCatalogBorrowedBooksLayoutController.class.getResource(
+                                "/fxml/" + path));
+
+                        Pane scene = fxmlLoader.load();
+
+                        switch (path) {
+                            case "admin-users-student-bar.fxml": {
+                                AdminUsersStudentBarController controller = fxmlLoader.getController();
+                                controller.setData(d[4], d[1], d[2], d[3]);
+                                break;
+                            }
+                            case "admin-users-guest-bar.fxml": {
+                                AdminUsersGuestBarController controller = fxmlLoader.getController();
+                                controller.setData(d[4], d[1], d[2], d[3]);
+                                break;
+                            }
+                        }
+
+                        Platform.runLater(() -> vBoxUserList.getChildren().add(scene));
+                        AnimationUtils.zoomIn(scene, 1.0);
+
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                     Thread.sleep(10);
                 }
                 return null;
@@ -96,34 +121,6 @@ public class AdminUsersLayoutController {
         };
 
         new Thread(preloadTask).start();
-    }
-
-    public void loadUserBar(String[] d, String path) {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(AdminCatalogBorrowedBooksLayoutController.class.getResource(
-                    "/fxml/" + path));
-
-            Pane scene = fxmlLoader.load();
-
-            switch (path) {
-                case "admin-users-student-bar.fxml": {
-                    AdminUsersStudentBarController controller = fxmlLoader.getController();
-                    controller.setData(d[4], d[1], d[2], d[3]);
-                    break;
-                }
-                case "admin-users-guest-bar.fxml": {
-                    AdminUsersGuestBarController controller = fxmlLoader.getController();
-                    controller.setData(d[4], d[1], d[2], d[3]);
-                    break;
-                }
-            }
-
-            Platform.runLater(() -> vBoxUserList.getChildren().add(scene));
-            AnimationUtils.zoomIn(scene, 1.0);
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     @FXML
@@ -239,6 +236,20 @@ public class AdminUsersLayoutController {
         return guestsData;
     }
 
+    public void deleteUserDataById(String id) {
+        for (String[] data : studentsData) {
+            if (data[4].equals(id)) {
+                studentsData.remove(data);
+                return;
+            }
+        }
 
+        for (String[] data : guestsData) {
+            if (data[4].equals(id)) {
+                guestsData.remove(data);
+                return;
+            }
+        }
+    }
 
 }

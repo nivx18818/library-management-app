@@ -47,10 +47,15 @@ public class ChangeScene {
                 case BOOK_VIEW:
                 case STUDENT_VIEW:
                 case BOOK_EDIT:
+                case USER_EDIT:
                     break;
-                case BOOK_DELETE:
+                case BOOK_DELETE, USER_DELETE:
                     AdminDeleteConfirmationDialogController deleteController = loader.getController();
-                    deleteController.setId(id);
+                    if (popupList == EnumUtils.PopupList.BOOK_DELETE) {
+                        deleteController.setId(id, popupList);
+                    } else if (popupList == EnumUtils.PopupList.USER_DELETE) {
+                        deleteController.setId(id, popupList);
+                    }
                     break;
                 default:
                     throw new IllegalArgumentException("Unexpected value: " + popupList);

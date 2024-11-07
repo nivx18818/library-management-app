@@ -11,6 +11,7 @@ import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import util.AnimationUtils;
 import util.ChangeScene;
+import util.EnumUtils;
 
 public class AdminDeleteConfirmationDialogController {
 
@@ -37,6 +38,8 @@ public class AdminDeleteConfirmationDialogController {
 
     private String id;
 
+    private EnumUtils.PopupList popupList;
+
     public void initialize() {
         System.out.println("Admin Delete Confirmation Dialog initialized");
         AnimationUtils.hoverCloseIcons(closeDialogButton, imgClose);
@@ -52,16 +55,30 @@ public class AdminDeleteConfirmationDialogController {
     void confirmButtonOnAction(ActionEvent event) {
         lblConfirm.setText("Deleting...");
         confirmButton.setDisable(true);
-        AdminGlobalFormController.getInstance().deleteBookDataById(id);
-        AdminBooksLayoutController.getInstance().refreshBooksList();
+        if (popupList == EnumUtils.PopupList.BOOK_DELETE) {
+            deleteBook();
+        } else if (popupList == EnumUtils.PopupList.USER_DELETE) {
+            deleteUser();
+        }
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
             ChangeScene.closePopUp();
         }));
         timeline.play();
     }
 
-    public void setId(String id) {
-        this.id = id;
+    private void deleteBook() {
+        AdminGlobalFormController.getInstance().deleteBookDataById(id);
+        AdminBooksLayoutController.getInstance().refreshBooksList();
     }
 
+    private void deleteUser() {
+        AdminGlobalFormController.getInstance().deleteUserById(id);
+        AdminUsersLayoutController.getInstance().deleteUserDataById(id);
+        AdminUsersLayoutController.getInstance().refreshUsersList();
+    }
+
+    public void setId(String id, EnumUtils.PopupList popupList) {
+        this.id = id;
+        this.popupList = popupList;
+    }
 }

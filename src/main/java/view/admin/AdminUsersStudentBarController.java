@@ -54,6 +54,14 @@ public class AdminUsersStudentBarController {
         AdminUsersEditDialogController.getInstance().showOriginalUserData(getData(), EnumUtils.UserType.STUDENT);
     }
 
+    @FXML
+    void imgDeleteOnMouseClicked(MouseEvent event) {
+        System.out.println("Delete");
+        ChangeScene.openAdminPopUp(AdminUsersLayoutController.getInstance().stackPaneContainer, "/fxml/admin" +
+                "-delete-confirmation-dialog" +
+                ".fxml", idLabel.getText(), EnumUtils.PopupList.USER_DELETE);
+    }
+
     public String[] getData() {
         return new String[]{idLabel.getText(), nameLabel.getText(), majorLabel.getText(), emailLabel.getText()};
     }

@@ -148,4 +148,13 @@ public class AdminGlobalFormController {
             }
         }
     }
+
+    public void deleteUserById(String id) {
+        for (String[] data : usersData) {
+            if (data[4].equals(id)) {
+                usersData.remove(data);
+                break;
+            }
+        }
+    }
 }

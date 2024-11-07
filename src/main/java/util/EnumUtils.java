@@ -17,7 +17,9 @@ public class EnumUtils {
         BOOK_VIEW,
         BOOK_EDIT,
         BOOK_DELETE,
-        STUDENT_VIEW
+        STUDENT_VIEW,
+        USER_EDIT,
+        USER_DELETE
     }
 
     public static String[] UETMajor = {"CN1 - Information Technology", "CN2 - Computer Engineering",
