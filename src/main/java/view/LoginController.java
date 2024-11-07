@@ -247,7 +247,7 @@ public class LoginController {
         String username = selectedUserType.getText().equals("Student") ?
                 studentIDSignUp.getText() : citizenIDSignUp.getText();
 
-        if (checkSignUp(fullName, majorOrPhoneNumber, email, username, password)) {
+        if (checkSignUp(fullName, majorOrPhoneNumber, email, username, password, registerNoticeText)) {
             logInAfterRegister();
         }
     }
@@ -284,7 +284,7 @@ public class LoginController {
     }
 
     public boolean checkSignUp(String fullName, String majorOrPhoneNumber, String email,
-                               String username, String password) {
+                               String username, String password, Label registerNoticeText) {
 
         if (fullName.isEmpty() || majorOrPhoneNumber.isEmpty() || email.isEmpty() || username.isEmpty() || password.isEmpty()) {
             registerNoticeText.setText("Please fill in all fields.");

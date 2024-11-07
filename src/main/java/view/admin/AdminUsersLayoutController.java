@@ -83,33 +83,8 @@ public class AdminUsersLayoutController {
             @Override
             protected Void call() throws Exception {
                 for (String[] d : allUsersData) {
-                    try {
-                        FXMLLoader fxmlLoader = new FXMLLoader(AdminCatalogBorrowedBooksLayoutController.class.getResource(
-                                "/fxml/" + path));
-
-                        Pane scene = fxmlLoader.load();
-
-                        switch (path) {
-                            case "admin-users-student-bar.fxml": {
-                                AdminUsersStudentBarController controller = fxmlLoader.getController();
-                                controller.setData(d[4], d[1], d[2], d[3]);
-                                break;
-                            }
-                            case "admin-users-guest-bar.fxml": {
-                                AdminUsersGuestBarController controller = fxmlLoader.getController();
-                                controller.setData(d[4], d[1], d[2], d[3]);
-                                break;
-                            }
-                        }
-
-                        Platform.runLater(() -> vBoxUserList.getChildren().add(scene));
-                        AnimationUtils.zoomIn(scene, 1.0);
-                        Thread.sleep(10);
-
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-
+                    loadUserBar(d, path);
+                    Thread.sleep(10);
                 }
                 return null;
             }
@@ -121,6 +96,34 @@ public class AdminUsersLayoutController {
         };
 
         new Thread(preloadTask).start();
+    }
+
+    public void loadUserBar(String[] d, String path) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(AdminCatalogBorrowedBooksLayoutController.class.getResource(
+                    "/fxml/" + path));
+
+            Pane scene = fxmlLoader.load();
+
+            switch (path) {
+                case "admin-users-student-bar.fxml": {
+                    AdminUsersStudentBarController controller = fxmlLoader.getController();
+                    controller.setData(d[4], d[1], d[2], d[3]);
+                    break;
+                }
+                case "admin-users-guest-bar.fxml": {
+                    AdminUsersGuestBarController controller = fxmlLoader.getController();
+                    controller.setData(d[4], d[1], d[2], d[3]);
+                    break;
+                }
+            }
+
+            Platform.runLater(() -> vBoxUserList.getChildren().add(scene));
+            AnimationUtils.zoomIn(scene, 1.0);
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @FXML

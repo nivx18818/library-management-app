@@ -4,6 +4,9 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.Light.Distant?>
+<?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.effect.Shadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
@@ -54,12 +57,12 @@
       <children>
         <HBox alignment="CENTER_LEFT" fillHeight="false" prefHeight="254.0" prefWidth="620.0" style="-fx-background-radius: 10px;">
           <children>
-            <VBox alignment="CENTER" prefHeight="254.0" prefWidth="414.0">
+            <VBox alignment="CENTER" prefHeight="254.0" prefWidth="414.0" spacing="28.0">
               <HBox.margin>
                 <Insets left="20.0" />
               </HBox.margin>
               <children>
-                <VBox prefHeight="50.0" prefWidth="300.0">
+                <VBox prefWidth="414.0">
                   <children>
                     <Label fx:id="idLabel" text="ID :">
                       <font>
@@ -72,7 +75,7 @@
                     <Line endX="280.0" opacity="0.52" startX="-100.0" />
                   </children>
                 </VBox>
-                <VBox layoutX="10.0" layoutY="25.0" prefHeight="50.0" prefWidth="233.0">
+                <VBox layoutX="10.0" layoutY="25.0" prefWidth="414.0">
                   <children>
                     <Label fx:id="fullNameLabel" text="Full Name :">
                       <font>
@@ -85,9 +88,9 @@
                     <Line endX="280.0" opacity="0.55" startX="-100.0" />
                   </children>
                 </VBox>
-                <VBox layoutX="10.0" layoutY="73.0" prefHeight="50.0" prefWidth="233.0">
+                <VBox layoutX="10.0" layoutY="73.0" prefWidth="414.0">
                   <children>
-                    <Label fx:id="majorOrPhoneLabel" text="Major : ">
+                    <Label fx:id="majorOrPhoneLabel" alignment="CENTER" contentDisplay="CENTER" text="Major : " wrapText="true">
                       <font>
                         <Font size="15.0" />
                       </font>
@@ -98,7 +101,7 @@
                     <Line endX="280.0" opacity="0.51" startX="-100.0" />
                   </children>
                 </VBox>
-                <VBox layoutX="10.0" layoutY="155.0" prefHeight="50.0" prefWidth="233.0">
+                <VBox layoutX="10.0" layoutY="155.0" prefWidth="414.0">
                   <children>
                     <Label fx:id="emailLabel" text="Email :">
                       <font>
@@ -112,22 +115,29 @@
                   </children>
                 </VBox>
               </children>
-              <padding>
-                <Insets top="8.0" />
-              </padding>
             </VBox>
             <Line endX="-101.44975280761719" endY="181.2928924560547" layoutX="232.0" layoutY="53.0" opacity="0.55" startX="-101.449951171875" startY="-26.19239044189453" />
             <VBox alignment="CENTER" prefHeight="126.0" prefWidth="164.0" spacing="8.0">
               <children>
                 <Label text="User Type">
                   <font>
-                    <Font name="System Bold" size="16.0" />
+                    <Font name="System Italic" size="16.0" />
                   </font>
                 </Label>
                 <Label fx:id="userTypeLabel" text="External Borrowed">
                   <font>
                     <Font size="16.0" />
                   </font>
+                           <effect>
+                              <Lighting>
+                                 <bumpInput>
+                                    <Shadow />
+                                 </bumpInput>
+                                 <light>
+                                    <Light.Distant />
+                                 </light>
+                              </Lighting>
+                           </effect>
                 </Label>
               </children>
             </VBox>

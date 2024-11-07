@@ -15,6 +15,8 @@ import javafx.util.Duration;
 import util.AnimationUtils;
 import util.ChangeScene;
 import util.EnumUtils;
+import util.RegExPatterns;
+import view.LoginController;
 
 public class AdminUsersEditDialogController {
 
@@ -85,11 +87,15 @@ public class AdminUsersEditDialogController {
 
     @FXML
     void updateButtonOnAction(ActionEvent event) {
+        if (!checkValidFields()) {
+            return;
+        }
+
         String updatedData[] = new String[] {
                 idTextField.getText(),
                 nameTextField.getText(),
-                (majorLabel.getOpacity() == 1) ? majorComboBox.getValue().toString() :
-                        phoneNumberTextField.getText(),
+                (majorLabel.isVisible() ? (String) majorComboBox.getValue() :
+                        phoneNumberTextField.getText()),
                 emailTextField.getText()
         };
 
@@ -125,7 +131,12 @@ public class AdminUsersEditDialogController {
 
     }
 
-    private void updateData(String[] src, String[] dest) {
+    @FXML
+    void closeButtonOnAction(ActionEvent event) {
+        ChangeScene.closePopUp();
+    }
+
+    public void updateData(String[] src, String[] dest) {
         String[] formattedData = new String[] {
                 src[1],
                 src[2],
@@ -135,17 +146,12 @@ public class AdminUsersEditDialogController {
         System.arraycopy(formattedData, 0, dest, 1, src.length);
     }
 
-    @FXML
-    void closeButtonOnAction(ActionEvent event) {
-        ChangeScene.closePopUp();
-    }
-
     private void setEditableFields(boolean isEditable) {
         idTextField.setEditable(isEditable);
         nameTextField.setEditable(isEditable);
         emailTextField.setEditable(isEditable);
-        majorComboBox.setEditable(isEditable);
         phoneNumberTextField.setEditable(isEditable);
+        majorComboBox.setDisable(!isEditable);
     }
 
     public void showOriginalUserData(String[] data, EnumUtils.UserType userType) {
@@ -153,20 +159,62 @@ public class AdminUsersEditDialogController {
         idTextField.setText(originalData[0]);
         nameTextField.setText(originalData[1]);
         if (userType == EnumUtils.UserType.GUEST) {
+            phoneNumberLabel.setVisible(true);
             phoneNumberTextField.setVisible(true);
-            phoneNumberLabel.setOpacity(1);
             phoneNumberTextField.setText(originalData[2]);
         } else {
+            majorLabel.setVisible(true);
             majorComboBox.getItems().addAll(EnumUtils.UETMajor);
-            majorComboBox.setOpacity(1);
-            majorComboBox.setDisable(false);
-            majorLabel.setOpacity(1);
+            majorComboBox.setVisible(true);
             majorComboBox.setValue(originalData[2]);
         }
 
         emailTextField.setText(originalData[3]);
         userTypeLabel.setText(userType == EnumUtils.UserType.GUEST ? "External Borrower" :
                 "Student");
+    }
+
+    public boolean checkValidFields() {
+        if (idTextField.getText().isEmpty() || nameTextField.getText().isEmpty() ||
+                emailTextField.getText().isEmpty() ||
+                (majorLabel.isVisible() && majorComboBox.getValue() == null) ||
+                (phoneNumberLabel.isVisible() && phoneNumberTextField.getText().isEmpty())) {
+            notificationLabel.setText("Please fill all fields!");
+            notificationLabel.setStyle("-fx-text-fill: #ff0000;");
+            AnimationUtils.playNotificationTimeline(notificationLabel, 2, "#ff0000");
+            return false;
+        }
+
+        if (majorLabel.isVisible()) {
+            if (!RegExPatterns.studentIDPattern(idTextField.getText())) {
+                notificationLabel.setText("Student ID must be 8 digits!");
+                notificationLabel.setStyle("-fx-text-fill: #ff0000;");
+                AnimationUtils.playNotificationTimeline(notificationLabel, 2, "#ff0000");
+                return false;
+            }
+        } else {
+            if (!RegExPatterns.citizenIDPattern(idTextField.getText())) {
+                notificationLabel.setText("Citizen ID must be 12 digits!");
+                notificationLabel.setStyle("-fx-text-fill: #ff0000;");
+                AnimationUtils.playNotificationTimeline(notificationLabel, 2, "#ff0000");
+                return false;
+            }
+            if (!RegExPatterns.phoneNumberPattern(phoneNumberTextField.getText())) {
+                notificationLabel.setText("Phone number must be 10 digits!");
+                notificationLabel.setStyle("-fx-text-fill: #ff0000;");
+                AnimationUtils.playNotificationTimeline(notificationLabel, 2, "#ff0000");
+                return false;
+            }
+        }
+
+        if (!RegExPatterns.emailPattern(emailTextField.getText())) {
+            notificationLabel.setText("Invalid email format!");
+            notificationLabel.setStyle("-fx-text-fill: #ff0000;");
+            AnimationUtils.playNotificationTimeline(notificationLabel, 2, "#ff0000");
+            return false;
+        }
+
+        return true;
     }
 
 }

@@ -29,3 +29,15 @@
     -fx-font-weight: bold;
     -fx-padding: 10px 20px;
 }
+
+.jfx-combo-box .list-view {
+    -fx-hbar-policy: always;
+    -fx-vbar-policy: always;
+    -fx-pref-width: 320px;
+}
+
+.jfx-combo-box .list-cell {
+    -fx-font-size: 15px;
+    -fx-padding: 0;
+    -fx-wrap-text: true;
+}
