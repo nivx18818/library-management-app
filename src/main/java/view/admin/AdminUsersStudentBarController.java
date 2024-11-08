@@ -2,6 +2,7 @@ package view.admin;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -60,6 +61,46 @@ public class AdminUsersStudentBarController {
         ChangeScene.openAdminPopUp(AdminUsersLayoutController.getInstance().stackPaneContainer, "/fxml/admin" +
                 "-delete-confirmation-dialog" +
                 ".fxml", idLabel.getText(), EnumUtils.PopupList.USER_DELETE);
+    }
+
+    @FXML
+    void imgViewOnMouseEntered(MouseEvent event) {
+        Image hoverImage = new Image(getClass().getResource("/assets/icon/Property 1=Variant2" +
+                ".png").toExternalForm());
+        viewFunction.setImage(hoverImage);
+    }
+
+    @FXML
+    void imgViewOnMouseExited(MouseEvent event) {
+        Image normalImage = new Image(getClass().getResource("/assets/icon/btn view.png").toExternalForm());
+        viewFunction.setImage(normalImage);
+    }
+
+    @FXML
+    void imgEditOnMouseEntered(MouseEvent event) {
+        Image hoverImage = new Image(getClass().getResource("/assets/icon/edit2.png").toExternalForm());
+        editFunction.setImage(hoverImage);
+    }
+
+    @FXML
+    void imgEditOnMouseExited(MouseEvent event) {
+        Image normalImage =
+                new Image(getClass().getResource("/assets/icon/btn edit.png").toExternalForm());
+        editFunction.setImage(normalImage);
+    }
+
+    @FXML
+    void imgDeleteOnMouseEntered(MouseEvent event) {
+        Image hoverImage =
+                new Image(getClass().getResource("/assets/icon/red-recycle.png").toExternalForm());
+        deleteFunction.setImage(hoverImage);
+    }
+
+    @FXML
+    void imgDeleteOnMouseExited(MouseEvent event) {
+        Image normalImage =
+                new Image(getClass().getResource("/assets/icon/btn Delete.png").toExternalForm());
+        deleteFunction.setImage(normalImage);
     }
 
     public String[] getData() {

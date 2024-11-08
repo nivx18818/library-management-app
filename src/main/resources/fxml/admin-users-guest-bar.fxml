@@ -35,7 +35,7 @@
       <children>
         <HBox alignment="CENTER" prefHeight="60.0" prefWidth="164.0" spacing="7.0">
           <children>
-            <ImageView fx:id="editFunction" fitHeight="22.0" fitWidth="22.0" onMouseClicked="#imgEditOnMouseClicked" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="editFunction" fitHeight="22.0" fitWidth="22.0" onMouseClicked="#imgEditOnMouseClicked" onMouseEntered="#imgEditOnMouseEntered" onMouseExited="#imgEditOnMouseExited" pickOnBounds="true" preserveRatio="true">
               <image>
                 <Image url="@../assets/icon/btn%20edit.png" />
               </image>
@@ -43,7 +43,7 @@
                 <Cursor fx:constant="HAND" />
               </cursor>
             </ImageView>
-            <ImageView fx:id="deleteFunction" fitHeight="22.0" fitWidth="22.0" layoutX="10.0" layoutY="10.0" onMouseClicked="#imgDeleteOnMouseClicked" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="deleteFunction" fitHeight="22.0" fitWidth="22.0" layoutX="10.0" layoutY="10.0" onMouseClicked="#imgDeleteOnMouseClicked" onMouseEntered="#imgDeleteOnMouseEntered" onMouseExited="#imgDeleteOnMouseExited" pickOnBounds="true" preserveRatio="true">
               <image>
                 <Image url="@../assets/icon/btn%20Delete.png" />
               </image>
@@ -51,7 +51,7 @@
                 <Cursor fx:constant="HAND" />
               </cursor>
             </ImageView>
-            <ImageView fx:id="viewFunction" fitHeight="22.0" fitWidth="22.0" layoutX="210.0" layoutY="10.0" onMouseClicked="#imgViewOnMouseClicked" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="viewFunction" fitHeight="22.0" fitWidth="22.0" layoutX="210.0" layoutY="10.0" onMouseClicked="#imgViewOnMouseClicked" onMouseEntered="#imgViewOnMouseEntered" onMouseExited="#imgViewOnMouseExited" pickOnBounds="true" preserveRatio="true">
               <image>
                 <Image url="@../assets/icon/btn%20view.png" />
               </image>
