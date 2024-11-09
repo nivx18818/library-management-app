@@ -73,9 +73,6 @@ public class AdminNavigationController {
             case EnumUtils.NavigationButton.USERS:
                 changeButtonLayout("/assets/icon/people-icon-2.png", usersButton, usersLogo);
                 break;
-            case EnumUtils.NavigationButton.LOGOUT:
-                changeButtonLayout("/assets/icon/logout-icon-2.png", logoutButton, logoutLogo);
-                break;
         }
     }
 
@@ -163,6 +160,7 @@ public class AdminNavigationController {
     public void logOutButtonClicked(MouseEvent event) throws IOException {
         ChangeScene.openAdminPopUp(AdminGlobalFormController.getInstance().getStackPaneContainer(),
                 "/fxml/logout-dialog.fxml");
+        handleEffectButtonClicked(logoutButton);
     }
 
 }

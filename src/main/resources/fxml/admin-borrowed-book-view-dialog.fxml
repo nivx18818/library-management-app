@@ -6,6 +6,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.effect.Bloom?>
+<?import javafx.scene.effect.Reflection?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
@@ -93,6 +94,9 @@
           </font>
         </Label>
       </children>
+         <effect>
+            <Reflection fraction="0.28" topOpacity="0.38" />
+         </effect>
     </Pane>
     <JFXButton fx:id="closeButton" layoutX="627.0" layoutY="475.0" onAction="#btnCloseOnAction" onMouseEntered="#btnCloseOnMouseEntered" onMouseExited="#btnCloseOnMouseExited" prefHeight="40.0" prefWidth="190.0" style="-fx-background-radius: 10;" text=" " textFill="WHITE">
       <cursor>

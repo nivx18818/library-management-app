@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.Light.Distant?>
 <?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.effect.Reflection?>
 <?import javafx.scene.effect.Shadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -53,6 +54,9 @@
                </font>
             </Label>
          </children>
+         <effect>
+            <Reflection fraction="0.28" topOpacity="0.38" />
+         </effect>
       </Pane>
       <JFXButton fx:id="confirmButton" layoutX="150.0" layoutY="194.0" onAction="#confirmButtonOnAction" onMouseEntered="#confirmButtonOnMouseEntered" onMouseExited="#confirmButtonOnMouseExited" prefHeight="41.0" prefWidth="200.0" style="-fx-background-radius: 10;" text=" " textFill="WHITE">
          <cursor>

@@ -12,6 +12,7 @@
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.effect.Light.Distant?>
 <?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.effect.Reflection?>
 <?import javafx.scene.effect.Shadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -68,6 +69,9 @@
           </cursor>
         </JFXButton>
       </children>
+         <effect>
+            <Reflection fraction="0.28" topOpacity="0.38" />
+         </effect>
     </Pane>
     <Pane layoutX="266.0" layoutY="345.0" prefHeight="41.0" prefWidth="200.0" style="-fx-background-color: black; -fx-background-radius: 10;">
       <children>
@@ -80,8 +84,14 @@
           <cursor>
             <Cursor fx:constant="HAND" />
           </cursor>
+               <effect>
+                  <Reflection fraction="0.28" topOpacity="0.38" />
+               </effect>
         </JFXButton>
       </children>
+         <effect>
+            <Reflection fraction="0.28" topOpacity="0.38" />
+         </effect>
     </Pane>
     <Label fx:id="notificationLabel" alignment="CENTER" layoutX="35.0" layoutY="314.0" opacity="0.0" prefHeight="20.0" prefWidth="431.0" text="Added Successfully!" textAlignment="CENTER" textFill="#08a80d">
       <font>

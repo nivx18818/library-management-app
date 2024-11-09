@@ -144,11 +144,14 @@ public class AdminBookEditDialogController {
                 notificationLabel.setText("Update successful. Please refresh the page!");
                 originalData = updatedData;
                 notificationLabel.setStyle("-fx-text-fill: #08a80d;");
-                updatePane.setVisible(false);
-                updateButton.setDisable(true);
-                refreshButton.setDisable(false);
-                refreshPane.setVisible(true);
-                AnimationUtils.zoomIn(refreshPane, 1.0);
+                Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.7), e -> {
+                    updatePane.setVisible(false);
+                    updateButton.setDisable(true);
+                    refreshButton.setDisable(false);
+                    refreshPane.setVisible(true);
+                    AnimationUtils.zoomIn(refreshPane, 1.0);
+                }));
+                timeline.play();
             } else {
                 notificationLabel.setText("Book not found!");
                 notificationLabel.setStyle("-fx-text-fill: ff0000;");
@@ -158,7 +161,7 @@ public class AdminBookEditDialogController {
             notificationLabel.setStyle("-fx-text-fill: #ff0000;");
         }
 
-        AnimationUtils.playNotificationTimeline(notificationLabel, 2,
+        AnimationUtils.playNotificationTimeline(notificationLabel, 1,
                 hasChanges ? "#08a80d" : "#ff0000");
     }
 
@@ -167,15 +170,15 @@ public class AdminBookEditDialogController {
         AdminBooksLayoutController.getInstance().refreshBooksList();
         notificationLabel.setText("Refreshing...");
         refreshButton.setDisable(true);
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(4), e -> {
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(3), e -> {
+            notificationLabel.setText("Refreshed successfully.");
             refreshPane.setVisible(false);
             updatePane.setVisible(true);
             updateButton.setDisable(false);
             AnimationUtils.zoomIn(updatePane, 1.0);
-            notificationLabel.setText("Refreshed successfully.");
         }));
         timeline.play();
-        AnimationUtils.playNotificationTimeline(notificationLabel, 6, "#08a80d");
+        AnimationUtils.playNotificationTimeline(notificationLabel, 5, "#08a80d");
     }
 
     @FXML
