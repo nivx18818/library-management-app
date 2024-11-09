@@ -1,132 +1,147 @@
 package app.libmgmt.dao;
 
 import app.libmgmt.model.Loan;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import app.libmgmt.model.Book;
+import app.libmgmt.model.User;
+import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class LoanDAO {
-    private Connection connection;
+    private final Connection connection;
+    private final BookDAO bookDAO;
+    private final UserDAO userDAO;
 
     public LoanDAO() throws SQLException {
         this.connection = DatabaseConnection.getConnection();
+        this.bookDAO = new BookDAO();
+        this.userDAO = new UserDAO();
     }
 
     public void addLoan(Loan loan) {
-        String sql = "INSERT INTO Loan(status, borrowed_date, returned_date, book_isbn, userId) VALUES(?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Loan (status, borrowed_date, returned_date, isbn, userId) VALUES (?, ?, ?, ?, ?)";
 
-        try {
-            Connection conn = DatabaseConnection.getConnection();
-            PreparedStatement statement = conn.prepareStatement(sql);
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
 
             statement.setString(1, loan.getStatus());
-            statement.setLong(2, loan.getBorrowedDate().getTime());
-            statement.setLong(3, loan.getReturnedDate() != null ? loan.getReturnedDate().getTime() : null);
+            statement.setString(2, loan.getBorrowedDate() != null ? loan.getBorrowedDate().toString() : null);
+            statement.setString(3, loan.getReturnedDate() != null ? loan.getReturnedDate().toString() : null);
             statement.setString(4, loan.getBookIsbn());
             statement.setInt(5, loan.getUserId());
 
             statement.executeUpdate();
-            System.out.println("Loan added");
-
+            System.out.println("Loan added successfully");
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("Error adding loan: " + e.getMessage());
         }
     }
 
     public void updateLoan(Loan loan) {
-        String sql = "UPDATE Loan SET status = ?, borrowed_date = ?, returned_date = ?, book_isbn = ?, userId = ? WHERE id = ?";
+        String sql = "UPDATE Loan SET status = ?, borrowed_date = ?, returned_date = ?, isbn = ?, userId = ? WHERE id = ?";
 
-        try {
-            Connection conn = DatabaseConnection.getConnection();
-            PreparedStatement statement = conn.prepareStatement(sql);
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
 
             statement.setString(1, loan.getStatus());
-            statement.setLong(2, loan.getBorrowedDate().getTime());
-            statement.setLong(3, loan.getReturnedDate() != null ? loan.getReturnedDate().getTime() : null);
+            statement.setString(2, loan.getBorrowedDate() != null ? loan.getBorrowedDate().toString() : null);
+            statement.setString(3, loan.getReturnedDate() != null ? loan.getReturnedDate().toString() : null);
             statement.setString(4, loan.getBookIsbn());
             statement.setInt(5, loan.getUserId());
             statement.setInt(6, loan.getId());
 
             statement.executeUpdate();
-            System.out.println("Loan updated");
-
+            System.out.println("Loan updated successfully");
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("Error updating loan: " + e.getMessage());
         }
     }
 
-    public void deleteLoan(int id) {
+    public void deleteLoan(int loanId) {
         String sql = "DELETE FROM Loan WHERE id = ?";
 
-        try {
-            Connection conn = DatabaseConnection.getConnection();
-            PreparedStatement statement = conn.prepareStatement(sql);
-
-            statement.setInt(1, id);
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, loanId);
             statement.executeUpdate();
-            System.out.println("Loan deleted");
-
+            System.out.println("Loan deleted successfully");
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("Error deleting loan: " + e.getMessage());
         }
     }
 
-    public ArrayList<Loan> getAllLoan() {
-        ArrayList<Loan> loans = new ArrayList<>();
+    public List<Loan> getAllLoans() {
+        List<Loan> loans = new ArrayList<>();
         String sql = "SELECT * FROM Loan";
 
-        try {
-            Connection conn = DatabaseConnection.getConnection();
-            Statement statement = conn.createStatement();
-            ResultSet rs = statement.executeQuery(sql);
+        try (PreparedStatement statement = connection.prepareStatement(sql);
+             ResultSet rs = statement.executeQuery()) {
 
             while (rs.next()) {
-                Loan loan = new Loan(
-                        rs.getInt("id"),
-                        rs.getString("status"),
-                        rs.getDate("borrowed_date"),
-                        rs.getDate("returned_date"),
-                        rs.getString("book_isbn"),
-                        rs.getInt("userid")
-                );
-
+                Loan loan = mapResultSetToLoan(rs);
                 loans.add(loan);
             }
-
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("Error retrieving loans: " + e.getMessage());
         }
 
         return loans;
     }
 
-    public Loan getLoanById(int id) {
+    public Loan getLoanById(int loanId) {
         String sql = "SELECT * FROM Loan WHERE id = ?";
 
-        try {
-            Connection conn = DatabaseConnection.getConnection();
-            PreparedStatement statement = conn.prepareStatement(sql);
-            statement.setInt(1, id);
-            ResultSet resultSet = statement.executeQuery();
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, loanId);
+            ResultSet rs = statement.executeQuery();
 
-            if (resultSet.next()) {
-                return new Loan(
-                        resultSet.getInt("id"),
-                        resultSet.getString("status"),
-                        resultSet.getDate("borrowed_date"),
-                        resultSet.getDate("returned_date"),
-                        resultSet.getString("book_isbn"),
-                        resultSet.getInt("userId")
-                );
+            if (rs.next()) {
+                return mapResultSetToLoan(rs);
             }
-
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("Error retrieving loan: " + e.getMessage());
         }
 
         return null;
     }
+
+    public List<Loan> getLoansByUserId(int userId) {
+        List<Loan> loans = new ArrayList<>();
+        String sql = "SELECT * FROM Loan WHERE userId = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, userId);
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                Loan loan = mapResultSetToLoan(rs);
+                loans.add(loan);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error retrieving loans: " + e.getMessage());
+        }
+
+        return loans;
+    }
+
+    private Loan mapResultSetToLoan(ResultSet rs) throws SQLException {
+        int loanId = rs.getInt("id");
+        String status = rs.getString("status");
+
+        String borrowedDateStr = rs.getString("borrowed_date");
+        Date borrowedDate = borrowedDateStr != null ? java.sql.Date.valueOf(borrowedDateStr) : null;
+        String returnedDateStr = rs.getString("returned_date");
+        Date returnedDate = returnedDateStr != null ? java.sql.Date.valueOf(returnedDateStr) : null;
+
+        String isbn = rs.getString("isbn");
+        int userId = rs.getInt("userId");
+
+        return new Loan(loanId, borrowedDate, returnedDate, isbn, userId, status);
+    }
+
+    public Book getBookFromLoan(Loan loan) {
+        return bookDAO.getBookByIsbn(loan.getBookIsbn());
+    }
+
+    public User getUserFromLoan(Loan loan) {
+        return userDAO.getUserById(loan.getUserId());
+    }
 }
+
