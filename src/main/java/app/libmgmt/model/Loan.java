@@ -1,23 +1,25 @@
 package app.libmgmt.model;
 
+import app.libmgmt.dao.BookDAO;
+
 import java.util.Date;
 
 public class Loan {
     private int loanId;
     private Date borrowedDate;
     private Date returnedDate;
-    private Book book;
-    private User user;
+    private String isbn;
+    private int userId;
     private String status;
     private final long twoWeeksInMillis = 1209600000 ; // 14L * 24 * 60 * 60 * 1000
 
-    public Loan(int loanId, Date borrowedDate, Date returnedDate, Book book, User user) {
+    public Loan(int loanId, Date borrowedDate, Date returnedDate, String isbn, int userId, String status) {
         this.loanId = loanId;
         this.borrowedDate = borrowedDate;
         this.returnedDate = returnedDate;
-        this.book = book;
-        this.user = user;
-        this.status = "BORROWED";
+        this.isbn = isbn;
+        this.userId = userId;
+        this.status = status;
     }
 
     public int getId() {
@@ -54,19 +56,16 @@ public class Loan {
         this.returnedDate = returnedDate;
     }
 
-    public Book getBook() {
-        return book;
+    public String getBookIsbn() {
+        return isbn;
     }
 
-    public void setBook(Book book) {
-        this.book = book;
+    public int getUserId() {
+        return userId;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
+    @Override
+    public String toString() {
+        return "Loan ID: " + loanId + ", ISBN: " + isbn + ", User ID: " + userId + ", Borrowed Date: " + borrowedDate + ", Status: " + getStatus();
     }
 }
