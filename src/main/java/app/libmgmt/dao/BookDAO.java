@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.sql.Date;
 
 public class BookDAO {
 
@@ -38,7 +39,7 @@ public class BookDAO {
             System.out.println("Book added");
 
         } catch (SQLException e) {
-            System.out.print(e.getMessage());
+            System.out.print("Error in book add: " + e.getMessage());
         }
     }
 
@@ -63,7 +64,7 @@ public class BookDAO {
             System.out.println("Book updated");
 
         } catch (SQLException e) {
-            System.out.print(e.getMessage());
+            System.out.print("Error in book update: " + e.getMessage());
         }
     }
 
@@ -84,16 +85,31 @@ public class BookDAO {
         String sql = "SELECT * FROM Book";
 
         try (PreparedStatement statement = connection.prepareStatement(sql);
-            ResultSet rs = statement.executeQuery()) {
+             ResultSet rs = statement.executeQuery()) {
 
             while (rs.next()) {
                 List<String> authors = parseStrings(rs.getString("authors"));
-                List<String> categories = parseStrings(rs.getString("category_id"));
+                List<String> categories = parseStrings(rs.getString("categories"));
+
+                String dateString = rs.getString("published_date");
+                Date publishedDate = null;
+
+                if (dateString != null) {
+                    try {
+                        publishedDate = java.sql.Date.valueOf(dateString);
+                    } catch (IllegalArgumentException e) {
+                        System.out.println("Invalid date format for book: " + rs.getString("title"));
+                        publishedDate = java.sql.Date.valueOf("1900-01-01");
+                    }
+                } else {
+                    System.out.println("No published date for book: " + rs.getString("title"));
+                    publishedDate = java.sql.Date.valueOf("1900-01-01");
+                }
 
                 Book book = new Book(
                         rs.getString("isbn"),
                         rs.getString("title"),
-                        rs.getDate("published_date"),
+                        publishedDate,
                         rs.getString("publisher"),
                         rs.getString("cover_url"),
                         rs.getInt("available_amount"),
@@ -105,43 +121,57 @@ public class BookDAO {
             }
 
         } catch (SQLException e) {
-            System.out.print(e.getMessage());
+            System.out.print("Error in book retrieval: " + e.getMessage());
         }
 
         return books;
     }
 
-    public Book selectBookByIsbn(String isbn) {
+
+    public Book getBookByIsbn(String isbn) {
         String sql = "SELECT * FROM Book WHERE isbn = ?";
+        Book book = null;
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, isbn);
-            ResultSet rs = statement.executeQuery();
+            try (ResultSet rs = statement.executeQuery()) {
+                if (rs.next()) {
+                    List<String> authors = parseStrings(rs.getString("authors"));
+                    List<String> categories = parseStrings(rs.getString("categories"));
 
-            if (rs.next()) {
-                List<String> authors = parseStrings(rs.getString("authors"));
-                List<String> categories = parseStrings(rs.getString("category_id"));
+                    String dateString = rs.getString("published_date");
+                    java.sql.Date publishedDate = null;
+                    if (dateString != null && !dateString.isEmpty()) {
+                        try {
+                            publishedDate = java.sql.Date.valueOf(dateString);
+                        } catch (IllegalArgumentException e) {
+                            System.out.println("Invalid date format for book with ISBN: " + isbn);
+                        }
+                    }
 
-                return new Book(
-                        rs.getString("isbn"),
-                        rs.getString("title"),
-                        rs.getDate("published_date"),
-                        rs.getString("publisher"),
-                        rs.getString("cover_url"),
-                        rs.getInt("available_amount"),
-                        authors,
-                        categories
-                );
+                    book = new Book(
+                            rs.getString("isbn"),
+                            rs.getString("title"),
+                            publishedDate,
+                            rs.getString("publisher"),
+                            rs.getString("cover_url"),
+                            rs.getInt("available_amount"),
+                            authors,
+                            categories
+                    );
+                } else {
+                    System.out.println("Book not found.");
+                }
             }
-
         } catch (SQLException e) {
-            System.out.print(e.getMessage());
+            System.out.println("Error in select book by Isbn: " + e.getMessage());
         }
 
-        return null;
+        return book;
     }
 
-    public List<Book> selectBooksByAuthor(String author) {
+
+    public List<Book> getBooksByAuthor(String author) {
         List<Book> books = new ArrayList<>();
         String sql = "SELECT * FROM Book WHERE authors LIKE ?";
 
@@ -151,7 +181,7 @@ public class BookDAO {
 
             while (rs.next()) {
                 List<String> authors = parseStrings(rs.getString("authors"));
-                List<String> categories = parseStrings(rs.getString("category_id"));
+                List<String> categories = parseStrings(rs.getString("categories"));
 
                 Book book = new Book(
                         rs.getString("isbn"),
@@ -168,13 +198,13 @@ public class BookDAO {
             }
 
         } catch (SQLException e) {
-            System.out.print(e.getMessage());
+            System.out.print("Error in select books by author: " + e.getMessage());
         }
 
         return books;
     }
 
-    public List<Book> selectBooksByCategory(String category) {
+    public List<Book> getBooksByCategory(String category) {
         List<Book> books = new ArrayList<>();
         String sql = "SELECT * FROM Book WHERE categories LIKE ?";
 
@@ -184,7 +214,7 @@ public class BookDAO {
 
             while (rs.next()) {
                 List<String> authors = parseStrings(rs.getString("authors"));
-                List<String> categories = parseStrings(rs.getString("category_id"));
+                List<String> categories = parseStrings(rs.getString("categories"));
 
                 Book book = new Book(
                         rs.getString("isbn"),
@@ -201,7 +231,7 @@ public class BookDAO {
             }
 
         } catch (SQLException e) {
-            System.out.print(e.getMessage());
+            System.out.print("Error in select books by category: " + e.getMessage());
         }
 
         return books;
