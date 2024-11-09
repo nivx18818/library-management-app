@@ -16,6 +16,11 @@ import java.io.IOException;
 public class ChangeScene {
     public static JFXDialog dialog;
 
+    /**
+     *  Open a popup window for admin
+     * @param stackPane The stack pane to display the pop up
+     * @param path The path to the fxml file
+     */
     public static void openAdminPopUp(StackPane stackPane, String path) {
         try {
             FXMLLoader loader = new FXMLLoader(AdminNavigationController.class.getResource(path));
@@ -32,6 +37,13 @@ public class ChangeScene {
         }
     }
 
+    /**
+     * Open a popup window for admin
+     * @param stackPane The stack pane to display the popup
+     * @param path The path to the fxml file
+     * @param id The id which is used to identify the object
+     * @param popupList The type of popup
+     */
     public static void openAdminPopUp(StackPane stackPane, String path, String id,
                                       EnumUtils.PopupList popupList) {
         try {
@@ -72,18 +84,14 @@ public class ChangeScene {
     }
 
     public static void openUserPopUp(StackPane stackPane, String path) {
-        //TODO: Implement user pop up
+        //TODO: Implement for user popup
     }
 
     public static void closePopUp() {
         dialog.close();
     }
 
-    public static void navigateToScene(JFXButton button, String fxmlPath, EnumUtils.NavigationButton
-            latestButtonClicked) throws IOException {
-        if (latestButtonClicked.equals(button.getText().toLowerCase())) {
-            return;
-        }
+    public static void navigateToScene(String fxmlPath) throws IOException {
 
         AdminGlobalFormController controller = AdminGlobalFormController.getInstance();
 

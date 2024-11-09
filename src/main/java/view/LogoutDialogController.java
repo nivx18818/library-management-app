@@ -72,8 +72,7 @@ public class LogoutDialogController {
     public void backToLoginForm() throws IOException {
         ZoomOut zo = new ZoomOut(AdminGlobalFormController.getInstance().getGlobalFormContainer());
 
-        ChangeScene.navigateToScene(confirmButton, "loading-form.fxml",
-                EnumUtils.NavigationButton.LOGOUT);
+        ChangeScene.navigateToScene("loading-form.fxml");
 
         zo.setOnFinished(event -> {
             try {

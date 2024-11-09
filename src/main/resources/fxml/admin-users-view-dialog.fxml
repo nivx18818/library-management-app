@@ -12,6 +12,8 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
+<?import javafx.scene.effect.Light?>
+<?import javafx.scene.effect.Light.Distant?>
 <Pane xmlns:fx="http://javafx.com/fxml/1" fx:id="container" maxHeight="-Infinity" maxWidth="-Infinity"
       minHeight="-Infinity" minWidth="-Infinity" prefHeight="454.0"
       prefWidth="692.0"

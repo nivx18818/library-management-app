@@ -50,7 +50,9 @@ public class RegExPatterns {
         if (!path.startsWith("http")) {
             return false;
         }
+
         String urlWithoutParams = path.split("\\?")[0].toLowerCase();
+
         return urlWithoutParams.endsWith(".jpg") ||
                 urlWithoutParams.endsWith(".jpeg") ||
                 urlWithoutParams.endsWith(".png") ||
@@ -58,6 +60,7 @@ public class RegExPatterns {
                 urlWithoutParams.endsWith(".bmp") ||
                 urlWithoutParams.endsWith(".svg");
     }
+
 
 
     public static boolean globalFormPattern(String text) {

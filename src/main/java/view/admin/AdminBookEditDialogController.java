@@ -112,6 +112,10 @@ public class AdminBookEditDialogController {
 
     @FXML
     void updateButtonOnAction(ActionEvent event) {
+        if (!checkValidFields()) {
+            return;
+        }
+
         String[] updatedData = new String[]{
                 idTextField.getText(),
                 imgUrlTextField.getText().equals("") ? originalData[1] : imgUrlTextField.getText(),
@@ -327,6 +331,29 @@ public class AdminBookEditDialogController {
                 AnimationUtils.zoomIn(bookCoverContainer, 1.0);
                 break;
         }
+    }
+
+    public boolean checkValidFields() {
+        boolean check = true;
+        if (!RegExPatterns.bookIDPattern(quantityTextField.getText())) {
+            notificationLabel.setText("Invalid quantity.");
+            check = false;
+        }
+        if (!RegExPatterns.bookIDPattern(idTextField.getText())) {
+            notificationLabel.setText("Invalid ID.");
+            check = false;
+        }
+        if (!publishedDateITextField.getText().isEmpty()) {
+            if (!RegExPatterns.datePattern(publishedDateITextField.getText())) {
+                notificationLabel.setText("Invalid date. Please use dd-mm-yyyy format.");
+                check = false;
+            }
+        }
+        if (!check) {
+            notificationLabel.setStyle("-fx-text-fill: #ff0000;");
+            AnimationUtils.playNotificationTimeline(notificationLabel, 1, "#ff0000");
+        }
+        return check;
     }
 
     enum UpdateType {

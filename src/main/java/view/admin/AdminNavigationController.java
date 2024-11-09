@@ -106,9 +106,6 @@ public class AdminNavigationController {
         if (initializedTimes == 1) {
             AnimationUtils.fadeInLeft(navigationContainer);
         }
-        if (latestButtonClicked.equals("logout")) {
-            AnimationUtils.fadeInRight(navigationContainer);
-        }
     }
 
     public void handleEffectButtonClicked(JFXButton button) {
@@ -134,30 +131,45 @@ public class AdminNavigationController {
 
     @FXML
     public void dashboardButtonClicked(MouseEvent event) throws IOException {
-        ChangeScene.navigateToScene(dashboardButton, "admin-dashboard.fxml", latestButtonClicked);
+        if (latestButtonClicked == EnumUtils.NavigationButton.DASHBOARD) {
+            return;
+        }
+        ChangeScene.navigateToScene("admin-dashboard.fxml");
         handleEffectButtonClicked(dashboardButton);
     }
 
     @FXML
     public void catalogButtonClicked(MouseEvent event) throws IOException {
-        ChangeScene.navigateToScene(catalogButton, "admin-borrowed-books-form.fxml", latestButtonClicked);
+        if (latestButtonClicked == EnumUtils.NavigationButton.CATALOG) {
+            return;
+        }
+        ChangeScene.navigateToScene("admin-borrowed-books-form.fxml");
         handleEffectButtonClicked(catalogButton);
     }
 
     @FXML
     public void booksButtonClicked(MouseEvent event) throws IOException {
-        ChangeScene.navigateToScene(booksButton, "admin-books-form.fxml", latestButtonClicked);
+        if (latestButtonClicked == EnumUtils.NavigationButton.BOOKS) {
+            return;
+        }
+        ChangeScene.navigateToScene("admin-books-form.fxml");
         handleEffectButtonClicked(booksButton);
     }
 
     @FXML
     public void userButtonClicked(MouseEvent event) throws IOException {
-        ChangeScene.navigateToScene(usersButton, "admin-users-form.fxml", latestButtonClicked);
+        if (latestButtonClicked == EnumUtils.NavigationButton.USERS) {
+            return;
+        }
+        ChangeScene.navigateToScene("admin-users-form.fxml");
         handleEffectButtonClicked(usersButton);
     }
 
     @FXML
     public void logOutButtonClicked(MouseEvent event) throws IOException {
+        if (latestButtonClicked == EnumUtils.NavigationButton.LOGOUT) {
+            return;
+        }
         ChangeScene.openAdminPopUp(AdminGlobalFormController.getInstance().getStackPaneContainer(),
                 "/fxml/logout-dialog.fxml");
         handleEffectButtonClicked(logoutButton);

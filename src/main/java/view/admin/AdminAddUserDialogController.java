@@ -190,7 +190,7 @@ public class AdminAddUserDialogController {
             String[] newUser = {"Student", info[0], info[1], info[2], info[3], info[4]};
             System.out.println("Adding student");
             userData.add(newUser);
-            if (adminUsersLayoutController.getStatus().equals("student")) {
+            if (adminUsersLayoutController.getStatus() == EnumUtils.UserType.STUDENT) {
                 adminUsersLayoutController.preloadData(userData, "admin-users-student-bar.fxml",
                         AdminUsersLayoutController.PreloadType.ADD);
             }
@@ -206,7 +206,7 @@ public class AdminAddUserDialogController {
             String[] newUser = {"External Borrower", info[0], info[1], info[2], info[3], info[4]};
             System.out.println("Adding guest");
             userData.add(newUser);
-            if (adminUsersLayoutController.getStatus().equals("guest")) {
+            if (adminUsersLayoutController.getStatus() == EnumUtils.UserType.GUEST) {
                 adminUsersLayoutController.preloadData(userData, "admin-users-guest-bar.fxml", AdminUsersLayoutController.PreloadType.ADD);
             }
             adminGlobalFormController.getUsersData().add(newUser);
