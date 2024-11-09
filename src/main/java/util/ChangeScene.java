@@ -2,10 +2,13 @@ package util;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
+import initialize.AdminInitializer;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 import view.admin.*;
 
 import java.io.IOException;
@@ -76,18 +79,41 @@ public class ChangeScene {
         dialog.close();
     }
 
-    public static void navigateToScene(JFXButton button, String fxmlPath, String latestButtonClicked) throws IOException {
+    public static void navigateToScene(JFXButton button, String fxmlPath, EnumUtils.NavigationButton
+            latestButtonClicked) throws IOException {
         if (latestButtonClicked.equals(button.getText().toLowerCase())) {
             return;
         }
 
         AdminGlobalFormController controller = AdminGlobalFormController.getInstance();
 
-        Pane pane = controller.getPagingPane();
+        Pane pane = new Pane();
+        if (fxmlPath.contains("loading")) {
+            pane = controller.getBackgroundPane();
+        }
+        else {
+            pane = controller.getPagingPane();
+        }
+
         pane.getChildren().clear();
-        FXMLLoader loader = new FXMLLoader(AdminGlobalFormController.class.getResource("/fxml/" + fxmlPath));
+        FXMLLoader loader = new FXMLLoader(AdminGlobalFormController.class.getResource(
+                "/fxml/" + fxmlPath));
         Parent root = loader.load();
         pane.getChildren().add(root);
         AnimationUtils.zoomIn(controller.getPagingPane(), 1.0);
+    }
+
+    public static void changeInterfaceWindow(Stage stage, String fxmlPath, String title) throws IOException {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(AdminInitializer.class.getResource(
+                    fxmlPath));
+            Scene scene = new Scene(fxmlLoader.load());
+            stage.setScene(scene);
+            stage.setResizable(false);
+            stage.centerOnScreen();
+            stage.setTitle(title);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -8,13 +8,14 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import util.AnimationUtils;
 import util.ChangeScene;
+import util.EnumUtils;
 
 import java.io.IOException;
 import java.util.logging.Logger;
 
 public class AdminNavigationController {
 
-    private static String latestButtonClicked = "dashboard";
+    private static EnumUtils.NavigationButton latestButtonClicked = EnumUtils.NavigationButton.DASHBOARD;
     private static int initializedTimes = 0;
     private static AdminNavigationController controller;
     @FXML
@@ -30,9 +31,9 @@ public class AdminNavigationController {
     @FXML
     private ImageView dashboardLogo;
     @FXML
-    private JFXButton logOutButton;
+    private JFXButton logoutButton;
     @FXML
-    private ImageView logOutLogo;
+    private ImageView logoutLogo;
     @FXML
     private JFXButton usersButton;
     @FXML
@@ -60,20 +61,20 @@ public class AdminNavigationController {
 
     public void navigationBarButtonClick() {
         switch (latestButtonClicked) {
-            case "dashboard":
+            case EnumUtils.NavigationButton.DASHBOARD:
                 changeButtonLayout("/assets/icon/dashboard-icon-2.png", dashboardButton, dashboardLogo);
                 break;
-            case "catalog":
+            case EnumUtils.NavigationButton.CATALOG:
                 changeButtonLayout("/assets/icon/catalog-icon-2.png", catalogButton, catalogLogo);
                 break;
-            case "books":
+            case EnumUtils.NavigationButton.BOOKS:
                 changeButtonLayout("/assets/icon/books-icon-2.png", booksButton, booksLogo);
                 break;
-            case "users":
+            case EnumUtils.NavigationButton.USERS:
                 changeButtonLayout("/assets/icon/people-icon-2.png", usersButton, usersLogo);
                 break;
-            case "logout":
-                changeButtonLayout("/assets/icon/logout-icon-2.png", logOutButton, logOutLogo);
+            case EnumUtils.NavigationButton.LOGOUT:
+                changeButtonLayout("/assets/icon/logout-icon-2.png", logoutButton, logoutLogo);
                 break;
         }
     }
@@ -95,13 +96,13 @@ public class AdminNavigationController {
         booksLogo.setImage(defaultBooksLogo);
         catalogLogo.setImage(defaultCatalogLogo);
         usersLogo.setImage(defaultUsersLogo);
-        logOutLogo.setImage(defaultLogOutLogo);
+        logoutLogo.setImage(defaultLogOutLogo);
 
         dashboardButton.setStyle("-fx-background-color: black; -fx-text-fill: white;");
         booksButton.setStyle("-fx-background-color: black; -fx-text-fill: white;");
         catalogButton.setStyle("-fx-background-color: black; -fx-text-fill: white;");
         usersButton.setStyle("-fx-background-color: black; -fx-text-fill: white;");
-        logOutButton.setStyle("-fx-background-color: black; -fx-text-fill: white;");
+        logoutButton.setStyle("-fx-background-color: black; -fx-text-fill: white;");
     }
 
     public void showAnimation() {
@@ -114,9 +115,24 @@ public class AdminNavigationController {
     }
 
     public void handleEffectButtonClicked(JFXButton button) {
-        latestButtonClicked = button.getText().toLowerCase();
+        latestButtonClicked = getButtonType(button);
         setDefaultButtons();
         navigationBarButtonClick();
+    }
+
+    public  EnumUtils.NavigationButton getButtonType(JFXButton button) {
+        if (button.equals(dashboardButton)) {
+            return EnumUtils.NavigationButton.DASHBOARD;
+        } else if (button.equals(catalogButton)) {
+            return EnumUtils.NavigationButton.CATALOG;
+        } else if (button.equals(booksButton)) {
+            return EnumUtils.NavigationButton.BOOKS;
+        } else if (button.equals(usersButton)) {
+            return EnumUtils.NavigationButton.USERS;
+        } else if (button.equals(logoutButton)) {
+            return EnumUtils.NavigationButton.LOGOUT;
+        }
+        return null;
     }
 
     @FXML
@@ -141,6 +157,12 @@ public class AdminNavigationController {
     public void userButtonClicked(MouseEvent event) throws IOException {
         ChangeScene.navigateToScene(usersButton, "admin-users-form.fxml", latestButtonClicked);
         handleEffectButtonClicked(usersButton);
+    }
+
+    @FXML
+    public void logOutButtonClicked(MouseEvent event) throws IOException {
+        ChangeScene.openAdminPopUp(AdminGlobalFormController.getInstance().getStackPaneContainer(),
+                "/fxml/logout-dialog.fxml");
     }
 
 }

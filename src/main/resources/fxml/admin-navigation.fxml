@@ -145,9 +145,9 @@
         <Insets />
       </VBox.margin>
     </Box>
-    <JFXButton id="logout-button" fx:id="logOutButton" styleClass="navigator-button" text="Log out" textAlignment="CENTER" textFill="WHITE">
+    <JFXButton id="logout-button" fx:id="logoutButton" onMouseClicked="#logOutButtonClicked" styleClass="navigator-button" text="Log out" textAlignment="CENTER" textFill="WHITE">
       <graphic>
-        <ImageView fx:id="logOutLogo" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true" styleClass="logo-button">
+        <ImageView fx:id="logoutLogo" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true" styleClass="logo-button">
           <image>
             <Image url="@../assets/icon/logout-icon.png" />
           </image>

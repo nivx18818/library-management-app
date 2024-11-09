@@ -346,28 +346,18 @@ public class LoginController {
     public void goDashboard() throws IOException {
         ZoomOut zoomOut = new ZoomOut(container);
 
-        new ZoomIn(loadingPane).play();
+        AnimationUtils.zoomIn(loadingPane, 1);
         loadingPane.setVisible(true);
 
         zoomOut.setOnFinished(event -> {
             try {
-                Stage stage = (Stage) signInButton.getScene().getWindow();
-
-                FXMLLoader fxmlLoader = new FXMLLoader(AdminInitializer.class.getResource(
-                        "/fxml/admin-global-layout.fxml"));
-                AdminGlobalFormController controller = new AdminGlobalFormController();
-                Scene scene = new Scene(fxmlLoader.load(), 1280, 720);
-                stage.setScene(scene);
-                stage.setResizable(false);
-                stage.centerOnScreen();
-                stage.setTitle("BookWarm Library Management System");
-
-                container.setVisible(false);
+                ChangeScene.changeInterfaceWindow((Stage) loadingPane.getScene().getWindow(),
+                        "/fxml/admin-global-layout.fxml", "Library Management System");
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new RuntimeException(e);
             }
+            container.setVisible(false);
         });
-
         zoomOut.play();
     }
 

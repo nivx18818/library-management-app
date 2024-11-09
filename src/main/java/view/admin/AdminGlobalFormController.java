@@ -1,6 +1,8 @@
 package view.admin;
 
 import javafx.fxml.FXML;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import util.AnimationUtils;
@@ -20,6 +22,10 @@ public class AdminGlobalFormController {
     private Pane pagingPane;
     @FXML
     private StackPane stackPaneContainer;
+    @FXML
+    private Pane backgroundPane;
+    @FXML
+    private HBox globalFormContainer;
 
     public AdminGlobalFormController() {
         controller = this;
@@ -37,6 +43,10 @@ public class AdminGlobalFormController {
 
     public Pane getPagingPane() {
         return pagingPane;
+    }
+
+    public Pane getBackgroundPane() {
+        return backgroundPane;
     }
 
     public void setPagingPane(Pane pagingPane) {
@@ -156,5 +166,9 @@ public class AdminGlobalFormController {
                 break;
             }
         }
+    }
+
+    public HBox getGlobalFormContainer() {
+        return globalFormContainer;
     }
 }

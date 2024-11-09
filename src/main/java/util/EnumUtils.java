@@ -1,9 +1,14 @@
 package util;
 
 public class EnumUtils {
+
     public enum Object {
         ADMIN,
         USER
+    }
+
+    public enum NavigationButton {
+        DASHBOARD, CATALOG, BOOKS, USERS, LOGOUT
     }
 
     public enum UserType {

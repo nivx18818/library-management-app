@@ -23,31 +23,31 @@ public class ForgotPasswordDialogController {
     private JFXButton facebookAdmin3Button;
 
     @FXML
-    private JFXButton igAdmin1Button;
+    private JFXButton teleAdmin1Button;
 
     @FXML
-    private JFXButton igAdmin2Button;
+    private JFXButton teleAdmin2Button;
 
     @FXML
-    private JFXButton igAdmin3Button;
+    private JFXButton teleAdmin3Button;
 
     @FXML
     private ImageView fbIcon1;
 
     @FXML
-    private ImageView igIcon1;
+    private ImageView telegramIcon1;
 
     @FXML
     private ImageView fbIcon2;
 
     @FXML
-    private ImageView igIcon2;
+    private ImageView telegramIcon2;
 
     @FXML
     private ImageView fbIcon3;
 
     @FXML
-    private ImageView igIcon3;
+    private ImageView telegramIcon3;
 
     @FXML
     private JFXButton closeDialogButton;
@@ -64,24 +64,27 @@ public class ForgotPasswordDialogController {
 
     public void changeHoverIcons() {
         Image hoverFbImage =
-                new Image(getClass().getResource("/assets/icon/facebook2.png").toExternalForm());
+                new Image(getClass().getResource("/assets/icon/5296499_fb_facebook_facebook " +
+                        "logo_icon.png").toExternalForm());
         Image defaultFbImage =
-                new Image(getClass().getResource("/assets/icon/facebook.png").toExternalForm());
-        Image hoverIgImage =
-                new Image(getClass().getResource("/assets/icon/instagram2.png").toExternalForm());
-        Image defaultIgImage = new Image(getClass().getResource("/assets/icon/instagram.png").toExternalForm());
+                new Image(getClass().getResource("/assets/icon/5305154_fb_facebook_facebook logo_icon.png").toExternalForm());
+        Image hoverTeleImage =
+                new Image(getClass().getResource("/assets/icon/3787425_telegram_logo_messanger_social_social media_icon.png").toExternalForm());
+        Image defaultTeleImage = new Image(getClass().getResource("/assets/icon" +
+                "/7693324_telegram_social media_logo_messenger_icon.png").toExternalForm());
+
         facebookAdmin1Button.setOnMouseEntered(event -> fbIcon1.setImage(hoverFbImage));
         facebookAdmin1Button.setOnMouseExited(event -> fbIcon1.setImage(defaultFbImage));
-        igAdmin1Button.setOnMouseEntered(event -> igIcon1.setImage(hoverIgImage));
-        igAdmin1Button.setOnMouseExited(event -> igIcon1.setImage(defaultIgImage));
+        teleAdmin1Button.setOnMouseEntered(event -> telegramIcon1.setImage(hoverTeleImage));
+        teleAdmin1Button.setOnMouseExited(event -> telegramIcon1.setImage(defaultTeleImage));
         facebookAdmin2Button.setOnMouseEntered(event -> fbIcon2.setImage(hoverFbImage));
         facebookAdmin2Button.setOnMouseExited(event -> fbIcon2.setImage(defaultFbImage));
-        igAdmin2Button.setOnMouseEntered(event -> igIcon2.setImage(hoverIgImage));
-        igAdmin2Button.setOnMouseExited(event -> igIcon2.setImage(defaultIgImage));
+        teleAdmin2Button.setOnMouseEntered(event -> telegramIcon2.setImage(hoverTeleImage));
+        teleAdmin2Button.setOnMouseExited(event -> telegramIcon2.setImage(defaultTeleImage));
         facebookAdmin3Button.setOnMouseEntered(event -> fbIcon3.setImage(hoverFbImage));
         facebookAdmin3Button.setOnMouseExited(event -> fbIcon3.setImage(defaultFbImage));
-        igAdmin3Button.setOnMouseEntered(event -> igIcon3.setImage(hoverIgImage));
-        igAdmin3Button.setOnMouseExited(event -> igIcon3.setImage(defaultIgImage));
+        teleAdmin3Button.setOnMouseEntered(event -> telegramIcon3.setImage(hoverTeleImage));
+        teleAdmin3Button.setOnMouseExited(event -> telegramIcon3.setImage(defaultTeleImage));
     }
 
     @FXML
@@ -93,16 +96,16 @@ public class ForgotPasswordDialogController {
     void iconOnAction(ActionEvent event) {
         if (event.getSource() == facebookAdmin1Button) {
             System.out.println("Facebook Admin 1");
-            openLink("https://www.facebook.com/mrthinh.ueter");
+            openLink("https://www.facebook.com/hgthinh3072x");
         } else if (event.getSource() == facebookAdmin2Button) {
             openLink("https://www.facebook.com/tuong.mt.73");
         } else if (event.getSource() == facebookAdmin3Button) {
             openLink("https://www.facebook.com/ichigoi.h");
-        } else if (event.getSource() == igAdmin1Button) {
-            openLink("https://www.instagram.com/mrthinh_/");
-        } else if (event.getSource() == igAdmin2Button) {
+        } else if (event.getSource() == teleAdmin1Button) {
+            openLink("https://t.me/hg_thinh3072x");
+        } else if (event.getSource() == teleAdmin2Button) {
             openLink("https://www.instagram.com/cristiano/");
-        } else if (event.getSource() == igAdmin3Button) {
+        } else if (event.getSource() == teleAdmin3Button) {
             openLink("https://www.instagram.com/pamyeuoi/");
         }
     }
