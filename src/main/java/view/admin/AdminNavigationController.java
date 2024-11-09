@@ -117,7 +117,7 @@ public class AdminNavigationController {
         navigationBarButtonClick();
     }
 
-    public  EnumUtils.NavigationButton getButtonType(JFXButton button) {
+    public EnumUtils.NavigationButton getButtonType(JFXButton button) {
         if (button.equals(dashboardButton)) {
             return EnumUtils.NavigationButton.DASHBOARD;
         } else if (button.equals(catalogButton)) {

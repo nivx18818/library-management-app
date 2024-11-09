@@ -20,29 +20,21 @@ import java.util.logging.Logger;
 
 public class AdminBooksLayoutController {
 
-    @FXML
-    private JFXButton addBookButton;
-
-    @FXML
-    private Pane refreshPaneButton;
-
-    @FXML
-    private Pane searchPane;
-
-    @FXML
-    private TextField textSearch;
-
-    @FXML
-    private VBox vBoxBooksList;
-
+    private static AdminBooksLayoutController controller;
+    private final AdminGlobalFormController adminGlobalFormController = AdminGlobalFormController.getInstance();
     @FXML
     public StackPane stackPaneContainer;
-
-    private final AdminGlobalFormController adminGlobalFormController = AdminGlobalFormController.getInstance();
-
-    private List<String[]> booksData = adminGlobalFormController.getBooksData();
-
-    private static AdminBooksLayoutController controller;
+    @FXML
+    private JFXButton addBookButton;
+    @FXML
+    private Pane refreshPaneButton;
+    @FXML
+    private Pane searchPane;
+    @FXML
+    private TextField textSearch;
+    @FXML
+    private VBox vBoxBooksList;
+    private final List<String[]> booksData = adminGlobalFormController.getBooksData();
 
     public AdminBooksLayoutController() {
         controller = this;
@@ -61,9 +53,9 @@ public class AdminBooksLayoutController {
         preloadData(booksData);
 
         stackPaneContainer.setOnMouseClicked(
-            event -> {
-                stackPaneContainer.requestFocus();
-            }
+                event -> {
+                    stackPaneContainer.requestFocus();
+                }
         );
     }
 
@@ -76,6 +68,7 @@ public class AdminBooksLayoutController {
                 }
                 return null;
             }
+
             @Override
             protected void failed() {
                 System.out.println("Error loading data table: " + getException().getMessage());
@@ -98,7 +91,7 @@ public class AdminBooksLayoutController {
     }
 
     @FXML
-    void addBookButtonClicked(MouseEvent event) throws IOException{
+    void addBookButtonClicked(MouseEvent event) throws IOException {
         ChangeScene.openAdminPopUp(stackPaneContainer, "/fxml/admin-add-book-dialog.fxml");
     }
 
@@ -160,9 +153,6 @@ public class AdminBooksLayoutController {
 
     public String getSearchText() {
         return textSearch.getText();
-    }
-
-    public void deleteBookBar(String id) {
     }
 
 }

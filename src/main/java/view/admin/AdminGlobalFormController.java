@@ -1,7 +1,6 @@
 package view.admin;
 
 import javafx.fxml.FXML;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -11,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AdminGlobalFormController {
-
 
     private static AdminGlobalFormController controller;
     private final List<String[]> borrowedBooksData = preLoadBorrowedBooksData();
@@ -45,12 +43,12 @@ public class AdminGlobalFormController {
         return pagingPane;
     }
 
-    public Pane getBackgroundPane() {
-        return backgroundPane;
-    }
-
     public void setPagingPane(Pane pagingPane) {
         this.pagingPane = pagingPane;
+    }
+
+    public Pane getBackgroundPane() {
+        return backgroundPane;
     }
 
     public List<String[]> preLoadBorrowedBooksData() {

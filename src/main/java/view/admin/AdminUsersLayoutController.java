@@ -25,6 +25,10 @@ public class AdminUsersLayoutController {
     private static AdminUsersLayoutController controller;
     private final AdminGlobalFormController adminGlobalFormController =
             AdminGlobalFormController.getInstance();
+    private final List<String[]> studentsData = new ArrayList<>();
+    private final List<String[]> guestsData = new ArrayList<>();
+    @FXML
+    public StackPane stackPaneContainer;
     @FXML
     private HBox hBoxGuest;
     @FXML
@@ -39,12 +43,7 @@ public class AdminUsersLayoutController {
     private Label guestLabel;
     @FXML
     private VBox vBoxUserList;
-    @FXML
-    public StackPane stackPaneContainer;
-    private List<String[]> studentsData = new ArrayList<>();
-    private List<String[]> guestsData = new ArrayList<>();
     private EnumUtils.UserType status = EnumUtils.UserType.STUDENT;
-
     public AdminUsersLayoutController() {
         controller = this;
     }
@@ -59,8 +58,10 @@ public class AdminUsersLayoutController {
         System.out.println("Initialize Catalog Layout");
 
         setVisibility(true, false);
+
         setStudentsData(adminGlobalFormController.getUsersData());
         setGuestsData(adminGlobalFormController.getUsersData());
+
         showStudentsList();
     }
 
@@ -69,14 +70,8 @@ public class AdminUsersLayoutController {
         hBoxGuest.setVisible(visibilityGuest);
     }
 
-    private void showStudentsList() {
-        vBoxUserList.getChildren().clear();
-        preloadData(studentsData, "admin-users-student-bar.fxml", "reset");
-    }
-
-    // This method needed to be optimized
-    public void preloadData(List<String[]> allUsersData, String path, String resetOrAdd) {
-        if (!vBoxUserList.getChildren().isEmpty() && resetOrAdd.equals("reset")) {
+    public void preloadData(List<String[]> allUsersData, String path, PreloadType preloadType) {
+        if (!vBoxUserList.getChildren().isEmpty() && preloadType == PreloadType.RESET) {
             vBoxUserList.getChildren().clear();
         }
 
@@ -85,42 +80,44 @@ public class AdminUsersLayoutController {
             protected Void call() throws Exception {
                 for (String[] d : allUsersData) {
                     try {
-                        FXMLLoader fxmlLoader = new FXMLLoader(AdminCatalogBorrowedBooksLayoutController.class.getResource(
-                                "/fxml/" + path));
-
-                        Pane scene = fxmlLoader.load();
-
-                        switch (path) {
-                            case "admin-users-student-bar.fxml": {
-                                AdminUsersStudentBarController controller = fxmlLoader.getController();
-                                controller.setData(d[4], d[1], d[2], d[3]);
-                                break;
-                            }
-                            case "admin-users-guest-bar.fxml": {
-                                AdminUsersGuestBarController controller = fxmlLoader.getController();
-                                controller.setData(d[4], d[1], d[2], d[3]);
-                                break;
-                            }
-                        }
+                        Pane scene = loadScene(path, d);
 
                         Platform.runLater(() -> vBoxUserList.getChildren().add(scene));
                         AnimationUtils.zoomIn(scene, 1.0);
 
                     } catch (IOException e) {
-                        throw new RuntimeException(e);
+                        throw new RuntimeException("Error loading FXML: " + e.getMessage(), e);
                     }
-                    Thread.sleep(10);
+                    Thread.sleep(10); // Optional delay for effect
                 }
                 return null;
             }
 
             @Override
             protected void failed() {
-                System.out.println("Error during data table loading: " + getException().getMessage());
+                System.err.println("Error during data table loading: " + getException().getMessage());
             }
         };
 
         new Thread(preloadTask).start();
+    }
+
+    private Pane loadScene(String path, String[] data) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/" + path));
+        Pane scene = fxmlLoader.load();
+
+        switch (path) {
+            case "admin-users-student-bar.fxml" -> {
+                AdminUsersStudentBarController controller = fxmlLoader.getController();
+                controller.setData(data[4], data[1], data[2], data[3]);
+            }
+            case "admin-users-guest-bar.fxml" -> {
+                AdminUsersGuestBarController controller = fxmlLoader.getController();
+                controller.setData(data[4], data[1], data[2], data[3]);
+            }
+            default -> throw new IllegalArgumentException("Unknown FXML path: " + path);
+        }
+        return scene;
     }
 
     @FXML
@@ -132,9 +129,14 @@ public class AdminUsersLayoutController {
         setDefaultStyle();
         studentPane.setStyle("-fx-background-color: #E3E3E3; -fx-background-radius: 12px;");
         studentLabel.setStyle("-fx-text-fill: black;");
-        setVisibility(true,  false);
+        setVisibility(true, false);
         AnimationUtils.zoomIn(hBoxStudent, 1.0);
         showStudentsList();
+    }
+
+    public void showStudentsList() {
+        vBoxUserList.getChildren().clear();
+        preloadData(studentsData, "admin-users-student-bar.fxml", PreloadType.RESET);
     }
 
     @FXML
@@ -153,7 +155,7 @@ public class AdminUsersLayoutController {
 
     private void showGuestsList() {
         vBoxUserList.getChildren().clear();
-        preloadData(guestsData, "admin-users-guest-bar.fxml", "reset");
+        preloadData(guestsData, "admin-users-guest-bar.fxml", PreloadType.RESET);
     }
 
     @FXML
@@ -204,6 +206,14 @@ public class AdminUsersLayoutController {
         guestLabel.setStyle("-fx-text-fill: #fff");
     }
 
+    public EnumUtils.UserType getStatus() {
+        return status;
+    }
+
+    public List<String[]> getStudentsData() {
+        return studentsData;
+    }
+
     public void setStudentsData(List<String[]> usersData) {
         for (String[] d : usersData) {
             if (d[0].equals("Student")) {
@@ -212,28 +222,16 @@ public class AdminUsersLayoutController {
         }
     }
 
+    public List<String[]> getGuestsData() {
+        return guestsData;
+    }
+
     public void setGuestsData(List<String[]> usersData) {
         for (String[] d : usersData) {
             if (d[0].equals("External Borrower")) {
                 guestsData.add(d);
             }
         }
-    }
-
-    public EnumUtils.UserType getStatus() {
-        return status;
-    }
-
-    public void setStatus(EnumUtils.UserType status) {
-        this.status = status;
-    }
-
-    public List<String[]> getStudentsData() {
-        return studentsData;
-    }
-
-    public List<String[]> getGuestsData() {
-        return guestsData;
     }
 
     public void deleteUserDataById(String id) {
@@ -250,6 +248,10 @@ public class AdminUsersLayoutController {
                 return;
             }
         }
+    }
+
+    public enum PreloadType {
+        RESET, ADD
     }
 
 }

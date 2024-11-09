@@ -13,55 +13,39 @@ import util.ChangeScene;
 
 public class AdminBookViewDialogController {
 
+    private static AdminBookViewDialogController controller;
     @FXML
     private Label authorLabel;
-
     @FXML
     private Label idLabel;
-
     @FXML
     private JFXButton cancelButton;
-
     @FXML
     private Pane cancelPane;
-
     @FXML
     private JFXButton closeDialogButton;
-
     @FXML
     private Pane closePane;
-
     @FXML
     private Pane container;
-
     @FXML
     private ImageView bookCoverImage;
-
     @FXML
     private ImageView imgClose;
-
     @FXML
     private Label lblCancel;
-
     @FXML
     private Label nameLabel;
-
     @FXML
     private Label publishedDateLabel;
-
     @FXML
     private Label publisherLabel;
-
     @FXML
     private ImageView qrCodeImage;
-
     @FXML
     private Label quantityLabel;
-
     @FXML
     private Label typeLabel;
-
-    private static AdminBookViewDialogController controller;
 
     public AdminBookViewDialogController() {
         controller = this;

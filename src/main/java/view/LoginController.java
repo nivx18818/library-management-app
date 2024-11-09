@@ -10,8 +10,6 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -19,18 +17,17 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import initialize.AdminInitializer;
 import util.AnimationUtils;
 import util.ChangeScene;
 import util.EnumUtils;
 import util.RegExPatterns;
-import view.admin.AdminGlobalFormController;
 
 import java.io.IOException;
 import java.util.logging.Logger;
 
 public class LoginController {
 
+    public static JFXDialog dialog;
     private static LoginController controller;
     @FXML
     private StackPane stackPaneContainer;
@@ -80,7 +77,6 @@ public class LoginController {
     private JFXComboBox<String> majorComboBox = new JFXComboBox<>();
     @FXML
     private Label forgotPasswordLabel;
-    public static JFXDialog dialog;
 
     public LoginController() {
         controller = this;
@@ -113,6 +109,7 @@ public class LoginController {
         }
     }
 
+    // Show effect when click on sign up button in the login form
     public void handleSignUpButtonClicked() {
         new FadeInRight(sectionThree).play();
         new ZoomIn(sectionFour).play();
@@ -176,6 +173,7 @@ public class LoginController {
         }
     }
 
+    // Show effect when click on sign in button in the register form
     public void handleSignInButtonClicked() {
         new FadeInLeft(sectionTwo).play();
         new ZoomIn(sectionOne).play();
@@ -199,59 +197,98 @@ public class LoginController {
         errorAccountNotify.setOpacity(0.0);
     }
 
+    /**
+     * Handles the event when the user clicks the login button in the login section.
+     * <p>
+     * This method checks if the account is valid. If the account is valid,
+     * the user will be redirected to the dashboard.
+     *
+     * @param event the mouse event triggered when clicking the login button
+     * @throws IOException if an input/output error occurs during the sign-in process
+     */
     @FXML
     void handleSignInStatus(MouseEvent event) throws IOException {
         if (event.getSource().equals(signInButton)) {
-            signIn();
+            String username = usernameField.getText();
+            String password = passwordField.getText();
+
+            // Check if the account is valid and redirect to the dashboard or show an error message
+            if (checkAccount(username, password)) {
+                goDashboard();
+            } else {
+                handleFailedLogin();
+            }
         }
     }
 
-    public void signIn() throws IOException {
-        String username = usernameField.getText();
-        String password = passwordField.getText();
+    public void goDashboard() throws IOException {
+        ZoomOut zoomOut = new ZoomOut(container);
 
-        if (checkAccount(username, password)) {
-            goDashboard();
-        } else {
-            handleFailedLogin();
-        }
+        AnimationUtils.zoomIn(loadingPane, 1);
+        loadingPane.setVisible(true);
+
+        zoomOut.setOnFinished(event -> {
+            try {
+                ChangeScene.changeInterfaceWindow((Stage) loadingPane.getScene().getWindow(),
+                        "/fxml/admin-global-layout.fxml", "Library Management System");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            container.setVisible(false);
+        });
+        zoomOut.play();
+    }
+
+    public void handleFailedLogin() {
+        errorAccountNotify.setOpacity(1.0);
+        forgotPasswordLabel.setVisible(false);
+        AnimationUtils.playNotificationTimeline(errorAccountNotify, 3.0, "red");
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(3.5), event -> {
+            forgotPasswordLabel.setVisible(true);
+        }));
+        timeline.play();
     }
 
     /**
-     * Check if the account is valid
+     * Check if the account is valid by comparing the username and password with the database.
      *
      * @param username the username of the account
      * @param password the password of the account
      * @return true if the account is valid, false otherwise
      */
     public boolean checkAccount(String username, String password) {
-        //TODO: Implement this method
+        //TODO: Implement the account checking process
         return true;
     }
 
+    /**
+     * Handles the event when the user clicks the sign-up button in the register section.
+     * <p>
+     * This method checks if the sign-up information is valid. If the information is valid,
+     * the user will be redirected to the login section.
+     *
+     * @param event the mouse event triggered when clicking the sign-up button
+     */
     @FXML
     public void handleSignUpStatus(MouseEvent event) {
         if (event.getSource().equals(signUpButton2)) {
-            signUp();
+            String fullName = fullNameSignUp.getText();
+            String email = emailSignUp.getText();
+            String password = passwordSignUp.getText();
+            RadioButton selectedUserType = (RadioButton) userType.getSelectedToggle();
+            String majorOrPhoneNumber = selectedUserType.getText().equals("Student") ?
+                    ((majorComboBox.getValue() != null) ? majorComboBox.getValue() : "") :
+                    phoneNumberSignUp.getText();
+            String username = selectedUserType.getText().equals("Student") ?
+                    studentIDSignUp.getText() : citizenIDSignUp.getText();
+            // Check if the sign-up information is valid
+            if (checkSignUp(fullName, majorOrPhoneNumber, email, username, password, registerNoticeText)) {
+                logInAfterRegister();
+            }
         }
     }
 
-    public void signUp() {
-        String fullName = fullNameSignUp.getText();
-        String email = emailSignUp.getText();
-        String password = passwordSignUp.getText();
-        RadioButton selectedUserType = (RadioButton) userType.getSelectedToggle();
-        String majorOrPhoneNumber = selectedUserType.getText().equals("Student") ?
-                ((majorComboBox.getValue() != null) ? majorComboBox.getValue() : "") :
-                phoneNumberSignUp.getText();
-        String username = selectedUserType.getText().equals("Student") ?
-                studentIDSignUp.getText() : citizenIDSignUp.getText();
-
-        if (checkSignUp(fullName, majorOrPhoneNumber, email, username, password, registerNoticeText)) {
-            logInAfterRegister();
-        }
-    }
-
+    // Display a notification and automatically redirect to the login section after a successful sign-up.
     public void logInAfterRegister() {
 
         int[] countdownSeconds = {5};
@@ -341,33 +378,5 @@ public class LoginController {
         usernameField.setText("");
         passwordField.setText("");
 
-    }
-
-    public void goDashboard() throws IOException {
-        ZoomOut zoomOut = new ZoomOut(container);
-
-        AnimationUtils.zoomIn(loadingPane, 1);
-        loadingPane.setVisible(true);
-
-        zoomOut.setOnFinished(event -> {
-            try {
-                ChangeScene.changeInterfaceWindow((Stage) loadingPane.getScene().getWindow(),
-                        "/fxml/admin-global-layout.fxml", "Library Management System");
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            container.setVisible(false);
-        });
-        zoomOut.play();
-    }
-
-    public void handleFailedLogin() {
-        errorAccountNotify.setOpacity(1.0);
-        forgotPasswordLabel.setVisible(false);
-        AnimationUtils.playNotificationTimeline(errorAccountNotify, 3.0, "red");
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(3.5), event -> {
-            forgotPasswordLabel.setVisible(true);
-        }));
-        timeline.play();
     }
 }

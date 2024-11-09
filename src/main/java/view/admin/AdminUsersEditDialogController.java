@@ -3,68 +3,49 @@ package view.admin;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXToggleButton;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.util.Duration;
 import util.AnimationUtils;
 import util.ChangeScene;
 import util.EnumUtils;
 import util.RegExPatterns;
-import view.LoginController;
 
 public class AdminUsersEditDialogController {
 
+    private static AdminUsersEditDialogController controller;
     @FXML
     private JFXButton updateButton;
-
     @FXML
     private JFXButton closeDialogButton;
-
     @FXML
     private Pane container;
-
     @FXML
     private JFXToggleButton editMode;
-
     @FXML
     private TextField emailTextField;
-
     @FXML
     private TextField idTextField;
-
     @FXML
     private ImageView imgClose;
-
     @FXML
     private Label majorLabel;
-
     @FXML
     private JFXComboBox majorComboBox;
-
     @FXML
     private Label phoneNumberLabel;
-
     @FXML
     private TextField phoneNumberTextField;
-
     @FXML
     private TextField nameTextField;
-
     @FXML
     private Label userTypeLabel;
-
     @FXML
     private Label notificationLabel;
-
     private String[] originalData;
-
-    private static AdminUsersEditDialogController controller;
 
     public AdminUsersEditDialogController() {
         controller = this;
@@ -91,7 +72,7 @@ public class AdminUsersEditDialogController {
             return;
         }
 
-        String updatedData[] = new String[] {
+        String[] updatedData = new String[]{
                 idTextField.getText(),
                 nameTextField.getText(),
                 (majorLabel.isVisible() ? (String) majorComboBox.getValue() :
@@ -137,7 +118,7 @@ public class AdminUsersEditDialogController {
     }
 
     public void updateData(String[] src, String[] dest) {
-        String[] formattedData = new String[] {
+        String[] formattedData = new String[]{
                 src[1],
                 src[2],
                 src[3],

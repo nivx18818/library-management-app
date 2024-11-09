@@ -12,43 +12,31 @@ import util.EnumUtils;
 
 public class AdminUsersViewDialogController {
 
+    private static AdminUsersViewDialogController controller;
     @FXML
     private JFXButton cancelButton;
-
     @FXML
     private Pane cancelPane;
-
     @FXML
     private JFXButton closeDialogButton;
-
     @FXML
     private Pane closePane;
-
     @FXML
     private Pane container;
-
     @FXML
     private Label emailLabel;
-
     @FXML
     private Label fullNameLabel;
-
     @FXML
     private Label idLabel;
-
     @FXML
     private ImageView imgClose;
-
     @FXML
     private Label lblCancel;
-
     @FXML
     private Label majorOrPhoneLabel;
-
     @FXML
     private Label userTypeLabel;
-
-    private static AdminUsersViewDialogController controller;
 
     public AdminUsersViewDialogController() {
         controller = this;

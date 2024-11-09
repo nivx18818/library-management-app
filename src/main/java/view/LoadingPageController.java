@@ -36,5 +36,4 @@ public class LoadingPageController {
     public Pane getLoadingPane() {
         return loadingPane;
     }
-
 }

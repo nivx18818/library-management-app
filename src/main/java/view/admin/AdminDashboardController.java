@@ -21,11 +21,9 @@ import java.util.List;
 public class AdminDashboardController {
 
     private static AdminDashboardController controller;
-    AdminGlobalFormController adminGlobalFormController = AdminGlobalFormController.getInstance();
     @FXML
     public StackPane stackPaneContainer;
-    @FXML
-    private HBox dashboardContainer;
+    AdminGlobalFormController adminGlobalFormController = AdminGlobalFormController.getInstance();
     @FXML
     private PieChart pieChart;
     @FXML

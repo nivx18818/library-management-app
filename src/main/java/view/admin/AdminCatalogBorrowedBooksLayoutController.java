@@ -27,6 +27,8 @@ public class AdminCatalogBorrowedBooksLayoutController {
 
 
     private static AdminCatalogBorrowedBooksLayoutController controller;
+    @FXML
+    public StackPane stackPaneContainer;
     AdminGlobalFormController adminGlobalFormController = AdminGlobalFormController.getInstance();
     private final List<String[]> borrowedBooksData = adminGlobalFormController.getBorrowedBooksData();
     private final List<String[]> overdueData = loadOverdueBorrowersList();
@@ -46,8 +48,6 @@ public class AdminCatalogBorrowedBooksLayoutController {
     private TextField textSearch;
     @FXML
     private VBox vBoxBorrowedBooks;
-    @FXML
-    public StackPane stackPaneContainer;
     private String status = "borrowed";
 
     public AdminCatalogBorrowedBooksLayoutController() {

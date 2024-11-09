@@ -5,12 +5,12 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
 import util.ChangeScene;
 import util.EnumUtils;
 
 public class AdminBookBarController {
 
+    private static AdminBookBarController controller;
     @FXML
     private Label idLabel;
     @FXML
@@ -33,8 +33,6 @@ public class AdminBookBarController {
     private String imgPath;
     private String publisher;
     private String publishedDate;
-
-    private static AdminBookBarController controller;
 
     public AdminBookBarController() {
         controller = this;
@@ -105,6 +103,11 @@ public class AdminBookBarController {
         deleteFunction.setImage(normalImage);
     }
 
+    public String[] getData() {
+        return new String[]{idLabel.getText(), imgPath, nameLabel.getText(), typeLabel.getText(),
+                authorLabel.getText(), Integer.toString(quantity), publisher, publishedDate};
+    }
+
     public void setData(String[] data) {
         idLabel.setText(data[0]);
         try {
@@ -122,11 +125,6 @@ public class AdminBookBarController {
                 "-text-fill: red");
         publisher = data[6];
         publishedDate = data[7];
-    }
-
-    public String[] getData() {
-        return new String[]{idLabel.getText(), imgPath, nameLabel.getText(), typeLabel.getText(),
-                authorLabel.getText(), Integer.toString(quantity), publisher, publishedDate};
     }
 
     public String getId() {

@@ -28,13 +28,6 @@ public class AdminUsersStudentBarController {
     @FXML
     private ImageView viewFunction;
 
-    public void setData(String id, String name, String major, String email) {
-        idLabel.setText(id);
-        nameLabel.setText(name);
-        majorLabel.setText(major);
-        emailLabel.setText(email);
-    }
-
     @FXML
     void imgViewOnMouseClicked(MouseEvent event) {
         System.out.println("View");
@@ -101,6 +94,13 @@ public class AdminUsersStudentBarController {
         Image normalImage =
                 new Image(getClass().getResource("/assets/icon/btn Delete.png").toExternalForm());
         deleteFunction.setImage(normalImage);
+    }
+
+    public void setData(String id, String name, String major, String email) {
+        idLabel.setText(id);
+        nameLabel.setText(name);
+        majorLabel.setText(major);
+        emailLabel.setText(email);
     }
 
     public String[] getData() {

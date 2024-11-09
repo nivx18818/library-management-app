@@ -12,17 +12,16 @@ import util.AnimationUtils;
 import util.ChangeScene;
 import util.EnumUtils;
 import util.RegExPatterns;
-import view.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class AdminAddUserDialogController {
+    private final String[] majorList = EnumUtils.UETMajor;
     AdminUsersLayoutController adminUsersLayoutController =
             AdminUsersLayoutController.getInstance();
     AdminGlobalFormController adminGlobalFormController =
             AdminGlobalFormController.getInstance();
-    private final String[] majorList = EnumUtils.UETMajor;
     @FXML
     private ToggleGroup addUserType;
     @FXML
@@ -192,7 +191,8 @@ public class AdminAddUserDialogController {
             System.out.println("Adding student");
             userData.add(newUser);
             if (adminUsersLayoutController.getStatus().equals("student")) {
-                adminUsersLayoutController.preloadData(userData, "admin-users-student-bar.fxml", "add");
+                adminUsersLayoutController.preloadData(userData, "admin-users-student-bar.fxml",
+                        AdminUsersLayoutController.PreloadType.ADD);
             }
             adminGlobalFormController.getUsersData().add(newUser);
             adminUsersLayoutController.getStudentsData().add(newUser);
@@ -207,7 +207,7 @@ public class AdminAddUserDialogController {
             System.out.println("Adding guest");
             userData.add(newUser);
             if (adminUsersLayoutController.getStatus().equals("guest")) {
-                adminUsersLayoutController.preloadData(userData, "admin-users-guest-bar.fxml", "add");
+                adminUsersLayoutController.preloadData(userData, "admin-users-guest-bar.fxml", AdminUsersLayoutController.PreloadType.ADD);
             }
             adminGlobalFormController.getUsersData().add(newUser);
             adminUsersLayoutController.getGuestsData().add(newUser);

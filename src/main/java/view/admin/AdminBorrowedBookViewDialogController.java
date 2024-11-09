@@ -11,25 +11,19 @@ import util.ChangeScene;
 
 public class AdminBorrowedBookViewDialogController {
 
+    AdminBorrowedBooksBarController adminBorrowedBooksBar = AdminBorrowedBooksBarController.getInstance();
     @FXML
     private Pane closePane;
-
     @FXML
     private Label closeLabel;
-
     @FXML
     private Label lblId;
-
     @FXML
     private Label lblTotalBooks;
-
     @FXML
     private VBox vBox;
-
     @FXML
     private JFXButton closeButton;
-
-    AdminBorrowedBooksBarController adminBorrowedBooksBar = AdminBorrowedBooksBarController.getInstance();
 
     public void initialize() {
         System.out.println("AdminBorrowedBookViewDialogController initialized");
@@ -37,6 +31,7 @@ public class AdminBorrowedBookViewDialogController {
     }
 
     private void preLoadData() {
+        // TODO: Load data from database
 //        Task<Void> preloadTask = new Task<Void>() {
 //            @Override
 //            protected Void call() throws Exception {

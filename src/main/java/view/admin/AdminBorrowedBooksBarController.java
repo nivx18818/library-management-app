@@ -10,7 +10,7 @@ import util.EnumUtils;
 
 public class AdminBorrowedBooksBarController {
 
-    AdminCatalogBorrowedBooksLayoutController adminCatalogBorrowedBooksLayout = AdminCatalogBorrowedBooksLayoutController.getInstance();
+    private static AdminBorrowedBooksBarController controller;
     @FXML
     private Label amountLabel;
     @FXML
@@ -23,8 +23,6 @@ public class AdminBorrowedBooksBarController {
     private ImageView imgView;
     @FXML
     private Label nameLabel;
-
-    private static AdminBorrowedBooksBarController controller;
 
     public AdminBorrowedBooksBarController() {
         controller = this;

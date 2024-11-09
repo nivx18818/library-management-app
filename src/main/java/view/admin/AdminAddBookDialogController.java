@@ -7,7 +7,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import util.AnimationUtils;
 import util.ChangeScene;
@@ -50,15 +49,15 @@ public class AdminAddBookDialogController {
         AnimationUtils.hoverCloseIcons(closeDialogButton, imgClose);
 
         container.setOnMouseClicked(
-            event -> {
-                container.requestFocus();
-            }
+                event -> {
+                    container.requestFocus();
+                }
         );
     }
 
     @FXML
     void addButtonOnAction(ActionEvent event) throws IOException {
-        if (checkValid()) {
+        if (checkValidInfo()) {
             String[] bookData = new String[]{txtID.getText(), txtCoverURL.getText(), txtName.getText(),
                     txtType.getText(), txtAuthor.getText(), txtQuantity.getText(),
                     txtPublisher.getText(), txtPublishedDate.getText()};
@@ -99,7 +98,7 @@ public class AdminAddBookDialogController {
         setDefault();
     }
 
-    public boolean checkValid() throws IOException {
+    public boolean checkValidInfo() throws IOException {
 //        String urlOriginalPromptText = txtCoverURL.getPromptText();
         String idBook = txtID.getText();
         String url = txtCoverURL.getText();

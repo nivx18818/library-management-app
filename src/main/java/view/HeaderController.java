@@ -55,6 +55,7 @@ public class HeaderController {
         setDateAndTimeHeader();
     }
 
+    // Set current date and time in the header
     public void setDateAndTimeHeader() {
         DateTimeFormatter time = DateTimeFormatter.ofPattern("hh:mm");
         timeText.setText(time.format(java.time.LocalTime.now()) + " " + (LocalDateTime.now().getHour() < 12 ? "AM" : "PM"));
