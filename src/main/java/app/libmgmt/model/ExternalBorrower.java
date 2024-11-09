@@ -4,13 +4,13 @@ public class ExternalBorrower extends User {
     private String socialId;
     private String phoneNumber;
 
-    public ExternalBorrower(String name, String email, String password, String socialId,
+    public ExternalBorrower(int userId, String name, String email, String password, String socialId,
             String phoneNumber) {
-        super(name, email, password);
+        super(userId, name, email, password);
         this.socialId = socialId;
         this.phoneNumber = phoneNumber;
     }
-    
+
     public String getSocialId() {
         return socialId;
     }

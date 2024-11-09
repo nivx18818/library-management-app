@@ -13,8 +13,8 @@ public class Book {
     private List<String> authors;
     private List<String> categories;
 
-    public Book(String isbn, String title, Date publishedDate, String publisher, String coverUrl, int availableCopies,
-            List<String> authors, List<String> categories) {
+    public Book(String isbn, String title, Date publishedDate, String publisher, String coverUrl,
+            int availableCopies, List<String> authors, List<String> categories) {
         this.isbn = isbn;
         this.title = title;
         this.publishedDate = publishedDate;

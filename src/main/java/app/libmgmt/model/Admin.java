@@ -1,17 +1,18 @@
 package app.libmgmt.model;
 
 public class Admin extends User {
-    private String adminId;
+    private int adminId;
 
-    public Admin(String name, String email, String password) {
-        super(name, email, password);
+    public Admin(int userId, String name, String email, String password, int adminId) {
+        super(userId, name, email, password);
+        this.adminId = adminId;
     }
 
-    public String getAdminId() {
+    public int getAdminId() {
         return adminId;
     }
 
-    public void setAdminId(String adminId) {
+    public void setAdminId(int adminId) {
         this.adminId = adminId;
     }
 
