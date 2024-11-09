@@ -13,9 +13,9 @@ public class AdminInitializer extends Application {
     public void start(Stage stage) throws IOException {
         Logger.getLogger("javafx").setLevel(java.util.logging.Level.SEVERE);
         FXMLLoader fxmlLoader = new FXMLLoader(AdminInitializer.class.getResource(
-                "/fxml/login-form.fxml"));
+                "/fxml/standby-screen.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        stage.setTitle("Login Window");
+        stage.setTitle("Welcome to Library Management System");
         System.out.println(stage);
         stage.setResizable(false);
         stage.setScene(scene);

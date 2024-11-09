@@ -1,6 +1,8 @@
 package view;
 
-import animatefx.animation.*;
+import animatefx.animation.SlideInLeft;
+import animatefx.animation.SlideInRight;
+import animatefx.animation.ZoomOut;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDialog;
 import javafx.animation.KeyFrame;
@@ -9,7 +11,9 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import util.AnimationUtils;
@@ -87,6 +91,8 @@ public class LoginController {
 
     @FXML
     public void initialize() {
+        AnimationUtils.zoomIn(rootPane, 1.2);
+
         Logger.getLogger("javafx").setLevel(java.util.logging.Level.SEVERE);
 
         setDefault();
@@ -168,13 +174,13 @@ public class LoginController {
         sectionTwo.setVisible(true);
         new SlideInRight(sectionOne).setSpeed(1.2).play();
         new SlideInLeft(sectionTwo).setSpeed(1.2).play();
-        AnimationUtils.zoomIn(logoPaneSignUp, 0.4);
+        AnimationUtils.zoomIn(logoPaneSignUp, 0.5);
         errorAccountNotify.setOpacity(0.0);
     }
 
     /**
      * Handles the event when the user clicks the login button in the login section.
-     *
+     * <p>
      * This method checks if the account is valid. If the account is valid,
      * the user will be redirected to the dashboard.
      *
@@ -238,7 +244,7 @@ public class LoginController {
 
     /**
      * Handles the event when the user clicks the sign-up button in the register section.
-     *
+     * <p>
      * This method checks if the sign-up information is valid. If the information is valid,
      * the user will be redirected to the login section.
      *

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.Bloom?>
+<?import javafx.scene.effect.Light.Distant?>
+<?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.effect.Reflection?>
+<?import javafx.scene.effect.Shadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Pane fx:id="standbyScreenContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="575.0" prefWidth="930.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.StandbyScreenController">
+  <children>
+    <Pane fx:id="logoPane" layoutX="304.0" layoutY="225.0" stylesheets="@../style/login.css">
+      <children>
+        <HBox alignment="CENTER_LEFT" prefHeight="83.0" prefWidth="323.0">
+          <children>
+            <ImageView fitHeight="73.0" fitWidth="88.0" pickOnBounds="true" preserveRatio="true" styleClass="logo-image">
+              <image>
+                <Image url="@../assets/gif/giphy%20(2).gif" />
+              </image>
+              <effect>
+                <Bloom threshold="1.0" />
+              </effect>
+            </ImageView>
+                  <VBox alignment="CENTER">
+                     <children>
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bookwormText" text="BookWorm" textAlignment="CENTER" wrappingWidth="234.099609375">
+                    <effect>
+                      <Lighting diffuseConstant="1.28" specularConstant="0.28" surfaceScale="5.52">
+                        <bumpInput>
+                          <Shadow />
+                        </bumpInput>
+                        <light>
+                          <Light.Distant />
+                        </light>
+                      </Lighting>
+                    </effect>
+                  </Text>
+                      <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="libraryText" text="LIBRARY" textAlignment="CENTER" wrappingWidth="72.205078125">
+                        <effect>
+                          <Bloom threshold="0.96" />
+                        </effect>
+                        <font>
+                          <Font name="System Bold" size="16.0" />
+                        </font>
+                      </Text>
+                     </children>
+                  </VBox>
+          </children>
+          <effect>
+            <Reflection bottomOpacity="0.1" />
+          </effect>
+        </HBox>
+      </children>
+    </Pane>
+  </children>
+</Pane>

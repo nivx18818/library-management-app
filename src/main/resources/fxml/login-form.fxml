@@ -313,12 +313,23 @@
                         <Image url="@../assets/icon/logoImageWhite.png"/>
                       </image>
                       <effect>
-                        <Bloom threshold="0.9"/>
+                        <Bloom threshold="1.0"/>
                       </effect>
                     </ImageView>
                     <Text fx:id="bookwormText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0"
                           styleClass="bookwormText" text="BookWorm" textAlignment="CENTER"
-                          wrappingWidth="234.099609375"/>
+                          wrappingWidth="234.099609375">
+                      <effect>
+                        <Lighting diffuseConstant="1.41" surfaceScale="5.27">
+                          <bumpInput>
+                            <Shadow/>
+                          </bumpInput>
+                          <light>
+                            <Light.Distant/>
+                          </light>
+                        </Lighting>
+                      </effect>
+                    </Text>
                   </children>
                   <effect>
                     <Reflection bottomOpacity="0.1"/>
