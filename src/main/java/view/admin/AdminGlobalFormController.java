@@ -36,7 +36,7 @@ public class AdminGlobalFormController {
     public void initialize() {
         System.out.println("Admin Global Form initialized");
 
-        AnimationUtils.fadeInRight(pagingPane);
+        AnimationUtils.fadeInRight(pagingPane, 1);
     }
 
     public Pane getPagingPane() {

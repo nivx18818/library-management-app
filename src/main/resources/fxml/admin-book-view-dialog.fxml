@@ -4,7 +4,6 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.Cursor?>
-<?import javafx.scene.effect.Reflection?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
@@ -62,9 +61,6 @@
           </font>
         </Label>
       </children>
-      <effect>
-        <Reflection fraction="0.28" topOpacity="0.38"/>
-      </effect>
     </Pane>
     <Pane layoutX="34.0" layoutY="117.0" prefHeight="254.0" prefWidth="713.0"
           style="-fx-background-radius: 10px; -fx-border-color: #dddddd; -fx-border-radius: 10px;">

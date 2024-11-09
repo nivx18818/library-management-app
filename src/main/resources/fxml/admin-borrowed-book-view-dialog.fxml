@@ -5,7 +5,6 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.effect.Bloom?>
-<?import javafx.scene.effect.Reflection?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.*?>
@@ -106,9 +105,6 @@
           </font>
         </Label>
       </children>
-      <effect>
-        <Reflection fraction="0.28" topOpacity="0.38"/>
-      </effect>
     </Pane>
     <JFXButton fx:id="closeButton" layoutX="627.0" layoutY="475.0" onAction="#btnCloseOnAction"
                onMouseEntered="#btnCloseOnMouseEntered" onMouseExited="#btnCloseOnMouseExited"

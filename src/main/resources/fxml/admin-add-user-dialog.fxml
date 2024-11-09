@@ -12,10 +12,12 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.*?>
 <?import java.net.URL?>
-<Pane xmlns:fx="http://javafx.com/fxml/1" fx:id="container" maxHeight="-Infinity" maxWidth="-Infinity"
+<Pane xmlns:fx="http://javafx.com/fxml/1" fx:id="container" maxHeight="-Infinity"
+      maxWidth="-Infinity"
       minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
       prefWidth="500.0"
-      style="-fx-background-color: white; -fx-background-radius: 12px;" xmlns="http://javafx.com/javafx/23"
+      style="-fx-background-color: white; -fx-background-radius: 12px;"
+      xmlns="http://javafx.com/javafx/23"
       fx:controller="view.admin.AdminAddUserDialogController">
   <children>
     <Pane layoutX="35.0" layoutY="15.0" prefHeight="45.0" prefWidth="45.0"
@@ -70,9 +72,6 @@
           </cursor>
         </JFXButton>
       </children>
-      <effect>
-        <Reflection fraction="0.28" topOpacity="0.38"/>
-      </effect>
     </Pane>
     <Pane layoutX="266.0" layoutY="345.0" prefHeight="41.0" prefWidth="200.0"
           style="-fx-background-color: black; -fx-background-radius: 10;">

@@ -28,8 +28,15 @@ public class AnimationUtils {
         sequentialTransition.play();
     }
 
-    public static void fadeInRight(Pane pane) {
+    public static void fadeInRight(Pane pane, double speed) {
         FadeInRight fir = new FadeInRight(pane);
+        fir.setSpeed(speed);
+        fir.play();
+    }
+
+    public static void fadeInLeft(Pane pane, double speed) {
+        FadeInLeft fir = new FadeInLeft(pane);
+        fir.setSpeed(speed);
         fir.play();
     }
 

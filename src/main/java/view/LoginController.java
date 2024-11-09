@@ -1,9 +1,6 @@
 package view;
 
-import animatefx.animation.FadeInLeft;
-import animatefx.animation.FadeInRight;
-import animatefx.animation.ZoomIn;
-import animatefx.animation.ZoomOut;
+import animatefx.animation.*;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDialog;
 import javafx.animation.KeyFrame;
@@ -12,9 +9,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import util.AnimationUtils;
@@ -31,8 +26,6 @@ public class LoginController {
     private static LoginController controller;
     @FXML
     private StackPane stackPaneContainer;
-    @FXML
-    private BorderPane container;
     @FXML
     private TextField emailSignUp;
     @FXML
@@ -77,6 +70,12 @@ public class LoginController {
     private JFXComboBox<String> majorComboBox = new JFXComboBox<>();
     @FXML
     private Label forgotPasswordLabel;
+    @FXML
+    private AnchorPane rootPane;
+    @FXML
+    private Pane logoPaneSignIn;
+    @FXML
+    private Pane logoPaneSignUp;
 
     public LoginController() {
         controller = this;
@@ -94,8 +93,8 @@ public class LoginController {
 
         majorComboBox.getItems().addAll(EnumUtils.UETMajor);
 
-        container.setOnMouseClicked(event -> {
-            container.requestFocus();
+        stackPaneContainer.setOnMouseClicked(event -> {
+            stackPaneContainer.requestFocus();
         });
     }
 
@@ -111,25 +110,13 @@ public class LoginController {
 
     // Show effect when click on sign up button in the login form
     public void handleSignUpButtonClicked() {
-        new FadeInRight(sectionThree).play();
-        new ZoomIn(sectionFour).play();
-
         sectionOne.setVisible(false);
-        sectionOne.setDisable(true);
-        sectionOne.setOpacity(0.0);
-
         sectionTwo.setVisible(false);
-        sectionTwo.setDisable(true);
-        sectionTwo.setOpacity(0.0);
-
         sectionThree.setVisible(true);
-        sectionThree.setDisable(false);
-        sectionThree.setOpacity(1.0);
-
         sectionFour.setVisible(true);
-        sectionFour.setDisable(false);
-        sectionFour.setOpacity(1.0);
-
+        new SlideInRight(sectionThree).setSpeed(1.2).play();
+        new SlideInLeft(sectionFour).setSpeed(1.2).play();
+        AnimationUtils.zoomIn(logoPaneSignIn, 0.5);
         errorAccountNotify.setOpacity(0.0);
     }
 
@@ -175,31 +162,19 @@ public class LoginController {
 
     // Show effect when click on sign in button in the register form
     public void handleSignInButtonClicked() {
-        new FadeInLeft(sectionTwo).play();
-        new ZoomIn(sectionOne).play();
-
-        sectionOne.setVisible(true);
-        sectionOne.setDisable(false);
-        sectionOne.setOpacity(1.0);
-
-        sectionTwo.setVisible(true);
-        sectionTwo.setDisable(false);
-        sectionTwo.setOpacity(1.0);
-
         sectionThree.setVisible(false);
-        sectionThree.setDisable(true);
-        sectionThree.setOpacity(0.0);
-
         sectionFour.setVisible(false);
-        sectionFour.setDisable(true);
-        sectionFour.setOpacity(0.0);
-
+        sectionOne.setVisible(true);
+        sectionTwo.setVisible(true);
+        new SlideInRight(sectionOne).setSpeed(1.2).play();
+        new SlideInLeft(sectionTwo).setSpeed(1.2).play();
+        AnimationUtils.zoomIn(logoPaneSignUp, 0.4);
         errorAccountNotify.setOpacity(0.0);
     }
 
     /**
      * Handles the event when the user clicks the login button in the login section.
-     * <p>
+     *
      * This method checks if the account is valid. If the account is valid,
      * the user will be redirected to the dashboard.
      *
@@ -222,7 +197,7 @@ public class LoginController {
     }
 
     public void goDashboard() throws IOException {
-        ZoomOut zoomOut = new ZoomOut(container);
+        ZoomOut zoomOut = new ZoomOut(rootPane);
 
         AnimationUtils.zoomIn(loadingPane, 1);
         loadingPane.setVisible(true);
@@ -234,7 +209,7 @@ public class LoginController {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            container.setVisible(false);
+            rootPane.setVisible(false);
         });
         zoomOut.play();
     }
@@ -263,7 +238,7 @@ public class LoginController {
 
     /**
      * Handles the event when the user clicks the sign-up button in the register section.
-     * <p>
+     *
      * This method checks if the sign-up information is valid. If the information is valid,
      * the user will be redirected to the login section.
      *

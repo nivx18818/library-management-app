@@ -167,9 +167,6 @@ public class AdminNavigationController {
 
     @FXML
     public void logOutButtonClicked(MouseEvent event) throws IOException {
-        if (latestButtonClicked == EnumUtils.NavigationButton.LOGOUT) {
-            return;
-        }
         ChangeScene.openAdminPopUp(AdminGlobalFormController.getInstance().getStackPaneContainer(),
                 "/fxml/logout-dialog.fxml");
         handleEffectButtonClicked(logoutButton);
