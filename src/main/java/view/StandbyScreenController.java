@@ -25,7 +25,7 @@ public class StandbyScreenController {
     public void initialize() {
         Logger.getLogger("javafx").setLevel(java.util.logging.Level.SEVERE);
 
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(4), e -> {
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(2.5), e -> {
 
                 ZoomOut zoomOut = new ZoomOut(logoPane);
 

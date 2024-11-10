@@ -19,22 +19,22 @@ public class AdminDeleteConfirmationDialogController {
     private JFXButton closeDialogButton;
 
     @FXML
-    private Pane closePane;
+    private JFXButton deleteButton;
 
     @FXML
-    private JFXButton confirmButton;
-
-    @FXML
-    private Pane confirmPane;
-
-    @FXML
-    private Pane container;
+    private JFXButton cancelButton;
 
     @FXML
     private ImageView imgClose;
 
     @FXML
     private Label lblConfirm;
+
+    @FXML
+    private Label cancelLabel;
+
+    @FXML
+    private Pane cancelPane;
 
     private String id;
 
@@ -52,9 +52,10 @@ public class AdminDeleteConfirmationDialogController {
     }
 
     @FXML
-    void confirmButtonOnAction(ActionEvent event) {
+    void deleteButtonOnAction(ActionEvent event) {
         lblConfirm.setText("Deleting...");
-        confirmButton.setDisable(true);
+        deleteButton.setDisable(true);
+        cancelButton.setDisable(true);
         if (popupList == EnumUtils.PopupList.BOOK_DELETE) {
             deleteBook();
         } else if (popupList == EnumUtils.PopupList.USER_DELETE) {
@@ -64,6 +65,21 @@ public class AdminDeleteConfirmationDialogController {
             ChangeScene.closePopUp();
         }));
         timeline.play();
+    }
+
+    @FXML
+    void cancelButtonOnAction(ActionEvent event) {
+        ChangeScene.closePopUp();
+    }
+
+    @FXML
+    void cancelButtonOnMouseEntered() {
+        cancelPane.setStyle("-fx-background-color: #d7d7d7; -fx-background-radius: 10");
+    }
+
+    @FXML
+    void cancelButtonOnMouseExited() {
+        cancelPane.setStyle("-fx-background-color: #fff; -fx-background-radius: 10");
     }
 
     private void deleteBook() {

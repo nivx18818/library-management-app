@@ -39,18 +39,6 @@ public class AdminGlobalFormController {
         AnimationUtils.fadeInRight(pagingPane, 1);
     }
 
-    public Pane getPagingPane() {
-        return pagingPane;
-    }
-
-    public void setPagingPane(Pane pagingPane) {
-        this.pagingPane = pagingPane;
-    }
-
-    public Pane getBackgroundPane() {
-        return backgroundPane;
-    }
-
     public List<String[]> preLoadBorrowedBooksData() {
         List<String[]> data = new ArrayList<>();
 
@@ -67,8 +55,6 @@ public class AdminGlobalFormController {
     public List<String[]> preLoadBooksData() {
         List<String[]> data = new ArrayList<>();
 
-        data.add(new String[]{"7", "https://www.thejapanshop.com/cdn/shop/products/new_doc_91_1_1280x.jpg?v=1571438916", "Doraemon",
-                "Comic", "Fujko F Fujio", "0", "NXB Trẻ", "13-08-2024"});
         data.add(new String[]{"1", "https://marketplace.canva.com/EAFaQMYuZbo/1/0/1003w/canva-brown-rusty-mystery-novel-book-cover-hG1QhA7BiBU.jpg"
                 , "The Great Gatsby", "Education", "F. Scott Fitzgerald", "3", "NXB Trẻ", "13-08" +
                 "-2024"});
@@ -86,6 +72,43 @@ public class AdminGlobalFormController {
                 "Comic", "Fujko F Fujio", "0", "NXB Trẻ", "13-08-2024"});
 
         return data;
+    }
+
+    /**
+     * Insert books data to database
+     *
+     * @param bookData book data
+     */
+    public static void insertBooksData(String[] bookData) {
+        // TODO: Insert book data to database
+
+        // Add book data to booksData list
+        getInstance().booksData.add(bookData);
+    }
+
+    /**
+     * Insert users data to database
+     *
+     * @return ArrayList of users data
+     */
+    public static ArrayList<String[]> getAllBooksDataFromDatabase() {
+        // TODO: Get all books data from database
+        return new ArrayList<>();
+    }
+
+    /**
+     * Get last book data from database
+     * @return String array of last book data
+     */
+    public static String[] getLastBookDataFromDatabase() {
+        // TODO: Get last book data from database
+
+        // Return last book data
+        String[] lastBookData = getInstance().booksData.getLast();
+        String[] newArray = new String[lastBookData.length + 1];
+        newArray[0] = 23 + "";
+        System.arraycopy(lastBookData, 0, newArray, 1, lastBookData.length);
+        return newArray;
     }
 
     public List<String[]> preLoadUsersData() {
@@ -108,6 +131,18 @@ public class AdminGlobalFormController {
         data.add(new String[]{"N Đ Nguyên", "23020103@vnu.edu.vn"});
 
         return data;
+    }
+
+    public Pane getPagingPane() {
+        return pagingPane;
+    }
+
+    public Pane getBackgroundPane() {
+        return backgroundPane;
+    }
+
+    public HBox getGlobalFormContainer() {
+        return globalFormContainer;
     }
 
     public List<String[]> getBorrowedBooksData() {
@@ -164,9 +199,5 @@ public class AdminGlobalFormController {
                 break;
             }
         }
-    }
-
-    public HBox getGlobalFormContainer() {
-        return globalFormContainer;
     }
 }

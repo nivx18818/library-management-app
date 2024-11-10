@@ -7,9 +7,7 @@ import javafx.animation.Timeline;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -22,7 +20,8 @@ import util.RegExPatterns;
 public class AdminBookEditDialogController {
 
     private static AdminBookEditDialogController controller;
-    String currentUpdateType = UpdateType.BASIC_INFO.name();
+    private UpdateType currentUpdateType = UpdateType.BASIC_INFO;
+    private UpdateType lastUpdateType = UpdateType.BASIC_INFO;
     @FXML
     private TextField authorTextField;
     @FXML
@@ -36,13 +35,7 @@ public class AdminBookEditDialogController {
     @FXML
     private JFXButton closeDialogButton;
     @FXML
-    private Pane closePane;
-    @FXML
     private Pane container;
-    @FXML
-    private JFXToggleButton editMode;
-    @FXML
-    private TextField idTextField;
     @FXML
     private ImageView imgClose;
     @FXML
@@ -54,17 +47,13 @@ public class AdminBookEditDialogController {
     @FXML
     private TextField publisherTextField;
     @FXML
-    private TextField quantityTextField;
+    private Spinner<Integer> quantitySpinner = new Spinner<>();
     @FXML
     private TextField typeTextField;
-    @FXML
-    private ToggleGroup update;
     @FXML
     private JFXButton updateButton;
     @FXML
     private Pane updatePane;
-    @FXML
-    private JFXButton uploadButton;
     @FXML
     private ImageView qrCodeImage;
     @FXML
@@ -75,10 +64,15 @@ public class AdminBookEditDialogController {
     private JFXButton refreshButton;
     @FXML
     private TextField qrCodeTextField;
+    @FXML
+    private JFXButton basicInfoButton;
+    @FXML
+    private JFXButton bookCoverButton;
+    @FXML
+    private JFXButton qrCodeButton;
     private String[] originalData;
     private String lastImageURL;
     private String lastQrCodeURL;
-    private String lastUpdateType;
 
     public AdminBookEditDialogController() {
         controller = this;
@@ -91,16 +85,8 @@ public class AdminBookEditDialogController {
     public void initialize() {
         System.out.println("AdminBookEditDialogController initialized");
 
-        update.selectedToggleProperty().addListener((observable, oldToggle, newToggle) -> {
-            if (newToggle != null) {
-                handleToggleGroupAction();
-            }
-        });
-
-        editMode.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            setEditableFields(newValue);
-        });
-        setEditableFields(false);
+        quantitySpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 100, 0));
+        quantitySpinner.setStyle("-fx-font-size: 16px;");
 
         AnimationUtils.hoverCloseIcons(closeDialogButton, imgClose);
     }
@@ -117,12 +103,12 @@ public class AdminBookEditDialogController {
         }
 
         String[] updatedData = new String[]{
-                idTextField.getText(),
+                originalData[0],
                 imgUrlTextField.getText().equals("") ? originalData[1] : imgUrlTextField.getText(),
                 nameTextField.getText(),
                 typeTextField.getText(),
                 authorTextField.getText(),
-                quantityTextField.getText(),
+                quantitySpinner.getValue().toString(),
                 publisherTextField.getText(),
                 publishedDateITextField.getText()
         };
@@ -142,24 +128,7 @@ public class AdminBookEditDialogController {
         }
 
         if (hasChanges) {
-            String[] bookData = AdminGlobalFormController.getInstance().getBookDataById(originalData[0]);
-            if (bookData != null) {
-                System.arraycopy(updatedData, 0, bookData, 0, updatedData.length);
-                notificationLabel.setText("Update successful. Please refresh the page!");
-                originalData = updatedData;
-                notificationLabel.setStyle("-fx-text-fill: #08a80d;");
-                Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.7), e -> {
-                    updatePane.setVisible(false);
-                    updateButton.setDisable(true);
-                    refreshButton.setDisable(false);
-                    refreshPane.setVisible(true);
-                    AnimationUtils.zoomIn(refreshPane, 1.0);
-                }));
-                timeline.play();
-            } else {
-                notificationLabel.setText("Book not found!");
-                notificationLabel.setStyle("-fx-text-fill: ff0000;");
-            }
+            updateBookData(updatedData);
         } else {
             notificationLabel.setText("No changes detected.");
             notificationLabel.setStyle("-fx-text-fill: #ff0000;");
@@ -169,12 +138,33 @@ public class AdminBookEditDialogController {
                 hasChanges ? "#08a80d" : "#ff0000");
     }
 
+    private void updateBookData(String[] updatedData) {
+        String[] bookData = AdminGlobalFormController.getInstance().getBookDataById(originalData[0]);
+        if (bookData != null) {
+            System.arraycopy(updatedData, 0, bookData, 0, updatedData.length);
+            notificationLabel.setText("Update successful. Please refresh the page!");
+            originalData = updatedData;
+            notificationLabel.setStyle("-fx-text-fill: #08a80d;");
+            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.7), e -> {
+                updatePane.setVisible(false);
+                updateButton.setDisable(true);
+                refreshButton.setDisable(false);
+                refreshPane.setVisible(true);
+                AnimationUtils.zoomIn(refreshPane, 1.0);
+            }));
+            timeline.play();
+        } else {
+            notificationLabel.setText("Book not found!");
+            notificationLabel.setStyle("-fx-text-fill: ff0000;");
+        }
+    }
+
     @FXML
     void refreshButtonOnAction(ActionEvent event) {
         AdminBooksLayoutController.getInstance().refreshBooksList();
         notificationLabel.setText("Refreshing...");
         refreshButton.setDisable(true);
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(3), e -> {
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(2.5), e -> {
             notificationLabel.setText("Refreshed successfully.");
             refreshPane.setVisible(false);
             updatePane.setVisible(true);
@@ -182,24 +172,24 @@ public class AdminBookEditDialogController {
             AnimationUtils.zoomIn(updatePane, 1.0);
         }));
         timeline.play();
-        AnimationUtils.playNotificationTimeline(notificationLabel, 5, "#08a80d");
+        AnimationUtils.playNotificationTimeline(notificationLabel, 4, "#08a80d");
     }
 
     @FXML
     void uploadButtonOnAction(ActionEvent event) {
-        String imgUrl = UpdateType.BOOK_COVER.name().equals(currentUpdateType) ?
+        String imgUrl = UpdateType.BOOK_COVER.equals(currentUpdateType) ?
                 imgUrlTextField.getText() : qrCodeTextField.getText();
-        if (imgUrl.equals(UpdateType.BOOK_COVER.name().equals(currentUpdateType) ? lastImageURL : lastQrCodeURL)) {
+        if (imgUrl.equals(UpdateType.BOOK_COVER.equals(currentUpdateType) ? lastImageURL : lastQrCodeURL)) {
             return;
         }
         if (RegExPatterns.bookCoverUrlPattern(imgUrl)) {
-            if (UpdateType.BOOK_COVER.name().equals(currentUpdateType)) {
+            if (UpdateType.BOOK_COVER.equals(currentUpdateType)) {
                 setBookCoverImage(imgUrl);
             } else {
                 setQrCodeImage(imgUrl);
             }
             bookCoverLabel.setText("Valid URL");
-            if (UpdateType.BOOK_COVER.name().equals(currentUpdateType)) {
+            if (UpdateType.BOOK_COVER.equals(currentUpdateType)) {
                 lastImageURL = imgUrl;
             } else {
                 lastQrCodeURL = imgUrl;
@@ -212,19 +202,25 @@ public class AdminBookEditDialogController {
                 "#08a80d" : "#ff0000");
     }
 
-    public void handleToggleGroupAction() {
-        JFXToggleButton selectedUpdateType = (JFXToggleButton) update.getSelectedToggle();
-        if (selectedUpdateType.getText().equals("Basic Info")) {
-            currentUpdateType = UpdateType.BASIC_INFO.name();
-        } else if (selectedUpdateType.getText().equals("Book Cover")) {
-            currentUpdateType = UpdateType.BOOK_COVER.name();
-        } else if (selectedUpdateType.getText().equals("QR Code")) {
-            currentUpdateType = UpdateType.QR_CODE.name();
-        } else if (selectedUpdateType.getText().equals("QR Code")) {
-            currentUpdateType = UpdateType.QR_CODE.name();
-        }
-
+    @FXML
+    void basicInfoButtonOnAction(ActionEvent event) {
+        currentUpdateType = UpdateType.BASIC_INFO;
         showPane();
+        handleEffectButtonClicked();
+    }
+
+    @FXML
+    void bookCoverButtonOnAction(ActionEvent event) {
+        currentUpdateType = UpdateType.BOOK_COVER;
+        showPane();
+        handleEffectButtonClicked();
+    }
+
+    @FXML
+    void qrCodeButtonOnAction(ActionEvent event) {
+        currentUpdateType = UpdateType.QR_CODE;
+        showPane();
+        handleEffectButtonClicked();
     }
 
     public void showOriginalBookData(String[] data) {
@@ -236,11 +232,10 @@ public class AdminBookEditDialogController {
     }
 
     private void setOriginalBasicInfo() {
-        idTextField.setText(originalData[0]);
         nameTextField.setText(originalData[2]);
         typeTextField.setText(originalData[3]);
         authorTextField.setText(originalData[4]);
-        quantityTextField.setText(originalData[5]);
+        quantitySpinner.getValueFactory().setValue(Integer.parseInt(originalData[5]));
         publisherTextField.setText(originalData[6]);
         publishedDateITextField.setText(originalData[7]);
     }
@@ -286,16 +281,6 @@ public class AdminBookEditDialogController {
         new Thread(loadImageTask).start();
     }
 
-    private void setEditableFields(boolean isEditable) {
-        idTextField.setEditable(isEditable);
-        nameTextField.setEditable(isEditable);
-        typeTextField.setEditable(isEditable);
-        authorTextField.setEditable(isEditable);
-        quantityTextField.setEditable(isEditable);
-        publisherTextField.setEditable(isEditable);
-        publishedDateITextField.setEditable(isEditable);
-    }
-
     public void showPane() {
         container.setOnMouseClicked(event -> {
             container.requestFocus();
@@ -308,14 +293,14 @@ public class AdminBookEditDialogController {
         lastUpdateType = currentUpdateType;
 
         switch (currentUpdateType) {
-            case "BASIC_INFO":
+            case UpdateType.BASIC_INFO:
                 basicInfoContainer.setVisible(true);
                 bookCoverContainer.setVisible(false);
                 AnimationUtils.zoomIn(basicInfoContainer, 1.0);
                 break;
-            case "BOOK_COVER":
-            case "QR_CODE":
-                if (currentUpdateType.equals("BOOK_COVER")) {
+            case UpdateType.BOOK_COVER:
+            case UpdateType.QR_CODE:
+                if (currentUpdateType.equals(UpdateType.BOOK_COVER)) {
                     qrCodeTextField.setVisible(false);
                     imgUrlTextField.setVisible(true);
                     qrCodeImage.setVisible(false);
@@ -335,14 +320,6 @@ public class AdminBookEditDialogController {
 
     public boolean checkValidFields() {
         boolean check = true;
-        if (!RegExPatterns.bookIDPattern(quantityTextField.getText())) {
-            notificationLabel.setText("Invalid quantity.");
-            check = false;
-        }
-        if (!RegExPatterns.bookIDPattern(idTextField.getText())) {
-            notificationLabel.setText("Invalid ID.");
-            check = false;
-        }
         if (!publishedDateITextField.getText().isEmpty()) {
             if (!RegExPatterns.datePattern(publishedDateITextField.getText())) {
                 notificationLabel.setText("Invalid date. Please use dd-mm-yyyy format.");
@@ -354,6 +331,35 @@ public class AdminBookEditDialogController {
             AnimationUtils.playNotificationTimeline(notificationLabel, 1, "#ff0000");
         }
         return check;
+    }
+
+    public void handleEffectButtonClicked() {
+        setDefaultButtonStyle();
+        changeButtonStyle();
+    }
+
+    public void setDefaultButtonStyle() {
+        basicInfoButton.setStyle("-fx-background-color: #000; -fx-text-fill: #fff;");
+        bookCoverButton.setStyle("-fx-background-color: #000; -fx-text-fill: #fff;");
+        qrCodeButton.setStyle("-fx-background-color: #000; -fx-text-fill: #fff;");
+    }
+
+    public void changeButtonStyle() {
+        setDefaultButtonStyle();
+        switch (lastUpdateType) {
+            case UpdateType.BASIC_INFO:
+                basicInfoButton.setStyle("-fx-background-color: #fff; -fx-text-fill: #000; " +
+                        "-fx-background-radius: 0");
+                break;
+            case UpdateType.BOOK_COVER:
+                bookCoverButton.setStyle("-fx-background-color: #fff; -fx-text-fill: #000; " +
+                        "-fx-background-radius: 0");
+                break;
+            case UpdateType.QR_CODE:
+                qrCodeButton.setStyle("-fx-background-color: #fff; -fx-text-fill: #000; " +
+                        "-fx-background-radius: 0");
+                break;
+        }
     }
 
     enum UpdateType {

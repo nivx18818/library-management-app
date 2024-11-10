@@ -55,28 +55,26 @@ public class AdminNavigationController {
         System.out.println("Navigation Controller initialized " + ++initializedTimes + " times");
 
         showAnimation();
-
-        navigationBarButtonClick();
     }
 
-    public void navigationBarButtonClick() {
+    public void changeButtonStyle() {
         switch (latestButtonClicked) {
             case EnumUtils.NavigationButton.DASHBOARD:
-                changeButtonLayout("/assets/icon/dashboard-icon-2.png", dashboardButton, dashboardLogo);
+                setStyle("/assets/icon/dashboard-icon-2.png", dashboardButton, dashboardLogo);
                 break;
             case EnumUtils.NavigationButton.CATALOG:
-                changeButtonLayout("/assets/icon/catalog-icon-2.png", catalogButton, catalogLogo);
+                setStyle("/assets/icon/catalog-icon-2.png", catalogButton, catalogLogo);
                 break;
             case EnumUtils.NavigationButton.BOOKS:
-                changeButtonLayout("/assets/icon/books-icon-2.png", booksButton, booksLogo);
+                setStyle("/assets/icon/books-icon-2.png", booksButton, booksLogo);
                 break;
             case EnumUtils.NavigationButton.USERS:
-                changeButtonLayout("/assets/icon/people-icon-2.png", usersButton, usersLogo);
+                setStyle("/assets/icon/people-icon-2.png", usersButton, usersLogo);
                 break;
         }
     }
 
-    public void changeButtonLayout(String pathToLogo, JFXButton button, ImageView logo) {
+    public void setStyle(String pathToLogo, JFXButton button, ImageView logo) {
         Image image = new Image(getClass().getResource(pathToLogo).toExternalForm());
         button.setStyle("-fx-background-color: white; -fx-text-fill: black;");
         logo.setImage(image);
@@ -111,7 +109,7 @@ public class AdminNavigationController {
     public void handleEffectButtonClicked(JFXButton button) {
         latestButtonClicked = getButtonType(button);
         setDefaultButtons();
-        navigationBarButtonClick();
+        changeButtonStyle();
     }
 
     public EnumUtils.NavigationButton getButtonType(JFXButton button) {

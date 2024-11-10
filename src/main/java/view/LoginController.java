@@ -122,7 +122,7 @@ public class LoginController {
         sectionFour.setVisible(true);
         new SlideInRight(sectionThree).setSpeed(1.2).play();
         new SlideInLeft(sectionFour).setSpeed(1.2).play();
-        AnimationUtils.zoomIn(logoPaneSignIn, 0.5);
+        AnimationUtils.zoomIn(logoPaneSignIn, 0.7);
         errorAccountNotify.setOpacity(0.0);
     }
 
@@ -174,7 +174,7 @@ public class LoginController {
         sectionTwo.setVisible(true);
         new SlideInRight(sectionOne).setSpeed(1.2).play();
         new SlideInLeft(sectionTwo).setSpeed(1.2).play();
-        AnimationUtils.zoomIn(logoPaneSignUp, 0.5);
+        AnimationUtils.zoomIn(logoPaneSignUp, 0.6);
         errorAccountNotify.setOpacity(0.0);
     }
 
