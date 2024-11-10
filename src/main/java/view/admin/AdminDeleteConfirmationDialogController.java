@@ -36,6 +36,9 @@ public class AdminDeleteConfirmationDialogController {
     @FXML
     private Pane cancelPane;
 
+    @FXML
+    private Label notificationLabel;
+
     private String id;
 
     private EnumUtils.PopupList popupList;
@@ -57,8 +60,10 @@ public class AdminDeleteConfirmationDialogController {
         deleteButton.setDisable(true);
         cancelButton.setDisable(true);
         if (popupList == EnumUtils.PopupList.BOOK_DELETE) {
+            notificationLabel.setText("Are you sure you want to delete this book?");
             deleteBook();
         } else if (popupList == EnumUtils.PopupList.USER_DELETE) {
+            notificationLabel.setText("Are you sure you want to delete this user?");
             deleteUser();
         }
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), e -> {

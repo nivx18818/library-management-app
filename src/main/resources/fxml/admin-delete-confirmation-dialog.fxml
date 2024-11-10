@@ -55,7 +55,7 @@
         </Label>
          </children>
     </Pane>
-    <Label layoutX="34.0" layoutY="84.0" prefHeight="92.0" prefWidth="431.0" text="Are you sure you want to delete this book?" wrapText="true">
+    <Label fx:id="notificationLabel" layoutX="34.0" layoutY="84.0" prefHeight="92.0" prefWidth="431.0" text="Are you sure you want to delete this book?" wrapText="true">
       <font>
         <Font size="17.0" />
       </font>

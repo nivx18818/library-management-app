@@ -9,7 +9,6 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.effect.Bloom?>
-<?import javafx.scene.effect.Glow?>
 <?import javafx.scene.effect.Light.Distant?>
 <?import javafx.scene.effect.Lighting?>
 <?import javafx.scene.effect.Reflection?>
@@ -103,6 +102,9 @@
               <font>
                 <Font size="13.0" />
               </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
             </Button>
             <Text fx:id="descText2" layoutX="95.0" layoutY="164.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please provide your information to sign up." textAlignment="CENTER" wrappingWidth="272.9765625">
               <font>
@@ -119,16 +121,16 @@
               <font>
                 <Font name="System Italic" size="14.0" />
               </font>
-                     <effect>
-                        <Lighting>
-                           <bumpInput>
-                              <Shadow />
-                           </bumpInput>
-                           <light>
-                              <Light.Distant />
-                           </light>
-                        </Lighting>
-                     </effect>
+              <effect>
+                <Lighting>
+                  <bumpInput>
+                    <Shadow />
+                  </bumpInput>
+                  <light>
+                    <Light.Distant />
+                  </light>
+                </Lighting>
+              </effect>
             </Label>
           </children>
         </Pane>
@@ -174,6 +176,9 @@
               <font>
                 <Font size="13.0" />
               </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
             </Button>
             <Text fx:id="descSignInText" fill="WHITE" layoutX="83.0" layoutY="373.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Already have Account? Sign In now." textAlignment="CENTER" wrappingWidth="296.705078125">
               <font>
@@ -187,11 +192,7 @@
         </Pane>
         <Pane fx:id="sectionOne" prefHeight="575.0" prefWidth="461.0" style="-fx-background-color: #fff;" styleClass="section-1">
           <children>
-            <Text fx:id="welcomeText" layoutX="103.0" layoutY="175.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="welcomeText" text="Welcome Back !!" textAlignment="CENTER" wrappingWidth="273.13671875">
-              <effect>
-                <Glow />
-              </effect>
-            </Text>
+            <Text fx:id="welcomeText" layoutX="103.0" layoutY="175.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="welcomeText" text="Welcome Back !!" textAlignment="CENTER" wrappingWidth="273.13671875" />
             <Text fx:id="descText" layoutX="94.0" layoutY="231.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please enter your credentials to log in" textAlignment="CENTER" wrappingWidth="272.9765625">
               <font>
                 <Font size="14.0" />
@@ -218,6 +219,9 @@
               <font>
                 <Font size="13.0" />
               </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
             </Button>
             <Label fx:id="errorAccountNotify" alignment="CENTER" layoutX="23.0" layoutY="383.0" opacity="0.0" prefHeight="26.0" prefWidth="416.0" text="The account or password is incorrect. Please try again!" textFill="RED">
               <font>
@@ -314,6 +318,9 @@
               <font>
                 <Font size="13.0" />
               </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
             </Button>
           </children>
         </Pane>
