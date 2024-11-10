@@ -5,7 +5,12 @@ import app.libmgmt.model.ExternalBorrower;
 import app.libmgmt.model.Student;
 import app.libmgmt.model.User;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Types;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,29 +32,29 @@ public class UserDAO {
             statement.setString(3, user.getPassword());
             statement.setString(4, user.getUserRole());
 
-            if (user instanceof Admin) {
-                Admin admin = (Admin) user;
-                statement.setInt(5, admin.getAdminId());
-                statement.setNull(6, Types.VARCHAR);
-                statement.setNull(7, Types.VARCHAR);
-                statement.setNull(8, Types.VARCHAR);
-                statement.setNull(9, Types.VARCHAR);
-
-            } else if (user instanceof Student) {
-                Student student = (Student) user;
-                statement.setNull(5, Types.INTEGER);
-                statement.setString(6, student.getStudentId());
-                statement.setString(7, student.getMajor());
-                statement.setNull(8, Types.VARCHAR);
-                statement.setNull(9, Types.VARCHAR);
-
-            } else if (user instanceof ExternalBorrower) {
-                ExternalBorrower externalBorrower = (ExternalBorrower) user;
-                statement.setNull(5, Types.INTEGER);
-                statement.setNull(6, Types.VARCHAR);
-                statement.setNull(7, Types.VARCHAR);
-                statement.setString(8, externalBorrower.getSocialId());
-                statement.setString(9, externalBorrower.getPhoneNumber());
+            switch (user) {
+                case Admin admin -> {
+                    statement.setInt(5, admin.getAdminId());
+                    statement.setNull(6, Types.VARCHAR);
+                    statement.setNull(7, Types.VARCHAR);
+                    statement.setNull(8, Types.VARCHAR);
+                    statement.setNull(9, Types.VARCHAR);
+                }
+                case Student student -> {
+                    statement.setNull(5, Types.VARCHAR);
+                    statement.setString(6, student.getStudentId());
+                    statement.setString(7, student.getMajor());
+                    statement.setNull(8, Types.VARCHAR);
+                    statement.setNull(9, Types.VARCHAR);
+                }
+                case ExternalBorrower externalBorrower -> {
+                    statement.setNull(5, Types.VARCHAR);
+                    statement.setNull(6, Types.VARCHAR);
+                    statement.setNull(7, Types.VARCHAR);
+                    statement.setString(8, externalBorrower.getSocialId());
+                    statement.setString(9, externalBorrower.getPhoneNumber());
+                }
+                default -> throw new IllegalStateException("Unexpected value: " + user);
             }
 
             statement.executeUpdate();
@@ -69,23 +74,30 @@ public class UserDAO {
             statement.setString(3, user.getPassword());
             statement.setString(4, user.getUserRole());
 
-            if (user instanceof Student) {
-                Student student = (Student) user;
-                statement.setNull(5, Types.VARCHAR);
-                statement.setString(6, student.getStudentId());
-                statement.setString(7, student.getMajor());
-                statement.setNull(8, Types.VARCHAR);
-                statement.setNull(9, Types.VARCHAR);
-
-            } else if (user instanceof ExternalBorrower) {
-                ExternalBorrower externalBorrower = (ExternalBorrower) user;
-                statement.setNull(5, Types.VARCHAR);
-                statement.setNull(6, Types.VARCHAR);
-                statement.setNull(7, Types.VARCHAR);
-                statement.setString(8, externalBorrower.getSocialId());
-                statement.setString(9, externalBorrower.getPhoneNumber());
+            switch (user) {
+                case Admin admin -> {
+                    statement.setInt(5, admin.getAdminId());
+                    statement.setNull(6, Types.VARCHAR);
+                    statement.setNull(7, Types.VARCHAR);
+                    statement.setNull(8, Types.VARCHAR);
+                    statement.setNull(9, Types.VARCHAR);
+                }
+                case Student student -> {
+                    statement.setNull(5, Types.VARCHAR);
+                    statement.setString(6, student.getStudentId());
+                    statement.setString(7, student.getMajor());
+                    statement.setNull(8, Types.VARCHAR);
+                    statement.setNull(9, Types.VARCHAR);
+                }
+                case ExternalBorrower externalBorrower -> {
+                    statement.setNull(5, Types.VARCHAR);
+                    statement.setNull(6, Types.VARCHAR);
+                    statement.setNull(7, Types.VARCHAR);
+                    statement.setString(8, externalBorrower.getSocialId());
+                    statement.setString(9, externalBorrower.getPhoneNumber());
+                }
+                default -> throw new IllegalStateException("Unexpected value: " + user);
             }
-
             statement.setInt(10, user.getUserId());
             statement.executeUpdate();
             System.out.println("User updated");

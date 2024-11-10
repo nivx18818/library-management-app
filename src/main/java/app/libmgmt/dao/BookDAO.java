@@ -1,14 +1,18 @@
 package app.libmgmt.dao;
 
 import app.libmgmt.model.Book;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Date;
 import java.sql.SQLException;
+
+import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.sql.Date;
 
 public class BookDAO {
 
@@ -28,7 +32,9 @@ public class BookDAO {
 
             statement.setString(1, book.getIsbn());
             statement.setString(2, book.getTitle());
-            statement.setDate(3, new java.sql.Date(book.getPublishedDate().getTime()));
+
+            statement.setString(3, book.getPublishedDate() != null ? book.getPublishedDate().toString() : null);
+
             statement.setString(4, book.getPublisher());
             statement.setString(5, book.getCoverUrl());
             statement.setInt(6, book.getAvailableCopies());
@@ -52,7 +58,9 @@ public class BookDAO {
             String categoriesString = String.join(",", book.getCategories());
 
             statement.setString(1, book.getTitle());
-            statement.setDate(2, new java.sql.Date(book.getPublishedDate().getTime()));
+
+            statement.setString(2, book.getPublishedDate() != null ? book.getPublishedDate().toString() : null);
+
             statement.setString(3, book.getPublisher());
             statement.setString(4, book.getCoverUrl());
             statement.setInt(5, book.getAvailableCopies());
@@ -91,20 +99,8 @@ public class BookDAO {
                 List<String> authors = parseStrings(rs.getString("authors"));
                 List<String> categories = parseStrings(rs.getString("categories"));
 
-                String dateString = rs.getString("published_date");
-                Date publishedDate = null;
-
-                if (dateString != null) {
-                    try {
-                        publishedDate = java.sql.Date.valueOf(dateString);
-                    } catch (IllegalArgumentException e) {
-                        System.out.println("Invalid date format for book: " + rs.getString("title"));
-                        publishedDate = java.sql.Date.valueOf("1900-01-01");
-                    }
-                } else {
-                    System.out.println("No published date for book: " + rs.getString("title"));
-                    publishedDate = java.sql.Date.valueOf("1900-01-01");
-                }
+                String publishedDateString = rs.getString("published_date");
+                Date publishedDate = publishedDateString != null ? Date.valueOf(publishedDateString) : null;
 
                 Book book = new Book(
                         rs.getString("isbn"),
@@ -127,10 +123,10 @@ public class BookDAO {
         return books;
     }
 
-
     public Book getBookByIsbn(String isbn) {
         String sql = "SELECT * FROM Book WHERE isbn = ?";
         Book book = null;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); // Định dạng mong muốn cho ngày tháng
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, isbn);
@@ -139,15 +135,8 @@ public class BookDAO {
                     List<String> authors = parseStrings(rs.getString("authors"));
                     List<String> categories = parseStrings(rs.getString("categories"));
 
-                    String dateString = rs.getString("published_date");
-                    java.sql.Date publishedDate = null;
-                    if (dateString != null && !dateString.isEmpty()) {
-                        try {
-                            publishedDate = java.sql.Date.valueOf(dateString);
-                        } catch (IllegalArgumentException e) {
-                            System.out.println("Invalid date format for book with ISBN: " + isbn);
-                        }
-                    }
+                    String publishedDateString = rs.getString("published_date");
+                    Date publishedDate = publishedDateString != null ? Date.valueOf(publishedDateString) : null;
 
                     book = new Book(
                             rs.getString("isbn"),
@@ -164,12 +153,11 @@ public class BookDAO {
                 }
             }
         } catch (SQLException e) {
-            System.out.println("Error in select book by Isbn: " + e.getMessage());
+            System.out.println("Error in select book by ISBN: " + e.getMessage());
         }
 
         return book;
     }
-
 
     public List<Book> getBooksByAuthor(String author) {
         List<Book> books = new ArrayList<>();
@@ -183,10 +171,13 @@ public class BookDAO {
                 List<String> authors = parseStrings(rs.getString("authors"));
                 List<String> categories = parseStrings(rs.getString("categories"));
 
+                String publishedDateString = rs.getString("published_date");
+                Date publishedDate = publishedDateString != null ? Date.valueOf(publishedDateString) : null;
+
                 Book book = new Book(
                         rs.getString("isbn"),
                         rs.getString("title"),
-                        rs.getDate("published_date"),
+                        publishedDate,
                         rs.getString("publisher"),
                         rs.getString("cover_url"),
                         rs.getInt("available_amount"),
@@ -216,10 +207,13 @@ public class BookDAO {
                 List<String> authors = parseStrings(rs.getString("authors"));
                 List<String> categories = parseStrings(rs.getString("categories"));
 
+                String publishedDateString = rs.getString("published_date");
+                Date publishedDate = publishedDateString != null ? Date.valueOf(publishedDateString) : null;
+
                 Book book = new Book(
                         rs.getString("isbn"),
                         rs.getString("title"),
-                        rs.getDate("published_date"),
+                        publishedDate,
                         rs.getString("publisher"),
                         rs.getString("cover_url"),
                         rs.getInt("available_amount"),
