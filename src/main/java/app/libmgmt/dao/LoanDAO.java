@@ -46,7 +46,7 @@ public class LoanDAO {
             statement.setString(3, loan.getReturnedDate() != null ? loan.getReturnedDate().toString() : null);
             statement.setString(4, loan.getBookIsbn());
             statement.setInt(5, loan.getUserId());
-            statement.setInt(6, loan.getId());
+            statement.setInt(6, loan.getLoanId());
 
             statement.executeUpdate();
             System.out.println("Loan updated successfully");

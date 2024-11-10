@@ -21,7 +21,7 @@ public class Loan {
         this.status = status;
     }
 
-    public int getId() {
+    public int getLoanId() {
         return loanId;
     }
 
