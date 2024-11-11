@@ -1,47 +1,59 @@
-package view;
+package view.user;
 
-import animatefx.animation.ZoomIn;
-import animatefx.animation.ZoomOut;
-import com.jfoenix.controls.JFXButton;
-import initialize.AdminInitializer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.text.Text;
-import javafx.stage.Stage;
+import javafx.scene.layout.HBox;
 import javafx.util.Duration;
 import util.AnimationUtils;
-import util.ChangeScene;
 import util.DateTimeUtils;
-import view.admin.AdminGlobalFormController;
+import view.admin.AdminHeaderController;
 
-import java.io.IOException;
 import java.text.DateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Locale;
 
-public class HeaderController {
+public class UserHeaderController {
+
     private static int initializeTimes;
 
     @FXML
-    private Text dateText;
+    private Label dateLabel;
+
     @FXML
-    private Text nameUserText;
+    private HBox containerSettingBox;
+
+    @FXML
+    private HBox containerUserBox;
+
+    @FXML
+    private Label nameUserLabel;
+
     @FXML
     private AnchorPane rootPane;
+
     @FXML
     private ImageView settingImage;
+
     @FXML
-    private Text timeText;
-    @FXML
-    private Text typeUserText;
+    private Label timeLabel;
+
+    private static UserHeaderController controller;
+
+    public UserHeaderController() {
+        controller = this;
+    }
+
+    public static UserHeaderController getInstance() {
+        return controller;
+    }
 
     @FXML
     public void initialize() {
@@ -49,28 +61,29 @@ public class HeaderController {
 
         showAnimation();
 
-        nameUserText.setText("Lionel Ronaldo");
-        typeUserText.setText("Admin");
-
         setDateAndTimeHeader();
     }
 
-    // Set current date and time in the header
+    public static void setInformation() {
+        getInstance().nameUserLabel.setText("Hoang Duy Thinh");
+    }
+
     public void setDateAndTimeHeader() {
         DateTimeFormatter time = DateTimeFormatter.ofPattern("hh:mm");
-        timeText.setText(time.format(java.time.LocalTime.now()) + " " + (LocalDateTime.now().getHour() < 12 ? "AM" : "PM"));
+        timeLabel.setText(time.format(java.time.LocalTime.now()) + " " + (LocalDateTime.now().getHour() < 12 ? "AM" : "PM"));
 
         Locale locale = DateTimeUtils.locale;
         DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.DEFAULT, locale);
         String date = dateFormat.format(new Date());
-        dateText.setText(date);
+        dateLabel.setText(date);
 
         Timeline clock = new Timeline(new KeyFrame(Duration.ZERO, e -> {
             LocalDateTime currentTime = LocalDateTime.now();
-            timeText.setText(time.format(java.time.LocalTime.now()) + " " + (currentTime.getHour() < 12 ? "AM" : "PM"));
+            timeLabel.setText(time.format(java.time.LocalTime.now()) + " " + (currentTime.getHour() < 12
+                    ? "AM" : "PM"));
 
             String newDate = dateFormat.format(new Date());
-            dateText.setText(newDate);
+            dateLabel.setText(newDate);
         }), new KeyFrame(Duration.seconds(1)));
 
         clock.setCycleCount(Timeline.INDEFINITE);
@@ -79,8 +92,17 @@ public class HeaderController {
 
     @FXML
     void handleSettingOnMouseClicked(MouseEvent event) {
-        ChangeScene.openAdminPopUp(AdminGlobalFormController.getInstance().
-                getStackPaneContainer(), "/fxml/change-credentials-dialog.fxml");
+        //TODO: Implement setting on mouse clicked
+    }
+
+    @FXML
+    void settingImageOnMouseEntered(MouseEvent event) {
+        settingImage.setImage(new Image(getClass().getResource("/assets/icon/setting2.png").toExternalForm()));
+    }
+
+    @FXML
+    void settingImageOnMouseExited(MouseEvent event) {
+        settingImage.setImage(new Image(getClass().getResource("/assets/icon/setting1.png").toExternalForm()));
     }
 
     public void showAnimation() {
@@ -88,4 +110,5 @@ public class HeaderController {
             AnimationUtils.fadeInDown(rootPane);
         }
     }
+
 }

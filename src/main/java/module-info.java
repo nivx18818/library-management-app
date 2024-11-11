@@ -10,5 +10,7 @@ module org.example.initialize {
     opens view to javafx.fxml;
     exports view;
     exports view.admin;
+    exports view.user;
+    opens view.user to javafx.fxml;
     opens view.admin to javafx.fxml;
 }
