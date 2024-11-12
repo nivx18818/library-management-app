@@ -20,7 +20,7 @@ public class BookDAO {
         this.connection = DatabaseConnection.getConnection();
     }
 
-    public void addBook(Book book) {
+    public void addBook(Book book) throws SQLException {
         String sql = "INSERT INTO Book(isbn, title, published_date, publisher, cover_url, "
                 + "available_amount, authors, categories) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -41,14 +41,10 @@ public class BookDAO {
             statement.setString(8, categoriesString);
 
             statement.executeUpdate();
-            System.out.println("Book added");
-
-        } catch (SQLException e) {
-            System.out.print("Error in book add: " + e.getMessage());
         }
     }
 
-    public void updateBook(Book book) {
+    public void updateBook(Book book) throws SQLException  {
         String sql = "UPDATE Book SET title = ?, published_date = ?, publisher = ?, cover_url = ?, "
                 + "available_amount = ?, authors = ?, categories = ? WHERE isbn = ?";
 
@@ -69,26 +65,19 @@ public class BookDAO {
             statement.setString(8, book.getIsbn());
 
             statement.executeUpdate();
-            System.out.println("Book updated");
-
-        } catch (SQLException e) {
-            System.out.print("Error in book update: " + e.getMessage());
         }
     }
 
-    public void deleteBook(Book book) {
+    public void deleteBook(Book book) throws SQLException  {
         String sql = "DELETE FROM Book WHERE isbn = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, book.getIsbn());
             statement.executeUpdate();
-
-        } catch (SQLException e) {
-            System.out.print(e.getMessage());
         }
     }
 
-    public List<Book> getAllBooks() {
+    public List<Book> getAllBooks() throws SQLException {
         List<Book> books = new ArrayList<>();
         String sql = "SELECT * FROM Book";
 
@@ -114,15 +103,12 @@ public class BookDAO {
 
                 books.add(book);
             }
-
-        } catch (SQLException e) {
-            System.out.print("Error in book retrieval: " + e.getMessage());
         }
 
         return books;
     }
 
-    public Book getBookByIsbn(String isbn) {
+    public Book getBookByIsbn(String isbn) throws SQLException  {
         String sql = "SELECT * FROM Book WHERE isbn = ?";
         Book book = null;
 
@@ -151,21 +137,18 @@ public class BookDAO {
                     System.out.println("Book not found.");
                 }
             }
-
-        } catch (SQLException e) {
-            System.out.println("Error in select book by ISBN: " + e.getMessage());
         }
 
         return book;
     }
 
-    public List<Book> getBooksByAuthor(String author) {
+    public List<Book> getBooksByAuthor(String author) throws SQLException  {
         List<Book> books = new ArrayList<>();
         String sql = "SELECT * FROM Book WHERE authors LIKE ?";
 
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (PreparedStatement statement = connection.prepareStatement(sql);
+                ResultSet rs = statement.executeQuery()) {
             statement.setString(1, "%" + author + "%");
-            ResultSet rs = statement.executeQuery();
 
             while (rs.next()) {
                 List<String> authors = parseStrings(rs.getString("authors"));
@@ -186,15 +169,12 @@ public class BookDAO {
 
                 books.add(book);
             }
-
-        } catch (SQLException e) {
-            System.out.print("Error in select books by author: " + e.getMessage());
         }
 
         return books;
     }
 
-    public List<Book> getBooksByCategory(String category) {
+    public List<Book> getBooksByCategory(String category) throws SQLException {
         List<Book> books = new ArrayList<>();
         String sql = "SELECT * FROM Book WHERE categories LIKE ?";
 

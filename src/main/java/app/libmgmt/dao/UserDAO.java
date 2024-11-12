@@ -22,7 +22,7 @@ public class UserDAO {
         this.connection = DatabaseConnection.getConnection();
     }
 
-    public void addUser(User user) {
+    public void addUser(User user) throws SQLException {
         String sql = "INSERT INTO User(name, email, password, role, admin_id, student_id, major, "
                 + "social_id, phone_number) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -61,14 +61,10 @@ public class UserDAO {
             }
 
             statement.executeUpdate();
-            System.out.println("User added");
-
-        } catch (SQLException e) {
-            System.out.print("Error in user add: " + e.getMessage());
         }
     }
 
-    public void updateUser(User user) {
+    public void updateUser(User user) throws SQLException {
         String sql = "UPDATE User SET name = ?, email = ?, password = ?, role = ?, admin_id = ?, "
                 + "student_id = ?, major = ?, social_id = ?, phone_number= ? WHERE id = ?";
 
@@ -108,27 +104,19 @@ public class UserDAO {
 
             statement.setInt(10, user.getUserId());
             statement.executeUpdate();
-            System.out.println("User updated");
-
-        } catch (SQLException e) {
-            System.out.print("Error in user update: " + e.getMessage());
         }
     }
 
-    public void deleteUser(User user) {
+    public void deleteUser(User user) throws SQLException {
         String sql = "DELETE FROM User WHERE id = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, user.getUserId());
             statement.executeUpdate();
-            System.out.println("User deleted");
-
-        } catch (SQLException e) {
-            System.out.print(e.getMessage());
         }
     }
 
-    public List<User> getAllUsers() {
+    public List<User> getAllUsers() throws SQLException {
         List<User> users = new ArrayList<>();
         String sql = "SELECT * FROM User";
 
@@ -181,15 +169,12 @@ public class UserDAO {
                     System.out.println("No user created for role: " + role);
                 }
             }
-
-        } catch (SQLException e) {
-            System.out.print("Error in select all users: " + e.getMessage());
         }
 
         return users;
     }
 
-    public User getUserById(int userId) {
+    public User getUserById(int userId) throws SQLException {
         String sql = "SELECT * FROM User WHERE id = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -227,9 +212,6 @@ public class UserDAO {
                                 rs.getString("phone_number"));
                 }
             }
-
-        } catch (SQLException e) {
-            System.out.print("Error in select user by Id: " + e.getMessage());
         }
 
         return null;
