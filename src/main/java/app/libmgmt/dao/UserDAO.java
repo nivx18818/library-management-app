@@ -40,6 +40,7 @@ public class UserDAO {
                     statement.setNull(8, Types.VARCHAR);
                     statement.setNull(9, Types.VARCHAR);
                 }
+
                 case Student student -> {
                     statement.setNull(5, Types.VARCHAR);
                     statement.setString(6, student.getStudentId());
@@ -47,6 +48,7 @@ public class UserDAO {
                     statement.setNull(8, Types.VARCHAR);
                     statement.setNull(9, Types.VARCHAR);
                 }
+
                 case ExternalBorrower externalBorrower -> {
                     statement.setNull(5, Types.VARCHAR);
                     statement.setNull(6, Types.VARCHAR);
@@ -54,6 +56,7 @@ public class UserDAO {
                     statement.setString(8, externalBorrower.getSocialId());
                     statement.setString(9, externalBorrower.getPhoneNumber());
                 }
+
                 default -> throw new IllegalStateException("Unexpected value: " + user);
             }
 
@@ -83,6 +86,7 @@ public class UserDAO {
                     statement.setNull(8, Types.VARCHAR);
                     statement.setNull(9, Types.VARCHAR);
                 }
+
                 case Student student -> {
                     statement.setNull(5, Types.VARCHAR);
                     statement.setString(6, student.getStudentId());
@@ -90,6 +94,7 @@ public class UserDAO {
                     statement.setNull(8, Types.VARCHAR);
                     statement.setNull(9, Types.VARCHAR);
                 }
+
                 case ExternalBorrower externalBorrower -> {
                     statement.setNull(5, Types.VARCHAR);
                     statement.setNull(6, Types.VARCHAR);
@@ -97,11 +102,14 @@ public class UserDAO {
                     statement.setString(8, externalBorrower.getSocialId());
                     statement.setString(9, externalBorrower.getPhoneNumber());
                 }
+
                 default -> throw new IllegalStateException("Unexpected value: " + user);
             }
+
             statement.setInt(10, user.getUserId());
             statement.executeUpdate();
             System.out.println("User updated");
+
         } catch (SQLException e) {
             System.out.print("Error in user update: " + e.getMessage());
         }
@@ -132,34 +140,39 @@ public class UserDAO {
                 System.out.println("Role: " + role);
 
                 User user = null;
-                if ("ADMIN".equals(role)) {
-                    System.out.println("Admin detected");
-                    user = new Admin(
-                            rs.getInt("id"),
-                            rs.getString("name"),
-                            rs.getString("email"),
-                            rs.getString("password"),
-                            rs.getInt("admin_id"));
 
-                } else if ("STUDENT".equals(role)) {
-                    System.out.println("Student detected");
-                    user = new Student(
-                            rs.getInt("id"),
-                            rs.getString("name"),
-                            rs.getString("email"),
-                            rs.getString("password"),
-                            rs.getString("student_id"),
-                            rs.getString("major"));
+                switch (role) {
+                    case "ADMIN":
+                        System.out.println("Admin detected");
+                        user = new Admin(
+                                rs.getInt("id"),
+                                rs.getString("name"),
+                                rs.getString("email"),
+                                rs.getString("password"),
+                                rs.getInt("admin_id"));
+                        break;
 
-                } else if ("EXTERNAL_BORROWER".equals(role)) {
-                    System.out.println("External Borrower detected");
-                    user = new ExternalBorrower(
-                            rs.getInt("id"),
-                            rs.getString("name"),
-                            rs.getString("email"),
-                            rs.getString("password"),
-                            rs.getString("social_id"),
-                            rs.getString("phone_number"));
+                    case "STUDENT":
+                        System.out.println("Student detected");
+                        user = new Student(
+                                rs.getInt("id"),
+                                rs.getString("name"),
+                                rs.getString("email"),
+                                rs.getString("password"),
+                                rs.getString("student_id"),
+                                rs.getString("major"));
+                        break;
+
+                    case "EXTERNAL_BORROWER":
+                        System.out.println("External Borrower detected");
+                        user = new ExternalBorrower(
+                                rs.getInt("id"),
+                                rs.getString("name"),
+                                rs.getString("email"),
+                                rs.getString("password"),
+                                rs.getString("social_id"),
+                                rs.getString("phone_number"));
+                        break;
                 }
 
                 if (user != null) {
@@ -186,31 +199,32 @@ public class UserDAO {
             if (rs.next()) {
                 String role = rs.getString("role");
 
-                if ("admin".equals(role)) {
-                    return new Admin(
-                            rs.getInt("id"),
-                            rs.getString("name"),
-                            rs.getString("email"),
-                            rs.getString("password"),
-                            rs.getInt("admin_id"));
+                switch (role) {
+                    case "ADMIN":
+                        return new Admin(
+                                rs.getInt("id"),
+                                rs.getString("name"),
+                                rs.getString("email"),
+                                rs.getString("password"),
+                                rs.getInt("admin_id"));
 
-                } else if ("student".equals(role)) {
-                    return new Student(
-                            rs.getInt("id"),
-                            rs.getString("name"),
-                            rs.getString("email"),
-                            rs.getString("password"),
-                            rs.getString("student_id"),
-                            rs.getString("major"));
+                    case "STUDENT":
+                        return new Student(
+                                rs.getInt("id"),
+                                rs.getString("name"),
+                                rs.getString("email"),
+                                rs.getString("password"),
+                                rs.getString("student_id"),
+                                rs.getString("major"));
 
-                } else if ("external_borrower".equals(role)) {
-                    return new ExternalBorrower(
-                            rs.getInt("id"),
-                            rs.getString("name"),
-                            rs.getString("email"),
-                            rs.getString("password"),
-                            rs.getString("social_id"),
-                            rs.getString("phone_number"));
+                    case "EXTERNAL_BORROWER":
+                        return new ExternalBorrower(
+                                rs.getInt("id"),
+                                rs.getString("name"),
+                                rs.getString("email"),
+                                rs.getString("password"),
+                                rs.getString("social_id"),
+                                rs.getString("phone_number"));
                 }
             }
 
