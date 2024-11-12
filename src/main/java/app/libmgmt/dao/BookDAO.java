@@ -33,7 +33,8 @@ public class BookDAO {
             statement.setString(1, book.getIsbn());
             statement.setString(2, book.getTitle());
 
-            statement.setString(3, book.getPublishedDate() != null ? book.getPublishedDate().toString() : null);
+            statement.setString(3,
+                    book.getPublishedDate() != null ? book.getPublishedDate().toString() : null);
 
             statement.setString(4, book.getPublisher());
             statement.setString(5, book.getCoverUrl());
@@ -59,7 +60,8 @@ public class BookDAO {
 
             statement.setString(1, book.getTitle());
 
-            statement.setString(2, book.getPublishedDate() != null ? book.getPublishedDate().toString() : null);
+            statement.setString(2,
+                    book.getPublishedDate() != null ? book.getPublishedDate().toString() : null);
 
             statement.setString(3, book.getPublisher());
             statement.setString(4, book.getCoverUrl());
@@ -93,7 +95,7 @@ public class BookDAO {
         String sql = "SELECT * FROM Book";
 
         try (PreparedStatement statement = connection.prepareStatement(sql);
-             ResultSet rs = statement.executeQuery()) {
+                ResultSet rs = statement.executeQuery()) {
 
             while (rs.next()) {
                 List<String> authors = parseStrings(rs.getString("authors"));
@@ -110,8 +112,7 @@ public class BookDAO {
                         rs.getString("cover_url"),
                         rs.getInt("available_amount"),
                         authors,
-                        categories
-                );
+                        categories);
 
                 books.add(book);
             }
@@ -130,6 +131,7 @@ public class BookDAO {
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, isbn);
+
             try (ResultSet rs = statement.executeQuery()) {
                 if (rs.next()) {
                     List<String> authors = parseStrings(rs.getString("authors"));
@@ -146,12 +148,13 @@ public class BookDAO {
                             rs.getString("cover_url"),
                             rs.getInt("available_amount"),
                             authors,
-                            categories
-                    );
+                            categories);
+
                 } else {
                     System.out.println("Book not found.");
                 }
             }
+
         } catch (SQLException e) {
             System.out.println("Error in select book by ISBN: " + e.getMessage());
         }
@@ -182,8 +185,7 @@ public class BookDAO {
                         rs.getString("cover_url"),
                         rs.getInt("available_amount"),
                         authors,
-                        categories
-                );
+                        categories);
 
                 books.add(book);
             }
@@ -218,8 +220,7 @@ public class BookDAO {
                         rs.getString("cover_url"),
                         rs.getInt("available_amount"),
                         authors,
-                        categories
-                );
+                        categories);
 
                 books.add(book);
             }

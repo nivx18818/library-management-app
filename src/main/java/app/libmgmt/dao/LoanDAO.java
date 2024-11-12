@@ -25,37 +25,51 @@ public class LoanDAO {
     }
 
     public void addLoan(Loan loan) {
-        String sql = "INSERT INTO Loan (status, borrowed_date, returned_date, isbn, userId) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Loan (status, borrowed_date, returned_date, isbn, userId) "
+                + "VALUES (?, ?, ?, ?, ?)";
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
 
             statement.setString(1, loan.getStatus());
-            statement.setString(2, loan.getBorrowedDate() != null ? loan.getBorrowedDate().toString() : null);
-            statement.setString(3, loan.getReturnedDate() != null ? loan.getReturnedDate().toString() : null);
+
+            statement.setString(2,
+                    loan.getBorrowedDate() != null ? loan.getBorrowedDate().toString() : null);
+
+            statement.setString(3,
+                    loan.getReturnedDate() != null ? loan.getReturnedDate().toString() : null);
+
             statement.setString(4, loan.getBookIsbn());
             statement.setInt(5, loan.getUserId());
 
             statement.executeUpdate();
             System.out.println("Loan added successfully");
+
         } catch (SQLException e) {
             System.err.println("Error adding loan: " + e.getMessage());
         }
     }
 
     public void updateLoan(Loan loan) {
-        String sql = "UPDATE Loan SET status = ?, borrowed_date = ?, returned_date = ?, isbn = ?, userId = ? WHERE id = ?";
+        String sql = "UPDATE Loan SET status = ?, borrowed_date = ?, returned_date = ?, isbn = ?, "
+                + "userId = ? WHERE id = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
 
             statement.setString(1, loan.getStatus());
-            statement.setString(2, loan.getBorrowedDate() != null ? loan.getBorrowedDate().toString() : null);
-            statement.setString(3, loan.getReturnedDate() != null ? loan.getReturnedDate().toString() : null);
+
+            statement.setString(2,
+                    loan.getBorrowedDate() != null ? loan.getBorrowedDate().toString() : null);
+
+            statement.setString(3,
+                    loan.getReturnedDate() != null ? loan.getReturnedDate().toString() : null);
+
             statement.setString(4, loan.getBookIsbn());
             statement.setInt(5, loan.getUserId());
             statement.setInt(6, loan.getLoanId());
 
             statement.executeUpdate();
             System.out.println("Loan updated successfully");
+
         } catch (SQLException e) {
             System.err.println("Error updating loan: " + e.getMessage());
         }
@@ -78,12 +92,13 @@ public class LoanDAO {
         String sql = "SELECT * FROM Loan";
 
         try (PreparedStatement statement = connection.prepareStatement(sql);
-             ResultSet rs = statement.executeQuery()) {
+                ResultSet rs = statement.executeQuery()) {
 
             while (rs.next()) {
                 Loan loan = mapResultSetToLoan(rs);
                 loans.add(loan);
             }
+
         } catch (SQLException e) {
             System.err.println("Error retrieving loans: " + e.getMessage());
         }
@@ -101,6 +116,7 @@ public class LoanDAO {
             if (rs.next()) {
                 return mapResultSetToLoan(rs);
             }
+
         } catch (SQLException e) {
             System.err.println("Error retrieving loan: " + e.getMessage());
         }
@@ -120,6 +136,7 @@ public class LoanDAO {
                 Loan loan = mapResultSetToLoan(rs);
                 loans.add(loan);
             }
+
         } catch (SQLException e) {
             System.err.println("Error retrieving loans: " + e.getMessage());
         }
@@ -150,4 +167,3 @@ public class LoanDAO {
         return userDAO.getUserById(loan.getUserId());
     }
 }
-

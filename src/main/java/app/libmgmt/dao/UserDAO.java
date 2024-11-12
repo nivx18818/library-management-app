@@ -23,8 +23,8 @@ public class UserDAO {
     }
 
     public void addUser(User user) {
-        String sql = "INSERT INTO User(name, email, password, role, admin_id, student_id, major, social_id, phone_number)" +
-                " VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO User(name, email, password, role, admin_id, student_id, major, "
+                + "social_id, phone_number) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, user.getName());
@@ -59,14 +59,15 @@ public class UserDAO {
 
             statement.executeUpdate();
             System.out.println("User added");
+
         } catch (SQLException e) {
             System.out.print("Error in user add: " + e.getMessage());
         }
     }
 
     public void updateUser(User user) {
-        String sql = "UPDATE User SET name = ?, email = ?, password = ?, role = ?, admin_id = ?, student_id = ?," +
-                "major = ?, social_id = ?, phone_number= ? WHERE id = ?";
+        String sql = "UPDATE User SET name = ?, email = ?, password = ?, role = ?, admin_id = ?, "
+                + "student_id = ?, major = ?, social_id = ?, phone_number= ? WHERE id = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, user.getName());
@@ -124,7 +125,7 @@ public class UserDAO {
         String sql = "SELECT * FROM User";
 
         try (PreparedStatement statement = connection.prepareStatement(sql);
-             ResultSet rs = statement.executeQuery()) {
+                ResultSet rs = statement.executeQuery()) {
 
             while (rs.next()) {
                 String role = rs.getString("role");
@@ -138,8 +139,7 @@ public class UserDAO {
                             rs.getString("name"),
                             rs.getString("email"),
                             rs.getString("password"),
-                            rs.getInt("admin_id")
-                    );
+                            rs.getInt("admin_id"));
 
                 } else if ("STUDENT".equals(role)) {
                     System.out.println("Student detected");
@@ -149,8 +149,7 @@ public class UserDAO {
                             rs.getString("email"),
                             rs.getString("password"),
                             rs.getString("student_id"),
-                            rs.getString("major")
-                    );
+                            rs.getString("major"));
 
                 } else if ("EXTERNAL_BORROWER".equals(role)) {
                     System.out.println("External Borrower detected");
@@ -160,8 +159,7 @@ public class UserDAO {
                             rs.getString("email"),
                             rs.getString("password"),
                             rs.getString("social_id"),
-                            rs.getString("phone_number")
-                    );
+                            rs.getString("phone_number"));
                 }
 
                 if (user != null) {
@@ -170,13 +168,13 @@ public class UserDAO {
                     System.out.println("No user created for role: " + role);
                 }
             }
+
         } catch (SQLException e) {
             System.out.print("Error in select all users: " + e.getMessage());
         }
 
         return users;
     }
-
 
     public User getUserById(int userId) {
         String sql = "SELECT * FROM User WHERE id = ?";
@@ -194,8 +192,7 @@ public class UserDAO {
                             rs.getString("name"),
                             rs.getString("email"),
                             rs.getString("password"),
-                            rs.getInt("admin_id")
-                    );
+                            rs.getInt("admin_id"));
 
                 } else if ("student".equals(role)) {
                     return new Student(
@@ -204,8 +201,7 @@ public class UserDAO {
                             rs.getString("email"),
                             rs.getString("password"),
                             rs.getString("student_id"),
-                            rs.getString("major")
-                    );
+                            rs.getString("major"));
 
                 } else if ("external_borrower".equals(role)) {
                     return new ExternalBorrower(
@@ -214,10 +210,10 @@ public class UserDAO {
                             rs.getString("email"),
                             rs.getString("password"),
                             rs.getString("social_id"),
-                            rs.getString("phone_number")
-                    );
+                            rs.getString("phone_number"));
                 }
             }
+
         } catch (SQLException e) {
             System.out.print("Error in select user by Id: " + e.getMessage());
         }
