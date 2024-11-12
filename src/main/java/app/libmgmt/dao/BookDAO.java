@@ -8,8 +8,6 @@ import java.sql.ResultSet;
 import java.sql.Date;
 import java.sql.SQLException;
 
-import java.text.SimpleDateFormat;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -127,7 +125,6 @@ public class BookDAO {
     public Book getBookByIsbn(String isbn) {
         String sql = "SELECT * FROM Book WHERE isbn = ?";
         Book book = null;
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); // Định dạng mong muốn cho ngày tháng
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, isbn);
