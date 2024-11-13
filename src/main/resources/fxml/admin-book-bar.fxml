@@ -1,110 +1,93 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-<HBox xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity"
-      minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="1080.0"
-      spacing="30.0" xmlns="http://javafx.com/javafx/23"
-      fx:controller="view.admin.AdminBookBarController">
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="1080.0" spacing="30.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.libmgmt.view.admin.AdminBookBarController">
   <children>
-    <Label fx:id="idLabel" alignment="CENTER" prefHeight="14.0" prefWidth="80.0" text="001"
-           textAlignment="CENTER">
+    <Label fx:id="idLabel" alignment="CENTER" prefHeight="14.0" prefWidth="80.0" text="001" textAlignment="CENTER">
       <font>
-        <Font size="14.0"/>
+        <Font size="14.0" />
       </font>
     </Label>
-    <HBox alignment="CENTER_LEFT" fillHeight="false" prefHeight="100.0" prefWidth="240.0"
-          spacing="10.0">
+    <HBox alignment="CENTER_LEFT" fillHeight="false" prefHeight="100.0" prefWidth="240.0" spacing="10.0">
       <HBox.margin>
-        <Insets/>
+        <Insets />
       </HBox.margin>
       <padding>
-        <Insets bottom="10.0" left="10.0" top="10.0"/>
+        <Insets bottom="10.0" left="10.0" top="10.0" />
       </padding>
       <children>
-        <VBox alignment="CENTER" minHeight="80.0" minWidth="65.0" prefHeight="80.0"
-              prefWidth="65.0">
+        <VBox alignment="CENTER" minHeight="80.0" minWidth="65.0" prefHeight="80.0" prefWidth="65.0">
           <HBox.margin>
-            <Insets right="5.0"/>
+            <Insets right="5.0" />
           </HBox.margin>
           <children>
-            <ImageView fx:id="bookImage" fitHeight="80.0" fitWidth="60.0" pickOnBounds="true"
-                       preserveRatio="true" VBox.vgrow="ALWAYS">
+            <ImageView fx:id="bookImage" fitHeight="80.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS">
               <image>
-                <Image url="@../assets/img/book-cover-photos/conan.jpg"/>
+                <Image url="@../assets/img/book-cover-photos/conan.jpg" />
               </image>
               <VBox.margin>
-                <Insets/>
+                <Insets />
               </VBox.margin>
             </ImageView>
           </children>
         </VBox>
         <Label fx:id="nameLabel" prefHeight="60.0" prefWidth="150.0" text="Conan" wrapText="true">
           <font>
-            <Font size="14.0"/>
+            <Font size="14.0" />
           </font>
         </Label>
       </children>
     </HBox>
-    <Label fx:id="typeLabel" alignment="CENTER" prefHeight="60.0" prefWidth="120.0" text="Life"
-           textAlignment="CENTER" wrapText="true">
+    <Label fx:id="typeLabel" alignment="CENTER" prefHeight="60.0" prefWidth="120.0" text="Life" textAlignment="CENTER" wrapText="true">
       <font>
-        <Font size="14.0"/>
+        <Font size="14.0" />
       </font>
     </Label>
-    <Label fx:id="authorLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="60.0"
-           prefWidth="150.0" text="Bill Gates" textAlignment="CENTER" wrapText="true">
+    <Label fx:id="authorLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="60.0" prefWidth="150.0" text="Bill Gates" textAlignment="CENTER" wrapText="true">
       <font>
-        <Font size="14.0"/>
+        <Font size="14.0" />
       </font>
     </Label>
-    <Label fx:id="statusLabel" alignment="CENTER" prefWidth="100.0" text="Available"
-           textAlignment="CENTER">
+    <Label fx:id="statusLabel" alignment="CENTER" prefWidth="100.0" text="Available" textAlignment="CENTER">
       <font>
-        <Font size="14.0"/>
+        <Font size="14.0" />
       </font>
     </Label>
     <Pane prefHeight="45.0" prefWidth="170.0">
       <children>
         <HBox alignment="CENTER" layoutY="36.0" prefHeight="28.0" prefWidth="170.0" spacing="7.0">
           <children>
-            <ImageView fx:id="editFunction" fitHeight="22.0" fitWidth="22.0"
-                       onMouseClicked="#imgEditOnMouseClicked"
-                       onMouseEntered="#imgEditOnMouseEntered" onMouseExited="#imgEditOnMouseExited"
-                       pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="editFunction" fitHeight="22.0" fitWidth="22.0" onMouseClicked="#imgEditOnMouseClicked" onMouseEntered="#imgOnMouseEntered" onMouseExited="#imgOnMouseExited" pickOnBounds="true" preserveRatio="true">
               <image>
-                <Image url="@../assets/icon/btn%20edit.png"/>
+                <Image url="@../assets/icon/btn%20edit.png" />
               </image>
               <cursor>
-                <Cursor fx:constant="HAND"/>
+                <Cursor fx:constant="HAND" />
               </cursor>
             </ImageView>
-            <ImageView fx:id="deleteFunction" fitHeight="22.0" fitWidth="22.0" layoutX="10.0"
-                       layoutY="10.0" onMouseClicked="#imgDeleteOnMouseClicked"
-                       onMouseEntered="#imgDeleteOnMouseEntered"
-                       onMouseExited="#imgDeleteOnMouseExited" pickOnBounds="true"
-                       preserveRatio="true">
+            <ImageView fx:id="deleteFunction" fitHeight="22.0" fitWidth="22.0" layoutX="10.0" layoutY="10.0" onMouseClicked="#imgDeleteOnMouseClicked" onMouseEntered="#imgOnMouseEntered" onMouseExited="#imgOnMouseExited" pickOnBounds="true" preserveRatio="true">
               <image>
-                <Image url="@../assets/icon/btn%20Delete.png"/>
+                <Image url="@../assets/icon/btn%20Delete.png" />
               </image>
               <cursor>
-                <Cursor fx:constant="HAND"/>
+                <Cursor fx:constant="HAND" />
               </cursor>
             </ImageView>
-            <ImageView fx:id="viewFunction" fitHeight="22.0" fitWidth="22.0" layoutX="210.0"
-                       layoutY="10.0" onMouseClicked="#imgViewOnMouseClicked"
-                       onMouseEntered="#imgViewOnMouseEntered" onMouseExited="#imgViewOnMouseExited"
-                       pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="viewFunction" fitHeight="22.0" fitWidth="22.0" layoutX="210.0" layoutY="10.0" onMouseClicked="#imgViewOnMouseClicked" onMouseEntered="#imgOnMouseEntered" onMouseExited="#imgOnMouseExited" pickOnBounds="true" preserveRatio="true">
               <image>
-                <Image url="@../assets/icon/btn%20view.png"/>
+                <Image url="@../assets/icon/btn%20view.png" />
               </image>
               <cursor>
-                <Cursor fx:constant="HAND"/>
+                <Cursor fx:constant="HAND" />
               </cursor>
             </ImageView>
           </children>
@@ -113,6 +96,6 @@
     </Pane>
   </children>
   <padding>
-    <Insets left="30.0" right="30.0"/>
+    <Insets left="30.0" right="30.0" />
   </padding>
 </HBox>

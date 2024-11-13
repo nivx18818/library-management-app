@@ -14,7 +14,7 @@
       maxWidth="229.0" minHeight="45.0" minWidth="220.0" prefHeight="45.0" prefWidth="220.0"
       spacing="10.0"
       style="-fx-background-radius: 10px; -fx-border-color: #000; -fx-border-width: 1px;       -fx-border-radius: 10px;" xmlns="http://javafx.com/javafx/23"
-      fx:controller="view.admin.AdminDashboardOverdueBarController">
+      fx:controller="app.libmgmt.view.admin.AdminDashboardOverdueBarController">
   <children>
     <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
       <image>

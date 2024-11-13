@@ -10,7 +10,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.*?>
 <StackPane xmlns:fx="http://javafx.com/fxml/1" fx:id="stackPaneContainer"
-           xmlns="http://javafx.com/javafx/23" fx:controller="view.admin.AdminDashboardController">
+           xmlns="http://javafx.com/javafx/23" fx:controller="app.libmgmt.view.admin.AdminDashboardController">
   <children>
     <HBox fx:id="dashboardContainer" prefHeight="670.0" prefWidth="1132.0"
           stylesheets="@../style/dashboard.css">

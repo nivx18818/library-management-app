@@ -3,7 +3,9 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.Light.Distant?>
 <?import javafx.scene.effect.Lighting?>
@@ -16,7 +18,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="container" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="500.0" style="-fx-background-color: white; -fx-background-radius: 10;" stylesheets="@../style/add-book-dialog.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.admin.AdminAddBookDialogController">
+<Pane fx:id="container" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="500.0" style="-fx-background-color: white; -fx-background-radius: 10;" stylesheets="@../style/add-book-dialog.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.libmgmt.view.admin.AdminAddBookDialogController">
   <children>
     <Pane layoutX="32.0" layoutY="19.0" prefHeight="45.0" prefWidth="45.0" style="-fx-background-color: #D7D7D7; -fx-background-radius: 10;">
       <children>
@@ -121,17 +123,7 @@
             <Insets left="15.0" right="15.0" />
           </padding>
         </TextField>
-        <TextField fx:id="txtPublishedDate" prefHeight="32.0" prefWidth="174.0" promptText="Published Date" style="-fx-border-color: #727374; -fx-border-radius: 12px; -fx-background-color:                    white; -fx-background-radius: 12px;">
-          <cursor>
-            <Cursor fx:constant="TEXT" />
-          </cursor>
-          <font>
-            <Font size="14.0" />
-          </font>
-          <padding>
-            <Insets left="15.0" right="15.0" />
-          </padding>
-        </TextField>
+            <DatePicker fx:id="publishedDatePicker" editable="false" prefHeight="32.0" prefWidth="176.0" promptText="Published Date*" style="-fx-background-color: #fff; -fx-font-size: 14px;" />
       </children>
     </HBox>
     <HBox layoutX="32.0" layoutY="255.0" spacing="10.0">
@@ -147,17 +139,7 @@
             <Insets left="15.0" right="15.0" />
           </padding>
         </TextField>
-        <TextField fx:id="txtQuantity" prefHeight="32.0" prefWidth="174.0" promptText="Quantity*" style="-fx-border-color: #727374; -fx-border-radius: 12px; -fx-background-color:                    white; -fx-background-radius: 12px;">
-          <cursor>
-            <Cursor fx:constant="TEXT" />
-          </cursor>
-          <font>
-            <Font size="14.0" />
-          </font>
-          <padding>
-            <Insets left="15.0" right="15.0" />
-          </padding>
-        </TextField>
+            <Spinner fx:id="quantitySpinner" prefHeight="32.0" prefWidth="174.0" style="-fx-background-color: #fff; -fx-font-size: 14px;" />
       </children>
     </HBox>
     <JFXButton fx:id="cancelButton" layoutX="33.0" layoutY="338.0" onAction="#cancelButtonOnAction" prefHeight="41.0" prefWidth="200.0" style="-fx-background-radius: 10;" text=" ">

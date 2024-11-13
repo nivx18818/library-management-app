@@ -108,7 +108,7 @@
               <id>default-cli</id>
               <configuration>
                 <mainClass>
-                  initialize.AdminInitializer
+                  app.libmgmt.initialize.AdminInitializer
                 </mainClass>
                 <launcher>app</launcher>
                 <jlinkZipName>app</jlinkZipName>

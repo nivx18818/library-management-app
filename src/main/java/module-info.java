@@ -5,12 +5,12 @@ module org.example.initialize {
     requires java.desktop;
     requires java.logging;
 
-    opens initialize to javafx.fxml;
-    exports initialize;
-    opens view to javafx.fxml;
-    exports view;
-    exports view.admin;
-    exports view.user;
-    opens view.user to javafx.fxml;
-    opens view.admin to javafx.fxml;
+    opens app.libmgmt.initialize to javafx.fxml;
+    exports app.libmgmt.initialize;
+    opens app.libmgmt.view to javafx.fxml;
+    exports app.libmgmt.view;
+    exports app.libmgmt.view.admin;
+    exports app.libmgmt.view.user;
+    opens app.libmgmt.view.user to javafx.fxml;
+    opens app.libmgmt.view.admin to javafx.fxml;
 }

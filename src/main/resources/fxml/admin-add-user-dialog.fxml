@@ -18,7 +18,7 @@
       prefWidth="500.0"
       style="-fx-background-color: white; -fx-background-radius: 12px;"
       xmlns="http://javafx.com/javafx/23"
-      fx:controller="view.admin.AdminAddUserDialogController">
+      fx:controller="app.libmgmt.view.admin.AdminAddUserDialogController">
   <children>
     <Pane layoutX="35.0" layoutY="15.0" prefHeight="45.0" prefWidth="45.0"
           style="-fx-background-color: #D7D7D7; -fx-background-radius: 10;">

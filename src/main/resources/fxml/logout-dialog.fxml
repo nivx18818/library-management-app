@@ -17,7 +17,7 @@
       minHeight="-Infinity" minWidth="-Infinity" prefHeight="260.0"
       prefWidth="500.0"
       style="-fx-background-color: white; -fx-background-radius: 10;" stylesheets="@../style/add-book-dialog.css"
-      xmlns="http://javafx.com/javafx/23" fx:controller="view.LogoutDialogController">
+      xmlns="http://javafx.com/javafx/23" fx:controller="app.libmgmt.view.LogoutDialogController">
   <children>
     <Pane layoutX="32.0" layoutY="19.0" prefHeight="45.0" prefWidth="45.0"
           style="-fx-background-color: #D7D7D7; -fx-background-radius: 10;">

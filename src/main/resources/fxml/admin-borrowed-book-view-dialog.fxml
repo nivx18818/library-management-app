@@ -12,7 +12,7 @@
       minWidth="-Infinity" prefHeight="545.0"
       prefWidth="850.0"
       style="-fx-background-color: white; -fx-background-radius: 12;" xmlns="http://javafx.com/javafx/23"
-      fx:controller="view.admin.AdminBorrowedBookViewDialogController">
+      fx:controller="app.libmgmt.view.admin.AdminBorrowedBookViewDialogController">
   <children>
     <Pane layoutX="19.0" layoutY="18.0" prefHeight="417.0" prefWidth="812.0"
           style="-fx-background-color: white; -fx-background-radius: 12; -fx-border-color: #E8E8E8; -fx-border-radius: 12;">

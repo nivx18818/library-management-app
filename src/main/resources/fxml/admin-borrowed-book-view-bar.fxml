@@ -9,7 +9,7 @@
 <HBox xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER_LEFT" maxHeight="100.0" minHeight="100.0"
       prefHeight="100.0" prefWidth="770.0" spacing="50.0"
       xmlns="http://javafx.com/javafx/23"
-      fx:controller="view.admin.AdminBorrowedBookViewBarController">
+      fx:controller="app.libmgmt.view.admin.AdminBorrowedBookViewBarController">
   <children>
     <Pane minHeight="100.0" minWidth="100.0">
       <children>
