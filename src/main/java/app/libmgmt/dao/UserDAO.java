@@ -118,7 +118,7 @@ public class UserDAO {
 
     public List<User> getAllUsers() throws SQLException {
         List<User> users = new ArrayList<>();
-        String sql = "SELECT * FROM User";
+        String sql = "SELECT id, name, email, password, role, admin_id, student_id, major, social_id, phone_number FROM User";
 
         try (PreparedStatement statement = connection.prepareStatement(sql);
                 ResultSet rs = statement.executeQuery()) {
@@ -175,7 +175,7 @@ public class UserDAO {
     }
 
     public User getUserById(int userId) throws SQLException {
-        String sql = "SELECT * FROM User WHERE id = ?";
+        String sql = "SELECT id, name, email, password, role, admin_id, student_id, major, social_id, phone_number FROM User WHERE id = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, userId);

@@ -72,7 +72,7 @@ public class LoanDAO {
 
     public List<Loan> getAllLoans() throws SQLException {
         List<Loan> loans = new ArrayList<>();
-        String sql = "SELECT * FROM Loan";
+        String sql = "SELECT id, status, borrowed_date, returned_date, isbn, userId FROM Loan";
 
         try (PreparedStatement statement = connection.prepareStatement(sql);
                 ResultSet rs = statement.executeQuery()) {
@@ -87,7 +87,7 @@ public class LoanDAO {
     }
 
     public Loan getLoanById(int loanId) throws SQLException {
-        String sql = "SELECT * FROM Loan WHERE id = ?";
+        String sql = "SELECT id, status, borrowed_date, returned_date, isbn, userId FROM Loan WHERE id = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(sql);
                 ResultSet rs = statement.executeQuery()) {
@@ -103,7 +103,7 @@ public class LoanDAO {
 
     public List<Loan> getLoansByUserId(int userId) throws SQLException {
         List<Loan> loans = new ArrayList<>();
-        String sql = "SELECT * FROM Loan WHERE userId = ?";
+        String sql = "SELECT id, status, borrowed_date, returned_date, isbn, userId FROM Loan WHERE userId = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, userId);

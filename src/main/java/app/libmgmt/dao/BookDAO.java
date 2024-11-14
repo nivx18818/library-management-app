@@ -79,7 +79,7 @@ public class BookDAO {
 
     public List<Book> getAllBooks() throws SQLException {
         List<Book> books = new ArrayList<>();
-        String sql = "SELECT * FROM Book";
+        String sql = "SELECT isbn, title, published_date, publisher, cover_url, available_amount, authors, categories FROM Book";
 
         try (PreparedStatement statement = connection.prepareStatement(sql);
                 ResultSet rs = statement.executeQuery()) {
@@ -109,7 +109,7 @@ public class BookDAO {
     }
 
     public Book getBookByIsbn(String isbn) throws SQLException  {
-        String sql = "SELECT * FROM Book WHERE isbn = ?";
+        String sql = "SELECT isbn, title, published_date, publisher, cover_url, available_amount, authors, categories FROM Book WHERE isbn = ?";
         Book book = null;
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -144,7 +144,7 @@ public class BookDAO {
 
     public List<Book> getBooksByAuthor(String author) throws SQLException  {
         List<Book> books = new ArrayList<>();
-        String sql = "SELECT * FROM Book WHERE authors LIKE ?";
+        String sql = "SELECT isbn, title, published_date, publisher, cover_url, available_amount, authors, categories FROM Book WHERE authors LIKE ?";
 
         try (PreparedStatement statement = connection.prepareStatement(sql);
                 ResultSet rs = statement.executeQuery()) {
@@ -176,7 +176,7 @@ public class BookDAO {
 
     public List<Book> getBooksByCategory(String category) throws SQLException {
         List<Book> books = new ArrayList<>();
-        String sql = "SELECT * FROM Book WHERE categories LIKE ?";
+        String sql = "SELECT isbn, title, published_date, publisher, cover_url, available_amount, authors, categories FROM Book WHERE categories LIKE ?";
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, "%" + category + "%");
