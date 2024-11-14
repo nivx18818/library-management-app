@@ -22,50 +22,17 @@ public class AdminBookEditDialogController {
     private static AdminBookEditDialogController controller;
     private UpdateType currentUpdateType = UpdateType.BASIC_INFO;
     private UpdateType lastUpdateType = UpdateType.BASIC_INFO;
-    @FXML
-    private TextField authorTextField;
-    @FXML
-    private HBox basicInfoContainer;
-    @FXML
-    private Pane bookCoverContainer;
-    @FXML
-    private ImageView bookCoverImage;
-    @FXML
-    private Label bookCoverLabel;
-    @FXML
-    private JFXButton closeDialogButton;
-    @FXML
-    private Pane container;
-    @FXML
-    private ImageView imgClose;
-    @FXML
-    private TextField imgUrlTextField;
-    @FXML
-    private TextField nameTextField;
-    @FXML
-    private DatePicker publishedDatePicker;
-    @FXML
-    private TextField publisherTextField;
-    @FXML
-    private Spinner<Integer> quantitySpinner = new Spinner<>();
-    @FXML
-    private TextField typeTextField;
-    @FXML
-    private JFXButton updateButton;
-    @FXML
-    private Pane updatePane;
-    @FXML
-    private ImageView qrCodeImage;
-    @FXML
-    private Label notificationLabel;
-    @FXML
-    private TextField qrCodeTextField;
-    @FXML
-    private JFXButton basicInfoButton;
-    @FXML
-    private JFXButton bookCoverButton;
-    @FXML
-    private JFXButton qrCodeButton;
+
+    // UI Components
+    @FXML private TextField authorTextField, imgUrlTextField, nameTextField, publisherTextField, typeTextField, qrCodeTextField;
+    @FXML private HBox basicInfoContainer;
+    @FXML private Pane bookCoverContainer, container;
+    @FXML private ImageView bookCoverImage, imgClose, qrCodeImage;
+    @FXML private Label bookCoverLabel, notificationLabel;
+    @FXML private JFXButton closeDialogButton, updateButton, basicInfoButton, bookCoverButton, qrCodeButton;
+    @FXML private DatePicker publishedDatePicker;
+    @FXML private Spinner<Integer> quantitySpinner = new Spinner<>();
+
     private String[] originalData;
     private String lastImageURL;
     private String lastQrCodeURL;
@@ -78,15 +45,14 @@ public class AdminBookEditDialogController {
         return controller;
     }
 
+    // Initialization
     public void initialize() {
-        System.out.println("AdminBookEditDialogController initialized");
-
         quantitySpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 100, 0));
         quantitySpinner.setStyle("-fx-font-size: 16px;");
-
         AnimationUtils.hoverCloseIcons(closeDialogButton, imgClose);
     }
 
+    // Action Methods
     @FXML
     void closeButtonOnAction(ActionEvent event) {
         ChangeScene.closePopUp();
@@ -94,79 +60,27 @@ public class AdminBookEditDialogController {
 
     @FXML
     void updateButtonOnAction(ActionEvent event) {
-        String[] updatedData = new String[]{
-                originalData[0],
-                imgUrlTextField.getText().equals("") ? originalData[1] : imgUrlTextField.getText(),
-                nameTextField.getText(),
-                typeTextField.getText(),
-                authorTextField.getText(),
-                quantitySpinner.getValue().toString(),
-                publisherTextField.getText(),
-                publishedDatePicker.getValue() == null ? "" :
-                        DateTimeUtils.convertDateToString(publishedDatePicker.getValue())
-        };
-
-        boolean hasChanges = false;
-
-        for (int i = 0; i < updatedData.length; i++) {
-            if (!updatedData[i].equals(originalData[i])) {
-                hasChanges = true;
-                break;
-            }
-        }
-
-        if (hasChanges) {
+        String[] updatedData = getUpdatedData();
+        if (isDataChanged(updatedData)) {
             updateBookData(updatedData);
         } else {
-            notificationLabel.setText("No changes detected.");
-            notificationLabel.setStyle("-fx-text-fill: #ff0000;");
-            AnimationUtils.playNotificationTimeline(notificationLabel, 1, "#ff0000");
+            showNoChangesNotification();
         }
-
-    }
-
-    private void updateBookData(String[] updatedData) {
-        // Update book in global data and database
-        AdminGlobalController.getInstance().updateBookData(updatedData, originalData[0]);
-
-        originalData = updatedData;
-
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.7), e -> {
-            updateButton.setDisable(true);
-        }));
-        timeline.setOnFinished(e -> {
-            notificationLabel.setText("Book updated successfully!");
-            updateButton.setDisable(false);
-            AnimationUtils.playNotificationTimeline(notificationLabel, 1, "#08a80d");
-        });
-        timeline.play();
     }
 
     @FXML
     void uploadButtonOnAction(ActionEvent event) {
-        String imgUrl = UpdateType.BOOK_COVER.equals(currentUpdateType) ?
-                imgUrlTextField.getText() : qrCodeTextField.getText();
+        String imgUrl = currentUpdateType.equals(UpdateType.BOOK_COVER) ? imgUrlTextField.getText() : qrCodeTextField.getText();
+        String lastUrl = currentUpdateType.equals(UpdateType.BOOK_COVER) ? lastImageURL : lastQrCodeURL;
 
-        String lastUrl = UpdateType.BOOK_COVER.equals(currentUpdateType) ? lastImageURL : lastQrCodeURL;
-        if (imgUrl.equals(lastUrl)) {
-            return;
-        }
-
-        if (RegExPatterns.bookCoverUrlPattern(imgUrl)) {
-            if (UpdateType.BOOK_COVER.equals(currentUpdateType)) {
-                setBookCoverImage(imgUrl);
-                lastImageURL = imgUrl;
+        if (!imgUrl.equals(lastUrl)) {
+            if (RegExPatterns.bookCoverUrlPattern(imgUrl)) {
+                updateImage(currentUpdateType, imgUrl);
+                bookCoverLabel.setText("Valid URL");
+                AnimationUtils.playNotificationTimeline(bookCoverLabel, 2, "#08a80d");
             } else {
-                setQrCodeImage(imgUrl);
-                lastQrCodeURL = imgUrl;
+                showInvalidUrlNotification();
             }
-
-            bookCoverLabel.setText("Valid URL");
-            AnimationUtils.playNotificationTimeline(bookCoverLabel, 2, "#08a80d"); // Màu xanh
-        } else {
-            System.out.println("Invalid URL");
-            bookCoverLabel.setText("Invalid URL");
-            AnimationUtils.playNotificationTimeline(bookCoverLabel, 2, "#ff0000"); // Màu đỏ
         }
     }
 
@@ -191,8 +105,8 @@ public class AdminBookEditDialogController {
         handleEffectButtonClicked();
     }
 
+    // Data Setup and Update
     public void showOriginalBookData(String[] data) {
-        System.out.println("Showing original book data");
         originalData = data;
         setOriginalBasicInfo();
         setBookCoverImage(originalData[1]);
@@ -208,29 +122,77 @@ public class AdminBookEditDialogController {
         publishedDatePicker.setValue(DateTimeUtils.convertStringToDate(originalData[7]));
     }
 
-    public void setBookCoverImage(String path) {
-        Task<Image> loadImageTask = new Task<>() {
-            @Override
-            protected Image call() throws Exception {
-                return new Image(path);
-            }
+    private String[] getUpdatedData() {
+        return new String[]{
+                originalData[0],
+                imgUrlTextField.getText().isEmpty() ? originalData[1] : imgUrlTextField.getText(),
+                nameTextField.getText(),
+                typeTextField.getText(),
+                authorTextField.getText(),
+                quantitySpinner.getValue().toString(),
+                publisherTextField.getText(),
+                publishedDatePicker.getValue() == null ? "" : DateTimeUtils.convertDateToString(publishedDatePicker.getValue())
         };
-
-        loadImageTask.setOnSucceeded(event -> bookCoverImage.setImage(loadImageTask.getValue()));
-
-        loadImageTask.setOnFailed(event -> {
-            Throwable exception = loadImageTask.getException();
-            System.err.println("Failed to load image: " + exception.getMessage());
-            exception.printStackTrace();
-        });
-
-        new Thread(loadImageTask).start();
     }
 
-    public void setQrCodeImage(String path) {
-        if (path == null) {
-            return;
+    private boolean isDataChanged(String[] updatedData) {
+        for (int i = 0; i < updatedData.length; i++) {
+            if (!updatedData[i].equals(originalData[i])) {
+                return true;
+            }
         }
+        return false;
+    }
+
+    private void updateBookData(String[] updatedData) {
+        AdminGlobalController.getInstance().updateBookData(updatedData, originalData[0]);
+        originalData = updatedData;
+        showUpdateSuccessNotification();
+    }
+
+    private void showUpdateSuccessNotification() {
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.7), e -> updateButton.setDisable(true)));
+        timeline.setOnFinished(e -> {
+            notificationLabel.setText("Book updated successfully!");
+            updateButton.setDisable(false);
+            AnimationUtils.playNotificationTimeline(notificationLabel, 1, "#08a80d");
+        });
+        timeline.play();
+    }
+
+    private void showNoChangesNotification() {
+        notificationLabel.setText("No changes detected.");
+        notificationLabel.setStyle("-fx-text-fill: #ff0000;");
+        AnimationUtils.playNotificationTimeline(notificationLabel, 1, "#ff0000");
+    }
+
+    private void showInvalidUrlNotification() {
+        bookCoverLabel.setText("Invalid URL");
+        AnimationUtils.playNotificationTimeline(bookCoverLabel, 2, "#ff0000");
+    }
+
+    // Image Update Methods
+    private void updateImage(UpdateType updateType, String url) {
+        if (updateType.equals(UpdateType.BOOK_COVER)) {
+            setBookCoverImage(url);
+            lastImageURL = url;
+        } else if (updateType.equals(UpdateType.QR_CODE)) {
+            setQrCodeImage(url);
+            lastQrCodeURL = url;
+        }
+    }
+
+    private void setBookCoverImage(String path) {
+        loadImageAsync(path, bookCoverImage);
+    }
+
+    private void setQrCodeImage(String path) {
+        if (path != null) {
+            loadImageAsync(path, qrCodeImage);
+        }
+    }
+
+    private void loadImageAsync(String path, ImageView imageView) {
         Task<Image> loadImageTask = new Task<>() {
             @Override
             protected Image call() throws Exception {
@@ -238,87 +200,73 @@ public class AdminBookEditDialogController {
             }
         };
 
-        loadImageTask.setOnSucceeded(event -> qrCodeImage.setImage(loadImageTask.getValue()));
-
-        loadImageTask.setOnFailed(event -> {
-            Throwable exception = loadImageTask.getException();
-            System.err.println("Failed to load image: " + exception.getMessage());
-            exception.printStackTrace();
-        });
-
+        loadImageTask.setOnSucceeded(event -> imageView.setImage(loadImageTask.getValue()));
+        loadImageTask.setOnFailed(event -> System.err.println("Failed to load image: " + loadImageTask.getException().getMessage()));
         new Thread(loadImageTask).start();
     }
 
+    // UI Logic Methods
     public void showPane() {
-        container.setOnMouseClicked(event -> {
-            container.requestFocus();
-        });
-
-        if (lastUpdateType != null && lastUpdateType.equals(currentUpdateType)) {
+        container.setOnMouseClicked(event -> container.requestFocus());
+        if (lastUpdateType.equals(currentUpdateType)) {
             return;
         }
 
         lastUpdateType = currentUpdateType;
-
         switch (currentUpdateType) {
-            case UpdateType.BASIC_INFO:
+            case BASIC_INFO:
                 basicInfoContainer.setVisible(true);
                 bookCoverContainer.setVisible(false);
                 AnimationUtils.zoomIn(basicInfoContainer, 1.0);
                 break;
-            case UpdateType.BOOK_COVER:
-            case UpdateType.QR_CODE:
-                if (currentUpdateType.equals(UpdateType.BOOK_COVER)) {
-                    qrCodeTextField.setVisible(false);
-                    imgUrlTextField.setVisible(true);
-                    qrCodeImage.setVisible(false);
-                    bookCoverImage.setVisible(true);
-                } else {
-                    qrCodeImage.setVisible(true);
-                    bookCoverImage.setVisible(false);
-                    qrCodeTextField.setVisible(true);
-                    imgUrlTextField.setVisible(false);
-                }
-                basicInfoContainer.setVisible(false);
-                bookCoverContainer.setVisible(true);
-                AnimationUtils.zoomIn(bookCoverContainer, 1.0);
+            case BOOK_COVER:
+            case QR_CODE:
+                handleImagePaneVisibility();
                 break;
         }
     }
 
-    public void handleEffectButtonClicked() {
-        setDefaultButtonStyle();
-        changeButtonStyle();
+    private void handleImagePaneVisibility() {
+        boolean isBookCover = currentUpdateType.equals(UpdateType.BOOK_COVER);
+        qrCodeTextField.setVisible(!isBookCover);
+        imgUrlTextField.setVisible(isBookCover);
+        qrCodeImage.setVisible(!isBookCover);
+        bookCoverImage.setVisible(isBookCover);
+        basicInfoContainer.setVisible(false);
+        bookCoverContainer.setVisible(true);
+        AnimationUtils.zoomIn(bookCoverContainer, 1.0);
     }
 
-    public void setDefaultButtonStyle() {
+    public void handleEffectButtonClicked() {
+        resetButtonStyles();
+        changeSelectedButtonStyle();
+    }
+
+    private void resetButtonStyles() {
         basicInfoButton.setStyle("-fx-background-color: #000; -fx-text-fill: #fff;");
         bookCoverButton.setStyle("-fx-background-color: #000; -fx-text-fill: #fff;");
         qrCodeButton.setStyle("-fx-background-color: #000; -fx-text-fill: #fff;");
     }
 
-    public void changeButtonStyle() {
-        setDefaultButtonStyle();
-        switch (lastUpdateType) {
-            case UpdateType.BASIC_INFO:
-                basicInfoButton.setStyle("-fx-background-color: #fff; -fx-text-fill: #000; " +
-                        "-fx-background-radius: 0");
-                break;
-            case UpdateType.BOOK_COVER:
-                bookCoverButton.setStyle("-fx-background-color: #fff; -fx-text-fill: #000; " +
-                        "-fx-background-radius: 0");
-                break;
-            case UpdateType.QR_CODE:
-                qrCodeButton.setStyle("-fx-background-color: #fff; -fx-text-fill: #000; " +
-                        "-fx-background-radius: 0");
-                break;
+    private void changeSelectedButtonStyle() {
+        JFXButton selectedButton = getSelectedButton();
+        selectedButton.setStyle("-fx-background-color: #fff; -fx-text-fill: #000; -fx-border-color: #000;");
+    }
+
+    private JFXButton getSelectedButton() {
+        switch (currentUpdateType) {
+            case BASIC_INFO:
+                return basicInfoButton;
+            case BOOK_COVER:
+                return bookCoverButton;
+            case QR_CODE:
+                return qrCodeButton;
+            default:
+                return basicInfoButton;
         }
     }
 
-    enum UpdateType {
-        BASIC_INFO,
-        BOOK_COVER,
-        QR_CODE
+    public enum UpdateType {
+        BASIC_INFO, BOOK_COVER, QR_CODE
     }
-
 }

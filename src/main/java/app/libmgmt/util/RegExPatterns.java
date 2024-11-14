@@ -21,8 +21,8 @@ public class RegExPatterns {
     }
 
     public static boolean passwordPattern(String password) {
-        // "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$"
-        return Pattern.matches("^(?!\\s*$).+", password);
+        System.out.println("Password: " + password); // Debug line
+        return Pattern.matches("^.{8,}$", password);
     }
 
     public static boolean citizenIDPattern(String citizenID) {

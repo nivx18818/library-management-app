@@ -1,13 +1,14 @@
 package app.libmgmt.view.admin;
 
+import app.libmgmt.util.ChangeScene;
+import app.libmgmt.util.EnumUtils;
 import javafx.collections.ListChangeListener;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import app.libmgmt.util.ChangeScene;
-import app.libmgmt.util.EnumUtils;
 
 public class AdminBookBarController {
 
@@ -20,6 +21,7 @@ public class AdminBookBarController {
 
     private int quantity = -1;
     private String imgPath = "", publisher = "", publishedDate = "";
+//    private final Map<String, Image> imageCache = new HashMap<>(); // Cache for loaded images
 
     public AdminBookBarController() {
         controller = this;
@@ -43,6 +45,7 @@ public class AdminBookBarController {
         });
     }
 
+    // --- Event Handlers ---
     @FXML
     void imgViewOnMouseClicked(MouseEvent event) {
         openPopUp("/fxml/admin-book-view-dialog.fxml", EnumUtils.PopupList.BOOK_VIEW);
@@ -62,15 +65,23 @@ public class AdminBookBarController {
 
     @FXML
     void imgOnMouseEntered(MouseEvent event) {
-        ImageView source = (ImageView) event.getSource();
-        String iconPath = getIconPath(source, true);
-        source.setImage(new Image(getClass().getResource(iconPath).toExternalForm()));
+        updateIconOnHover(event, true);
     }
 
     @FXML
     void imgOnMouseExited(MouseEvent event) {
+        updateIconOnHover(event, false);
+    }
+
+    // --- Helper Methods ---
+    private void openPopUp(String fxmlPath, EnumUtils.PopupList popupType) {
+        ChangeScene.openAdminPopUp(AdminBooksLayoutController.getInstance().getStackPaneContainer(),
+                fxmlPath, idLabel.getText(), popupType);
+    }
+
+    private void updateIconOnHover(MouseEvent event, boolean isHovered) {
         ImageView source = (ImageView) event.getSource();
-        String iconPath = getIconPath(source, false);
+        String iconPath = getIconPath(source, isHovered);
         source.setImage(new Image(getClass().getResource(iconPath).toExternalForm()));
     }
 
@@ -85,11 +96,6 @@ public class AdminBookBarController {
         return "";
     }
 
-    private void openPopUp(String fxmlPath, EnumUtils.PopupList popupType) {
-        ChangeScene.openAdminPopUp(AdminBooksLayoutController.getInstance().stackPaneContainer,
-                fxmlPath, idLabel.getText(), popupType);
-    }
-
     public String[] getData() {
         return new String[]{idLabel.getText(), imgPath, nameLabel.getText(), typeLabel.getText(),
                 authorLabel.getText(), Integer.toString(quantity), publisher, publishedDate};
@@ -97,7 +103,7 @@ public class AdminBookBarController {
 
     public void setData(String[] data) {
         updateLabelIfChanged(idLabel, data[0]);
-        updateImageIfChanged(data[1]);
+        updateImageIfChanged(data[1], bookImage);
         updateLabelIfChanged(nameLabel, data[2]);
         updateLabelIfChanged(typeLabel, data[3]);
         updateLabelIfChanged(authorLabel, data[4]);
@@ -117,14 +123,27 @@ public class AdminBookBarController {
         }
     }
 
-    private void updateImageIfChanged(String newImagePath) {
+    /**
+     * Updates the image if the path has changed. Uses a placeholder image initially,
+     * and loads the new image asynchronously if needed.
+     */
+    private void updateImageIfChanged(String newImagePath, ImageView bookImage) {
         if (!imgPath.equals(newImagePath)) {
-            try {
-                imgPath = newImagePath;
-                bookImage.setImage(new Image(imgPath));
-            } catch (Exception e) {
-                throw new RuntimeException("Failed to load image: " + newImagePath, e);
-            }
+            imgPath = newImagePath;
+
+            // Load the image asynchronously
+            Task<Image> imageLoadTask = new Task<>() {
+                @Override
+                protected Image call() {
+                    Image image = new Image(imgPath);
+                    return image;
+                }
+            };
+
+            imageLoadTask.setOnSucceeded(event -> bookImage.setImage(imageLoadTask.getValue()));
+            imageLoadTask.setOnFailed(event -> System.out.println("Failed to load image: " + imgPath));
+
+            new Thread(imageLoadTask).start();
         }
     }
 

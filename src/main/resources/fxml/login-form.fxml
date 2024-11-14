@@ -88,12 +88,12 @@
                 </HBox>
               </children>
             </VBox>
-            <TextField fx:id="phoneNumberSignUp" disable="true" layoutX="29.0" layoutY="257.0" opacity="0.0" prefHeight="45.0" prefWidth="412.0" promptText="Phone Number*">
+            <TextField fx:id="phoneNumberSignUp" disable="true" layoutX="29.0" layoutY="257.0" opacity="0.0" prefHeight="45.0" prefWidth="415.0" promptText="Phone Number*">
               <font>
                 <Font size="13.0" />
               </font>
             </TextField>
-            <TextField fx:id="citizenIDSignUp" disable="true" layoutX="29.0" layoutY="383.0" opacity="0.0" prefHeight="45.0" prefWidth="220.0" promptText="Citizen ID*">
+            <TextField fx:id="citizenIDSignUp" disable="true" layoutX="29.0" layoutY="384.0" opacity="0.0" prefHeight="45.0" prefWidth="220.0" promptText="Citizen ID*">
               <font>
                 <Font size="13.0" />
               </font>

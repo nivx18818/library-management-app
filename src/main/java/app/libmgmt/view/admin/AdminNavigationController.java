@@ -18,156 +18,128 @@ public class AdminNavigationController {
     private static EnumUtils.NavigationButton latestButtonClicked = EnumUtils.NavigationButton.DASHBOARD;
     private static int initializedTimes = 0;
     private static AdminNavigationController controller;
+
     @FXML
-    private JFXButton booksButton;
+    private JFXButton dashboardButton, catalogButton, booksButton, usersButton, logoutButton;
     @FXML
-    private ImageView booksLogo;
-    @FXML
-    private JFXButton catalogButton;
-    @FXML
-    private ImageView catalogLogo;
-    @FXML
-    private JFXButton dashboardButton;
-    @FXML
-    private ImageView dashboardLogo;
-    @FXML
-    private JFXButton logoutButton;
-    @FXML
-    private ImageView logoutLogo;
-    @FXML
-    private JFXButton usersButton;
-    @FXML
-    private ImageView usersLogo;
+    private ImageView dashboardLogo, catalogLogo, booksLogo, usersLogo, logoutLogo;
     @FXML
     private VBox navigationContainer;
 
+    // Constructor to set the controller instance
     public AdminNavigationController() {
         controller = this;
     }
 
+    // Singleton pattern to get the current instance
     public static AdminNavigationController getInstance() {
         return controller;
     }
 
+    // Initialization method called when the view is loaded
     @FXML
     public void initialize() {
         Logger.getLogger("javafx").setLevel(java.util.logging.Level.SEVERE);
         System.out.println("Navigation Controller initialized " + ++initializedTimes + " times");
-
-        showAnimation();
+        playAnimationOnFirstInitialization();
     }
 
-    public void changeButtonStyle() {
-        switch (latestButtonClicked) {
-            case EnumUtils.NavigationButton.DASHBOARD:
-                setStyle("/assets/icon/dashboard-icon-2.png", dashboardButton, dashboardLogo);
-                break;
-            case EnumUtils.NavigationButton.CATALOG:
-                setStyle("/assets/icon/catalog-icon-2.png", catalogButton, catalogLogo);
-                break;
-            case EnumUtils.NavigationButton.BOOKS:
-                setStyle("/assets/icon/books-icon-2.png", booksButton, booksLogo);
-                break;
-            case EnumUtils.NavigationButton.USERS:
-                setStyle("/assets/icon/people-icon-2.png", usersButton, usersLogo);
-                break;
-        }
-    }
-
-    public void setStyle(String pathToLogo, JFXButton button, ImageView logo) {
-        Image image = new Image(getClass().getResource(pathToLogo).toExternalForm());
-        button.setStyle("-fx-background-color: white; -fx-text-fill: black;");
-        logo.setImage(image);
-    }
-
-    public void setDefaultButtons() {
-        Image defaultDashboardLogo = new Image(getClass().getResource("/assets/icon/dashboard-icon.png").toExternalForm());
-        Image defaultBooksLogo = new Image(getClass().getResource("/assets/icon/books-icon.png").toExternalForm());
-        Image defaultCatalogLogo = new Image(getClass().getResource("/assets/icon/catalog-icon.png").toExternalForm());
-        Image defaultUsersLogo = new Image(getClass().getResource("/assets/icon/people-icon.png").toExternalForm());
-        Image defaultLogOutLogo = new Image(getClass().getResource("/assets/icon/logout-icon.png").toExternalForm());
-
-        dashboardLogo.setImage(defaultDashboardLogo);
-        booksLogo.setImage(defaultBooksLogo);
-        catalogLogo.setImage(defaultCatalogLogo);
-        usersLogo.setImage(defaultUsersLogo);
-        logoutLogo.setImage(defaultLogOutLogo);
-
-        dashboardButton.setStyle("-fx-background-color: black; -fx-text-fill: white;");
-        booksButton.setStyle("-fx-background-color: black; -fx-text-fill: white;");
-        catalogButton.setStyle("-fx-background-color: black; -fx-text-fill: white;");
-        usersButton.setStyle("-fx-background-color: black; -fx-text-fill: white;");
-        logoutButton.setStyle("-fx-background-color: black; -fx-text-fill: white;");
-    }
-
-    public void showAnimation() {
+    // Plays an animation if it's the first time the view is initialized
+    private void playAnimationOnFirstInitialization() {
         if (initializedTimes == 1) {
             AnimationUtils.fadeInLeft(navigationContainer);
         }
     }
 
+    // Handles the click effect for navigation buttons
     public void handleEffectButtonClicked(JFXButton button) {
         latestButtonClicked = getButtonType(button);
-        setDefaultButtons();
-        changeButtonStyle();
+        resetButtonStylesToDefault();
+        updateButtonStyle();
     }
 
-    public EnumUtils.NavigationButton getButtonType(JFXButton button) {
-        if (button.equals(dashboardButton)) {
-            return EnumUtils.NavigationButton.DASHBOARD;
-        } else if (button.equals(catalogButton)) {
-            return EnumUtils.NavigationButton.CATALOG;
-        } else if (button.equals(booksButton)) {
-            return EnumUtils.NavigationButton.BOOKS;
-        } else if (button.equals(usersButton)) {
-            return EnumUtils.NavigationButton.USERS;
-        } else if (button.equals(logoutButton)) {
-            return EnumUtils.NavigationButton.LOGOUT;
+    // Resets all navigation buttons to their default styles
+    private void resetButtonStylesToDefault() {
+        setButtonStyle(dashboardButton, dashboardLogo, "/assets/icon/dashboard-icon.png", "black", "white");
+        setButtonStyle(booksButton, booksLogo, "/assets/icon/books-icon.png", "black", "white");
+        setButtonStyle(catalogButton, catalogLogo, "/assets/icon/catalog-icon.png", "black", "white");
+        setButtonStyle(usersButton, usersLogo, "/assets/icon/people-icon.png", "black", "white");
+        setButtonStyle(logoutButton, logoutLogo, "/assets/icon/logout-icon.png", "black", "white");
+    }
+
+    // Updates the style of the button that was last clicked
+    private void updateButtonStyle() {
+        switch (latestButtonClicked) {
+            case DASHBOARD:
+                setButtonStyle(dashboardButton, dashboardLogo, "/assets/icon/dashboard-icon-2" +
+                        ".png", "white", "black");
+                break;
+            case CATALOG:
+                setButtonStyle(catalogButton, catalogLogo, "/assets/icon/catalog-icon-2.png", "white", "black");
+                break;
+            case BOOKS:
+                setButtonStyle(booksButton, booksLogo, "/assets/icon/books-icon-2.png", "white", "black");
+                break;
+            case USERS:
+                setButtonStyle(usersButton, usersLogo, "/assets/icon/people-icon-2.png", "white", "black");
+                break;
+            case LOGOUT:
+                // Handle logout style change if needed
+                break;
         }
+    }
+
+    // Helper method to set button style and logo
+    private void setButtonStyle(JFXButton button, ImageView logo, String pathToLogo,
+                                String backgroundColor, String textColor) {
+        Image image = new Image(getClass().getResource(pathToLogo).toExternalForm());
+        button.setStyle("-fx-background-color: " + backgroundColor + "; -fx-text-fill: " + textColor + ";");
+        logo.setImage(image);
+    }
+
+
+    // Determines the button type based on the clicked button
+    private EnumUtils.NavigationButton getButtonType(JFXButton button) {
+        if (button.equals(dashboardButton)) return EnumUtils.NavigationButton.DASHBOARD;
+        if (button.equals(catalogButton)) return EnumUtils.NavigationButton.CATALOG;
+        if (button.equals(booksButton)) return EnumUtils.NavigationButton.BOOKS;
+        if (button.equals(usersButton)) return EnumUtils.NavigationButton.USERS;
+        if (button.equals(logoutButton)) return EnumUtils.NavigationButton.LOGOUT;
         return null;
     }
 
+    // Navigation button click handlers
     @FXML
     public void dashboardButtonClicked(MouseEvent event) throws IOException {
-        if (latestButtonClicked == EnumUtils.NavigationButton.DASHBOARD) {
-            return;
-        }
-        ChangeScene.navigateToScene("admin-dashboard.fxml");
-        handleEffectButtonClicked(dashboardButton);
+        handleNavigation(EnumUtils.NavigationButton.DASHBOARD, "admin-dashboard.fxml", dashboardButton);
     }
 
     @FXML
     public void catalogButtonClicked(MouseEvent event) throws IOException {
-        if (latestButtonClicked == EnumUtils.NavigationButton.CATALOG) {
-            return;
-        }
-        ChangeScene.navigateToScene("admin-borrowed-books-form.fxml");
-        handleEffectButtonClicked(catalogButton);
+        handleNavigation(EnumUtils.NavigationButton.CATALOG, "admin-borrowed-books-form.fxml", catalogButton);
     }
 
     @FXML
     public void booksButtonClicked(MouseEvent event) throws IOException {
-        if (latestButtonClicked == EnumUtils.NavigationButton.BOOKS) {
-            return;
-        }
-        ChangeScene.navigateToScene("admin-books-form.fxml");
-        handleEffectButtonClicked(booksButton);
+        handleNavigation(EnumUtils.NavigationButton.BOOKS, "admin-books-form.fxml", booksButton);
     }
 
     @FXML
     public void userButtonClicked(MouseEvent event) throws IOException {
-        if (latestButtonClicked == EnumUtils.NavigationButton.USERS) {
-            return;
-        }
-        ChangeScene.navigateToScene("admin-users-form.fxml");
-        handleEffectButtonClicked(usersButton);
+        handleNavigation(EnumUtils.NavigationButton.USERS, "admin-users-form.fxml", usersButton);
     }
 
     @FXML
     public void logOutButtonClicked(MouseEvent event) throws IOException {
-        ChangeScene.openAdminPopUp(AdminGlobalController.getInstance().getStackPaneContainer(),
-                "/fxml/logout-dialog.fxml");
+        if (latestButtonClicked == EnumUtils.NavigationButton.LOGOUT) return;
+        ChangeScene.openAdminPopUp(AdminGlobalController.getInstance().getStackPaneContainer(), "/fxml/logout-dialog.fxml");
         handleEffectButtonClicked(logoutButton);
     }
 
+    // Handles the navigation between scenes
+    private void handleNavigation(EnumUtils.NavigationButton buttonType, String fxmlFile, JFXButton button) throws IOException {
+        if (latestButtonClicked == buttonType) return;
+        ChangeScene.navigateToScene(fxmlFile);
+        handleEffectButtonClicked(button);
+    }
 }

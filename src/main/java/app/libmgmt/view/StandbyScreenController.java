@@ -27,7 +27,7 @@ public class StandbyScreenController {
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(2.5), e -> {
             try {
                 ChangeScene.changeInterfaceWindow((Stage) standbyScreenContainer.getScene().getWindow(),
-                        "/fxml/login-form.fxml", "Login Window");
+                        "/fxml/login-form.fxml", "BookWorm");
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }

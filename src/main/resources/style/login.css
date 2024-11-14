@@ -55,10 +55,10 @@
     -fx-font-weight: normal;
 }
 
-.text-field:focused, .password-field:focused {
+.text-field:focused, .password-field:focused, .jfx-combo-box:focused {
     -fx-border-color: #242121;
     -fx-background-color: #FFFFFF;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 8, 0.7, 0, 2);
+    -fx-border-width: 2px; /* Adjust the border width */
 }
 
 .jfx-combo-box {

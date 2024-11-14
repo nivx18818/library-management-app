@@ -13,26 +13,21 @@ import app.libmgmt.util.EnumUtils;
 public class AdminUsersViewDialogController {
 
     private static AdminUsersViewDialogController controller;
+
     @FXML
     private JFXButton cancelButton;
     @FXML
-    private Pane cancelPane;
-    @FXML
     private JFXButton closeDialogButton;
     @FXML
-    private Pane closePane;
-    @FXML
     private Pane container;
+    @FXML
+    private ImageView imgClose;
     @FXML
     private Label emailLabel;
     @FXML
     private Label fullNameLabel;
     @FXML
     private Label idLabel;
-    @FXML
-    private ImageView imgClose;
-    @FXML
-    private Label lblCancel;
     @FXML
     private Label majorOrPhoneLabel;
     @FXML
@@ -48,27 +43,46 @@ public class AdminUsersViewDialogController {
 
     public void initialize() {
         System.out.println("AdminUserViewDialogController initialized");
-        AnimationUtils.hoverCloseIcons(closeDialogButton, imgClose);
+        setupCloseIconAnimation();
     }
 
     @FXML
-    void cancelButtonOnAction(ActionEvent event) {
-        ChangeScene.closePopUp();
+    private void cancelButtonOnAction(ActionEvent event) {
+        closeDialog();
     }
 
     @FXML
-    void closeButtonOnAction(ActionEvent event) {
-        ChangeScene.closePopUp();
+    private void closeButtonOnAction(ActionEvent event) {
+        closeDialog();
     }
 
+    /**
+     * Sets the user data in the view dialog.
+     *
+     * @param data     The array containing user details.
+     * @param userType The type of the user (STUDENT or GUEST).
+     */
     public void setData(String[] data, EnumUtils.UserType userType) {
         idLabel.setText("ID : " + data[0]);
         fullNameLabel.setText("Full name : " + data[1]);
-        majorOrPhoneLabel.setText((userType == EnumUtils.UserType.STUDENT) ?
+        majorOrPhoneLabel.setText(userType == EnumUtils.UserType.STUDENT ?
                 "Major : " + data[2] : "Phone number : " + data[2]);
         emailLabel.setText("Email : " + data[3]);
-        userTypeLabel.setText((userType == EnumUtils.UserType.STUDENT) ? "Student" : "External " +
-                "Borrower");
+        userTypeLabel.setText(userType == EnumUtils.UserType.STUDENT ?
+                "Student" : "External Borrower");
     }
 
+    /**
+     * Sets up hover animation for the close icon.
+     */
+    private void setupCloseIconAnimation() {
+        AnimationUtils.hoverCloseIcons(closeDialogButton, imgClose);
+    }
+
+    /**
+     * Closes the dialog popup.
+     */
+    private void closeDialog() {
+        ChangeScene.closePopUp();
+    }
 }

@@ -20,8 +20,9 @@ import java.util.Locale;
 
 public class AdminHeaderController {
 
-    private static int initializeTimes;
+    private static int initializeTimes = 0;
     private static AdminHeaderController controller;
+
     @FXML
     private Text dateText;
     @FXML
@@ -35,59 +36,86 @@ public class AdminHeaderController {
     @FXML
     private Text typeUserText;
 
+    // Constructor to set the controller instance
     public AdminHeaderController() {
         controller = this;
     }
 
+    // Singleton pattern to get the current instance
     public static AdminHeaderController getInstance() {
         return controller;
     }
 
+    // Initialization method called when the view is loaded
     @FXML
     public void initialize() {
-        ++initializeTimes;
-
-        showAnimation();
-
-        setInformation();
-
-        setDateAndTimeHeader();
+        initializeTimes++;
+        playAnimationOnFirstInitialization();
+        setUserInformation("Lionel Ronaldo", "Admin");
+        initializeDateAndTime();
     }
 
-    public static void setInformation() {
-        getInstance().nameUserText.setText("Lionel Ronaldo");
-        getInstance().typeUserText.setText("Admin");
+    // Method to set user information in the header
+    private void setUserInformation(String userName, String userType) {
+        nameUserText.setText(userName);
+        typeUserText.setText(userType);
     }
 
-    // Set current date and time in the header
-    public void setDateAndTimeHeader() {
-        DateTimeFormatter time = DateTimeFormatter.ofPattern("hh:mm");
-        timeText.setText(time.format(java.time.LocalTime.now()) + " " + (LocalDateTime.now().getHour() < 12 ? "AM" : "PM"));
+    // Initializes and continuously updates the current date and time in the header
+    private void initializeDateAndTime() {
+        updateDateAndTime();  // Initial update of date and time
+        startClock();          // Start the clock to continuously update time
+    }
 
+    // Updates the current date and time in the header
+    private void updateDateAndTime() {
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("hh:mm");
         Locale locale = DateTimeUtils.locale;
         DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.DEFAULT, locale);
-        String date = dateFormat.format(new Date());
-        dateText.setText(date);
+
+        LocalDateTime currentTime = LocalDateTime.now();
+        String formattedTime = timeFormatter.format(currentTime.toLocalTime()) + (currentTime.getHour() < 12 ? " AM" : " PM");
+        String formattedDate = dateFormat.format(new Date());
+
+        timeText.setText(formattedTime);
+        dateText.setText(formattedDate);
+    }
+
+    // Starts a clock to update the time and date every second
+    private void startClock() {
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("hh:mm");
+        Locale locale = DateTimeUtils.locale;
+        DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.DEFAULT, locale);
 
         Timeline clock = new Timeline(new KeyFrame(Duration.ZERO, e -> {
             LocalDateTime currentTime = LocalDateTime.now();
-            timeText.setText(time.format(java.time.LocalTime.now()) + " " + (currentTime.getHour() < 12 ? "AM" : "PM"));
+            String formattedTime = timeFormatter.format(currentTime.toLocalTime()) + (currentTime.getHour() < 12 ? " AM" : " PM");
+            String formattedDate = dateFormat.format(new Date());
 
-            String newDate = dateFormat.format(new Date());
-            dateText.setText(newDate);
+            timeText.setText(formattedTime);
+            dateText.setText(formattedDate);
         }), new KeyFrame(Duration.seconds(1)));
 
         clock.setCycleCount(Timeline.INDEFINITE);
         clock.play();
     }
 
+    // Handles the click event on the settings icon
     @FXML
-    void handleSettingOnMouseClicked(MouseEvent event) {
-        ChangeScene.openAdminPopUp(AdminGlobalController.getInstance().
-                getStackPaneContainer(), "/fxml/change-credentials-dialog.fxml");
+    private void handleSettingOnMouseClicked(MouseEvent event) {
+        openSettingsDialog();
     }
 
-    public void showAnimation() {
+    // Opens the settings dialog
+    private void openSettingsDialog() {
+        ChangeScene.openAdminPopUp(
+                AdminGlobalController.getInstance().getStackPaneContainer(),
+                "/fxml/change-credentials-dialog.fxml"
+        );
+    }
+
+    // Plays an animation if it's the first time the view is initialized
+    private void playAnimationOnFirstInitialization() {
         if (initializeTimes == 1) {
             AnimationUtils.fadeInDown(rootPane);
         }

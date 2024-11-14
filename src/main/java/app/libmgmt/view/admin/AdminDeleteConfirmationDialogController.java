@@ -31,64 +31,120 @@ public class AdminDeleteConfirmationDialogController {
     private Label lblConfirm;
 
     @FXML
-    private Label cancelLabel;
-
-    @FXML
     private Pane cancelPane;
 
     @FXML
     private Label notificationLabel;
 
     private String id;
-
     private EnumUtils.PopupList popupType;
 
+    @FXML
     public void initialize() {
         System.out.println("Admin Delete Confirmation Dialog initialized");
-        AnimationUtils.hoverCloseIcons(closeDialogButton, imgClose);
+        setupHoverEffects();
     }
 
     @FXML
     void closeButtonOnAction(ActionEvent event) {
-        ChangeScene.closePopUp();
-        AnimationUtils.hoverCloseIcons(closeDialogButton, imgClose);
+        closeDialog();
     }
 
     @FXML
     void deleteButtonOnAction(ActionEvent event) {
-        lblConfirm.setText("Deleting...");
-        deleteButton.setDisable(true);
-        cancelButton.setDisable(true);
-        if (popupType == EnumUtils.PopupList.BOOK_DELETE) {
-            notificationLabel.setText("Are you sure you want to delete this book?");
-            AdminGlobalController.getInstance().deleteBookDataById(id);
-        } else if (popupType == EnumUtils.PopupList.STUDENT_DELETE || popupType == EnumUtils.PopupList.GUEST_DELETE) {
-            notificationLabel.setText("Are you sure you want to delete this user?");
-            AdminGlobalController.getInstance().deleteUserById(popupType, id);
-        }
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.48), e -> {
-            ChangeScene.closePopUp();
-        }));
-        timeline.play();
+        startDeleteProcess();
     }
 
     @FXML
     void cancelButtonOnAction(ActionEvent event) {
-        ChangeScene.closePopUp();
+        closeDialog();
     }
 
     @FXML
     void cancelButtonOnMouseEntered() {
-        cancelPane.setStyle("-fx-background-color: #d7d7d7; -fx-background-radius: 10");
+        changeCancelPaneStyle("#d7d7d7");
     }
 
     @FXML
     void cancelButtonOnMouseExited() {
-        cancelPane.setStyle("-fx-background-color: #fff; -fx-background-radius: 10");
+        changeCancelPaneStyle("#fff");
     }
 
-    public void setId(String id, EnumUtils.PopupList popupList) {
+    public void setId(String id, EnumUtils.PopupList popupType) {
         this.id = id;
-        this.popupType = popupList;
+        this.popupType = popupType;
+        setupNotificationText();
+    }
+
+    /**
+     * Sets up hover effects for interactive buttons.
+     */
+    private void setupHoverEffects() {
+        AnimationUtils.hoverCloseIcons(closeDialogButton, imgClose);
+    }
+
+    /**
+     * Closes the dialog.
+     */
+    private void closeDialog() {
+        ChangeScene.closePopUp();
+    }
+
+    /**
+     * Changes the background color of the cancel pane based on hover state.
+     */
+    private void changeCancelPaneStyle(String color) {
+        cancelPane.setStyle("-fx-background-color: " + color + "; -fx-background-radius: 10");
+    }
+
+    /**
+     * Configures the notification text based on the popup type.
+     */
+    private void setupNotificationText() {
+        if (popupType == EnumUtils.PopupList.BOOK_DELETE) {
+            notificationLabel.setText("Are you sure you want to delete this book?");
+        } else if (popupType == EnumUtils.PopupList.STUDENT_DELETE || popupType == EnumUtils.PopupList.GUEST_DELETE) {
+            notificationLabel.setText("Are you sure you want to delete this user?");
+        }
+    }
+
+    /**
+     * Handles the deletion process.
+     */
+    private void startDeleteProcess() {
+        lblConfirm.setText("Deleting...");
+        disableButtons(true);
+
+        if (popupType == EnumUtils.PopupList.BOOK_DELETE) {
+            AdminGlobalController.getInstance().deleteBookDataById(id);
+        } else if (popupType == EnumUtils.PopupList.STUDENT_DELETE || popupType == EnumUtils.PopupList.GUEST_DELETE) {
+            AdminGlobalController.getInstance().deleteUserById(popupType, id);
+        }
+
+        closeDialogAfterDelay();
+    }
+
+    /**
+     * Disables or enables delete and cancel buttons.
+     */
+    private void disableButtons(boolean disable) {
+        deleteButton.setDisable(disable);
+        cancelButton.setDisable(disable);
+    }
+
+    /**
+     * Closes the dialog after a short delay.
+     */
+    private void closeDialogAfterDelay() {
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.4), e -> {
+            notificationLabel.setText("Deleted successfully!");
+            lblConfirm.setText("Deleted!");
+            notificationLabel.setStyle("-fx-text-fill: #00ff00");
+        }));
+        Timeline timeline2 = new Timeline(new KeyFrame(Duration.seconds(1.4), e -> {
+            closeDialog();
+        }));
+        timeline.play();
+        timeline2.play();
     }
 }

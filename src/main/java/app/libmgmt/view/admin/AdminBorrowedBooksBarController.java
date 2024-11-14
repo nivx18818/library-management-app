@@ -11,6 +11,7 @@ import app.libmgmt.util.EnumUtils;
 public class AdminBorrowedBooksBarController {
 
     private static AdminBorrowedBooksBarController controller;
+
     @FXML
     private Label amountLabel;
     @FXML
@@ -24,6 +25,7 @@ public class AdminBorrowedBooksBarController {
     @FXML
     private Label nameLabel;
 
+    // Singleton pattern
     public AdminBorrowedBooksBarController() {
         controller = this;
     }
@@ -32,34 +34,45 @@ public class AdminBorrowedBooksBarController {
         return controller;
     }
 
-    @FXML
-    void imgViewOnMouseClicked(MouseEvent event) {
-        ChangeScene.openAdminPopUp(AdminCatalogBorrowedBooksLayoutController.getInstance().getStackPaneContainer(),
-                "/fxml/admin-borrowed-book-view-dialog.fxml", idLabel.getText(),
-                EnumUtils.PopupList.BORROWED_BOOK_CATALOG);
-    }
-
-    @FXML
-    void imgViewOnMouseEntered(MouseEvent event) {
-        Image hoverImage = new Image(getClass().getResource("/assets/icon/Property 1=Variant2" +
-                ".png").toExternalForm());
-        imgView.setImage(hoverImage);
-    }
-
-    @FXML
-    void imgViewOnMouseExited(MouseEvent event) {
-        Image normalImage = new Image(getClass().getResource("/assets/icon/btn view.png").toExternalForm());
-        imgView.setImage(normalImage);
-    }
-
+    // Set book data to the labels
     public void setData(String name, String id, int amount, String dueDate, String borrowedDate) {
-        idLabel.setText(String.valueOf(id));
+        idLabel.setText(id);
         nameLabel.setText(name);
         amountLabel.setText(String.valueOf(amount));
         dueDateLabel.setText(dueDate);
         borrowedDateLabel.setText(borrowedDate);
     }
 
+    // Handle image click event to open borrowed book dialog
+    @FXML
+    void imgViewOnMouseClicked(MouseEvent event) {
+        ChangeScene.openAdminPopUp(
+                AdminBorrowedBooksLayoutController.getInstance().getStackPaneContainer(),
+                "/fxml/admin-borrowed-book-view-dialog.fxml",
+                idLabel.getText(),
+                EnumUtils.PopupList.BORROWED_BOOK_CATALOG
+        );
+    }
+
+    // Handle image mouse hover
+    @FXML
+    void imgViewOnMouseEntered(MouseEvent event) {
+        setImage("/assets/icon/Property 1=Variant2.png");
+    }
+
+    // Reset image when mouse exits
+    @FXML
+    void imgViewOnMouseExited(MouseEvent event) {
+        setImage("/assets/icon/btn view.png");
+    }
+
+    // Utility method to set the image for imgView
+    private void setImage(String imagePath) {
+        Image image = new Image(getClass().getResource(imagePath).toExternalForm());
+        imgView.setImage(image);
+    }
+
+    // Getter and Setter for idLabel (if needed for other parts of the code)
     public Label getIdLabel() {
         return idLabel;
     }

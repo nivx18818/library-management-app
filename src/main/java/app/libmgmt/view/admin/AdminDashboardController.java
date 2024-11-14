@@ -162,27 +162,8 @@ public class AdminDashboardController {
         }
     }
 
-    public List<String[]> getUserData() {
-        return borrowedBooksData;
-    }
-
-    public void setUserData(List<String[]> userData) {
-        this.borrowedBooksData = userData;
-    }
-
-    public List<String[]> getBooksData() {
-        return booksData;
-    }
-
-    public void setBooksData(List<String[]> booksData) {
-        this.booksData = booksData;
-    }
-
     public List<String[]> getAdminData() {
         return adminData;
     }
 
-    public void setAdminData(List<String[]> adminData) {
-        this.adminData = adminData;
-    }
 }

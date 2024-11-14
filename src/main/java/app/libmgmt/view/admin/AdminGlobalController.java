@@ -56,7 +56,7 @@ public class AdminGlobalController {
         data.add(new String[]{"Hoang Duy Thinh", "23020708", "1", "13/04/2024", "14/08/2024"});
         data.add(new String[]{"Luis Suarez", "23020710", "1", "13/11/2024", "14/08/2024"});
         data.add(new String[]{"Picasso", "23020714", "1", "13/08/2022", "14/08/2024"});
-        data.add(new String[]{"Van Gogh", "23020715", "1", "13/08/2024", "14/08/2024"});
+        data.add(new String[]{"Van Gogh", "23020715", "1", "13/12/2024", "14/08/2024"});
         data.add(new String[]{"Cristiano Ronaldo", "23020712", "1", "13/08/2024", "14/08/2024"});
         data.add(new String[]{"Lionel Messi", "23020713", "1", "13/08/2024", "14/08/2024"});
         return data;

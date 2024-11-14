@@ -17,74 +17,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AdminAddUserDialogController {
+
     private final String[] majorList = EnumUtils.UETMajor;
-    AdminUsersLayoutController adminUsersLayoutController =
-            AdminUsersLayoutController.getInstance();
-    AdminGlobalController adminGlobalController =
-            AdminGlobalController.getInstance();
-    @FXML
-    private ToggleGroup addUserType;
-    @FXML
-    private Pane adminPane;
-    @FXML
-    private JFXRadioButton adminRadioBtn;
-    @FXML
-    private JFXComboBox<String> cbbMajorStudent;
-    @FXML
-    private Pane container;
-    @FXML
-    private Pane guestPane;
-    @FXML
-    private JFXRadioButton guestRadioBtn;
-    @FXML
-    private Label notificationLabel;
-    @FXML
-    private Pane studentPane;
-    @FXML
-    private JFXRadioButton studentRadioBtn;
-    @FXML
-    private PasswordField txtCfPasswordAdmin;
-    @FXML
-    private PasswordField txtCfPasswordGuest;
-    @FXML
-    private PasswordField txtCfPasswordStudent;
-    @FXML
-    private TextField txtEmailAdmin;
-    @FXML
-    private TextField txtEmailGuest;
-    @FXML
-    private TextField txtEmailStudent;
-    @FXML
-    private TextField txtIDStudent;
-    @FXML
-    private TextField txtIdGuest;
-    @FXML
-    private TextField txtNameAdmin;
-    @FXML
-    private TextField txtNameGuest;
-    @FXML
-    private TextField txtNameStudent;
-    @FXML
-    private PasswordField txtPasswordAdmin;
-    @FXML
-    private PasswordField txtPasswordGuest;
-    @FXML
-    private PasswordField txtPasswordStudent;
-    @FXML
-    private TextField txtPhoneNumberGuest;
-    @FXML
-    private JFXButton closeDialogButton;
-    @FXML
-    private ImageView imgClose;
+    AdminUsersLayoutController adminUsersLayoutController = AdminUsersLayoutController.getInstance();
+    AdminGlobalController adminGlobalController = AdminGlobalController.getInstance();
+
+    // FXML UI components
+    @FXML private ToggleGroup addUserType;
+    @FXML private Pane adminPane, container, guestPane, studentPane;
+    @FXML private JFXRadioButton adminRadioBtn, guestRadioBtn, studentRadioBtn;
+    @FXML private Label notificationLabel;
+    @FXML private JFXComboBox<String> cbbMajorStudent;
+    @FXML private PasswordField txtCfPasswordAdmin, txtCfPasswordGuest, txtCfPasswordStudent;
+    @FXML private TextField txtEmailAdmin, txtEmailGuest, txtEmailStudent, txtIDStudent, txtIdGuest,
+            txtNameAdmin, txtNameGuest, txtNameStudent, txtPhoneNumberGuest;
+    @FXML private PasswordField txtPasswordAdmin, txtPasswordGuest, txtPasswordStudent;
+    @FXML private JFXButton closeDialogButton;
+    @FXML private ImageView imgClose;
 
     public void initialize() {
         System.out.println("Initialize Add User Dialog");
 
         cbbMajorStudent.getItems().addAll(majorList);
 
-        container.setOnMouseClicked(event -> {
-            container.requestFocus();
-        });
+        container.setOnMouseClicked(event -> container.requestFocus());
 
         AnimationUtils.hoverCloseIcons(closeDialogButton, imgClose);
 
@@ -92,13 +48,14 @@ public class AdminAddUserDialogController {
         studentPane.setVisible(true);
     }
 
-    public void setDefaultPane() {
+    // --- Helper Methods ---
+    private void setDefaultPane() {
         studentPane.setVisible(false);
         guestPane.setVisible(false);
         adminPane.setVisible(false);
     }
 
-    public void setDefaultContent() {
+    private void setDefaultContent() {
         txtNameAdmin.setText("");
         txtEmailAdmin.setText("");
         txtPasswordAdmin.setText("");
@@ -117,6 +74,133 @@ public class AdminAddUserDialogController {
         txtIdGuest.setText("");
     }
 
+    private void showNotification(String message, String color) {
+        notificationLabel.setText(message);
+        AnimationUtils.playNotificationTimeline(notificationLabel, 3, color);
+    }
+
+    private boolean isFieldEmpty(String... fields) {
+        for (String field : fields) {
+            if (field.isEmpty()) return true;
+        }
+        return false;
+    }
+
+    // --- Validation Methods ---
+    private boolean checkValidAdmin(String[] adminInfo, EnumUtils.UserType userType) {
+        String name = adminInfo[0];
+        String email = adminInfo[1];
+        String password = adminInfo[2];
+        String cfPassword = adminInfo[3];
+
+        if (isFieldEmpty(name, email, password, cfPassword)) {
+            showNotification("Please fill in all fields.", "red");
+            return false;
+        }
+        if (!password.equals(cfPassword)) {
+            showNotification("Password does not match.", "red");
+            return false;
+        }
+        if (!RegExPatterns.emailPattern(email)) {
+            showNotification("Invalid email.", "red");
+            return false;
+        }
+        if (!RegExPatterns.passwordPattern(password)) {
+            showNotification("Password must contain at least 8 characters.", "red");
+            return false;
+        }
+        return true;
+    }
+
+    private boolean checkValidUser(String[] userInfo, EnumUtils.UserType userType) {
+        String name = userInfo[0];
+        String majorOrContact = userInfo[1];
+        String email = userInfo[2];
+        String id = userInfo[3];
+        String password = userInfo[4];
+        String cfPassword = userInfo[5];
+
+        if (isFieldEmpty(name, email, password, cfPassword, id, majorOrContact)) {
+            showNotification("Please fill in all fields.", "red");
+            return false;
+        }
+        if (!password.equals(cfPassword)) {
+            showNotification("Password does not match.", "red");
+            return false;
+        }
+        if (userType == EnumUtils.UserType.STUDENT) {
+            if (!RegExPatterns.studentIDPattern(id)) {
+                showNotification("Invalid student ID.", "red");
+                return false;
+            }
+            if (majorOrContact == null) {
+                showNotification("Please select a major.", "red");
+                return false;
+            }
+        }
+        if (userType == EnumUtils.UserType.GUEST) {
+            if (!RegExPatterns.citizenIDPattern(id)) {
+                showNotification("Invalid guest ID.", "red");
+                return false;
+            }
+            if (!RegExPatterns.phoneNumberPattern(majorOrContact)) {
+                showNotification("Invalid phone number.", "red");
+                return false;
+            }
+        }
+        if (!RegExPatterns.emailPattern(email)) {
+            showNotification("Invalid email.", "red");
+            return false;
+        }
+        if (!RegExPatterns.passwordPattern(password)) {
+            showNotification("Password must contain at least 8 characters.", "red");
+            return false;
+        }
+        return true;
+    }
+
+    // --- User Add Methods ---
+    private void addAdmin(String[] adminInfo) {
+        if (checkValidAdmin(adminInfo, EnumUtils.UserType.ADMIN)) {
+            AdminDashboardController adminDashboardController = AdminDashboardController.getInstance();
+            adminDashboardController.getAdminData().add(adminInfo);
+            adminDashboardController.loadAdminDataTable(adminInfo[0], adminInfo[1]);
+            showNotification("Added successfully", "#08a80d");
+            setDefaultContent();
+        }
+    }
+
+    private void addStudent(String[] studentInfo) {
+        if (checkValidUser(studentInfo, EnumUtils.UserType.STUDENT)) {
+            List<String[]> userData = new ArrayList<>();
+            String[] newUser = {"Student", studentInfo[0], studentInfo[1], studentInfo[2], studentInfo[3], studentInfo[4]};
+            System.out.println("Adding student");
+            userData.add(newUser);
+            if (adminUsersLayoutController.getStatus() == EnumUtils.UserType.STUDENT) {
+                adminUsersLayoutController.preloadData(userData, "admin-users-student-bar.fxml", AdminUsersLayoutController.PreloadType.ADD);
+            }
+            adminGlobalController.getObservableUsersData(EnumUtils.UserType.STUDENT).add(newUser);
+            adminUsersLayoutController.getStudentsData().add(newUser);
+            showNotification("Added successfully", "#08a80d");
+        }
+    }
+
+    private void addGuest(String[] guestInfo) {
+        if (checkValidUser(guestInfo, EnumUtils.UserType.GUEST)) {
+            List<String[]> userData = new ArrayList<>();
+            String[] newUser = {"External Borrower", guestInfo[0], guestInfo[1], guestInfo[2], guestInfo[3], guestInfo[4]};
+            System.out.println("Adding guest");
+            userData.add(newUser);
+            if (adminUsersLayoutController.getStatus() == EnumUtils.UserType.GUEST) {
+                adminUsersLayoutController.preloadData(userData, "admin-users-guest-bar.fxml", AdminUsersLayoutController.PreloadType.ADD);
+            }
+            adminGlobalController.getObservableUsersData(EnumUtils.UserType.GUEST).add(newUser);
+            adminUsersLayoutController.getGuestsData().add(newUser);
+            showNotification("Added successfully", "#08a80d");
+        }
+    }
+
+    // --- Event Handlers ---
     @FXML
     void studentRadioBtnOnAction(ActionEvent event) {
         setDefaultPane();
@@ -146,143 +230,20 @@ public class AdminAddUserDialogController {
         RadioButton selectedRadioButton = (RadioButton) addUserType.getSelectedToggle();
         if (selectedRadioButton == studentRadioBtn) {
             System.out.println("Add Student");
-            String name = txtNameStudent.getText();
-            String email = txtEmailStudent.getText();
-            String password = txtPasswordStudent.getText();
-            String cfPassword = txtCfPasswordStudent.getText();
-            String major = cbbMajorStudent.getSelectionModel().getSelectedItem();
-            String id = txtIDStudent.getText();
-            String[] studentInfo = {name, major, email, id, password, cfPassword};
+            String[] studentInfo = {txtNameStudent.getText(), cbbMajorStudent.getSelectionModel().getSelectedItem(),
+                    txtEmailStudent.getText(), txtIDStudent.getText(), txtPasswordStudent.getText(), txtCfPasswordStudent.getText()};
             addStudent(studentInfo);
         } else if (selectedRadioButton == guestRadioBtn) {
-            System.out.println("Guest");
-            String name = txtNameGuest.getText();
-            String email = txtEmailGuest.getText();
-            String password = txtPasswordGuest.getText();
-            String cfPassword = txtCfPasswordGuest.getText();
-            String phoneNumber = txtPhoneNumberGuest.getText();
-            String id = txtIdGuest.getText();
-            String[] guestInfo = {name, phoneNumber, email, id, password, cfPassword};
+            System.out.println("Add Guest");
+            String[] guestInfo = {txtNameGuest.getText(), txtPhoneNumberGuest.getText(),
+                    txtEmailGuest.getText(), txtIdGuest.getText(), txtPasswordGuest.getText(), txtCfPasswordGuest.getText()};
             addGuest(guestInfo);
         } else if (selectedRadioButton == adminRadioBtn) {
-            System.out.println("Admin");
-            String name = txtNameAdmin.getText();
-            String email = txtEmailAdmin.getText();
-            String password = txtPasswordAdmin.getText();
-            String cfPassword = txtCfPasswordAdmin.getText();
-            String[] adminInfo = {name, email, password, cfPassword};
+            System.out.println("Add Admin");
+            String[] adminInfo = {txtNameAdmin.getText(), txtEmailAdmin.getText(),
+                    txtPasswordAdmin.getText(), txtCfPasswordAdmin.getText()};
             addAdmin(adminInfo);
         }
-    }
-
-    public void addAdmin(String[] adminInfo) {
-        if (checkValidAdmin(adminInfo)) {
-            AdminDashboardController adminDashboardController = AdminDashboardController.getInstance();
-            adminDashboardController.getAdminData().add(adminInfo);
-            adminDashboardController.loadAdminDataTable(adminInfo[0], adminInfo[1]);
-            showSuccessNotification();
-        }
-    }
-
-    public void addStudent(String[] info) {
-        if (checkValidUser(info)) {
-            List<String[]> userData = new ArrayList<>();
-            String[] newUser = {"Student", info[0], info[1], info[2], info[3], info[4]};
-            System.out.println("Adding student");
-            userData.add(newUser);
-            if (adminUsersLayoutController.getStatus() == EnumUtils.UserType.STUDENT) {
-                adminUsersLayoutController.preloadData(userData, "admin-users-student-bar.fxml",
-                        AdminUsersLayoutController.PreloadType.ADD);
-            }
-            adminGlobalController.getObservableUsersData(EnumUtils.UserType.STUDENT).add(newUser);
-            adminUsersLayoutController.getStudentsData().add(newUser);
-            showSuccessNotification();
-        }
-    }
-
-    public void addGuest(String[] info) {
-        if (checkValidUser(info)) {
-            List<String[]> userData = new ArrayList<>();
-            String[] newUser = {"External Borrower", info[0], info[1], info[2], info[3], info[4]};
-            System.out.println("Adding guest");
-            userData.add(newUser);
-            if (adminUsersLayoutController.getStatus() == EnumUtils.UserType.GUEST) {
-                adminUsersLayoutController.preloadData(userData, "admin-users-guest-bar.fxml", AdminUsersLayoutController.PreloadType.ADD);
-            }
-            adminGlobalController.getObservableUsersData(EnumUtils.UserType.GUEST).add(newUser);
-            adminUsersLayoutController.getGuestsData().add(newUser);
-            showSuccessNotification();
-        }
-
-    }
-
-    boolean checkValidUser(String[] info) {
-        String name = info[0];
-        String majorOrContact = info[1];
-        String email = info[2];
-        String id = info[3];
-        String password = info[4];
-        String cfPassword = info[5];
-        boolean check = true;
-        if (name.isEmpty() || email.isEmpty() || password.isEmpty() || cfPassword.isEmpty()
-                || id.isEmpty() || majorOrContact.isEmpty()) {
-            check = false;
-            notificationLabel.setText("Please fill in all fields");
-            AnimationUtils.playNotificationTimeline(notificationLabel, 3, "red");
-        } else if (!password.equals(cfPassword)) {
-            check = false;
-            notificationLabel.setText("Password does not match");
-            AnimationUtils.playNotificationTimeline(notificationLabel, 3, "red");
-        } else if (!RegExPatterns.emailPattern(email)) {
-            check = false;
-            notificationLabel.setText("Invalid email");
-            AnimationUtils.playNotificationTimeline(notificationLabel, 3, "red");
-        } else if (!RegExPatterns.passwordPattern(password)) {
-            check = false;
-            notificationLabel.setText("Invalid password");
-            AnimationUtils.playNotificationTimeline(notificationLabel, 3, "red");
-        } else if (!(RegExPatterns.studentIDPattern(id) || RegExPatterns.citizenIDPattern(id))) {
-            check = false;
-            notificationLabel.setText("Invalid ID");
-            AnimationUtils.playNotificationTimeline(notificationLabel, 3, "red");
-        } else if (majorOrContact.charAt(0) == '0' && !RegExPatterns.phoneNumberPattern(majorOrContact)) {
-            check = false;
-            notificationLabel.setText("Invalid phone number");
-            AnimationUtils.playNotificationTimeline(notificationLabel, 3, "red");
-        }
-        return check;
-    }
-
-    public boolean checkValidAdmin(String[] info) {
-        String name = info[0];
-        String email = info[1];
-        String password = info[2];
-        String cfPassword = info[3];
-        boolean check = true;
-        if (name.isEmpty() || email.isEmpty() || password.isEmpty() || cfPassword.isEmpty()) {
-            check = false;
-            notificationLabel.setText("Please fill in all fields");
-            AnimationUtils.playNotificationTimeline(notificationLabel, 3, "red");
-        } else if (!password.equals(cfPassword)) {
-            check = false;
-            notificationLabel.setText("Password does not match");
-            AnimationUtils.playNotificationTimeline(notificationLabel, 3, "red");
-        } else if (!RegExPatterns.emailPattern(email)) {
-            check = false;
-            notificationLabel.setText("Invalid email");
-            AnimationUtils.playNotificationTimeline(notificationLabel, 3, "red");
-        } else if (!RegExPatterns.passwordPattern(password)) {
-            check = false;
-            notificationLabel.setText("Invalid password");
-            AnimationUtils.playNotificationTimeline(notificationLabel, 3, "red");
-        }
-        return check;
-    }
-
-    public void showSuccessNotification() {
-        notificationLabel.setText("Added successfully");
-        AnimationUtils.playNotificationTimeline(notificationLabel, 3, "#08a80d");
-        setDefaultContent();
     }
 
     @FXML
@@ -294,5 +255,4 @@ public class AdminAddUserDialogController {
     void closeButtonOnAction(ActionEvent event) {
         ChangeScene.closePopUp();
     }
-
 }

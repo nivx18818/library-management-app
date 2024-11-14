@@ -13,24 +13,15 @@ import app.libmgmt.util.EnumUtils;
 public class AdminUsersGuestBarController {
 
     @FXML
-    private Label emailLabel;
+    private Label emailLabel, idLabel, phoneLabel, nameLabel;
     @FXML
     private HBox hBoxUser;
     @FXML
-    private Label idLabel;
-    @FXML
-    private Label phoneLabel;
-    @FXML
-    private Label nameLabel;
-    @FXML
-    private ImageView deleteFunction;
-    @FXML
-    private ImageView editFunction;
-    @FXML
-    private ImageView viewFunction;
+    private ImageView deleteFunction, editFunction, viewFunction;
 
     @FXML
     public void initialize() {
+        // Setup listener to handle updates in user data for GUEST type
         AdminGlobalController.getInstance().getObservableUsersData(EnumUtils.UserType.GUEST).addListener((ListChangeListener<String[]>) change -> {
             while (change.next()) {
                 if (change.wasReplaced() && change.getFrom() >= 0 && change.getFrom() < change.getList().size()) {
@@ -43,6 +34,7 @@ public class AdminUsersGuestBarController {
         });
     }
 
+    // Sets initial user data
     public void setData(String[] data) {
         idLabel.setText(data[0]);
         nameLabel.setText(data[1]);
@@ -50,11 +42,18 @@ public class AdminUsersGuestBarController {
         emailLabel.setText(data[3]);
     }
 
+    // Updates user data when changes occur
     public void setUpdateData(String[] data) {
         idLabel.setText(data[4]);
         nameLabel.setText(data[1]);
         phoneLabel.setText(data[2]);
         emailLabel.setText(data[3]);
+    }
+
+    // Gets user data as an array
+    public String[] getData() {
+        return new String[]{idLabel.getText(), nameLabel.getText(), phoneLabel.getText(),
+                emailLabel.getText()};
     }
 
     @FXML
@@ -123,11 +122,6 @@ public class AdminUsersGuestBarController {
         Image normalImage =
                 new Image(getClass().getResource("/assets/icon/btn Delete.png").toExternalForm());
         deleteFunction.setImage(normalImage);
-    }
-
-    public String[] getData() {
-        return new String[]{idLabel.getText(), nameLabel.getText(), phoneLabel.getText(),
-                emailLabel.getText()};
     }
 
 }

@@ -28,58 +28,16 @@ public class LoginController {
 
     public static JFXDialog dialog;
     private static LoginController controller;
-    @FXML
-    private StackPane stackPaneContainer;
-    @FXML
-    private TextField emailSignUp;
-    @FXML
-    private TextField fullNameSignUp;
-    @FXML
-    private PasswordField passwordField;
-    @FXML
-    private PasswordField passwordSignUp;
-    @FXML
-    private Pane sectionFour;
-    @FXML
-    private Pane sectionOne;
-    @FXML
-    private Pane sectionThree;
-    @FXML
-    private Pane sectionTwo;
-    @FXML
-    private Button signInButton;
-    @FXML
-    private Button signInButton2;
-    @FXML
-    private Button signUpButton;
-    @FXML
-    private Button signUpButton2;
-    @FXML
-    private TextField usernameField;
-    @FXML
-    private TextField studentIDSignUp;
-    @FXML
-    private Label errorAccountNotify;
-    @FXML
-    private Label registerNoticeText;
-    @FXML
-    private Pane loadingPane;
-    @FXML
-    private TextField citizenIDSignUp;
-    @FXML
-    private TextField phoneNumberSignUp;
-    @FXML
-    private ToggleGroup userType;
-    @FXML
-    private JFXComboBox<String> majorComboBox = new JFXComboBox<>();
-    @FXML
-    private Label forgotPasswordLabel;
-    @FXML
-    private AnchorPane rootPane;
-    @FXML
-    private Pane logoPaneSignIn;
-    @FXML
-    private Pane logoPaneSignUp;
+
+    @FXML private StackPane stackPaneContainer;
+    @FXML private TextField emailSignUp, fullNameSignUp, usernameField, studentIDSignUp, citizenIDSignUp, phoneNumberSignUp;
+    @FXML private PasswordField passwordField, passwordSignUp;
+    @FXML private Pane sectionFour, sectionOne, sectionThree, sectionTwo, loadingPane, logoPaneSignIn, logoPaneSignUp;
+    @FXML private Button signInButton, signInButton2, signUpButton, signUpButton2;
+    @FXML private Label errorAccountNotify, registerNoticeText, forgotPasswordLabel;
+    @FXML private ToggleGroup userType;
+    @FXML private JFXComboBox<String> majorComboBox;
+    @FXML private AnchorPane rootPane;
 
     public LoginController() {
         controller = this;
@@ -92,29 +50,22 @@ public class LoginController {
     @FXML
     public void initialize() {
         AnimationUtils.zoomIn(rootPane, 1.2);
-
         Logger.getLogger("javafx").setLevel(java.util.logging.Level.SEVERE);
-
         setDefault();
-
         majorComboBox.getItems().addAll(EnumUtils.UETMajor);
 
-        stackPaneContainer.setOnMouseClicked(event -> {
-            stackPaneContainer.requestFocus();
-        });
+        stackPaneContainer.setOnMouseClicked(event -> stackPaneContainer.requestFocus());
     }
+
+    // Sign Up and Sign In flow methods
 
     @FXML
     void handleSignUpOption(MouseEvent event) {
         Platform.runLater(() -> sectionFour.requestFocus());
         setDefault();
-
-        if (event.getSource().equals(signUpButton)) {
-            handleSignUpButtonClicked();
-        }
+        if (event.getSource().equals(signUpButton)) handleSignUpButtonClicked();
     }
 
-    // Show effect when click on sign up button in the login form
     public void handleSignUpButtonClicked() {
         sectionOne.setVisible(false);
         sectionTwo.setVisible(false);
@@ -129,28 +80,17 @@ public class LoginController {
     @FXML
     void handleStudentComboBoxClicked(MouseEvent event) {
         setDefault();
-
-        citizenIDSignUp.setDisable(true);
-        phoneNumberSignUp.setDisable(true);
-        citizenIDSignUp.setOpacity(0);
-        phoneNumberSignUp.setOpacity(0);
-
+        disableFields(true, true, false);
         majorComboBox.setDisable(false);
         majorComboBox.setOpacity(1);
         studentIDSignUp.setDisable(false);
         studentIDSignUp.setOpacity(1);
-
     }
 
     @FXML
     void handleGuestComboBoxClicked(MouseEvent event) {
         setDefault();
-
-        citizenIDSignUp.setDisable(false);
-        phoneNumberSignUp.setDisable(false);
-        citizenIDSignUp.setOpacity(1);
-        phoneNumberSignUp.setOpacity(1);
-
+        disableFields(false, false, true);
         majorComboBox.setDisable(true);
         majorComboBox.setOpacity(0);
         studentIDSignUp.setDisable(true);
@@ -160,13 +100,9 @@ public class LoginController {
     @FXML
     void handleSignInOption(MouseEvent event) {
         setDefault();
-
-        if (event.getSource().equals(signInButton2)) {
-            handleSignInButtonClicked();
-        }
+        if (event.getSource().equals(signInButton2)) handleSignInButtonClicked();
     }
 
-    // Show effect when click on sign in button in the register form
     public void handleSignInButtonClicked() {
         sectionThree.setVisible(false);
         sectionFour.setVisible(false);
@@ -178,22 +114,13 @@ public class LoginController {
         errorAccountNotify.setOpacity(0.0);
     }
 
-    /**
-     * Handles the event when the user clicks the login button in the login section.
-     * <p>
-     * This method checks if the account is valid. If the account is valid,
-     * the user will be redirected to the dashboard.
-     *
-     * @param event the mouse event triggered when clicking the login button
-     * @throws IOException if an input/output error occurs during the sign-in process
-     */
+    // Sign-In status check
+
     @FXML
     void handleSignInStatus(MouseEvent event) throws IOException {
         if (event.getSource().equals(signInButton)) {
             String username = usernameField.getText();
             String password = passwordField.getText();
-
-            // Check if the account is valid and redirect to the dashboard or show an error message
             if (checkAccount(username, password)) {
                 goDashboard();
             } else {
@@ -204,14 +131,12 @@ public class LoginController {
 
     public void goDashboard() throws IOException {
         ZoomOut zoomOut = new ZoomOut(rootPane);
-
         AnimationUtils.zoomIn(loadingPane, 1);
         loadingPane.setVisible(true);
-
         zoomOut.setOnFinished(event -> {
             try {
                 ChangeScene.changeInterfaceWindow((Stage) loadingPane.getScene().getWindow(),
-                        "/fxml/admin-global-layout.fxml", "Library Management System");
+                        "/fxml/admin-global-layout.fxml", "BookWorm");
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -230,26 +155,13 @@ public class LoginController {
         timeline.play();
     }
 
-    /**
-     * Check if the account is valid by comparing the username and password with the database.
-     *
-     * @param username the username of the account
-     * @param password the password of the account
-     * @return true if the account is valid, false otherwise
-     */
     public boolean checkAccount(String username, String password) {
         //TODO: Implement the account checking process
         return true;
     }
 
-    /**
-     * Handles the event when the user clicks the sign-up button in the register section.
-     * <p>
-     * This method checks if the sign-up information is valid. If the information is valid,
-     * the user will be redirected to the login section.
-     *
-     * @param event the mouse event triggered when clicking the sign-up button
-     */
+    // Sign-Up flow methods
+
     @FXML
     public void handleSignUpStatus(MouseEvent event) {
         if (event.getSource().equals(signUpButton2)) {
@@ -262,42 +174,30 @@ public class LoginController {
                     phoneNumberSignUp.getText();
             String username = selectedUserType.getText().equals("Student") ?
                     studentIDSignUp.getText() : citizenIDSignUp.getText();
-            // Check if the sign-up information is valid
             if (checkSignUp(fullName, majorOrPhoneNumber, email, username, password, registerNoticeText)) {
                 logInAfterRegister();
             }
         }
     }
 
-    // Display a notification and automatically redirect to the login section after a successful sign-up.
     public void logInAfterRegister() {
-
         int[] countdownSeconds = {5};
-
         AnimationUtils.playNotificationTimeline(registerNoticeText, 5.0, "08a80d");
+        registerNoticeText.setText("Sign up successfully. Please log in! Automatically after " + countdownSeconds[0] + " seconds...");
 
-        registerNoticeText.setText("Sign up successfully. Please log in! Automatically after " +
-                countdownSeconds[0] + " seconds...");
-
-        Timeline countdown = new Timeline(
-                new KeyFrame(Duration.seconds(1), event -> {
-                    countdownSeconds[0]--;
-
-                    registerNoticeText.setText("Sign up successfully. Please log in! Automatically" +
-                            " after " + countdownSeconds[0] + " seconds...");
-
-                    if (countdownSeconds[0] == 0) {
-                        registerNoticeText.setOpacity(0);
-                        registerNoticeText.setText("");
-                        handleSignInButtonClicked();
-                        setDefault();
-                    }
-                })
-        );
+        Timeline countdown = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+            countdownSeconds[0]--;
+            registerNoticeText.setText("Sign up successfully. Please log in! Automatically after " + countdownSeconds[0] + " seconds...");
+            if (countdownSeconds[0] == 0) {
+                registerNoticeText.setOpacity(0);
+                registerNoticeText.setText("");
+                handleSignInButtonClicked();
+                setDefault();
+            }
+        }));
 
         countdown.setCycleCount(countdownSeconds[0]);
         countdown.play();
-
         errorAccountNotify.setOpacity(0.0);
     }
 
@@ -313,13 +213,12 @@ public class LoginController {
             AnimationUtils.playNotificationTimeline(registerNoticeText, 3.0, "red");
             return false;
         } else if (!RegExPatterns.passwordPattern(password)) {
-            registerNoticeText.setText("Invalid password.");
+            registerNoticeText.setText("Password must contain at least 8 characters.");
             AnimationUtils.playNotificationTimeline(registerNoticeText, 3.0, "red");
             return false;
         }
 
         RadioButton selectedUserType = (RadioButton) userType.getSelectedToggle();
-
         if (selectedUserType.getText().equals("Student")) {
             if (!RegExPatterns.studentIDPattern(username)) {
                 registerNoticeText.setText("Invalid student ID.");
@@ -343,8 +242,7 @@ public class LoginController {
 
     @FXML
     public void handleForgotPassword(MouseEvent event) {
-        ChangeScene.openAdminPopUp(stackPaneContainer, "/fxml/forgot" +
-                "-password-dialog.fxml");
+        ChangeScene.openAdminPopUp(stackPaneContainer, "/fxml/forgot-password-dialog.fxml");
     }
 
     public void setDefault() {
@@ -355,9 +253,16 @@ public class LoginController {
         majorComboBox.setValue(null);
         citizenIDSignUp.setText("");
         phoneNumberSignUp.setText("");
-
         usernameField.setText("");
         passwordField.setText("");
+    }
 
+    private void disableFields(boolean disableCitizenID, boolean disablePhoneNumber, boolean disableMajor) {
+        citizenIDSignUp.setDisable(disableCitizenID);
+        phoneNumberSignUp.setDisable(disablePhoneNumber);
+        citizenIDSignUp.setOpacity(disableCitizenID ? 0 : 1);
+        phoneNumberSignUp.setOpacity(disablePhoneNumber ? 0 : 1);
+        majorComboBox.setDisable(disableMajor);
+        majorComboBox.setOpacity(disableMajor ? 0 : 1);
     }
 }

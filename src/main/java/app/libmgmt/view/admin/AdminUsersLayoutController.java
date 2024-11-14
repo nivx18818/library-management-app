@@ -46,7 +46,9 @@ public class AdminUsersLayoutController {
     private Label guestLabel;
     @FXML
     private VBox vBoxUserList;
+
     private EnumUtils.UserType status = EnumUtils.UserType.STUDENT;
+
     public AdminUsersLayoutController() {
         controller = this;
     }
@@ -61,9 +63,9 @@ public class AdminUsersLayoutController {
         System.out.println("Initialize Catalog Layout");
 
         setVisibility(true, false);
-
         showStudentsList();
 
+        // Listen for changes in user data for both students and guests
         listenUserListChange(EnumUtils.UserType.STUDENT);
         listenUserListChange(EnumUtils.UserType.GUEST);
     }
@@ -151,7 +153,6 @@ public class AdminUsersLayoutController {
             }
         }
     }
-
 
     @FXML
     void studentButtonOnAction(ActionEvent event) {

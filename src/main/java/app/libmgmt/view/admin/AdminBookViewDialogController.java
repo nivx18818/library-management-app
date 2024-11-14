@@ -14,6 +14,7 @@ import app.libmgmt.util.ChangeScene;
 public class AdminBookViewDialogController {
 
     private static AdminBookViewDialogController controller;
+
     @FXML
     private Label authorLabel;
     @FXML
@@ -47,6 +48,7 @@ public class AdminBookViewDialogController {
     @FXML
     private Label typeLabel;
 
+    // Singleton pattern
     public AdminBookViewDialogController() {
         controller = this;
     }
@@ -55,37 +57,26 @@ public class AdminBookViewDialogController {
         return controller;
     }
 
+    // Initialize method
     public void initialize() {
         System.out.println("AdminViewBookDialogController initialized!");
         AnimationUtils.hoverCloseIcons(closeDialogButton, imgClose);
     }
 
+    // Set book details data into the UI
     public void setData(String[] data) {
+        // Set values to labels and load images
+        setBookDetails(data);
+    }
+
+    private void setBookDetails(String[] data) {
         for (int i = 0; i < data.length; i++) {
             switch (i) {
                 case 0:
                     idLabel.setText("Book ID : " + data[i]);
                     break;
                 case 1:
-                    String path = data[i];
-
-                    Task<Image> loadImageTask = new Task<>() {
-                        @Override
-                        protected Image call() throws Exception {
-                            return new Image(path);
-                        }
-                    };
-
-                    loadImageTask.setOnSucceeded(event -> bookCoverImage.setImage(loadImageTask.getValue()));
-
-                    loadImageTask.setOnFailed(event -> {
-                        Throwable exception = loadImageTask.getException();
-                        System.err.println("Failed to load image: " + exception.getMessage());
-                        exception.printStackTrace();
-                    });
-
-                    new Thread(loadImageTask).start();
-
+                    loadImage(data[i]);
                     break;
                 case 2:
                     nameLabel.setText("Name : " + data[i]);
@@ -97,12 +88,7 @@ public class AdminBookViewDialogController {
                     authorLabel.setText("Author : " + data[i]);
                     break;
                 case 5:
-                    quantityLabel.setText(data[i]);
-                    if (Integer.parseInt(data[i]) >= 1) {
-                        quantityLabel.setStyle("-fx-text-fill: green");
-                    } else {
-                        quantityLabel.setStyle("-fx-text-fill: red");
-                    }
+                    setQuantityLabel(data[i]);
                     break;
                 case 6:
                     publisherLabel.setText("Publisher : " + data[i]);
@@ -114,17 +100,16 @@ public class AdminBookViewDialogController {
         }
     }
 
-    @FXML
-    void cancelButtonOnAction(ActionEvent event) {
-        ChangeScene.closePopUp();
+    private void setQuantityLabel(String quantity) {
+        quantityLabel.setText(quantity);
+        if (Integer.parseInt(quantity) >= 1) {
+            quantityLabel.setStyle("-fx-text-fill: green");
+        } else {
+            quantityLabel.setStyle("-fx-text-fill: red");
+        }
     }
 
-    @FXML
-    void closeButtonOnAction(ActionEvent event) {
-        ChangeScene.closePopUp();
-    }
-
-    public void setQrCodeImage(String path) {
+    private void loadImage(String path) {
         Task<Image> loadImageTask = new Task<>() {
             @Override
             protected Image call() throws Exception {
@@ -132,16 +117,41 @@ public class AdminBookViewDialogController {
             }
         };
 
-        loadImageTask.setOnSucceeded(event -> qrCodeImage.setImage(loadImageTask.getValue()));
+        loadImageTask.setOnSucceeded(event -> bookCoverImage.setImage(loadImageTask.getValue()));
 
         loadImageTask.setOnFailed(event -> {
             Throwable exception = loadImageTask.getException();
             System.err.println("Failed to load image: " + exception.getMessage());
             exception.printStackTrace();
         });
+
+        new Thread(loadImageTask).start();
     }
 
+    private void handleImageLoadingError(Throwable exception) {
+        System.err.println("Failed to load image: " + exception.getMessage());
+        exception.printStackTrace();
+    }
+
+    // Set QR Code image path
+    public void setQrCodeImage(String path) {
+        loadImage(path);
+    }
+
+    // Get QR Code image URL
     public String getQrCodeImagePath() {
         return qrCodeImage.getImage().getUrl();
+    }
+
+    // Cancel button action
+    @FXML
+    void cancelButtonOnAction(ActionEvent event) {
+        ChangeScene.closePopUp();
+    }
+
+    // Close button action
+    @FXML
+    void closeButtonOnAction(ActionEvent event) {
+        ChangeScene.closePopUp();
     }
 }
