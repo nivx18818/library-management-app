@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.*?>
+<StackPane xmlns:fx="http://javafx.com/fxml/1" fx:id="stackPaneContainer"
+           xmlns="http://javafx.com/javafx/23"
+           fx:controller="app.libmgmt.view.admin.AdminBooksLayoutController">
+  <children>
+    <Pane prefHeight="670.0" prefWidth="1132.0" style="-fx-background-color: #F2F2F2;">
+      <children>
+        <Pane layoutX="14.0" layoutY="70.0" prefHeight="588.0" prefWidth="1101.0"
+              style="-fx-background-color: white; -fx-background-radius: 12px;">
+          <children>
+            <Line endX="1000.0" layoutX="90.0" layoutY="40.0" startX="-74.0"/>
+            <HBox alignment="CENTER_LEFT" layoutX="13.0" prefHeight="45.0" prefWidth="1080.0"
+                  spacing="30.0">
+              <children>
+                <Label alignment="CENTER" prefHeight="14.0" prefWidth="80.0" text="ID">
+                  <font>
+                    <Font size="13.0"/>
+                  </font>
+                </Label>
+                <Label alignment="CENTER" layoutX="10.0" layoutY="30.0" prefHeight="14.0"
+                       prefWidth="240.0" text="Name">
+                  <font>
+                    <Font size="13.0"/>
+                  </font>
+                </Label>
+                <Label alignment="CENTER" layoutX="27.0" layoutY="30.0" prefHeight="14.0"
+                       prefWidth="120.0" text="Type">
+                  <font>
+                    <Font size="13.0"/>
+                  </font>
+                </Label>
+                <Label alignment="CENTER" layoutX="45.0" layoutY="30.0" prefHeight="14.0"
+                       prefWidth="150.0" text="Author">
+                  <font>
+                    <Font size="13.0"/>
+                  </font>
+                </Label>
+                <Label alignment="CENTER" layoutX="62.0" layoutY="30.0" prefHeight="14.0"
+                       prefWidth="100.0" text="Availability">
+                  <font>
+                    <Font size="13.0"/>
+                  </font>
+                </Label>
+                <Label alignment="CENTER" layoutX="79.0" layoutY="30.0" prefHeight="14.0"
+                       prefWidth="170.0" text="Action">
+                  <font>
+                    <Font size="13.0"/>
+                  </font>
+                </Label>
+              </children>
+              <padding>
+                <Insets left="30.0" right="30.0"/>
+              </padding>
+            </HBox>
+            <ScrollPane hbarPolicy="NEVER" layoutY="43.0" prefHeight="546.0" prefWidth="1101.0"
+                        style="-fx-background-color: white;">
+              <content>
+                <VBox fx:id="vBoxBooksList" alignment="TOP_CENTER" prefHeight="546.0"
+                      prefWidth="1105.0" style="-fx-background-color: white;"/>
+              </content>
+            </ScrollPane>
+            <Pane layoutX="1185.0" layoutY="42.0" prefHeight="547.0" prefWidth="13.0"
+                  style="-fx-background-color: white;"/>
+          </children>
+        </Pane>
+        <Pane fx:id="searchPane" layoutX="800.0" layoutY="20.0" prefHeight="30.0" prefWidth="270.0"
+              style="-fx-background-color: white; -fx-background-radius: 12;">
+          <children>
+            <ImageView fitHeight="15.0" fitWidth="15.0" layoutX="14.0" layoutY="7.0"
+                       pickOnBounds="true" preserveRatio="true">
+              <image>
+                <Image url="@../assets/icon/search-normal.png"/>
+              </image>
+            </ImageView>
+            <TextField fx:id="textSearch" layoutX="37.0" onAction="#txtSearchOnAction"
+                       onMouseMoved="#txtSearchOnMouseMoved" prefHeight="30.0" prefWidth="203.0"
+                       promptText="Search by Name or Type"
+                       style="-fx-background-color: white; -fx-background-radius: 0 12 12 0;">
+              <font>
+                <Font size="13.0"/>
+              </font>
+            </TextField>
+          </children>
+        </Pane>
+        <Pane fx:id="refreshPaneButton" layoutX="1085.0" layoutY="20.0" prefHeight="30.0"
+              prefWidth="30.0" style="-fx-background-color: white; -fx-background-radius: 12;">
+          <children>
+            <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="3.0" layoutY="4.0"
+                       pickOnBounds="true" preserveRatio="true">
+              <image>
+                <Image url="@../assets/icon/R.png"/>
+              </image>
+            </ImageView>
+            <JFXButton layoutY="-2.0" onAction="#btnRefreshTableOnAction"
+                       onMouseEntered="#btnRefreshTableOnMouseEntered"
+                       onMouseExited="#btnRefreshTableOnMouseExited" prefHeight="30.0"
+                       prefWidth="30.0" style="-fx-background-radius: 12;" text=" ">
+              <font>
+                <Font size="16.0"/>
+              </font>
+              <cursor>
+                <Cursor fx:constant="HAND"/>
+              </cursor>
+            </JFXButton>
+          </children>
+        </Pane>
+        <Pane layoutX="14.0" prefHeight="70.0" prefWidth="200.0">
+          <children>
+            <Label layoutX="4.0" layoutY="22.0" prefHeight="27.0" prefWidth="192.0"
+                   text="Book Management">
+              <font>
+                <Font name="System Bold" size="20.0"/>
+              </font>
+            </Label>
+          </children>
+        </Pane>
+        <HBox alignment="CENTER" fillHeight="false" layoutX="680.0" layoutY="20.0" prefHeight="30.0"
+              prefWidth="106.0" spacing="8.0"
+              style="-fx-background-color: #040000; -fx-background-radius: 12;">
+          <children>
+            <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+              <image>
+                <Image url="@../assets/icon/add-circle%201.png"/>
+              </image>
+            </ImageView>
+            <Label prefHeight="19.0" prefWidth="62.0" style="-fx-text-fill: white;" text="Add Book">
+              <font>
+                <Font size="13.0"/>
+              </font>
+            </Label>
+          </children>
+          <padding>
+            <Insets left="8.0" right="8.0"/>
+          </padding>
+        </HBox>
+        <JFXButton fx:id="addBookButton" layoutX="680.0" layoutY="20.0"
+                   onMouseClicked="#addBookButtonClicked" prefHeight="30.0" prefWidth="106.0"
+                   style="-fx-background-radius: 12;" text=" " textFill="WHITE">
+          <cursor>
+            <Cursor fx:constant="HAND"/>
+          </cursor>
+        </JFXButton>
+      </children>
+    </Pane>
+  </children>
+</StackPane>

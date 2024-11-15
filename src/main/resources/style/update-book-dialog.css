@@ -1,0 +1,43 @@
+.text-field {
+    -fx-padding: 0;
+    -fx-background-color: #ffffff;
+    -fx-border-color: #ffffff;
+}
+
+.image-link {
+    -fx-border-color: #d7d7d7;
+    -fx-border-radius: 12px;
+    -fx-background-color: #fff;
+    -fx-background-radius: 12px;
+    -fx-prompt-text-fill: #b2b2b2;
+    -fx-padding: 10px;
+}
+
+.image-link:focused {
+    -fx-border-color: #gray;
+    -fx-background-color: #FFFFFF;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 8, 0.7, 0, 2);
+}
+
+.btn {
+    -fx-background-color: #f2f2f2;
+    -fx-border-color: #d7d7d7;
+    -fx-border-radius: 12px;
+    -fx-background-radius: 12px;
+    -fx-text-fill: #000;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-padding: 10px 20px;
+}
+
+.jfx-combo-box .list-view {
+    -fx-hbar-policy: always;
+    -fx-vbar-policy: always;
+    -fx-pref-width: 320px;
+}
+
+.jfx-combo-box .list-cell {
+    -fx-font-size: 15px;
+    -fx-padding: 0;
+    -fx-wrap-text: true;
+}

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.Bloom?>
+<?import javafx.scene.effect.Light.Distant?>
+<?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.effect.Shadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox id="navigation" fx:id="navigationContainer" alignment="TOP_CENTER" prefHeight="768.0" prefWidth="76.0" spacing="10.0" style="-fx-background-color: #000;" stylesheets="@../../style/navigation.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.libmgmt.view.user.UserNavigationController">
+  <children>
+    <Pane prefHeight="90.0" prefWidth="76.0">
+      <children>
+        <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="13.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+          <image>
+            <Image url="@../../assets/gif/giphy.gif" />
+          </image>
+               <effect>
+                  <Bloom threshold="0.94" />
+               </effect>
+        </ImageView>
+      </children>
+    </Pane>
+    <Pane fx:id="dashboardPane" prefHeight="45.0" prefWidth="86.0" style="-fx-background-color: #fff;">
+      <children>
+        <ImageView fx:id="dashboardImage" fitHeight="19.0" fitWidth="19.0" layoutX="29.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
+          <image>
+            <Image url="@../../assets/icon/dashboard-icon-2.png" />
+          </image>
+          <effect>
+            <Lighting diffuseConstant="1.8">
+              <bumpInput>
+                <Shadow />
+              </bumpInput>
+              <light>
+                <Light.Distant />
+              </light>
+            </Lighting>
+          </effect>
+        </ImageView>
+      </children>
+    </Pane>
+    <Pane fx:id="catalogPane" layoutX="10.0" layoutY="134.0" prefHeight="45.0" prefWidth="86.0">
+      <children>
+        <ImageView fx:id="catalogIcon" fitHeight="19.0" fitWidth="19.0" layoutX="29.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
+          <image>
+            <Image url="@../../assets/icon/catalog-icon.png" />
+          </image>
+          <effect>
+            <Lighting diffuseConstant="1.2" specularExponent="20.46">
+              <bumpInput>
+                <Shadow />
+              </bumpInput>
+              <light>
+                <Light.Distant />
+              </light>
+            </Lighting>
+          </effect>
+        </ImageView>
+      </children>
+    </Pane>
+    <Pane fx:id="bookPane" layoutX="10.0" layoutY="184.0" prefHeight="45.0" prefWidth="86.0">
+      <children>
+        <ImageView fx:id="booksIcon" fitHeight="19.0" fitWidth="19.0" layoutX="29.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
+          <image>
+            <Image url="@../../assets/icon/books-icon.png" />
+          </image>
+          <effect>
+            <Lighting diffuseConstant="1.18">
+              <bumpInput>
+                <Shadow />
+              </bumpInput>
+              <light>
+                <Light.Distant />
+              </light>
+            </Lighting>
+          </effect>
+        </ImageView>
+      </children>
+    </Pane>
+    <Region prefHeight="400.0" prefWidth="86.0" />
+    <Pane fx:id="logoutPane" prefHeight="45.0" prefWidth="86.0">
+      <children>
+        <ImageView fx:id="logoutIcon" fitHeight="19.0" fitWidth="19.0" layoutX="27.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
+          <image>
+            <Image url="@../../assets/icon/logout-icon.png" />
+          </image>
+          <effect>
+            <Lighting diffuseConstant="1.29">
+              <bumpInput>
+                <Shadow />
+              </bumpInput>
+              <light>
+                <Light.Distant />
+              </light>
+            </Lighting>
+          </effect>
+        </ImageView>
+      </children>
+    </Pane>
+  </children>
+</VBox>

@@ -1,0 +1,34 @@
+
+
+.jfx-button {
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+}
+
+.navigator-button {
+    -fx-font-size: 16px;
+    -fx-graphic-text-gap: 14;
+    -fx-min-width: 148px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 10px 20px 10px 20px;
+    -fx-border-radius: 0;
+}
+
+.logo-button {
+    -fx-pref-width: 16px;
+    -fx-pref-height: 16px;
+}
+
+.navigator-button:hover {
+    -fx-cursor: hand;
+}
+
+#dashboard-button {
+    -fx-background-color: #fff;
+    -fx-text-fill: #000;
+}
+
+
+
+
+
