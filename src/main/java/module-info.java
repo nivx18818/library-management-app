@@ -3,10 +3,10 @@ module org.example.initialize {
     requires animatefx;
     requires com.jfoenix;
     requires java.desktop;
-    requires java.logging;
+    requires java.sql;
 
-    opens app.libmgmt.initialize to javafx.fxml;
-    exports app.libmgmt.initialize;
+    opens app.libmgmt.initializer to javafx.fxml;
+    exports app.libmgmt.initializer;
     opens app.libmgmt.view to javafx.fxml;
     exports app.libmgmt.view;
     exports app.libmgmt.view.admin;
