@@ -1,4 +1,4 @@
-package app.libmgmt.initialize;
+package app.libmgmt.initializer;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
