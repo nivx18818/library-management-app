@@ -1,105 +1,145 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.Bloom?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.effect.Light.Distant?>
 <?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.effect.Reflection?>
 <?import javafx.scene.effect.Shadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Box?>
+<?import javafx.scene.text.Font?>
 
-<VBox id="navigation" fx:id="navigationContainer" alignment="TOP_CENTER" prefHeight="768.0" prefWidth="76.0" spacing="10.0" style="-fx-background-color: #000;" stylesheets="@../../style/navigation.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.libmgmt.view.user.UserNavigationController">
-  <children>
-    <Pane prefHeight="90.0" prefWidth="76.0">
-      <children>
-        <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="13.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
-          <image>
-            <Image url="@../../assets/gif/giphy.gif" />
-          </image>
+<VBox id="navigation" fx:id="navigationContainer" alignment="TOP_CENTER" prefHeight="768.0" prefWidth="148.0" style="-fx-background-color: #000;" stylesheets="@../../style/navigation.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.libmgmt.view.user.UserNavigationController">
+   <children>
+      <Pane prefHeight="147.0" prefWidth="148.0">
+         <children>
+            <ImageView fitHeight="55.0" fitWidth="60.0" layoutX="44.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../assets/icon/logoImageWhite.png" />
+               </image>
                <effect>
-                  <Bloom threshold="0.94" />
+                  <Bloom threshold="0.88" />
                </effect>
-        </ImageView>
-      </children>
-    </Pane>
-    <Pane fx:id="dashboardPane" prefHeight="45.0" prefWidth="86.0" style="-fx-background-color: #fff;">
-      <children>
-        <ImageView fx:id="dashboardImage" fitHeight="19.0" fitWidth="19.0" layoutX="29.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
-          <image>
-            <Image url="@../../assets/icon/dashboard-icon-2.png" />
-          </image>
-          <effect>
-            <Lighting diffuseConstant="1.8">
-              <bumpInput>
-                <Shadow />
-              </bumpInput>
-              <light>
-                <Light.Distant />
-              </light>
-            </Lighting>
-          </effect>
-        </ImageView>
-      </children>
-    </Pane>
-    <Pane fx:id="catalogPane" layoutX="10.0" layoutY="134.0" prefHeight="45.0" prefWidth="86.0">
-      <children>
-        <ImageView fx:id="catalogIcon" fitHeight="19.0" fitWidth="19.0" layoutX="29.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
-          <image>
-            <Image url="@../../assets/icon/catalog-icon.png" />
-          </image>
-          <effect>
-            <Lighting diffuseConstant="1.2" specularExponent="20.46">
-              <bumpInput>
-                <Shadow />
-              </bumpInput>
-              <light>
-                <Light.Distant />
-              </light>
-            </Lighting>
-          </effect>
-        </ImageView>
-      </children>
-    </Pane>
-    <Pane fx:id="bookPane" layoutX="10.0" layoutY="184.0" prefHeight="45.0" prefWidth="86.0">
-      <children>
-        <ImageView fx:id="booksIcon" fitHeight="19.0" fitWidth="19.0" layoutX="29.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
-          <image>
-            <Image url="@../../assets/icon/books-icon.png" />
-          </image>
-          <effect>
-            <Lighting diffuseConstant="1.18">
-              <bumpInput>
-                <Shadow />
-              </bumpInput>
-              <light>
-                <Light.Distant />
-              </light>
-            </Lighting>
-          </effect>
-        </ImageView>
-      </children>
-    </Pane>
-    <Region prefHeight="400.0" prefWidth="86.0" />
-    <Pane fx:id="logoutPane" prefHeight="45.0" prefWidth="86.0">
-      <children>
-        <ImageView fx:id="logoutIcon" fitHeight="19.0" fitWidth="19.0" layoutX="27.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
-          <image>
-            <Image url="@../../assets/icon/logout-icon.png" />
-          </image>
-          <effect>
-            <Lighting diffuseConstant="1.29">
-              <bumpInput>
-                <Shadow />
-              </bumpInput>
-              <light>
-                <Light.Distant />
-              </light>
-            </Lighting>
-          </effect>
-        </ImageView>
-      </children>
-    </Pane>
-  </children>
+            </ImageView>
+            <Label alignment="CENTER" layoutX="21.0" layoutY="70.0" text="BookWorm" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font size="21.0" />
+               </font>
+               <effect>
+                  <Reflection />
+               </effect>
+            </Label>
+            <Label alignment="CENTER" layoutX="51.0" layoutY="101.0" text="Library" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font size="15.0" />
+               </font>
+               <effect>
+                  <Reflection />
+               </effect>
+            </Label>
+         </children>
+      </Pane>
+      <JFXButton id="dashboard-button" fx:id="dashboardButton" onMouseClicked="#dashboardButtonClicked" prefHeight="50.0" prefWidth="148.0" styleClass="navigator-button" text="Dashboard" textAlignment="CENTER">
+         <graphic>
+            <ImageView fx:id="dashboardLogo" fitHeight="23.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true" styleClass="logo-button">
+               <image>
+                  <Image url="@../../assets/icon/dashboard-icon-2.png" />
+               </image>
+               <effect>
+                  <Lighting>
+                     <bumpInput>
+                        <Shadow />
+                     </bumpInput>
+                     <light>
+                        <Light.Distant />
+                     </light>
+                  </Lighting>
+               </effect>
+            </ImageView>
+         </graphic>
+         <font>
+            <Font size="16.0" />
+         </font>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+      </JFXButton>
+      <JFXButton id="catalog-button" fx:id="catalogButton" layoutX="37.0" layoutY="73.0" onMouseClicked="#catalogButtonClicked" prefHeight="50.0" styleClass="navigator-button" text="Catalog" textAlignment="CENTER" textFill="WHITE">
+         <graphic>
+            <ImageView fx:id="catalogLogo" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true" styleClass="logo-button">
+               <image>
+                  <Image url="@../../assets/icon/catalog-icon.png" />
+               </image>
+               <effect>
+                  <Lighting>
+                     <bumpInput>
+                        <Shadow />
+                     </bumpInput>
+                     <light>
+                        <Light.Distant />
+                     </light>
+                  </Lighting>
+               </effect>
+            </ImageView>
+         </graphic>
+         <font>
+            <Font size="16.0" />
+         </font>
+         <effect>
+            <DropShadow />
+         </effect>
+      </JFXButton>
+      <JFXButton id="book-button" fx:id="booksButton" layoutX="37.0" layoutY="98.0" onMouseClicked="#booksButtonClicked" prefHeight="50.0" styleClass="navigator-button" text="Books" textAlignment="CENTER" textFill="WHITE">
+         <graphic>
+            <ImageView fx:id="booksLogo" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true" styleClass="logo-button">
+               <image>
+                  <Image url="@../../assets/icon/books-icon.png" />
+               </image>
+               <effect>
+                  <Lighting>
+                     <bumpInput>
+                        <Shadow />
+                     </bumpInput>
+                     <light>
+                        <Light.Distant />
+                     </light>
+                  </Lighting>
+               </effect>
+            </ImageView>
+         </graphic>
+         <font>
+            <Font size="16.0" />
+         </font>
+      </JFXButton>
+      <Box id="empty-box" depth="100.0" height="400.0" opacity="0.0" width="148.0">
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+      </Box>
+      <JFXButton id="logout-button" fx:id="logoutButton" onMouseClicked="#logOutButtonClicked" prefHeight="50.0" styleClass="navigator-button" text="Log out" textAlignment="CENTER" textFill="WHITE">
+         <graphic>
+            <ImageView fx:id="logoutLogo" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true" styleClass="logo-button">
+               <image>
+                  <Image url="@../../assets/icon/logout-icon.png" />
+               </image>
+               <effect>
+                  <Bloom threshold="0.45" />
+               </effect>
+            </ImageView>
+         </graphic>
+         <font>
+            <Font size="16.0" />
+         </font>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+      </JFXButton>
+   </children>
 </VBox>
