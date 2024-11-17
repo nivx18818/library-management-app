@@ -17,7 +17,6 @@ import java.util.List;
 
 public class AdminBorrowedBookViewDialogController {
 
-    private final AdminBorrowedBooksBarController adminBorrowedBooksBar = AdminBorrowedBooksBarController.getInstance();
     private List<String[]> data;
 
     @FXML
@@ -42,11 +41,14 @@ public class AdminBorrowedBookViewDialogController {
 
     private List<String[]> setExampleData() {
         return List.of(
-                new String[]{"https://th.bing.com/th/id/OIP.aQ3e1NxnNQVFCXiJJesFZwDMEx?rs=1&pid=ImgDetMain", "Book Title", "Author", "2021-01-01"},
-                new String[]{"https://th.bing.com/th/id/OIP.aQ3e1NxnNQVFCXiJJesFZwDMEx?rs=1&pid=ImgDetMain", "Book Title", "Author", "2021-01-01"},
-                new String[]{"https://th.bing.com/th/id/OIP.aQ3e1NxnNQVFCXiJJesFZwDMEx?rs=1&pid=ImgDetMain", "Book Title", "Author", "2021-01-01"}
+                new String[] { "https://th.bing.com/th/id/OIP.aQ3e1NxnNQVFCXiJJesFZwDMEx?rs=1&pid=ImgDetMain",
+                        "Book Title", "Author", "2021-01-01" },
+                new String[] { "https://th.bing.com/th/id/OIP.aQ3e1NxnNQVFCXiJJesFZwDMEx?rs=1&pid=ImgDetMain",
+                        "Book Title", "Author", "2021-01-01" },
+                new String[] { "https://th.bing.com/th/id/OIP.aQ3e1NxnNQVFCXiJJesFZwDMEx?rs=1&pid=ImgDetMain",
+                        "Book Title", "Author", "2021-01-01" }
 
-                );
+        );
     }
 
     /**
@@ -73,6 +75,7 @@ public class AdminBorrowedBookViewDialogController {
 
     /**
      * Loads a single book's data into the VBox.
+     * 
      * @param bookData Array containing [imageURL, title, author, date].
      */
     private void loadBookData(String[] bookData) {
@@ -110,6 +113,7 @@ public class AdminBorrowedBookViewDialogController {
 
     /**
      * Sets the ID label with the given ID.
+     * 
      * @param id The ID to set.
      */
     public void setId(String id) {

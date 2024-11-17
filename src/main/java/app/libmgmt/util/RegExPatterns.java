@@ -3,11 +3,6 @@ package app.libmgmt.util;
 import javafx.animation.PauseTransition;
 import javafx.scene.control.TextField;
 import javafx.util.Duration;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.time.temporal.ChronoField;
 import java.util.regex.Pattern;
 
 public class RegExPatterns {

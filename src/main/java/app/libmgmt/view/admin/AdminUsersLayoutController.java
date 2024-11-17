@@ -17,19 +17,16 @@ import app.libmgmt.util.ChangeScene;
 import app.libmgmt.util.EnumUtils;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
 public class AdminUsersLayoutController {
 
     private static AdminUsersLayoutController controller;
-    private final AdminGlobalController adminGlobalController =
-            AdminGlobalController.getInstance();
-    private final List<String[]> studentsData =
-            adminGlobalController.getObservableUsersData(EnumUtils.UserType.STUDENT);
-    private final List<String[]> guestsData =
-            adminGlobalController.getObservableUsersData(EnumUtils.UserType.GUEST);
+    private final AdminGlobalController adminGlobalController = AdminGlobalController.getInstance();
+    private final List<String[]> studentsData = adminGlobalController
+            .getObservableUsersData(EnumUtils.UserType.STUDENT);
+    private final List<String[]> guestsData = adminGlobalController.getObservableUsersData(EnumUtils.UserType.GUEST);
     @FXML
     public StackPane stackPaneContainer;
     @FXML
@@ -71,20 +68,21 @@ public class AdminUsersLayoutController {
     }
 
     private void listenUserListChange(EnumUtils.UserType userType) {
-        adminGlobalController.getObservableUsersData(userType).addListener((ListChangeListener.Change<?
-                extends String[]> change) -> {
-            while (change.next()) {
-                boolean isUpdate = change.wasRemoved() && change.getRemovedSize() == change.getAddedSize();
+        adminGlobalController.getObservableUsersData(userType)
+                .addListener((ListChangeListener.Change<? extends String[]> change) -> {
+                    while (change.next()) {
+                        boolean isUpdate = change.wasRemoved() && change.getRemovedSize() == change.getAddedSize();
 
-                if (change.wasRemoved() && !isUpdate) {
-                    System.out.println("User removed");
-                    for (String[] removeUser : change.getRemoved()) {
-                        String userId = removeUser[4];
-                        removeUserFromVBox(userId);
+                        if (change.wasRemoved() && !isUpdate) {
+                            System.out.println("User removed");
+
+                            for (String[] removeUser : change.getRemoved()) {
+                                String userId = removeUser[4];
+                                removeUserFromVBox(userId);
+                            }
+                        }
                     }
-                }
-            }
-        });
+                });
     }
 
     public void setVisibility(boolean visibilityStudent, boolean visibilityGuest) {
@@ -111,8 +109,10 @@ public class AdminUsersLayoutController {
                     } catch (IOException e) {
                         throw new RuntimeException("Error loading FXML: " + e.getMessage(), e);
                     }
+
                     Thread.sleep(10); // Optional delay for effect
                 }
+
                 return null;
             }
 
@@ -128,25 +128,29 @@ public class AdminUsersLayoutController {
     private Pane loadScene(String path, String[] data) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/" + path));
         Pane scene = fxmlLoader.load();
-        String[] formattedData = new String[]{data[4], data[1], data[2], data[3]};
+        String[] formattedData = new String[] { data[4], data[1], data[2], data[3] };
 
         switch (path) {
             case "admin-users-student-bar.fxml" -> {
                 AdminUsersStudentBarController controller = fxmlLoader.getController();
                 controller.setData(formattedData);
             }
+
             case "admin-users-guest-bar.fxml" -> {
                 AdminUsersGuestBarController controller = fxmlLoader.getController();
                 controller.setData(formattedData);
             }
+
             default -> throw new IllegalArgumentException("Unknown FXML path: " + path);
         }
+
         return scene;
     }
 
     private void removeUserFromVBox(String userId) {
         for (int i = 0; i < vBoxUserList.getChildren().size(); i++) {
-            if (vBoxUserList.getChildren().get(i).getId() != null && vBoxUserList.getChildren().get(i).getId().equals(userId)) {
+            if (vBoxUserList.getChildren().get(i).getId() != null
+                    && vBoxUserList.getChildren().get(i).getId().equals(userId)) {
                 int finalI = i;
                 Platform.runLater(() -> vBoxUserList.getChildren().remove(finalI));
                 return;
@@ -159,6 +163,7 @@ public class AdminUsersLayoutController {
         if (status == EnumUtils.UserType.STUDENT) {
             return;
         }
+
         status = EnumUtils.UserType.STUDENT;
         setDefaultStyle();
         studentPane.setStyle("-fx-background-color: #E3E3E3; -fx-background-radius: 12px;");
@@ -178,6 +183,7 @@ public class AdminUsersLayoutController {
         if (status == EnumUtils.UserType.GUEST) {
             return;
         }
+
         status = EnumUtils.UserType.GUEST;
         setDefaultStyle();
         guestPane.setStyle("-fx-background-color: #E3E3E3; -fx-background-radius: 12px;");
@@ -206,6 +212,7 @@ public class AdminUsersLayoutController {
 
     public void refreshUsersList() {
         vBoxUserList.getChildren().clear();
+
         if (status == EnumUtils.UserType.STUDENT) {
             showStudentsList();
         } else {
