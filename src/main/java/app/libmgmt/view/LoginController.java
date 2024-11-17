@@ -176,6 +176,7 @@ public class LoginController {
             String username = selectedUserType.getText().equals("Student") ?
                     studentIDSignUp.getText() : citizenIDSignUp.getText();
             if (checkSignUp(fullName, majorOrPhoneNumber, email, username, password, registerNoticeText)) {
+                // TODO: Insert user data to database
                 logInAfterRegister();
             }
         }

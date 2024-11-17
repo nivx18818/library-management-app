@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane fx:id="stackPaneContainer" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane fx:id="stackPaneContainer" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.libmgmt.view.user.UserGlobalController">
   <children>
     <Pane fx:id="backgroundPane" prefHeight="768.0" prefWidth="1366.0">
       <children>
@@ -14,7 +14,7 @@
           <children>
             <fx:include source="user-navigation.fxml" />
 
-            <VBox fx:id="contentContainer">
+            <VBox>
               <fx:include source="user-header.fxml" />
               <Pane fx:id="pagingPane" prefHeight="768.0" prefWidth="1280.0">
                 <children>
