@@ -16,7 +16,6 @@ import java.util.logging.Logger;
 public class AdminNavigationController {
 
     private static EnumUtils.NavigationButton latestButtonClicked = EnumUtils.NavigationButton.DASHBOARD;
-    private static int initializedTimes = 0;
     private static AdminNavigationController controller;
 
     @FXML
@@ -40,15 +39,8 @@ public class AdminNavigationController {
     @FXML
     public void initialize() {
         Logger.getLogger("javafx").setLevel(java.util.logging.Level.SEVERE);
-        System.out.println("Navigation Controller initialized " + ++initializedTimes + " times");
-        playAnimationOnFirstInitialization();
-    }
-
-    // Plays an animation if it's the first time the view is initialized
-    private void playAnimationOnFirstInitialization() {
-        if (initializedTimes == 1) {
-            AnimationUtils.fadeInLeft(navigationContainer);
-        }
+        System.out.println("Navigation Controller initialized times");
+        AnimationUtils.fadeInLeft(navigationContainer);
     }
 
     // Handles the click effect for navigation buttons

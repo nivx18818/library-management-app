@@ -1,5 +1,6 @@
 package app.libmgmt.view.user;
 
+import app.libmgmt.util.AnimationUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -37,7 +38,9 @@ public class UserDashboardController {
     @FXML
     public void initialize() {
         System.out.println("User Dashboard initialized");
-    
+
+        AnimationUtils.fadeInRight(stackPaneContainer, 1);
+
         setPieChart();
     }
 
@@ -61,7 +64,7 @@ public class UserDashboardController {
         int totalBorrowedBooks = getTotalBorrowedBooks();
         double percentageBorrowed = 0;
         // if (!booksData.isEmpty()) {
-        //     percentageBorrowed = ((double) totalBorrowedBooks / booksData.size()) * 100;
+        // percentageBorrowed = ((double) totalBorrowedBooks / booksData.size()) * 100;
         // }
         percentageBorrowed = (double) totalBorrowedBooks / 10 * 100;
 

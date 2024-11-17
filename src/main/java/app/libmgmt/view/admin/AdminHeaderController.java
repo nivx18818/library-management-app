@@ -20,7 +20,6 @@ import java.util.Locale;
 
 public class AdminHeaderController {
 
-    private static int initializeTimes = 0;
     private static AdminHeaderController controller;
 
     @FXML
@@ -49,8 +48,7 @@ public class AdminHeaderController {
     // Initialization method called when the view is loaded
     @FXML
     public void initialize() {
-        initializeTimes++;
-        playAnimationOnFirstInitialization();
+        AnimationUtils.fadeInDown(rootPane);
         setUserInformation("Lionel Ronaldo", "Admin");
         initializeDateAndTime();
     }
@@ -114,10 +112,4 @@ public class AdminHeaderController {
         );
     }
 
-    // Plays an animation if it's the first time the view is initialized
-    private void playAnimationOnFirstInitialization() {
-        if (initializeTimes == 1) {
-            AnimationUtils.fadeInDown(rootPane);
-        }
-    }
 }

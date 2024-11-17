@@ -49,8 +49,9 @@ public class LoginController {
 
     @FXML
     public void initialize() {
-        AnimationUtils.zoomIn(rootPane, 1.2);
         Logger.getLogger("javafx").setLevel(java.util.logging.Level.SEVERE);
+
+        AnimationUtils.zoomIn(rootPane, 1.2);
         setDefault();
         majorComboBox.getItems().addAll(EnumUtils.UETMajor);
 

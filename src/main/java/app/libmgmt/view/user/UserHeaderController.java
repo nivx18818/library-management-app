@@ -18,10 +18,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Locale;
-
 public class UserHeaderController {
-
-    private static int initializeTimes;
 
     @FXML
     private Label dateLabel;
@@ -55,11 +52,8 @@ public class UserHeaderController {
     }
 
     @FXML
-    public void initialize() {
-        ++initializeTimes;
-
-        showAnimation();
-
+    public void initialize() {        
+        AnimationUtils.fadeInDown(rootPane);
         setDateAndTimeHeader();
     }
 
@@ -69,7 +63,8 @@ public class UserHeaderController {
 
     public void setDateAndTimeHeader() {
         DateTimeFormatter time = DateTimeFormatter.ofPattern("hh:mm");
-        timeLabel.setText(time.format(java.time.LocalTime.now()) + " " + (LocalDateTime.now().getHour() < 12 ? "AM" : "PM"));
+        timeLabel.setText(
+                time.format(java.time.LocalTime.now()) + " " + (LocalDateTime.now().getHour() < 12 ? "AM" : "PM"));
 
         Locale locale = DateTimeUtils.locale;
         DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.DEFAULT, locale);
@@ -79,7 +74,8 @@ public class UserHeaderController {
         Timeline clock = new Timeline(new KeyFrame(Duration.ZERO, e -> {
             LocalDateTime currentTime = LocalDateTime.now();
             timeLabel.setText(time.format(java.time.LocalTime.now()) + " " + (currentTime.getHour() < 12
-                    ? "AM" : "PM"));
+                    ? "AM"
+                    : "PM"));
 
             String newDate = dateFormat.format(new Date());
             dateLabel.setText(newDate);
@@ -91,7 +87,7 @@ public class UserHeaderController {
 
     @FXML
     void handleSettingOnMouseClicked(MouseEvent event) {
-        //TODO: Implement setting on mouse clicked
+        // TODO: Implement setting on mouse clicked
     }
 
     @FXML
@@ -102,12 +98,6 @@ public class UserHeaderController {
     @FXML
     void settingImageOnMouseExited(MouseEvent event) {
         settingImage.setImage(new Image(getClass().getResource("/assets/icon/setting1.png").toExternalForm()));
-    }
-
-    public void showAnimation() {
-        if (initializeTimes == 1) {
-            AnimationUtils.fadeInDown(rootPane);
-        }
     }
 
 }

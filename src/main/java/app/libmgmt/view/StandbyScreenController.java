@@ -1,6 +1,5 @@
 package app.libmgmt.view;
 
-import animatefx.animation.ZoomOut;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
