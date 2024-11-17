@@ -20,9 +20,9 @@
   <children>
     <Pane fx:id="catalogContainer" prefHeight="670.0" prefWidth="1132.0" style="-fx-background-color: #F2F2F2;">
       <children>
-        <Pane fx:id="borrowedBooksPane" layoutX="14.0" layoutY="23.0" prefHeight="30.0" prefWidth="170.0" style="-fx-background-color: #E3E3E3; -fx-background-radius: 12px;">
+        <Pane fx:id="borrowedBooksPane" layoutX="14.0" layoutY="23.0" prefHeight="30.0" prefWidth="170.0" style="-fx-background-color: black; -fx-background-radius: 12px;">
           <children>
-            <Label fx:id="borrowedBooksLabel" alignment="CENTER" prefHeight="30.0" prefWidth="170.0" text="Borrowed Books" textAlignment="CENTER">
+            <Label fx:id="borrowedBooksLabel" alignment="CENTER" prefHeight="30.0" prefWidth="170.0" text="Borrowed Books" textAlignment="CENTER" textFill="WHITE">
               <font>
                 <Font size="14.0" />
               </font>
@@ -37,9 +37,9 @@
             </JFXButton>
           </children>
         </Pane>
-        <Pane fx:id="overdueBorrowersPane" layoutX="194.0" layoutY="23.0" prefHeight="30.0" prefWidth="170.0" style="-fx-background-color: black; -fx-background-radius: 12px;">
+        <Pane fx:id="overdueBorrowersPane" layoutX="194.0" layoutY="23.0" prefHeight="30.0" prefWidth="170.0" style="-fx-background-color: #e3e3e3; -fx-background-radius: 12px;">
           <children>
-            <Label fx:id="overdueBorrowersLabel" alignment="CENTER" prefHeight="30.0" prefWidth="170.0" text="Overdue Borrowers" textAlignment="CENTER" textFill="WHITE">
+            <Label fx:id="overdueBorrowersLabel" alignment="CENTER" prefHeight="30.0" prefWidth="170.0" text="Overdue Borrowers" textAlignment="CENTER">
               <font>
                 <Font size="14.0" />
               </font>

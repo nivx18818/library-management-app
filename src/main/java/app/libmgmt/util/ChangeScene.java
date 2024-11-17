@@ -4,8 +4,11 @@ import app.libmgmt.view.admin.AdminBorrowedBookViewDialogController;
 import app.libmgmt.view.admin.AdminDeleteConfirmationDialogController;
 import app.libmgmt.view.admin.AdminGlobalController;
 import app.libmgmt.view.admin.AdminNavigationController;
+import app.libmgmt.view.user.UserGlobalController;
+
 import com.jfoenix.controls.JFXDialog;
 import app.libmgmt.initializer.AdminInitializer;
+
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -93,24 +96,30 @@ public class ChangeScene {
         dialog.close();
     }
 
-    public static void navigateToScene(String fxmlPath) throws IOException {
+    public static void navigateToScene(String fxmlPath, EnumUtils.UserType userType) throws IOException {
 
-        AdminGlobalController controller = AdminGlobalController.getInstance();
+        Object controller;
+
+        if (userType == EnumUtils.UserType.ADMIN) {
+            controller = AdminGlobalController.getInstance();
+        } else {
+            controller = UserGlobalController.getInstance();
+        }
 
         Pane pane = new Pane();
         if (fxmlPath.contains("loading")) {
-            pane = controller.getBackgroundPane();
+            pane = (userType == EnumUtils.UserType.ADMIN ? ((AdminGlobalController)controller).getBackgroundPane() : ((UserGlobalController)controller).getBackgroundPane());
         }
         else {
-            pane = controller.getPagingPane();
+            pane = (userType == EnumUtils.UserType.ADMIN ? ((AdminGlobalController)controller).getPagingPane() : ((UserGlobalController)controller).getPagingPane());
         }
 
         pane.getChildren().clear();
-        FXMLLoader loader = new FXMLLoader(AdminGlobalController.class.getResource(
-                "/fxml/" + fxmlPath));
+        FXMLLoader loader = new FXMLLoader((userType == EnumUtils.UserType.ADMIN ? AdminGlobalController.class.getResource(
+                "/fxml/" + fxmlPath) : UserGlobalController.class.getResource("/fxml/user/" + fxmlPath)));
         Parent root = loader.load();
         pane.getChildren().add(root);
-        AnimationUtils.zoomIn(controller.getPagingPane(), 1.0);
+        AnimationUtils.zoomIn( (userType == EnumUtils.UserType.ADMIN ? ((AdminGlobalController)controller).getPagingPane() : ((UserGlobalController)controller).getPagingPane()), 1.1);
     }
 
     public static void changeInterfaceWindow(Stage stage, String fxmlPath, String title) throws IOException {

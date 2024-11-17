@@ -10,11 +10,16 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import app.libmgmt.util.AnimationUtils;
 import app.libmgmt.util.ChangeScene;
+import app.libmgmt.util.EnumUtils;
 import app.libmgmt.view.admin.AdminGlobalController;
+import app.libmgmt.view.admin.AdminNavigationController;
+import app.libmgmt.view.user.UserGlobalController;
 
 import java.io.IOException;
 
 public class LogoutDialogController {
+
+    private static LogoutDialogController controller;
 
     @FXML
     private JFXButton closeDialogButton;
@@ -37,6 +42,17 @@ public class LogoutDialogController {
     @FXML
     private Label confirmLabel;
 
+    private EnumUtils.UserType userType;
+
+    // Constructor and Singleton Pattern
+    public LogoutDialogController() {
+        controller = this;
+    }
+
+    public static LogoutDialogController getInstance() {
+        return controller;
+    }
+
     public void initialize() {
         System.out.println("Logout Dialog Controller initialized");
         AnimationUtils.hoverCloseIcons(closeDialogButton, imgClose);
@@ -49,6 +65,7 @@ public class LogoutDialogController {
 
     @FXML
     void confirmButtonOnAction(ActionEvent event) throws IOException {
+        AdminNavigationController.getInstance().setLastButtonClicked(EnumUtils.NavigationButton.DASHBOARD);
         ChangeScene.closePopUp();
         backToLoginForm();
     }
@@ -68,11 +85,12 @@ public class LogoutDialogController {
     public void backToLoginForm() throws IOException {
         ZoomOut zo = new ZoomOut(AdminGlobalController.getInstance().getGlobalFormContainer());
 
-        ChangeScene.navigateToScene("loading-form.fxml");
+        ChangeScene.navigateToScene("loading-form.fxml", userType);
 
         zo.setOnFinished(event -> {
             try {
-                ChangeScene.changeInterfaceWindow((Stage) LoadingPageController.getInstance().getLoadingPane().getScene().getWindow(),
+                ChangeScene.changeInterfaceWindow(
+                        (Stage) LoadingPageController.getInstance().getLoadingPane().getScene().getWindow(),
                         "/fxml/login-form.fxml", "Login Window");
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -80,5 +98,9 @@ public class LogoutDialogController {
         });
 
         zo.play();
+    }
+
+    public void setUserType(EnumUtils.UserType userType) {
+        this.userType = userType;
     }
 }

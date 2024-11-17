@@ -10,6 +10,8 @@ import javafx.scene.layout.VBox;
 import app.libmgmt.util.AnimationUtils;
 import app.libmgmt.util.ChangeScene;
 import app.libmgmt.util.EnumUtils;
+import app.libmgmt.util.EnumUtils.UserType;
+import app.libmgmt.view.LogoutDialogController;
 
 import java.io.IOException;
 import java.util.logging.Logger;
@@ -144,6 +146,7 @@ public class AdminNavigationController {
 
         ChangeScene.openAdminPopUp(AdminGlobalController.getInstance().getStackPaneContainer(),
                 "/fxml/logout-dialog.fxml");
+        LogoutDialogController.getInstance().setUserType(UserType.ADMIN);
         handleEffectButtonClicked(logoutButton);
     }
 
@@ -154,7 +157,11 @@ public class AdminNavigationController {
             return;
         }
 
-        ChangeScene.navigateToScene(fxmlFile);
+        ChangeScene.navigateToScene(fxmlFile, UserType.ADMIN);
         handleEffectButtonClicked(button);
+    }
+
+    public void setLastButtonClicked(EnumUtils.NavigationButton button) {
+        latestButtonClicked = button;
     }
 }

@@ -59,7 +59,7 @@
         <Cursor fx:constant="HAND" />
       </cursor>
     </JFXButton>
-    <Label alignment="CENTER" layoutY="97.0" prefHeight="81.0" prefWidth="500.0" text="&quot;Are you sure you want to log out?&quot;" wrapText="true">
+    <Label alignment="CENTER" layoutY="97.0" prefHeight="81.0" prefWidth="500.0" text="Are you sure you want to log out?" wrapText="true">
       <font>
         <Font size="17.0" />
       </font>

@@ -166,8 +166,8 @@ public class AdminUsersLayoutController {
 
         status = EnumUtils.UserType.STUDENT;
         setDefaultStyle();
-        studentPane.setStyle("-fx-background-color: #E3E3E3; -fx-background-radius: 12px;");
-        studentLabel.setStyle("-fx-text-fill: black;");
+        studentPane.setStyle("-fx-background-color: #000; -fx-background-radius: 12px;");
+        studentLabel.setStyle("-fx-text-fill: white;");
         setVisibility(true, false);
         AnimationUtils.zoomIn(hBoxStudent, 1.0);
         showStudentsList();
@@ -186,8 +186,8 @@ public class AdminUsersLayoutController {
 
         status = EnumUtils.UserType.GUEST;
         setDefaultStyle();
-        guestPane.setStyle("-fx-background-color: #E3E3E3; -fx-background-radius: 12px;");
-        guestLabel.setStyle("-fx-text-fill: black;");
+        guestPane.setStyle("-fx-background-color: #000; -fx-background-radius: 12px;");
+        guestLabel.setStyle("-fx-text-fill: white;");
         setVisibility(false, true);
         AnimationUtils.zoomIn(hBoxGuest, 1.0);
         showGuestsList();
@@ -241,10 +241,10 @@ public class AdminUsersLayoutController {
     }
 
     public void setDefaultStyle() {
-        studentPane.setStyle("-fx-background-color: #000; -fx-background-radius: 12px;");
-        studentLabel.setStyle("-fx-text-fill: #fff");
-        guestPane.setStyle("-fx-background-color: #000; -fx-background-radius: 12px;");
-        guestLabel.setStyle("-fx-text-fill: #fff");
+        studentPane.setStyle("-fx-background-color: #e3e3e3; -fx-background-radius: 12px;");
+        studentLabel.setStyle("-fx-text-fill: #000");
+        guestPane.setStyle("-fx-background-color: #e3e3e3; -fx-background-radius: 12px;");
+        guestLabel.setStyle("-fx-text-fill: #000");
     }
 
     public EnumUtils.UserType getStatus() {

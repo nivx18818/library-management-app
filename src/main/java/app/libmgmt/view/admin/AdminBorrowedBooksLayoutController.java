@@ -111,20 +111,20 @@ public class AdminBorrowedBooksLayoutController {
 
     // UI Update Methods
     private void setDefaultStyle() {
-        overdueBorrowersLabel.setStyle("-fx-text-fill: white;");
-        borrowedBooksLabel.setStyle("-fx-text-fill: white;");
-        overdueBorrowersPane.setStyle("-fx-background-color: black; -fx-background-radius: 12px;");
-        borrowedBooksPane.setStyle("-fx-background-color: black; -fx-background-radius: 12px;");
+        overdueBorrowersLabel.setStyle("-fx-text-fill: black;");
+        borrowedBooksLabel.setStyle("-fx-text-fill: black;");
+        overdueBorrowersPane.setStyle("-fx-background-color: #e3e3e3; -fx-background-radius: 12px;");
+        borrowedBooksPane.setStyle("-fx-background-color: #e3e3e3; -fx-background-radius: 12px;");
     }
 
     private void updateStatusUI(STATE newStatus) {
         setDefaultStyle();
         if (newStatus == STATE.OVERDUE) {
-            overdueBorrowersLabel.setStyle("-fx-text-fill: black;");
-            overdueBorrowersPane.setStyle("-fx-background-color: #E3E3E3; -fx-background-radius: 12px;");
+            overdueBorrowersLabel.setStyle("-fx-text-fill: white;");
+            overdueBorrowersPane.setStyle("-fx-background-color: #000; -fx-background-radius: 12px;");
         } else {
-            borrowedBooksLabel.setStyle("-fx-text-fill: black;");
-            borrowedBooksPane.setStyle("-fx-background-color: #E3E3E3; -fx-background-radius: 12px;");
+            borrowedBooksLabel.setStyle("-fx-text-fill: white;");
+            borrowedBooksPane.setStyle("-fx-background-color: #000; -fx-background-radius: 12px;");
         }
         status = newStatus;
     }
