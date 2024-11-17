@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.chart.PieChart?>
@@ -180,7 +181,7 @@
               <children>
                 <Text fx:id="textQuote" layoutX="85.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="&quot;Embarking on the journey of reading fosters personal growth, nurturing a path towards excellence and the refinement of character.&quot;" wrappingWidth="538.4623107910156">
                   <font>
-                    <Font name="System Italic" size="25.0" />
+                    <Font size="25.0" />
                   </font>
                 </Text>
                 <Text layoutX="498.0" layoutY="200.0" strokeType="OUTSIDE" strokeWidth="0.0" text="~ BookWorm Team">
@@ -202,13 +203,9 @@
             </Pane>
           </children>
         </VBox>
-        <Pane fx:id="pieChartPane" layoutX="728.0" layoutY="49.0" prefHeight="460.0" prefWidth="460.0">
+        <Pane fx:id="pieChartPane" layoutX="710.0" layoutY="30.0" prefHeight="490.0" prefWidth="490.0">
           <children>
-            <PieChart fx:id="pieChart" layoutX="5.0" layoutY="5.0" prefHeight="450.0" prefWidth="450.0">
-              <cursor>
-                <Cursor fx:constant="WAIT" />
-              </cursor>
-            </PieChart>
+            <PieChart fx:id="pieChart" legendVisible="false" prefHeight="490.0" prefWidth="490.0" />
           </children>
         </Pane>
         <Pane layoutX="773.0" layoutY="569.0" prefHeight="105.0" prefWidth="370.0" style="-fx-background-color: white; -fx-background-radius: 12;">
@@ -233,6 +230,21 @@
             <Line endX="-11.268310546875" endY="85.0" layoutX="109.0" layoutY="9.0" startX="-11.268310546875" startY="8.0" />
           </children>
         </Pane>
+            <JFXButton layoutX="39.0" layoutY="47.0" onAction="#btnBorrowedBookOnAction" onMouseEntered="#btnBorrowedBookOnMouseEntered" onMouseExited="#btnBorrowedBookOnMouseExited" prefHeight="150.0" prefWidth="320.0" style="-fx-background-radius: 12;" text=" ">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </JFXButton>
+            <JFXButton layoutX="388.0" layoutY="47.0" onAction="#btnReturnedBookOnAction" onMouseEntered="#btnBorrowedBookOnMouseEntered" onMouseExited="#btnBorrowedBookOnMouseExited" prefHeight="150.0" prefWidth="320.0" style="-fx-background-radius: 12;" text=" ">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </JFXButton>
+            <JFXButton layoutX="39.0" layoutY="250.0" onAction="#btnAvailableBookOnAction" onMouseEntered="#btnBorrowedBookOnMouseEntered" onMouseExited="#btnBorrowedBookOnMouseExited" prefHeight="150.0" prefWidth="389.0" style="-fx-background-radius: 12;" text=" ">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </JFXButton>
       </children>
     </Pane>
   </children>
