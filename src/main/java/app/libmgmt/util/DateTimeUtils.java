@@ -13,7 +13,7 @@ DateTimeUtils {
 
     public static final LocalDate currentLocalTime = LocalDate.now();
 
-    public static final Locale locale = new Locale("en", "UK");
+    public static final Locale locale = Locale.of("en", "UK");
 
     public static LocalDate convertStringToDate(String originalDatum) {
         try {
