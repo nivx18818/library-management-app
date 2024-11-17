@@ -5,6 +5,7 @@ module app.libmgmt {
     requires java.desktop;
     requires java.sql;
     requires org.json;
+    requires com.zaxxer.hikari;
 
     requires transitive javafx.controls;
     requires transitive javafx.graphics;
@@ -15,6 +16,7 @@ module app.libmgmt {
     exports app.libmgmt.view.admin;
     exports app.libmgmt.view.user;
     exports app.libmgmt.util;
+    exports app.libmgmt.model;
 
     opens app.libmgmt.initializer to javafx.fxml;
     opens app.libmgmt.view to javafx.fxml;
