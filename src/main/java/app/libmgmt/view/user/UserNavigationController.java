@@ -1,6 +1,5 @@
 package app.libmgmt.view.user;
 
-import app.libmgmt.view.admin.AdminGlobalController;
 import com.jfoenix.controls.JFXButton;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
@@ -8,7 +7,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import app.libmgmt.util.AnimationUtils;
-import app.libmgmt.util.ChangeScene;
+// import app.libmgmt.util.ChangeScene;
 import app.libmgmt.util.EnumUtils;
 
 import java.io.IOException;
@@ -53,7 +52,7 @@ public class UserNavigationController {
     }
 
     // Handles the click effect for navigation buttons
-    public void handleEffectButtonClicked(JFXButton button) {
+    public void handleEffectButtonClicked(@SuppressWarnings("exports") JFXButton button) {
         latestButtonClicked = getButtonType(button);
         resetButtonStylesToDefault();
         updateButtonStyle();
@@ -82,6 +81,8 @@ public class UserNavigationController {
                 break;
             case LOGOUT:
                 // Handle logout style change if needed
+                break;
+            default:
                 break;
         }
     }
@@ -122,15 +123,15 @@ public class UserNavigationController {
 
     @FXML
     public void logOutButtonClicked(MouseEvent event) throws IOException {
-        if (latestButtonClicked == EnumUtils.NavigationButton.LOGOUT) return;
-        ChangeScene.openAdminPopUp(AdminGlobalController.getInstance().getStackPaneContainer(), "/fxml/logout-dialog.fxml");
-        handleEffectButtonClicked(logoutButton);
+        // if (latestButtonClicked == EnumUtils.NavigationButton.LOGOUT) return;
+        // ChangeScene.openAdminPopUp(AdminGlobalController.getInstance().getStackPaneContainer(), "/fxml/logout-dialog.fxml");
+        // handleEffectButtonClicked(logoutButton);
     }
 
     // Handles the navigation between scenes
-    private void handleNavigation(EnumUtils.NavigationButton buttonType, String fxmlFile, JFXButton button) throws IOException {
-        if (latestButtonClicked == buttonType) return;
-        ChangeScene.navigateToScene(fxmlFile);
-        handleEffectButtonClicked(button);
-    }
+    // private void handleNavigation(EnumUtils.NavigationButton buttonType, String fxmlFile, JFXButton button) throws IOException {
+    //     if (latestButtonClicked == buttonType) return;
+    //     ChangeScene.navigateToScene(fxmlFile);
+    //     handleEffectButtonClicked(button);
+    // }
 }

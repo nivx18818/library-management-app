@@ -5,7 +5,7 @@ import app.libmgmt.view.admin.AdminDeleteConfirmationDialogController;
 import app.libmgmt.view.admin.AdminGlobalController;
 import app.libmgmt.view.admin.AdminNavigationController;
 import com.jfoenix.controls.JFXDialog;
-import app.libmgmt.initialize.AdminInitializer;
+import app.libmgmt.initializer.AdminInitializer;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
