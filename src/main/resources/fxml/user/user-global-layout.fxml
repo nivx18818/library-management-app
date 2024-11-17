@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane fx:id="stackPaneContainer" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.libmgmt.view.user.UserGlobalController">
+<StackPane fx:id="stackPaneContainer" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.libmgmt.view.controller.user.UserGlobalController">
   <children>
     <Pane fx:id="backgroundPane" prefHeight="768.0" prefWidth="1366.0">
       <children>

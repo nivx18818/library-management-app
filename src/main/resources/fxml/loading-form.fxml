@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.Pane?>
 <Pane xmlns:fx="http://javafx.com/fxml/1" fx:id="loadingPane" prefHeight="720.0" prefWidth="1280.0"
       style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/23"
-      fx:controller="app.libmgmt.view.LoadingPageController">
+      fx:controller="app.libmgmt.view.controller.LoadingPageController">
   <children>
     <ImageView id="loading-gif" fx:id="loadingGif" fitHeight="55.0" fitWidth="55.0" layoutX="612.0"
                layoutY="384.0" pickOnBounds="true" preserveRatio="true">

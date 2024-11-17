@@ -1,10 +1,10 @@
 package app.libmgmt.util;
 
-import app.libmgmt.view.admin.AdminBorrowedBookViewDialogController;
-import app.libmgmt.view.admin.AdminDeleteConfirmationDialogController;
-import app.libmgmt.view.admin.AdminGlobalController;
-import app.libmgmt.view.admin.AdminNavigationController;
-import app.libmgmt.view.user.UserGlobalController;
+import app.libmgmt.view.controller.admin.AdminBorrowedBookViewDialogController;
+import app.libmgmt.view.controller.admin.AdminDeleteConfirmationDialogController;
+import app.libmgmt.view.controller.admin.AdminGlobalController;
+import app.libmgmt.view.controller.admin.AdminNavigationController;
+import app.libmgmt.view.controller.user.UserGlobalController;
 
 import com.jfoenix.controls.JFXDialog;
 import app.libmgmt.initializer.AdminInitializer;
@@ -116,7 +116,7 @@ public class ChangeScene {
 
         pane.getChildren().clear();
         FXMLLoader loader = new FXMLLoader((userType == EnumUtils.UserType.ADMIN ? AdminGlobalController.class.getResource(
-                "/fxml/" + fxmlPath) : UserGlobalController.class.getResource("/fxml/user/" + fxmlPath)));
+                "/fxml/admin/" + fxmlPath) : UserGlobalController.class.getResource("/fxml/user/" + fxmlPath)));
         Parent root = loader.load();
         pane.getChildren().add(root);
         AnimationUtils.zoomIn( (userType == EnumUtils.UserType.ADMIN ? ((AdminGlobalController)controller).getPagingPane() : ((UserGlobalController)controller).getPagingPane()), 1.1);

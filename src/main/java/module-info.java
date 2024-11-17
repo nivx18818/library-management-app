@@ -11,13 +11,13 @@ module app.libmgmt {
     requires transitive com.jfoenix;
 
     exports app.libmgmt.initializer;
-    exports app.libmgmt.view;
-    exports app.libmgmt.view.admin;
-    exports app.libmgmt.view.user;
+    exports app.libmgmt.view.controller;
+    exports app.libmgmt.view.controller.admin;
+    exports app.libmgmt.view.controller.user;
     exports app.libmgmt.util;
 
     opens app.libmgmt.initializer to javafx.fxml;
-    opens app.libmgmt.view to javafx.fxml;
-    opens app.libmgmt.view.admin to javafx.fxml;
-    opens app.libmgmt.view.user to javafx.fxml;
+    opens app.libmgmt.view.controller to javafx.fxml;
+    opens app.libmgmt.view.controller.admin to javafx.fxml;
+    opens app.libmgmt.view.controller.user to javafx.fxml;
 }

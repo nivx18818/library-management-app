@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<HBox fx:id="hBoxUser" alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="1080.0" spacing="30.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.libmgmt.view.controller.admin.AdminUsersGuestBarController">
+  <children>
+    <Label fx:id="idLabel" alignment="CENTER" prefHeight="60.0" prefWidth="180.0" text="037205005003" textAlignment="CENTER">
+      <font>
+        <Font size="13.0" />
+      </font>
+    </Label>
+    <Label fx:id="nameLabel" alignment="CENTER" prefHeight="60.0" prefWidth="220.0" text="Hoang Duy Thinh" textAlignment="CENTER">
+      <font>
+        <Font size="13.0" />
+      </font>
+    </Label>
+    <Label fx:id="phoneLabel" alignment="CENTER" prefHeight="60.0" prefWidth="180.0" text="0947449437" textAlignment="CENTER" wrapText="true">
+      <font>
+        <Font size="13.0" />
+      </font>
+    </Label>
+    <Label fx:id="emailLabel" alignment="CENTER" prefHeight="60.0" prefWidth="220.0" text="thinh.ksb.k55@gmail.com" textAlignment="CENTER" wrapText="true">
+      <font>
+        <Font size="13.0" />
+      </font>
+    </Label>
+    <Pane prefHeight="45.0" prefWidth="180.0">
+      <children>
+        <HBox alignment="CENTER" prefHeight="60.0" prefWidth="164.0" spacing="7.0">
+          <children>
+            <ImageView fx:id="editFunction" fitHeight="22.0" fitWidth="22.0" onMouseClicked="#imgEditOnMouseClicked" onMouseEntered="#imgEditOnMouseEntered" onMouseExited="#imgEditOnMouseExited" pickOnBounds="true" preserveRatio="true">
+              <image>
+                <Image url="@../../assets/icon/btn%20edit.png" />
+              </image>
+              <cursor>
+                <Cursor fx:constant="HAND" />
+              </cursor>
+            </ImageView>
+            <ImageView fx:id="deleteFunction" fitHeight="22.0" fitWidth="22.0" layoutX="10.0" layoutY="10.0" onMouseClicked="#imgDeleteOnMouseClicked" onMouseEntered="#imgDeleteOnMouseEntered" onMouseExited="#imgDeleteOnMouseExited" pickOnBounds="true" preserveRatio="true">
+              <image>
+                <Image url="@../../assets/icon/btn%20Delete.png" />
+              </image>
+              <cursor>
+                <Cursor fx:constant="HAND" />
+              </cursor>
+            </ImageView>
+            <ImageView fx:id="viewFunction" fitHeight="22.0" fitWidth="22.0" layoutX="210.0" layoutY="10.0" onMouseClicked="#imgViewOnMouseClicked" onMouseEntered="#imgViewOnMouseEntered" onMouseExited="#imgViewOnMouseExited" pickOnBounds="true" preserveRatio="true">
+              <image>
+                <Image url="@../../assets/icon/btn%20view.png" />
+              </image>
+              <cursor>
+                <Cursor fx:constant="HAND" />
+              </cursor>
+            </ImageView>
+          </children>
+        </HBox>
+      </children>
+    </Pane>
+  </children>
+  <padding>
+    <Insets left="30.0" right="30.0" />
+  </padding>
+</HBox>

@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Light.Distant?>
+<?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.effect.Reflection?>
+<?import javafx.scene.effect.Shadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<Pane fx:id="container" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="500.0" style="-fx-background-color: white; -fx-background-radius: 10;" stylesheets="@../../style/add-book-dialog.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.libmgmt.view.controller.admin.AdminAddBookDialogController">
+  <children>
+    <Pane layoutX="32.0" layoutY="19.0" prefHeight="45.0" prefWidth="45.0" style="-fx-background-color: #D7D7D7; -fx-background-radius: 10;">
+      <children>
+        <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="6.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+          <image>
+            <Image url="@../../assets/icon/8686768_ic_fluent_book_add_regular_icon.png" />
+          </image>
+        </ImageView>
+      </children>
+    </Pane>
+    <Label layoutX="89.0" layoutY="28.0" prefHeight="25.0" prefWidth="87.0" text="Add Book">
+      <font>
+        <Font size="18.0" />
+      </font>
+    </Label>
+    <Line endX="330.0" endY="-7.62939453125E-6" layoutX="135.0" layoutY="85.0" startX="-100.0" />
+    <Pane fx:id="closePane" layoutX="445.0" layoutY="25.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-radius: 10;">
+      <children>
+        <JFXButton fx:id="closeDialogButton" alignment="CENTER" contentDisplay="CENTER" minHeight="24.0" minWidth="24.0" onAction="#closeButtonOnAction" prefHeight="24.0" prefWidth="24.0" text=" " textAlignment="CENTER">
+          <cursor>
+            <Cursor fx:constant="HAND" />
+          </cursor>
+          <graphic>
+            <ImageView fx:id="imgClose" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+              <image>
+                <Image url="@../../assets/icon/close-square%201.png" />
+              </image>
+            </ImageView>
+          </graphic>
+        </JFXButton>
+      </children>
+    </Pane>
+    <Pane fx:id="cancelPane" layoutX="33.0" layoutY="338.0" prefHeight="41.0" prefWidth="200.0" style="-fx-background-color: #D7D7D7; -fx-background-radius: 10;">
+      <children>
+        <Label fx:id="lblCancel" layoutX="70.0" layoutY="8.0" text="CANCEL">
+          <font>
+            <Font name="System Bold" size="16.0" />
+          </font>
+        </Label>
+      </children>
+    </Pane>
+    <Pane fx:id="addPane" layoutX="269.0" layoutY="338.0" prefHeight="41.0" prefWidth="200.0" style="-fx-background-color: black; -fx-background-radius: 10;">
+      <children>
+        <Label fx:id="lblAdd" layoutX="83.0" layoutY="8.0" text="ADD" textFill="WHITE">
+          <font>
+            <Font name="System Bold" size="16.0" />
+          </font>
+        </Label>
+      </children>
+    </Pane>
+    <HBox layoutX="31.0" layoutY="109.0" spacing="10.0">
+      <children>
+        <TextField fx:id="txtName" prefHeight="32.0" prefWidth="436.0" promptText="Name*" style="-fx-border-color: #727374; -fx-border-radius: 12px; -fx-background-color:                    white; -fx-background-radius: 12px;">
+          <cursor>
+            <Cursor fx:constant="TEXT" />
+          </cursor>
+          <font>
+            <Font size="14.0" />
+          </font>
+          <padding>
+            <Insets left="15.0" right="15.0" />
+          </padding>
+        </TextField>
+      </children>
+    </HBox>
+    <HBox layoutX="32.0" layoutY="157.0" spacing="10.0">
+      <children>
+        <TextField fx:id="txtAuthor" prefHeight="32.0" prefWidth="252.0" promptText="Author" style="-fx-border-color: #727374; -fx-border-radius: 12px; -fx-background-color:                    white; -fx-background-radius: 12px;">
+          <cursor>
+            <Cursor fx:constant="TEXT" />
+          </cursor>
+          <font>
+            <Font size="14.0" />
+          </font>
+          <padding>
+            <Insets left="15.0" right="15.0" />
+          </padding>
+        </TextField>
+        <TextField fx:id="txtType" prefHeight="32.0" prefWidth="174.0" promptText="Type" style="-fx-border-color: #727374; -fx-border-radius: 12px; -fx-background-color:                    white; -fx-background-radius: 12px;">
+          <cursor>
+            <Cursor fx:constant="TEXT" />
+          </cursor>
+          <font>
+            <Font size="14.0" />
+          </font>
+          <padding>
+            <Insets left="15.0" right="15.0" />
+          </padding>
+        </TextField>
+      </children>
+    </HBox>
+    <HBox layoutX="32.0" layoutY="208.0" spacing="10.0">
+      <children>
+        <TextField fx:id="txtPublisher" prefHeight="32.0" prefWidth="252.0" promptText="Publisher " style="-fx-border-color: #727374; -fx-border-radius: 12px; -fx-background-color:                    white; -fx-background-radius: 12px;">
+          <cursor>
+            <Cursor fx:constant="TEXT" />
+          </cursor>
+          <font>
+            <Font size="14.0" />
+          </font>
+          <padding>
+            <Insets left="15.0" right="15.0" />
+          </padding>
+        </TextField>
+            <DatePicker fx:id="publishedDatePicker" editable="false" prefHeight="32.0" prefWidth="176.0" promptText="Published Date*" style="-fx-background-color: #fff; -fx-font-size: 14px;" />
+      </children>
+    </HBox>
+    <HBox layoutX="32.0" layoutY="255.0" spacing="10.0">
+      <children>
+        <TextField fx:id="txtCoverURL" prefHeight="32.0" prefWidth="252.0" promptText="Cover Photo URL*" style="-fx-border-color: #727374; -fx-border-radius: 12px; -fx-background-color:                    white; -fx-background-radius: 12px;">
+          <cursor>
+            <Cursor fx:constant="TEXT" />
+          </cursor>
+          <font>
+            <Font size="14.0" />
+          </font>
+          <padding>
+            <Insets left="15.0" right="15.0" />
+          </padding>
+        </TextField>
+            <Spinner fx:id="quantitySpinner" prefHeight="32.0" prefWidth="174.0" style="-fx-background-color: #fff; -fx-font-size: 14px;" />
+      </children>
+    </HBox>
+    <JFXButton fx:id="cancelButton" layoutX="33.0" layoutY="338.0" onAction="#cancelButtonOnAction" prefHeight="41.0" prefWidth="200.0" style="-fx-background-radius: 10;" text=" ">
+      <cursor>
+        <Cursor fx:constant="HAND" />
+      </cursor>
+    </JFXButton>
+    <JFXButton fx:id="addButton" layoutX="268.0" layoutY="338.0" onAction="#addButtonOnAction" prefHeight="41.0" prefWidth="200.0" style="-fx-background-radius: 10;" text=" " textFill="WHITE">
+      <cursor>
+        <Cursor fx:constant="HAND" />
+      </cursor>
+      <effect>
+        <Reflection fraction="0.28" />
+      </effect>
+    </JFXButton>
+    <Label fx:id="notificationLabel" alignment="CENTER" layoutX="32.0" layoutY="305.0" opacity="0.0" prefHeight="20.0" prefWidth="431.0" text="Book added successfully!" textAlignment="CENTER" textFill="#08a80d">
+      <font>
+        <Font name="System Italic" size="14.0" />
+      </font>
+      <effect>
+        <Lighting>
+          <bumpInput>
+            <Shadow />
+          </bumpInput>
+          <light>
+            <Light.Distant />
+          </light>
+        </Lighting>
+      </effect>
+    </Label>
+  </children>
+</Pane>

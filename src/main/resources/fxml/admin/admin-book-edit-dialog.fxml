@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.Light.Distant?>
+<?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.effect.Shadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<Pane fx:id="container" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="476.0" prefWidth="840.0" style="-fx-background-color: white; -fx-background-radius: 10;" stylesheets="@../../style/update-book-dialog.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.libmgmt.view.controller.admin.AdminBookEditDialogController">
+  <children>
+    <Pane layoutX="32.0" layoutY="19.0" prefHeight="45.0" prefWidth="45.0" style="-fx-background-color: #D7D7D7; -fx-background-radius: 10;">
+      <children>
+        <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="9.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
+          <image>
+            <Image url="@../../assets/icon/103514_edit_text_document_icon.png" />
+          </image>
+        </ImageView>
+      </children>
+    </Pane>
+    <Label layoutX="89.0" layoutY="28.0" prefHeight="27.0" prefWidth="152.0" text="Update Book Info">
+      <font>
+        <Font size="18.0" />
+      </font>
+    </Label>
+    <Line endX="671.0" layoutX="135.0" layoutY="85.0" startX="-100.0" />
+    <Pane layoutX="783.0" layoutY="29.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-radius: 10;">
+      <children>
+        <JFXButton fx:id="closeDialogButton" alignment="CENTER" contentDisplay="CENTER" minHeight="24.0" minWidth="24.0" onAction="#closeButtonOnAction" prefHeight="24.0" prefWidth="24.0" text=" " textAlignment="CENTER">
+          <cursor>
+            <Cursor fx:constant="HAND" />
+          </cursor>
+               <graphic>
+            <ImageView fx:id="imgClose" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+              <image>
+                <Image url="@../../assets/icon/close-square%201.png" />
+              </image>
+            </ImageView>
+               </graphic>
+        </JFXButton>
+      </children>
+    </Pane>
+    <HBox fx:id="basicInfoContainer" alignment="CENTER_RIGHT" layoutX="155.0" layoutY="117.0" prefHeight="254.0" prefWidth="653.0" style="-fx-background-radius: 12px; -fx-border-color: #d7d7d7; -fx-border-radius: 12px;">
+      <children>
+        <VBox alignment="CENTER" prefHeight="252.0" prefWidth="355.0">
+          <HBox.margin>
+            <Insets left="20.0" />
+          </HBox.margin>
+          <children>
+            <VBox layoutX="10.0" layoutY="113.0" prefHeight="55.0" prefWidth="285.0">
+              <children>
+                <HBox alignment="BOTTOM_LEFT" prefHeight="37.0" prefWidth="269.0">
+                  <VBox.margin>
+                    <Insets left="5.0" />
+                  </VBox.margin>
+                  <children>
+                    <Label text="Name : ">
+                      <font>
+                        <Font size="15.0" />
+                      </font>
+                    </Label>
+                    <TextField fx:id="nameTextField" alignment="BOTTOM_LEFT" maxHeight="37.0" prefHeight="37.0" prefWidth="243.0" promptText="Name Book">
+                      <font>
+                        <Font size="15.0" />
+                      </font>
+                    </TextField>
+                  </children>
+                </HBox>
+                <Line endX="200.0" opacity="0.52" startX="-100.0" />
+              </children>
+            </VBox>
+            <VBox layoutX="10.0" layoutY="140.0" prefHeight="55.0" prefWidth="233.0">
+              <children>
+                <HBox alignment="BOTTOM_LEFT">
+                  <VBox.margin>
+                    <Insets left="5.0" />
+                  </VBox.margin>
+                  <children>
+                    <Label text="Author : ">
+                      <font>
+                        <Font size="15.0" />
+                      </font>
+                    </Label>
+                    <TextField fx:id="authorTextField" alignment="BOTTOM_LEFT" maxHeight="37.0" prefHeight="37.0" prefWidth="239.0" promptText="Thomas Edison">
+                      <font>
+                        <Font size="15.0" />
+                      </font>
+                    </TextField>
+                  </children>
+                </HBox>
+                <Line endX="200.0" opacity="0.52" startX="-100.0" />
+              </children>
+            </VBox>
+            <VBox layoutX="10.0" layoutY="168.0" prefHeight="55.0" prefWidth="233.0">
+              <children>
+                <HBox alignment="BOTTOM_LEFT">
+                  <VBox.margin>
+                    <Insets left="5.0" />
+                  </VBox.margin>
+                  <children>
+                    <Label text="Publisher : ">
+                      <font>
+                        <Font size="15.0" />
+                      </font>
+                    </Label>
+                    <TextField fx:id="publisherTextField" alignment="BOTTOM_LEFT" maxHeight="37.0" prefHeight="37.0" prefWidth="222.0" promptText="NXB Kim Dong">
+                      <font>
+                        <Font size="15.0" />
+                      </font>
+                    </TextField>
+                  </children>
+                </HBox>
+                <Line endX="200.0" opacity="0.52" startX="-100.0" />
+              </children>
+            </VBox>
+          </children>
+        </VBox>
+        <Line endX="-101.44975280761719" endY="181.2928924560547" layoutX="232.0" layoutY="53.0" opacity="0.55" startX="-101.449951171875" startY="-26.19239044189453" />
+        <VBox alignment="CENTER" prefHeight="252.0" prefWidth="303.0">
+          <HBox.margin>
+            <Insets left="20.0" right="10.0" />
+          </HBox.margin>
+          <children>
+            <VBox prefHeight="55.0" prefWidth="228.0">
+              <children>
+                <HBox alignment="BOTTOM_LEFT" prefHeight="36.0" prefWidth="258.0">
+                  <VBox.margin>
+                    <Insets left="5.0" />
+                  </VBox.margin>
+                  <children>
+                    <Label prefHeight="25.0" prefWidth="116.0" text="Published Date : ">
+                      <font>
+                        <Font size="15.0" />
+                      </font>
+                    </Label>
+                              <DatePicker fx:id="publishedDatePicker" editable="false" minHeight="37.0" prefHeight="36.0" prefWidth="150.0" style="-fx-padding: 10 0 0 0; -fx-font-size: 15; -fx-background-color: #fff;" />
+                  </children>
+                </HBox>
+                <Line endX="170.0" opacity="0.47" startX="-100.0" />
+              </children>
+              <VBox.margin>
+                <Insets />
+              </VBox.margin>
+            </VBox>
+            <HBox alignment="CENTER_LEFT" spacing="10.0" />
+            <VBox layoutX="10.0" layoutY="111.0" prefHeight="55.0" prefWidth="228.0">
+              <children>
+                <HBox alignment="BOTTOM_LEFT">
+                  <VBox.margin>
+                    <Insets left="5.0" />
+                  </VBox.margin>
+                  <children>
+                    <Label prefHeight="25.0" prefWidth="46.0" text="Type : ">
+                      <font>
+                        <Font size="15.0" />
+                      </font>
+                    </Label>
+                    <TextField fx:id="typeTextField" alignment="BOTTOM_LEFT" maxHeight="37.0" prefHeight="37.0" prefWidth="180.0" promptText="Education">
+                      <font>
+                        <Font size="15.0" />
+                      </font>
+                    </TextField>
+                  </children>
+                </HBox>
+                <Line endX="170.0" opacity="0.47" startX="-100.0" />
+              </children>
+            </VBox>
+            <VBox layoutX="10.0" layoutY="136.0" prefHeight="55.0" prefWidth="228.0">
+              <children>
+                <HBox alignment="BOTTOM_LEFT">
+                  <VBox.margin>
+                    <Insets left="5.0" />
+                  </VBox.margin>
+                  <children>
+                    <Label prefHeight="25.0" prefWidth="73.0" text="Quantity : ">
+                      <font>
+                        <Font size="15.0" />
+                      </font>
+                    </Label>
+                              <Spinner fx:id="quantitySpinner" prefHeight="25.0" prefWidth="193.0" style="-fx-background-color: #fff; -fx-border-color: #fff;">
+                                 <HBox.margin>
+                                    <Insets top="12.0" />
+                                 </HBox.margin></Spinner>
+                  </children>
+                </HBox>
+                <Line endX="170.0" opacity="0.47" startX="-100.0" />
+              </children>
+            </VBox>
+          </children>
+        </VBox>
+      </children>
+    </HBox>
+    <Pane fx:id="bookCoverContainer" layoutX="155.0" layoutY="117.0" prefHeight="254.0" prefWidth="591.0" style="-fx-background-radius: 12px; -fx-border-color: #d7d7d7; -fx-border-radius: 12px;" visible="false">
+      <children>
+        <ImageView fx:id="bookCoverImage" fitHeight="138.0" fitWidth="110.0" layoutX="22.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true">
+               <effect>
+                  <DropShadow blurType="GAUSSIAN" height="28.0" radius="13.5" spread="0.1" width="28.0" />
+               </effect>
+               <image>
+                  <Image url="@../../assets/img/images.jpg" />
+               </image>
+        </ImageView>
+        <TextField fx:id="imgUrlTextField" layoutX="142.0" layoutY="47.0" prefHeight="40.0" prefWidth="394.0" promptText="Enter book cover URL" styleClass="image-link">
+          <font>
+            <Font size="15.0" />
+          </font>
+        </TextField>
+        <HBox alignment="CENTER" layoutX="142.0" layoutY="135.0" prefWidth="394.0" spacing="100.0">
+          <children>
+            <JFXButton fx:id="uploadButton" onAction="#uploadButtonOnAction" prefHeight="30.0" prefWidth="130.0" styleClass="btn" text="Preview">
+              <font>
+                <Font size="15.0" />
+              </font>
+            </JFXButton>
+          </children>
+        </HBox>
+        <Label fx:id="bookCoverLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="143.0" layoutY="104.0" opacity="0.0" prefHeight="20.0" prefWidth="394.0" text="Label">
+          <font>
+            <Font name="System Italic" size="15.0" />
+          </font>
+          <effect>
+            <Lighting>
+              <bumpInput>
+                <Shadow />
+              </bumpInput>
+              <light>
+                <Light.Distant />
+              </light>
+            </Lighting>
+          </effect>
+        </Label>
+        <VBox alignment="CENTER" layoutX="22.0" layoutY="2.0" prefHeight="252.0" prefWidth="110.0">
+          <children>
+            <ImageView fx:id="qrCodeImage" fitHeight="138.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true" visible="false">
+              <effect>
+                <Lighting diffuseConstant="1.28" specularConstant="0.25">
+                  <bumpInput>
+                    <Shadow />
+                  </bumpInput>
+                  <light>
+                    <Light.Distant />
+                  </light>
+                </Lighting>
+              </effect>
+            </ImageView>
+          </children>
+        </VBox>
+        <TextField fx:id="qrCodeTextField" layoutX="142.0" layoutY="47.0" prefHeight="40.0" prefWidth="394.0" promptText="Enter QR code URL" styleClass="image-link" visible="false">
+          <font>
+            <Font size="15.0" />
+          </font>
+        </TextField>
+        <HBox alignment="CENTER" layoutX="143.0" layoutY="186.0" prefHeight="55.0" prefWidth="394.0" spacing="10.0">
+          <children>
+            <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+              <image>
+                <Image url="@../../assets/icon/7106357_graph_attention_data_infographic_element_icon.png" />
+              </image>
+            </ImageView>
+            <Label prefHeight="55.0" prefWidth="307.0" text="The image file must have one of the following extensions: .jpg, .jpeg, .png, .gif, .bmp, .svg." wrapText="true">
+              <font>
+                <Font name="System Italic" size="15.0" />
+              </font>
+              <effect>
+                <Lighting>
+                  <bumpInput>
+                    <Shadow />
+                  </bumpInput>
+                  <light>
+                    <Light.Distant />
+                  </light>
+                </Lighting>
+              </effect>
+            </Label>
+          </children>
+        </HBox>
+      </children>
+    </Pane>
+    <Pane layoutX="32.0" layoutY="117.0" prefHeight="254.0" prefWidth="115.0" style="-fx-background-color: black; -fx-background-radius: 0 12 12 0;">
+      <children>
+        <VBox alignment="CENTER" prefHeight="252.0" prefWidth="115.0" spacing="20.0">
+          <padding>
+            <Insets bottom="20.0" top="20.0" />
+          </padding>
+               <children>
+                  <JFXButton fx:id="basicInfoButton" alignment="CENTER" onAction="#basicInfoButtonOnAction" prefHeight="40.0" prefWidth="132.0" style="-fx-background-color: #fff; -fx-background-radius: 0;" text="Basic Info">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </JFXButton>
+                  <JFXButton fx:id="bookCoverButton" alignment="CENTER" layoutX="42.0" layoutY="124.0" onAction="#bookCoverButtonOnAction" prefHeight="40.0" prefWidth="119.0" text="Book Cover" textFill="WHITE">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </JFXButton>
+                  <JFXButton fx:id="qrCodeButton" alignment="CENTER" layoutX="42.0" layoutY="146.0" onAction="#qrCodeButtonOnAction" prefHeight="40.0" prefWidth="118.0" text="QR Code" textFill="WHITE">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </JFXButton>
+               </children>
+        </VBox>
+      </children>
+    </Pane>
+    <Pane fx:id="updatePane" layoutX="320.0" layoutY="421.0" prefHeight="41.0" prefWidth="200.0" style="-fx-background-color: black; -fx-background-radius: 10;">
+      <children>
+        <Label alignment="CENTER" contentDisplay="CENTER" layoutY="8.0" prefHeight="25.0" prefWidth="200.0" text="UPDATE" textFill="WHITE">
+          <font>
+            <Font name="System Bold" size="16.0" />
+          </font>
+        </Label>
+      </children>
+    </Pane>
+    <JFXButton fx:id="updateButton" layoutX="320.0" layoutY="421.0" onAction="#updateButtonOnAction" prefHeight="41.0" prefWidth="200.0" style="-fx-background-radius: 10;" text=" " textFill="WHITE">
+      <cursor>
+        <Cursor fx:constant="HAND" />
+      </cursor>
+    </JFXButton>
+    <Label fx:id="notificationLabel" alignment="CENTER" contentDisplay="CENTER" layoutY="384.0" opacity="0.0" prefHeight="21.0" prefWidth="840.0" text="Update successfully!" textAlignment="CENTER" textFill="#08a80d">
+      <font>
+        <Font name="System Italic" size="15.0" />
+      </font>
+      <effect>
+        <Lighting>
+          <bumpInput>
+            <Shadow />
+          </bumpInput>
+          <light>
+            <Light.Distant />
+          </light>
+        </Lighting>
+      </effect>
+    </Label>
+  </children>
+</Pane>

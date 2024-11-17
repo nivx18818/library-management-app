@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Light.Distant?>
+<?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.effect.Shadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<Pane fx:id="container" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="692.0" style="-fx-background-color: white; -fx-background-radius: 10;" stylesheets="@../../style/update-book-dialog.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.libmgmt.view.controller.admin.AdminUsersEditDialogController">
+  <children>
+    <Pane layoutX="32.0" layoutY="19.0" prefHeight="45.0" prefWidth="45.0" style="-fx-background-color: #D7D7D7; -fx-background-radius: 10;">
+      <children>
+        <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="8.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
+          <image>
+            <Image url="@../../assets/icon/user%201.png" />
+          </image>
+        </ImageView>
+      </children>
+    </Pane>
+    <Label layoutX="89.0" layoutY="28.0" prefHeight="25.0" prefWidth="87.0" text="User Edit">
+      <font>
+        <Font size="18.0" />
+      </font>
+    </Label>
+    <Line endX="517.0" layoutX="135.0" layoutY="85.0" startX="-100.0" />
+    <JFXButton fx:id="closeDialogButton" alignment="CENTER" contentDisplay="CENTER" layoutX="630.0" layoutY="30.0" minHeight="24.0" minWidth="24.0" onAction="#closeButtonOnAction" prefHeight="24.0" prefWidth="24.0" text=" " textAlignment="CENTER">
+      <cursor>
+        <Cursor fx:constant="HAND" />
+      </cursor>
+      <graphic>
+        <ImageView fx:id="imgClose" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+          <image>
+            <Image url="@../../assets/icon/close-square%201.png" />
+          </image>
+        </ImageView>
+      </graphic>
+    </JFXButton>
+    <Pane layoutX="247.0" layoutY="425.0" prefHeight="41.0" prefWidth="200.0" style="-fx-background-color: #000; -fx-background-radius: 10;">
+      <children>
+        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="57.0" layoutY="8.0" prefHeight="25.0" prefWidth="87.0" text="UPDATE" textFill="WHITE">
+          <font>
+            <Font name="System Bold" size="16.0" />
+          </font>
+        </Label>
+      </children>
+    </Pane>
+    <Pane layoutX="34.0" layoutY="117.0" prefHeight="254.0" prefWidth="620.0" style="-fx-background-radius: 10px; -fx-border-color: #dddddd; -fx-border-radius: 10px;">
+      <children>
+        <HBox alignment="CENTER_LEFT" prefHeight="254.0" prefWidth="620.0" style="-fx-background-radius: 10px;">
+          <children>
+            <VBox alignment="CENTER" prefHeight="254.0" prefWidth="414.0" spacing="28.0">
+              <HBox.margin>
+                <Insets left="20.0" />
+              </HBox.margin>
+              <children>
+                <VBox prefHeight="0.0" prefWidth="414.0">
+                  <children>
+                    <HBox alignment="CENTER_LEFT" spacing="10.0">
+                      <VBox.margin>
+                        <Insets left="5.0" />
+                      </VBox.margin>
+                      <children>
+                        <Label text="ID :">
+                          <font>
+                            <Font size="15.0" />
+                          </font>
+                        </Label>
+                        <TextField fx:id="idTextField" editable="false" opacity="0.73" prefWidth="346.0">
+                          <font>
+                            <Font size="15.0" />
+                          </font>
+                        </TextField>
+                      </children>
+                    </HBox>
+                    <Line endX="280.0" opacity="0.52" startX="-100.0" />
+                  </children>
+                </VBox>
+                <VBox prefHeight="0.0" prefWidth="414.0">
+                  <children>
+                    <HBox alignment="CENTER_LEFT" spacing="10.0">
+                      <VBox.margin>
+                        <Insets left="5.0" />
+                      </VBox.margin>
+                      <children>
+                        <Label text="Full name :">
+                          <font>
+                            <Font size="15.0" />
+                          </font>
+                        </Label>
+                        <TextField fx:id="nameTextField" prefWidth="298.0">
+                          <font>
+                            <Font size="15.0" />
+                          </font>
+                        </TextField>
+                      </children>
+                    </HBox>
+                    <Line endX="280.0" opacity="0.52" startX="-100.0" />
+                  </children>
+                </VBox>
+                <VBox prefWidth="414.0">
+                  <children>
+                    <HBox alignment="CENTER_LEFT" prefHeight="23.0" prefWidth="409.0" spacing="10.0" VBox.vgrow="ALWAYS">
+                      <VBox.margin>
+                        <Insets left="5.0" />
+                      </VBox.margin>
+                      <children>
+                        <Label fx:id="majorLabel" text="Major :" visible="false">
+                          <font>
+                            <Font size="15.0" />
+                          </font>
+                        </Label>
+                        <JFXComboBox fx:id="majorComboBox" focusColor="WHITE" prefWidth="320.0" unFocusColor="WHITE" visible="false" visibleRowCount="7" HBox.hgrow="ALWAYS">
+                          <HBox.margin>
+                            <Insets />
+                          </HBox.margin>
+                        </JFXComboBox>
+                      </children>
+                    </HBox>
+                    <Line endX="280.0" opacity="0.52" startX="-100.0" />
+                  </children>
+                </VBox>
+                <VBox prefHeight="16.0" prefWidth="414.0">
+                  <children>
+                    <HBox alignment="CENTER_LEFT" spacing="10.0">
+                      <VBox.margin>
+                        <Insets left="5.0" />
+                      </VBox.margin>
+                      <children>
+                        <Label text="Email :">
+                          <font>
+                            <Font size="15.0" />
+                          </font>
+                        </Label>
+                        <TextField fx:id="emailTextField" prefWidth="323.0">
+                          <font>
+                            <Font size="15.0" />
+                          </font>
+                        </TextField>
+                      </children>
+                    </HBox>
+                    <Line endX="280.0" opacity="0.52" startX="-100.0" />
+                  </children>
+                </VBox>
+              </children>
+            </VBox>
+            <Line endX="-101.44975280761719" endY="181.2928924560547" layoutX="232.0" layoutY="53.0" opacity="0.55" startX="-101.449951171875" startY="-26.19239044189453" />
+            <Pane prefHeight="238.0" prefWidth="164.0">
+              <children>
+                <Label alignment="CENTER" layoutY="101.0" prefHeight="25.0" prefWidth="164.0" text="User Type">
+                  <font>
+                    <Font name="System Italic" size="16.0" />
+                  </font>
+                </Label>
+                <Label fx:id="userTypeLabel" alignment="CENTER" layoutY="132.0" prefHeight="25.0" prefWidth="164.0" text="External Borrowed" textAlignment="CENTER">
+                  <font>
+                    <Font size="16.0" />
+                  </font>
+                  <effect>
+                    <Lighting>
+                      <bumpInput>
+                        <Shadow />
+                      </bumpInput>
+                      <light>
+                        <Light.Distant />
+                      </light>
+                    </Lighting>
+                  </effect>
+                </Label>
+              </children>
+            </Pane>
+          </children>
+          <padding>
+            <Insets left="10.0" right="10.0" />
+          </padding>
+        </HBox>
+      </children>
+    </Pane>
+    <Label fx:id="notificationLabel" alignment="CENTER" layoutX="1.0" layoutY="388.0" opacity="0.0" prefHeight="21.0" prefWidth="692.0" text="Updated Successfully!">
+      <font>
+        <Font name="System Italic" size="15.0" />
+      </font>
+      <effect>
+        <Lighting>
+          <bumpInput>
+            <Shadow />
+          </bumpInput>
+          <light>
+            <Light.Distant />
+          </light>
+        </Lighting>
+      </effect>
+    </Label>
+    <Label fx:id="phoneNumberLabel" layoutX="65.0" layoutY="260.0" text="Phone Number :" visible="false">
+      <font>
+        <Font size="15.0" />
+      </font>
+      <padding>
+        <Insets left="5.0" />
+      </padding>
+    </Label>
+    <TextField fx:id="phoneNumberTextField" layoutX="184.0" layoutY="258.0" prefHeight="23.0" prefWidth="260.0" visible="false">
+      <font>
+        <Font size="15.0" />
+      </font>
+    </TextField>
+    <JFXButton fx:id="updateButton" layoutX="247.0" layoutY="425.0" onAction="#updateButtonOnAction" prefHeight="41.0" prefWidth="200.0" style="-fx-background-radius: 10;" text=" " textFill="WHITE">
+      <cursor>
+        <Cursor fx:constant="HAND" />
+      </cursor>
+    </JFXButton>
+  </children>
+</Pane>

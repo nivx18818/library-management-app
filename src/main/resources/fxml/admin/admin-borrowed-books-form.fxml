@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Bloom?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<StackPane fx:id="stackPaneContainer" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.libmgmt.view.controller.admin.AdminBorrowedBooksLayoutController">
+  <children>
+    <Pane fx:id="catalogContainer" prefHeight="670.0" prefWidth="1132.0" style="-fx-background-color: #F2F2F2;">
+      <children>
+        <Pane fx:id="borrowedBooksPane" layoutX="14.0" layoutY="23.0" prefHeight="30.0" prefWidth="170.0" style="-fx-background-color: black; -fx-background-radius: 12px;">
+          <children>
+            <Label fx:id="borrowedBooksLabel" alignment="CENTER" prefHeight="30.0" prefWidth="170.0" text="Borrowed Books" textAlignment="CENTER" textFill="WHITE">
+              <font>
+                <Font size="14.0" />
+              </font>
+              <effect>
+                <Bloom />
+              </effect>
+            </Label>
+            <JFXButton fx:id="borrowedBooksButton" onAction="#btnOverdueBorrowersOnAction" prefHeight="30.0" prefWidth="170.0" style="-fx-background-radius: 12px;" text=" ">
+              <cursor>
+                <Cursor fx:constant="HAND" />
+              </cursor>
+            </JFXButton>
+          </children>
+        </Pane>
+        <Pane fx:id="overdueBorrowersPane" layoutX="194.0" layoutY="23.0" prefHeight="30.0" prefWidth="170.0" style="-fx-background-color: #e3e3e3; -fx-background-radius: 12px;">
+          <children>
+            <Label fx:id="overdueBorrowersLabel" alignment="CENTER" prefHeight="30.0" prefWidth="170.0" text="Overdue Borrowers" textAlignment="CENTER">
+              <font>
+                <Font size="14.0" />
+              </font>
+              <effect>
+                <Bloom />
+              </effect>
+            </Label>
+            <JFXButton fx:id="overdueBorrowersButton" onAction="#btnOverdueBorrowersOnAction" prefHeight="30.0" prefWidth="170.0" style="-fx-background-radius: 12px;" text=" ">
+              <cursor>
+                <Cursor fx:constant="HAND" />
+              </cursor>
+            </JFXButton>
+          </children>
+        </Pane>
+        <Pane layoutX="14.0" layoutY="70.0" prefHeight="588.0" prefWidth="1101.0" style="-fx-background-color: white; -fx-background-radius: 12px;">
+          <children>
+            <Line endX="1000.0" layoutX="90.0" layoutY="40.0" startX="-74.0" />
+            <HBox alignment="CENTER_LEFT" layoutX="13.0" prefHeight="45.0" prefWidth="1080.0" spacing="30.0">
+              <children>
+                <Label alignment="CENTER" prefHeight="14.0" prefWidth="150.0" text="Name">
+                  <font>
+                    <Font size="13.0" />
+                  </font>
+                </Label>
+                <Label alignment="CENTER" layoutX="10.0" layoutY="30.0" prefHeight="14.0" prefWidth="120.0" text="ID">
+                  <font>
+                    <Font size="13.0" />
+                  </font>
+                </Label>
+                <Label alignment="CENTER" layoutX="27.0" layoutY="30.0" prefHeight="14.0" prefWidth="100.0" text="Amount">
+                  <font>
+                    <Font size="13.0" />
+                  </font>
+                </Label>
+                <Label alignment="CENTER" layoutX="45.0" layoutY="30.0" prefHeight="14.0" prefWidth="170.0" text="Due Date">
+                  <font>
+                    <Font size="13.0" />
+                  </font>
+                </Label>
+                <Label alignment="CENTER" layoutX="62.0" layoutY="30.0" prefHeight="14.0" prefWidth="170.0" text="Borrowed Date">
+                  <font>
+                    <Font size="13.0" />
+                  </font>
+                </Label>
+                <Label alignment="CENTER" layoutX="79.0" layoutY="30.0" prefHeight="14.0" prefWidth="150.0" text="Action">
+                  <font>
+                    <Font size="13.0" />
+                  </font>
+                </Label>
+              </children>
+              <padding>
+                <Insets left="30.0" right="30.0" />
+              </padding>
+              <effect>
+                <Bloom />
+              </effect>
+            </HBox>
+            <ScrollPane hbarPolicy="NEVER" layoutY="43.0" prefHeight="546.0" prefWidth="1101.0" style="-fx-background-color: white;">
+              <content>
+                <VBox fx:id="vBoxBorrowedBooks" alignment="TOP_CENTER" prefHeight="546.0" prefWidth="1105.0" style="-fx-background-color: white;" />
+              </content>
+            </ScrollPane>
+            <Pane layoutX="1087.0" layoutY="42.0" prefHeight="547.0" prefWidth="13.0" style="-fx-background-color: white;" />
+          </children>
+        </Pane>
+        <Pane fx:id="searchPane" layoutX="773.0" layoutY="23.0" prefHeight="30.0" prefWidth="299.0" style="-fx-background-color: white; -fx-background-radius: 12;">
+          <children>
+            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="14.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+              <image>
+                <Image url="@../../assets/icon/search-normal.png" />
+              </image>
+              <effect>
+                <Bloom threshold="0.31" />
+              </effect>
+            </ImageView>
+            <TextField fx:id="textSearch" layoutX="37.0" onAction="#txtSearchOnAction" prefHeight="30.0" prefWidth="203.0" promptText="Search by Name / ID" style="-fx-background-color: white; -fx-background-radius: 0 12 12 0;">
+              <font>
+                <Font size="13.0" />
+              </font>
+            </TextField>
+          </children>
+        </Pane>
+        <Pane fx:id="refreshPaneButton" layoutX="1085.0" layoutY="23.0" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: white; -fx-background-radius: 12px;">
+          <children>
+            <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="3.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
+              <image>
+                <Image url="@../../assets/icon/R.png" />
+              </image>
+            </ImageView>
+            <JFXButton onAction="#btnRefreshTableOnAction" prefHeight="30.0" prefWidth="30.0" style="-fx-background-radius: 12px;" text=" ">
+              <font>
+                <Font size="16.0" />
+              </font>
+              <cursor>
+                <Cursor fx:constant="HAND" />
+              </cursor>
+            </JFXButton>
+          </children>
+        </Pane>
+      </children>
+    </Pane>
+  </children>
+</StackPane>
