@@ -38,9 +38,7 @@ public class UserDashboardController {
     @FXML
     public void initialize() {
         System.out.println("User Dashboard initialized");
-
-        AnimationUtils.fadeInRight(stackPaneContainer, 1);
-
+        
         setPieChart();
     }
 
@@ -59,7 +57,6 @@ public class UserDashboardController {
         pieChart.setClockwise(true);
     }
 
-    @SuppressWarnings("exports")
     public ObservableList<PieChart.Data> addPieChartData() {
         int totalBorrowedBooks = getTotalBorrowedBooks();
         double percentageBorrowed = 0;

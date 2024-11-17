@@ -7,8 +7,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import app.libmgmt.util.AnimationUtils;
+import app.libmgmt.util.ChangeScene;
 // import app.libmgmt.util.ChangeScene;
 import app.libmgmt.util.EnumUtils;
+import app.libmgmt.util.EnumUtils.UserType;
 
 import java.io.IOException;
 import java.util.logging.Logger;
@@ -43,7 +45,7 @@ public class UserNavigationController {
     }
 
     // Handles the click effect for navigation buttons
-    public void handleEffectButtonClicked(@SuppressWarnings("exports") JFXButton button) {
+    public void handleEffectButtonClicked(JFXButton button) {
         latestButtonClicked = getButtonType(button);
         resetButtonStylesToDefault();
         updateButtonStyle();
@@ -99,12 +101,12 @@ public class UserNavigationController {
     // Navigation button click handlers
     @FXML
     public void dashboardButtonClicked(MouseEvent event) throws IOException {
-//        handleNavigation(EnumUtils.NavigationButton.DASHBOARD, "admin-dashboard.fxml", dashboardButton);
+       handleNavigation(EnumUtils.NavigationButton.DASHBOARD, "user-dashboard.fxml", dashboardButton);
     }
 
     @FXML
     public void catalogButtonClicked(MouseEvent event) throws IOException {
-//        handleNavigation(EnumUtils.NavigationButton.CATALOG, "admin-borrowed-books-form.fxml", catalogButton);
+       handleNavigation(EnumUtils.NavigationButton.CATALOG, "user-catalog-form.fxml", catalogButton);
     }
 
     @FXML
@@ -120,9 +122,9 @@ public class UserNavigationController {
     }
 
     // Handles the navigation between scenes
-    // private void handleNavigation(EnumUtils.NavigationButton buttonType, String fxmlFile, JFXButton button) throws IOException {
-    //     if (latestButtonClicked == buttonType) return;
-    //     ChangeScene.navigateToScene(fxmlFile);
-    //     handleEffectButtonClicked(button);
-    // }
+    private void handleNavigation(EnumUtils.NavigationButton buttonType, String fxmlFile, JFXButton button) throws IOException {
+        if (latestButtonClicked == buttonType) return;
+        ChangeScene.navigateToScene(fxmlFile, UserType.STUDENT);
+        handleEffectButtonClicked(button);
+    }
 }
