@@ -8,6 +8,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+
 import app.libmgmt.util.AnimationUtils;
 import app.libmgmt.util.ChangeScene;
 import app.libmgmt.util.DateTimeUtils;
@@ -61,8 +62,8 @@ public class AdminHeaderController {
 
     // Initializes and continuously updates the current date and time in the header
     private void initializeDateAndTime() {
-        updateDateAndTime();  // Initial update of date and time
-        startClock();          // Start the clock to continuously update time
+        updateDateAndTime(); // Initial update of date and time
+        startClock(); // Start the clock to continuously update time
     }
 
     // Updates the current date and time in the header
@@ -72,7 +73,8 @@ public class AdminHeaderController {
         DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.DEFAULT, locale);
 
         LocalDateTime currentTime = LocalDateTime.now();
-        String formattedTime = timeFormatter.format(currentTime.toLocalTime()) + (currentTime.getHour() < 12 ? " AM" : " PM");
+        String formattedTime = timeFormatter.format(currentTime.toLocalTime())
+                + (currentTime.getHour() < 12 ? " AM" : " PM");
         String formattedDate = dateFormat.format(new Date());
 
         timeText.setText(formattedTime);
@@ -87,7 +89,8 @@ public class AdminHeaderController {
 
         Timeline clock = new Timeline(new KeyFrame(Duration.ZERO, e -> {
             LocalDateTime currentTime = LocalDateTime.now();
-            String formattedTime = timeFormatter.format(currentTime.toLocalTime()) + (currentTime.getHour() < 12 ? " AM" : " PM");
+            String formattedTime = timeFormatter.format(currentTime.toLocalTime())
+                    + (currentTime.getHour() < 12 ? " AM" : " PM");
             String formattedDate = dateFormat.format(new Date());
 
             timeText.setText(formattedTime);
@@ -108,8 +111,7 @@ public class AdminHeaderController {
     private void openSettingsDialog() {
         ChangeScene.openAdminPopUp(
                 AdminGlobalController.getInstance().getStackPaneContainer(),
-                "/fxml/change-credentials-dialog.fxml"
-        );
+                "/fxml/change-credentials-dialog.fxml");
     }
 
 }

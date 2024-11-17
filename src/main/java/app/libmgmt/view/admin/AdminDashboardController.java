@@ -11,6 +11,7 @@ import javafx.scene.chart.PieChart;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+
 import app.libmgmt.util.DateTimeUtils;
 
 import java.io.IOException;
@@ -73,10 +74,12 @@ public class AdminDashboardController {
         ObservableList<PieChart.Data> pieChartData = addPieChartData();
         pieChart.getData().clear();
         pieChart.getData().addAll(pieChartData);
+
         if (pieChart.getData().size() >= 2) {
             pieChart.getData().get(0).getNode().setStyle("-fx-pie-color: #3D3E3E;");
             pieChart.getData().get(1).getNode().setStyle("-fx-pie-color: #151619;");
         }
+
         pieChart.setLabelLineLength(0);
         pieChart.setLabelsVisible(false);
         pieChart.setLegendVisible(false);
@@ -86,9 +89,11 @@ public class AdminDashboardController {
 
     public int getTotalBorrowedBooks() {
         int res = 0;
+
         for (String[] data : borrowedBooksData) {
             res += Integer.parseInt(data[2]);
         }
+
         return res;
     }
 
@@ -109,6 +114,7 @@ public class AdminDashboardController {
                         Thread.sleep(50);
                     }
                 }
+
                 return null;
             }
 
@@ -141,6 +147,7 @@ public class AdminDashboardController {
             controller.setData(idText, uidText);
 
             vBoxOverdue.getChildren().add(scene);
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -157,6 +164,7 @@ public class AdminDashboardController {
             controller.setData(name, email);
 
             vBoxAdmin.getChildren().add(scene);
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

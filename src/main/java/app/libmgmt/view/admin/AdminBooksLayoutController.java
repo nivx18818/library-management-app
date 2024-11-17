@@ -12,6 +12,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+
 import app.libmgmt.util.AnimationUtils;
 import app.libmgmt.util.ChangeScene;
 

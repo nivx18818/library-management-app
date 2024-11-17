@@ -1,13 +1,14 @@
 package app.libmgmt.view.admin;
 
-import app.libmgmt.util.EnumUtils;
-import app.libmgmt.util.AnimationUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+
+import app.libmgmt.util.AnimationUtils;
+import app.libmgmt.util.EnumUtils;
 
 import java.util.ArrayList;
 import java.util.List;

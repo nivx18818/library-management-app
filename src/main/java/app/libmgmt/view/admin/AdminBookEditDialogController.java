@@ -1,9 +1,5 @@
 package app.libmgmt.view.admin;
 
-import app.libmgmt.util.AnimationUtils;
-import app.libmgmt.util.ChangeScene;
-import app.libmgmt.util.DateTimeUtils;
-import app.libmgmt.util.RegExPatterns;
 import com.jfoenix.controls.JFXButton;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -17,6 +13,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
+import app.libmgmt.util.AnimationUtils;
+import app.libmgmt.util.ChangeScene;
+import app.libmgmt.util.DateTimeUtils;
+import app.libmgmt.util.RegExPatterns;
 public class AdminBookEditDialogController {
 
     private static AdminBookEditDialogController controller;
@@ -152,11 +152,13 @@ public class AdminBookEditDialogController {
 
     private void showUpdateSuccessNotification() {
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.7), e -> updateButton.setDisable(true)));
+
         timeline.setOnFinished(e -> {
             notificationLabel.setText("Book updated successfully!");
             updateButton.setDisable(false);
             AnimationUtils.playNotificationTimeline(notificationLabel, 1, "#08a80d");
         });
+
         timeline.play();
     }
 

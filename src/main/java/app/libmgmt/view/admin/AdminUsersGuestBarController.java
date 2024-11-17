@@ -22,16 +22,19 @@ public class AdminUsersGuestBarController {
     @FXML
     public void initialize() {
         // Setup listener to handle updates in user data for GUEST type
-        AdminGlobalController.getInstance().getObservableUsersData(EnumUtils.UserType.GUEST).addListener((ListChangeListener<String[]>) change -> {
-            while (change.next()) {
-                if (change.wasReplaced() && change.getFrom() >= 0 && change.getFrom() < change.getList().size()) {
-                    String[] updatedUserData = change.getList().get(change.getFrom());
-                    if (idLabel.getText().equals(updatedUserData[4])) {
-                        setUpdateData(updatedUserData);
+        AdminGlobalController.getInstance().getObservableUsersData(EnumUtils.UserType.GUEST)
+                .addListener((ListChangeListener<String[]>) change -> {
+                    while (change.next()) {
+                        if (change.wasReplaced() && change.getFrom() >= 0
+                                && change.getFrom() < change.getList().size()) {
+                            String[] updatedUserData = change.getList().get(change.getFrom());
+
+                            if (idLabel.getText().equals(updatedUserData[4])) {
+                                setUpdateData(updatedUserData);
+                            }
+                        }
                     }
-                }
-            }
-        });
+                });
     }
 
     // Sets initial user data
@@ -52,8 +55,8 @@ public class AdminUsersGuestBarController {
 
     // Gets user data as an array
     public String[] getData() {
-        return new String[]{idLabel.getText(), nameLabel.getText(), phoneLabel.getText(),
-                emailLabel.getText()};
+        return new String[] { idLabel.getText(), nameLabel.getText(), phoneLabel.getText(),
+                emailLabel.getText() };
     }
 
     @FXML
@@ -105,22 +108,19 @@ public class AdminUsersGuestBarController {
 
     @FXML
     void imgEditOnMouseExited(MouseEvent event) {
-        Image normalImage =
-                new Image(getClass().getResource("/assets/icon/btn edit.png").toExternalForm());
+        Image normalImage = new Image(getClass().getResource("/assets/icon/btn edit.png").toExternalForm());
         editFunction.setImage(normalImage);
     }
 
     @FXML
     void imgDeleteOnMouseEntered(MouseEvent event) {
-        Image hoverImage =
-                new Image(getClass().getResource("/assets/icon/red-recycle.png").toExternalForm());
+        Image hoverImage = new Image(getClass().getResource("/assets/icon/red-recycle.png").toExternalForm());
         deleteFunction.setImage(hoverImage);
     }
 
     @FXML
     void imgDeleteOnMouseExited(MouseEvent event) {
-        Image normalImage =
-                new Image(getClass().getResource("/assets/icon/btn Delete.png").toExternalForm());
+        Image normalImage = new Image(getClass().getResource("/assets/icon/btn Delete.png").toExternalForm());
         deleteFunction.setImage(normalImage);
     }
 

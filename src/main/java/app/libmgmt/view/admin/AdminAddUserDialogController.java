@@ -3,11 +3,13 @@ package app.libmgmt.view.admin;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXRadioButton;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+
 import app.libmgmt.util.AnimationUtils;
 import app.libmgmt.util.ChangeScene;
 import app.libmgmt.util.EnumUtils;
@@ -23,17 +25,27 @@ public class AdminAddUserDialogController {
     AdminGlobalController adminGlobalController = AdminGlobalController.getInstance();
 
     // FXML UI components
-    @FXML private ToggleGroup addUserType;
-    @FXML private Pane adminPane, container, guestPane, studentPane;
-    @FXML private JFXRadioButton adminRadioBtn, guestRadioBtn, studentRadioBtn;
-    @FXML private Label notificationLabel;
-    @FXML private JFXComboBox<String> cbbMajorStudent;
-    @FXML private PasswordField txtCfPasswordAdmin, txtCfPasswordGuest, txtCfPasswordStudent;
-    @FXML private TextField txtEmailAdmin, txtEmailGuest, txtEmailStudent, txtIDStudent, txtIdGuest,
+    @FXML
+    private ToggleGroup addUserType;
+    @FXML
+    private Pane adminPane, container, guestPane, studentPane;
+    @FXML
+    private JFXRadioButton adminRadioBtn, guestRadioBtn, studentRadioBtn;
+    @FXML
+    private Label notificationLabel;
+    @FXML
+    private JFXComboBox<String> cbbMajorStudent;
+    @FXML
+    private PasswordField txtCfPasswordAdmin, txtCfPasswordGuest, txtCfPasswordStudent;
+    @FXML
+    private TextField txtEmailAdmin, txtEmailGuest, txtEmailStudent, txtIDStudent, txtIdGuest,
             txtNameAdmin, txtNameGuest, txtNameStudent, txtPhoneNumberGuest;
-    @FXML private PasswordField txtPasswordAdmin, txtPasswordGuest, txtPasswordStudent;
-    @FXML private JFXButton closeDialogButton;
-    @FXML private ImageView imgClose;
+    @FXML
+    private PasswordField txtPasswordAdmin, txtPasswordGuest, txtPasswordStudent;
+    @FXML
+    private JFXButton closeDialogButton;
+    @FXML
+    private ImageView imgClose;
 
     public void initialize() {
         System.out.println("Initialize Add User Dialog");
@@ -81,7 +93,8 @@ public class AdminAddUserDialogController {
 
     private boolean isFieldEmpty(String... fields) {
         for (String field : fields) {
-            if (field.isEmpty()) return true;
+            if (field.isEmpty())
+                return true;
         }
         return false;
     }
@@ -97,18 +110,22 @@ public class AdminAddUserDialogController {
             showNotification("Please fill in all fields.", "red");
             return false;
         }
+
         if (!password.equals(cfPassword)) {
             showNotification("Password does not match.", "red");
             return false;
         }
+
         if (!RegExPatterns.emailPattern(email)) {
             showNotification("Invalid email.", "red");
             return false;
         }
+
         if (!RegExPatterns.passwordPattern(password)) {
             showNotification("Password must contain at least 8 characters.", "red");
             return false;
         }
+
         return true;
     }
 
@@ -124,38 +141,46 @@ public class AdminAddUserDialogController {
             showNotification("Please fill in all fields.", "red");
             return false;
         }
+
         if (!password.equals(cfPassword)) {
             showNotification("Password does not match.", "red");
             return false;
         }
+
         if (userType == EnumUtils.UserType.STUDENT) {
             if (!RegExPatterns.studentIDPattern(id)) {
                 showNotification("Invalid student ID.", "red");
                 return false;
             }
+
             if (majorOrContact == null) {
                 showNotification("Please select a major.", "red");
                 return false;
             }
         }
+
         if (userType == EnumUtils.UserType.GUEST) {
             if (!RegExPatterns.citizenIDPattern(id)) {
                 showNotification("Invalid guest ID.", "red");
                 return false;
             }
+
             if (!RegExPatterns.phoneNumberPattern(majorOrContact)) {
                 showNotification("Invalid phone number.", "red");
                 return false;
             }
         }
+
         if (!RegExPatterns.emailPattern(email)) {
             showNotification("Invalid email.", "red");
             return false;
         }
+
         if (!RegExPatterns.passwordPattern(password)) {
             showNotification("Password must contain at least 8 characters.", "red");
             return false;
         }
+
         return true;
     }
 
@@ -173,12 +198,16 @@ public class AdminAddUserDialogController {
     private void addStudent(String[] studentInfo) {
         if (checkValidUser(studentInfo, EnumUtils.UserType.STUDENT)) {
             List<String[]> userData = new ArrayList<>();
-            String[] newUser = {"Student", studentInfo[0], studentInfo[1], studentInfo[2], studentInfo[3], studentInfo[4]};
+            String[] newUser = { "Student", studentInfo[0], studentInfo[1], studentInfo[2], studentInfo[3],
+                    studentInfo[4] };
             System.out.println("Adding student");
             userData.add(newUser);
+
             if (adminUsersLayoutController.getStatus() == EnumUtils.UserType.STUDENT) {
-                adminUsersLayoutController.preloadData(userData, "admin-users-student-bar.fxml", AdminUsersLayoutController.PreloadType.ADD);
+                adminUsersLayoutController.preloadData(userData, "admin-users-student-bar.fxml",
+                        AdminUsersLayoutController.PreloadType.ADD);
             }
+
             adminGlobalController.getObservableUsersData(EnumUtils.UserType.STUDENT).add(newUser);
             adminUsersLayoutController.getStudentsData().add(newUser);
             showNotification("Added successfully", "#08a80d");
@@ -188,11 +217,13 @@ public class AdminAddUserDialogController {
     private void addGuest(String[] guestInfo) {
         if (checkValidUser(guestInfo, EnumUtils.UserType.GUEST)) {
             List<String[]> userData = new ArrayList<>();
-            String[] newUser = {"External Borrower", guestInfo[0], guestInfo[1], guestInfo[2], guestInfo[3], guestInfo[4]};
+            String[] newUser = { "External Borrower", guestInfo[0], guestInfo[1], guestInfo[2], guestInfo[3],
+                    guestInfo[4] };
             System.out.println("Adding guest");
             userData.add(newUser);
             if (adminUsersLayoutController.getStatus() == EnumUtils.UserType.GUEST) {
-                adminUsersLayoutController.preloadData(userData, "admin-users-guest-bar.fxml", AdminUsersLayoutController.PreloadType.ADD);
+                adminUsersLayoutController.preloadData(userData, "admin-users-guest-bar.fxml",
+                        AdminUsersLayoutController.PreloadType.ADD);
             }
             adminGlobalController.getObservableUsersData(EnumUtils.UserType.GUEST).add(newUser);
             adminUsersLayoutController.getGuestsData().add(newUser);
@@ -228,20 +259,25 @@ public class AdminAddUserDialogController {
     @FXML
     void addButtonOnAction(ActionEvent event) {
         RadioButton selectedRadioButton = (RadioButton) addUserType.getSelectedToggle();
+
         if (selectedRadioButton == studentRadioBtn) {
             System.out.println("Add Student");
-            String[] studentInfo = {txtNameStudent.getText(), cbbMajorStudent.getSelectionModel().getSelectedItem(),
-                    txtEmailStudent.getText(), txtIDStudent.getText(), txtPasswordStudent.getText(), txtCfPasswordStudent.getText()};
+            String[] studentInfo = { txtNameStudent.getText(), cbbMajorStudent.getSelectionModel().getSelectedItem(),
+                    txtEmailStudent.getText(), txtIDStudent.getText(), txtPasswordStudent.getText(),
+                    txtCfPasswordStudent.getText() };
             addStudent(studentInfo);
+
         } else if (selectedRadioButton == guestRadioBtn) {
             System.out.println("Add Guest");
-            String[] guestInfo = {txtNameGuest.getText(), txtPhoneNumberGuest.getText(),
-                    txtEmailGuest.getText(), txtIdGuest.getText(), txtPasswordGuest.getText(), txtCfPasswordGuest.getText()};
+            String[] guestInfo = { txtNameGuest.getText(), txtPhoneNumberGuest.getText(),
+                    txtEmailGuest.getText(), txtIdGuest.getText(), txtPasswordGuest.getText(),
+                    txtCfPasswordGuest.getText() };
             addGuest(guestInfo);
+
         } else if (selectedRadioButton == adminRadioBtn) {
             System.out.println("Add Admin");
-            String[] adminInfo = {txtNameAdmin.getText(), txtEmailAdmin.getText(),
-                    txtPasswordAdmin.getText(), txtCfPasswordAdmin.getText()};
+            String[] adminInfo = { txtNameAdmin.getText(), txtEmailAdmin.getText(),
+                    txtPasswordAdmin.getText(), txtCfPasswordAdmin.getText() };
             addAdmin(adminInfo);
         }
     }

@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+
 import app.libmgmt.util.AnimationUtils;
 import app.libmgmt.util.ChangeScene;
 
@@ -126,11 +127,6 @@ public class AdminBookViewDialogController {
         });
 
         new Thread(loadImageTask).start();
-    }
-
-    private void handleImageLoadingError(Throwable exception) {
-        System.err.println("Failed to load image: " + exception.getMessage());
-        exception.printStackTrace();
     }
 
     // Set QR Code image path

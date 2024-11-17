@@ -52,7 +52,8 @@ public class AdminUsersEditDialogController {
     // Action triggered when the update button is clicked
     @FXML
     void updateButtonOnAction(ActionEvent event) {
-        if (!areFieldsValid()) return;
+        if (!areFieldsValid())
+            return;
 
         String[] updatedData = extractUpdatedData();
         if (isDataChanged(updatedData)) {
@@ -80,6 +81,7 @@ public class AdminUsersEditDialogController {
         if (isStudentDataInvalid() || isGuestDataInvalid() || isEmailInvalid()) {
             return false;
         }
+
         return true;
     }
 
@@ -89,6 +91,7 @@ public class AdminUsersEditDialogController {
             showValidationError("Student ID must be 8 digits!");
             return true;
         }
+
         return false;
     }
 
@@ -99,11 +102,13 @@ public class AdminUsersEditDialogController {
                 showValidationError("Citizen ID must be 12 digits!");
                 return true;
             }
+
             if (!RegExPatterns.phoneNumberPattern(phoneNumberTextField.getText())) {
                 showValidationError("Phone number must be 10 digits!");
                 return true;
             }
         }
+
         return false;
     }
 
@@ -113,6 +118,7 @@ public class AdminUsersEditDialogController {
             showValidationError("Invalid email format!");
             return true;
         }
+
         return false;
     }
 
@@ -120,11 +126,13 @@ public class AdminUsersEditDialogController {
     private void populateFieldsWithData() {
         idTextField.setText(originalData[0]);
         nameTextField.setText(originalData[1]);
+
         if (userType == EnumUtils.UserType.GUEST) {
             showGuestFields();
         } else {
             showStudentFields();
         }
+
         emailTextField.setText(originalData[3]);
         userTypeLabel.setText(userType == EnumUtils.UserType.GUEST ? "External Borrower" : "Student");
     }
@@ -146,7 +154,7 @@ public class AdminUsersEditDialogController {
 
     // Extracts updated data from fields
     private String[] extractUpdatedData() {
-        return new String[]{
+        return new String[] {
                 idTextField.getText(),
                 nameTextField.getText(),
                 majorLabel.isVisible() ? majorComboBox.getValue() : phoneNumberTextField.getText(),
@@ -157,8 +165,10 @@ public class AdminUsersEditDialogController {
     // Checks if any data has changed
     private boolean isDataChanged(String[] updatedData) {
         for (int i = 0; i < updatedData.length; i++) {
-            if (!updatedData[i].equals(originalData[i])) return true;
+            if (!updatedData[i].equals(originalData[i]))
+                return true;
         }
+
         return false;
     }
 
@@ -172,7 +182,7 @@ public class AdminUsersEditDialogController {
 
     // Formats the user data for updating
     private String[] formatUserData(String[] updatedData) {
-        return new String[]{
+        return new String[] {
                 userType == EnumUtils.UserType.STUDENT ? "Student" : "External Borrower",
                 updatedData[1],
                 updatedData[2],

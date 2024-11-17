@@ -31,17 +31,21 @@ public class AdminUsersStudentBarController {
 
     @FXML
     public void initialize() {
-        // Add listener to update user information if there's a change in the observable student data
-        AdminGlobalController.getInstance().getObservableUsersData(EnumUtils.UserType.STUDENT).addListener((ListChangeListener<String[]>) change -> {
-            while (change.next()) {
-                if (change.wasReplaced() && change.getFrom() >= 0 && change.getFrom() < change.getList().size()) {
-                    String[] updatedUserData = change.getList().get(change.getFrom());
-                    if (idLabel.getText().equals(updatedUserData[4])) {
-                        updateUserData(updatedUserData);
+        // Add listener to update user information if there's a change in the observable
+        // student data
+        AdminGlobalController.getInstance().getObservableUsersData(EnumUtils.UserType.STUDENT)
+                .addListener((ListChangeListener<String[]>) change -> {
+                    while (change.next()) {
+                        if (change.wasReplaced() && change.getFrom() >= 0
+                                && change.getFrom() < change.getList().size()) {
+                            String[] updatedUserData = change.getList().get(change.getFrom());
+
+                            if (idLabel.getText().equals(updatedUserData[4])) {
+                                updateUserData(updatedUserData);
+                            }
+                        }
                     }
-                }
-            }
-        });
+                });
     }
 
     @FXML
@@ -67,8 +71,7 @@ public class AdminUsersStudentBarController {
                 AdminUsersLayoutController.getInstance().stackPaneContainer,
                 "/fxml/admin-delete-confirmation-dialog.fxml",
                 idLabel.getText(),
-                EnumUtils.PopupList.STUDENT_DELETE
-        );
+                EnumUtils.PopupList.STUDENT_DELETE);
     }
 
     @FXML
@@ -122,7 +125,7 @@ public class AdminUsersStudentBarController {
     }
 
     public String[] getData() {
-        return new String[]{idLabel.getText(), nameLabel.getText(), majorLabel.getText(), emailLabel.getText()};
+        return new String[] { idLabel.getText(), nameLabel.getText(), majorLabel.getText(), emailLabel.getText() };
     }
 
     // Utility method to update the image on hover and exit events

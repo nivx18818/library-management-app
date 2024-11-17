@@ -65,11 +65,10 @@ public class AdminUsersViewDialogController {
     public void setData(String[] data, EnumUtils.UserType userType) {
         idLabel.setText("ID : " + data[0]);
         fullNameLabel.setText("Full name : " + data[1]);
-        majorOrPhoneLabel.setText(userType == EnumUtils.UserType.STUDENT ?
-                "Major : " + data[2] : "Phone number : " + data[2]);
+        majorOrPhoneLabel
+                .setText(userType == EnumUtils.UserType.STUDENT ? "Major : " + data[2] : "Phone number : " + data[2]);
         emailLabel.setText("Email : " + data[3]);
-        userTypeLabel.setText(userType == EnumUtils.UserType.STUDENT ?
-                "Student" : "External Borrower");
+        userTypeLabel.setText(userType == EnumUtils.UserType.STUDENT ? "Student" : "External Borrower");
     }
 
     /**

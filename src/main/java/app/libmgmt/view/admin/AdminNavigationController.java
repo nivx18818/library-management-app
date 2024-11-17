@@ -6,6 +6,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+
 import app.libmgmt.util.AnimationUtils;
 import app.libmgmt.util.ChangeScene;
 import app.libmgmt.util.EnumUtils;
@@ -83,20 +84,34 @@ public class AdminNavigationController {
 
     // Helper method to set button style and logo
     private void setButtonStyle(JFXButton button, ImageView logo, String pathToLogo,
-                                String backgroundColor, String textColor) {
+            String backgroundColor, String textColor) {
         Image image = new Image(getClass().getResource(pathToLogo).toExternalForm());
         button.setStyle("-fx-background-color: " + backgroundColor + "; -fx-text-fill: " + textColor + ";");
         logo.setImage(image);
     }
 
-
     // Determines the button type based on the clicked button
     private EnumUtils.NavigationButton getButtonType(JFXButton button) {
-        if (button.equals(dashboardButton)) return EnumUtils.NavigationButton.DASHBOARD;
-        if (button.equals(catalogButton)) return EnumUtils.NavigationButton.CATALOG;
-        if (button.equals(booksButton)) return EnumUtils.NavigationButton.BOOKS;
-        if (button.equals(usersButton)) return EnumUtils.NavigationButton.USERS;
-        if (button.equals(logoutButton)) return EnumUtils.NavigationButton.LOGOUT;
+        if (button.equals(dashboardButton)) {
+            return EnumUtils.NavigationButton.DASHBOARD;
+        }
+
+        if (button.equals(catalogButton)) {
+            return EnumUtils.NavigationButton.CATALOG;
+        }
+
+        if (button.equals(booksButton)) {
+            return EnumUtils.NavigationButton.BOOKS;
+        }
+
+        if (button.equals(usersButton)) {
+            return EnumUtils.NavigationButton.USERS;
+        }
+
+        if (button.equals(logoutButton)) {
+            return EnumUtils.NavigationButton.LOGOUT;
+        }
+
         return null;
     }
 
@@ -123,14 +138,22 @@ public class AdminNavigationController {
 
     @FXML
     public void logOutButtonClicked(MouseEvent event) throws IOException {
-        if (latestButtonClicked == EnumUtils.NavigationButton.LOGOUT) return;
-        ChangeScene.openAdminPopUp(AdminGlobalController.getInstance().getStackPaneContainer(), "/fxml/logout-dialog.fxml");
+        if (latestButtonClicked == EnumUtils.NavigationButton.LOGOUT) {
+            return;
+        }
+
+        ChangeScene.openAdminPopUp(AdminGlobalController.getInstance().getStackPaneContainer(),
+                "/fxml/logout-dialog.fxml");
         handleEffectButtonClicked(logoutButton);
     }
 
     // Handles the navigation between scenes
-    private void handleNavigation(EnumUtils.NavigationButton buttonType, String fxmlFile, JFXButton button) throws IOException {
-        if (latestButtonClicked == buttonType) return;
+    private void handleNavigation(EnumUtils.NavigationButton buttonType, String fxmlFile, JFXButton button)
+            throws IOException {
+        if (latestButtonClicked == buttonType) {
+            return;
+        }
+
         ChangeScene.navigateToScene(fxmlFile);
         handleEffectButtonClicked(button);
     }

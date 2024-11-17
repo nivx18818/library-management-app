@@ -1,7 +1,5 @@
 package app.libmgmt.view.admin;
 
-import app.libmgmt.util.ChangeScene;
-import app.libmgmt.util.EnumUtils;
 import javafx.collections.ListChangeListener;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -9,6 +7,9 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+
+import app.libmgmt.util.ChangeScene;
+import app.libmgmt.util.EnumUtils;
 
 public class AdminBookBarController {
 
@@ -21,7 +22,6 @@ public class AdminBookBarController {
 
     private int quantity = -1;
     private String imgPath = "", publisher = "", publishedDate = "";
-//    private final Map<String, Image> imageCache = new HashMap<>(); // Cache for loaded images
 
     public AdminBookBarController() {
         controller = this;
@@ -37,6 +37,7 @@ public class AdminBookBarController {
             while (change.next()) {
                 if (change.wasReplaced() && change.getFrom() >= 0 && change.getFrom() < change.getList().size()) {
                     String[] updatedBookData = change.getList().get(change.getFrom());
+
                     if (idLabel.getText().equals(updatedBookData[0])) {
                         setData(updatedBookData);
                     }
@@ -93,6 +94,7 @@ public class AdminBookBarController {
         } else if (source == deleteFunction) {
             return isHovered ? "/assets/icon/red-recycle.png" : "/assets/icon/btn Delete.png";
         }
+
         return "";
     }
 
@@ -112,6 +114,7 @@ public class AdminBookBarController {
         if (!publisher.equals(data[6])) {
             publisher = data[6];
         }
+
         if (!publishedDate.equals(data[7])) {
             publishedDate = data[7];
         }
@@ -149,6 +152,7 @@ public class AdminBookBarController {
 
     private void updateQuantityAndStatus(String newQuantityStr) {
         int newQuantity = Integer.parseInt(newQuantityStr);
+
         if (quantity != newQuantity) {
             quantity = newQuantity;
             statusLabel.setText(quantity >= 1 ? "Available" : "Borrowed");
