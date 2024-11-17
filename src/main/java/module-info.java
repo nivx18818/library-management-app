@@ -1,9 +1,10 @@
 module app.libmgmt {
+    requires animatefx;
     requires javafx.fxml;
     requires javafx.base;
-    requires animatefx;
     requires java.desktop;
     requires java.sql;
+    requires org.json;
 
     requires transitive javafx.controls;
     requires transitive javafx.graphics;
