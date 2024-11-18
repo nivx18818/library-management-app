@@ -12,17 +12,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LoanDAO {
-    private final Connection connection;
 
-    public LoanDAO() throws SQLException {
-        this.connection = DatabaseConnection.getConnection();
+    public LoanDAO() {
+    }
+
+    private Connection getConnection() throws SQLException {
+        return DatabaseConnection.getConnection();
     }
 
     public void addLoan(Loan loan) throws SQLException {
         String sql = "INSERT INTO Loan (status, borrowed_date, returned_date, isbn, userId) "
                 + "VALUES (?, ?, ?, ?, ?)";
 
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
 
             statement.setString(1, loan.getStatus());
 
@@ -43,7 +46,8 @@ public class LoanDAO {
         String sql = "UPDATE Loan SET status = ?, borrowed_date = ?, returned_date = ?, isbn = ?, "
                 + "userId = ? WHERE id = ?";
 
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
 
             statement.setString(1, loan.getStatus());
 
@@ -64,7 +68,8 @@ public class LoanDAO {
     public void deleteLoan(int loanId) throws SQLException {
         String sql = "DELETE FROM Loan WHERE id = ?";
 
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, loanId);
             statement.executeUpdate();
         }
@@ -74,8 +79,9 @@ public class LoanDAO {
         List<Loan> loans = new ArrayList<>();
         String sql = "SELECT id, status, borrowed_date, returned_date, isbn, userId FROM Loan";
 
-        try (PreparedStatement statement = connection.prepareStatement(sql);
-                ResultSet rs = statement.executeQuery()) {
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql);
+             ResultSet rs = statement.executeQuery()) {
 
             while (rs.next()) {
                 Loan loan = mapResultSetToLoan(rs);
@@ -89,12 +95,14 @@ public class LoanDAO {
     public Loan getLoanById(int loanId) throws SQLException {
         String sql = "SELECT id, status, borrowed_date, returned_date, isbn, userId FROM Loan WHERE id = ?";
 
-        try (PreparedStatement statement = connection.prepareStatement(sql);
-                ResultSet rs = statement.executeQuery()) {
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, loanId);
 
-            if (rs.next()) {
-                return mapResultSetToLoan(rs);
+            try (ResultSet rs = statement.executeQuery()) {
+                if (rs.next()) {
+                    return mapResultSetToLoan(rs);
+                }
             }
         }
 
@@ -105,13 +113,14 @@ public class LoanDAO {
         List<Loan> loans = new ArrayList<>();
         String sql = "SELECT id, status, borrowed_date, returned_date, isbn, userId FROM Loan WHERE userId = ?";
 
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, userId);
-            ResultSet rs = statement.executeQuery();
-
-            while (rs.next()) {
-                Loan loan = mapResultSetToLoan(rs);
-                loans.add(loan);
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) {
+                    Loan loan = mapResultSetToLoan(rs);
+                    loans.add(loan);
+                }
             }
         }
 
