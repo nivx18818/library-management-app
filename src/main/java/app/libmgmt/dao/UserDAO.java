@@ -12,7 +12,10 @@ import java.sql.SQLException;
 import java.sql.Types;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Base64;
 
 public class UserDAO {
 
@@ -25,15 +28,16 @@ public class UserDAO {
 
     public void addUser(User user) throws SQLException {
         String sql = "INSERT INTO User(name, email, password, role, admin_id, student_id, major, "
-                + "social_id, phone_number) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
+                   + "social_id, phone_number, salt) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, user.getName());
             statement.setString(2, user.getEmail());
             statement.setString(3, user.getPassword());
             statement.setString(4, user.getUserRole());
-
+            statement.setString(10, user.getSalt());
+    
             switch (user) {
                 case Admin admin -> {
                     statement.setInt(5, admin.getAdminId());
@@ -42,7 +46,7 @@ public class UserDAO {
                     statement.setNull(8, Types.VARCHAR);
                     statement.setNull(9, Types.VARCHAR);
                 }
-
+    
                 case Student student -> {
                     statement.setNull(5, Types.VARCHAR);
                     statement.setString(6, student.getStudentId());
@@ -50,7 +54,7 @@ public class UserDAO {
                     statement.setNull(8, Types.VARCHAR);
                     statement.setNull(9, Types.VARCHAR);
                 }
-
+    
                 case ExternalBorrower externalBorrower -> {
                     statement.setNull(5, Types.VARCHAR);
                     statement.setNull(6, Types.VARCHAR);
@@ -58,25 +62,28 @@ public class UserDAO {
                     statement.setString(8, externalBorrower.getSocialId());
                     statement.setString(9, externalBorrower.getPhoneNumber());
                 }
-
+    
                 default -> throw new IllegalStateException("Unexpected value: " + user);
             }
-
+    
             statement.executeUpdate();
         }
     }
+    
 
     public void updateUser(User user) throws SQLException {
         String sql = "UPDATE User SET name = ?, email = ?, password = ?, role = ?, admin_id = ?, "
-                + "student_id = ?, major = ?, social_id = ?, phone_number= ? WHERE id = ?";
-
+                   + "student_id = ?, major = ?, social_id = ?, phone_number = ?, salt = ? WHERE id = ?";
+    
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, user.getName());
             statement.setString(2, user.getEmail());
             statement.setString(3, user.getPassword());
             statement.setString(4, user.getUserRole());
-
+            statement.setString(10, user.getSalt());
+            statement.setInt(11, user.getUserId());
+    
             switch (user) {
                 case Admin admin -> {
                     statement.setInt(5, admin.getAdminId());
@@ -85,7 +92,7 @@ public class UserDAO {
                     statement.setNull(8, Types.VARCHAR);
                     statement.setNull(9, Types.VARCHAR);
                 }
-
+    
                 case Student student -> {
                     statement.setNull(5, Types.VARCHAR);
                     statement.setString(6, student.getStudentId());
@@ -93,7 +100,7 @@ public class UserDAO {
                     statement.setNull(8, Types.VARCHAR);
                     statement.setNull(9, Types.VARCHAR);
                 }
-
+    
                 case ExternalBorrower externalBorrower -> {
                     statement.setNull(5, Types.VARCHAR);
                     statement.setNull(6, Types.VARCHAR);
@@ -101,14 +108,14 @@ public class UserDAO {
                     statement.setString(8, externalBorrower.getSocialId());
                     statement.setString(9, externalBorrower.getPhoneNumber());
                 }
-
+    
                 default -> throw new IllegalStateException("Unexpected value: " + user);
             }
-
-            statement.setInt(10, user.getUserId());
+    
             statement.executeUpdate();
         }
     }
+    
 
     public void deleteUser(User user) throws SQLException {
         String sql = "DELETE FROM User WHERE id = ?";
@@ -221,5 +228,23 @@ public class UserDAO {
         }
 
         return null;
+    }
+
+    public Map<String, Object> getPasswordHashAndSalt(String username) throws SQLException {
+        Map<String, Object> result = new HashMap<>();
+        String sql = "SELECT password, salt FROM User WHERE name = ?";
+    
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, username);
+            ResultSet rs = statement.executeQuery();
+    
+            if (rs.next()) {
+                result.put("password", rs.getString("password"));  
+                result.put("salt", Base64.getDecoder().decode(rs.getString("salt"))); 
+            }
+        }
+    
+        return result;
     }
 }

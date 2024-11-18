@@ -5,6 +5,7 @@ public abstract class User {
     private String name;
     private String email;
     private String password;
+    private String salt;
 
     public User(int userId, String name, String email, String password) {
         this.userId = userId;
@@ -39,6 +40,14 @@ public abstract class User {
 
     public void resetPassword(String newPassword) {
         password = newPassword;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
+
+    public String getSalt() {
+        return salt;
     }
 
     public abstract String getUserRole();

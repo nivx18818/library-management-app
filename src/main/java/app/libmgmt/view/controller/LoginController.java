@@ -1,5 +1,8 @@
 package app.libmgmt.view.controller;
 
+import app.libmgmt.model.ExternalBorrower;
+import app.libmgmt.model.Student;
+
 import animatefx.animation.SlideInLeft;
 import animatefx.animation.SlideInRight;
 import animatefx.animation.ZoomOut;
@@ -16,6 +19,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import app.libmgmt.service.UserService;
 import app.libmgmt.util.AnimationUtils;
 import app.libmgmt.util.ChangeScene;
 import app.libmgmt.util.EnumUtils;
@@ -23,6 +27,7 @@ import app.libmgmt.util.RegExPatterns;
 
 import java.io.IOException;
 import java.util.logging.Logger;
+import java.sql.SQLException;
 
 public class LoginController {
 
@@ -157,8 +162,13 @@ public class LoginController {
     }
 
     public boolean checkAccount(String username, String password) {
-        //TODO: Implement the account checking process
-        return true;
+        try {
+            UserService userService = new UserService();
+            return userService.verifyPassword(username, password);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     // Sign-Up flow methods
@@ -176,7 +186,23 @@ public class LoginController {
             String username = selectedUserType.getText().equals("Student") ?
                     studentIDSignUp.getText() : citizenIDSignUp.getText();
             if (checkSignUp(fullName, majorOrPhoneNumber, email, username, password, registerNoticeText)) {
-                // TODO: Insert user data to database
+                try {
+                    UserService userService = new UserService();
+                    Student student = null;
+                    ExternalBorrower externalBorrower = null;
+                    if (selectedUserType.getText().equals("Student")) {
+                        student = new Student(0, username, email, password, studentIDSignUp.getText(), majorOrPhoneNumber);
+                        userService.addUser(student);
+                    } else {
+                        externalBorrower = new ExternalBorrower(0, username, email, password,
+                         citizenIDSignUp.getText(), phoneNumberSignUp.getText());
+                        userService.addUser(externalBorrower);
+                    }
+                } catch (SQLException e) {
+                    registerNoticeText.setText("Username already exists.");
+                    AnimationUtils.playNotificationTimeline(registerNoticeText, 3.0, "red");
+                    return;
+                }
                 logInAfterRegister();
             }
         }
