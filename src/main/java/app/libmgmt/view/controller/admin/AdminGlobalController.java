@@ -17,13 +17,14 @@ public class AdminGlobalController {
 
     private static AdminGlobalController controller;
 
-    // Observable Lists for managing data
+    // Data loaded when starting the application
     private final ObservableList<String[]> borrowedBooksData = FXCollections.observableArrayList(preLoadBorrowedBooksData());
-    private final ObservableList<String[]> studentsData = FXCollections.observableArrayList(preLoadStudentsData());
-    private final ObservableList<String[]> guestsData = FXCollections.observableArrayList(preLoadGuestsData());
-    private final ObservableList<String[]> observableBooksData = FXCollections.observableArrayList(preLoadBooksData());
-
     private final List<String[]> adminsData = preLoadAdminData();
+
+    // Real time load data
+    private final ObservableList<String[]> studentsData = FXCollections.observableArrayList();
+    private final ObservableList<String[]> guestsData = FXCollections.observableArrayList();
+    private final ObservableList<String[]> observableBooksData = FXCollections.observableArrayList();
 
     // FXML UI components
     @FXML
@@ -47,7 +48,6 @@ public class AdminGlobalController {
     @FXML
     public void initialize() {
         System.out.println("Admin Global Form initialized");
-        observableBooksData.setAll(preLoadBooksData());
         AnimationUtils.fadeInRight(pagingPane, 1);
     }
 
@@ -63,7 +63,7 @@ public class AdminGlobalController {
         return data;
     }
 
-    private List<String[]> preLoadBooksData() {
+    public List<String[]> preLoadBooksData() {
         List<String[]> data = new ArrayList<>();
         data.add(new String[]{"A1", "https://marketplace.canva" +
                 ".com/EAFaQMYuZbo/1/0/1003w/canva-brown-rusty-mystery-novel-book-cover-hG1QhA7BiBU.jpg", "The Great Gatsby", "Education", "F. Scott Fitzgerald", "3", "NXB Trẻ", "13/08/2024"});
@@ -82,14 +82,14 @@ public class AdminGlobalController {
         return data;
     }
 
-    private List<String[]> preLoadStudentsData() {
+    public List<String[]> preLoadStudentsData() {
         List<String[]> data = new ArrayList<>();
         data.add(new String[]{"Student", "Hoang Duy Thinh", "CN1 - Information Technology", "23020708@vnu.edu.vn", "23020708"});
         data.add(new String[]{"Student", "Hoang Duy Thinh", "CN1 - Information Technology", "23020708@vnu.edu.vn", "23020709"});
         return data;
     }
 
-    private List<String[]> preLoadGuestsData() {
+    public List<String[]> preLoadGuestsData() {
         List<String[]> data = new ArrayList<>();
         data.add(new String[]{"Student", "Ho Hoai Ho", "0941512278", "2302ad21@vnu.edu.vn", "037205005003"});
         return data;
@@ -166,7 +166,7 @@ public class AdminGlobalController {
         return userType == EnumUtils.UserType.STUDENT ? studentsData : guestsData;
     }
 
-    // Getter Methods for Data
+    // Getter and Setter Methods for Data
     public List<String[]> getBorrowedBooksData() {
         return borrowedBooksData;
     }
@@ -185,6 +185,18 @@ public class AdminGlobalController {
 
     public int getTotalUsersCount() {
         return studentsData.size() + guestsData.size();
+    }
+
+    public void setObservableBookData(List<String[]> data) {
+        observableBooksData.setAll(data);
+    }
+
+    public void setStudentsData(List<String[]> data) {
+        studentsData.setAll(data);
+    }
+
+    public void setGuestsData(List<String[]> data) {
+        guestsData.setAll(data);
     }
 
     // Getter Methods for UI components

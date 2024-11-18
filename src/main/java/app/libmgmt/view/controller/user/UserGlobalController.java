@@ -3,6 +3,7 @@ package app.libmgmt.view.controller.user;
 import java.util.ArrayList;
 import java.util.List;
 
+import app.libmgmt.util.AnimationUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -42,6 +43,7 @@ public class UserGlobalController {
     @FXML
     public void initialize() {
         System.out.println("User Global Form initialized");
+        AnimationUtils.fadeInRight(pagingPane, 1);
     }
 
     // Data Pre-loading Methods

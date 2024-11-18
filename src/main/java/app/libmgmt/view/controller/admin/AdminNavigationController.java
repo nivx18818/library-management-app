@@ -1,6 +1,8 @@
 package app.libmgmt.view.controller.admin;
 
 import com.jfoenix.controls.JFXButton;
+
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -18,6 +20,8 @@ import java.util.logging.Logger;
 
 public class AdminNavigationController {
 
+    AdminGlobalController globalController = AdminGlobalController.getInstance();
+
     private static EnumUtils.NavigationButton latestButtonClicked = EnumUtils.NavigationButton.DASHBOARD;
     private static AdminNavigationController controller;
 
@@ -27,6 +31,8 @@ public class AdminNavigationController {
     private ImageView dashboardLogo, catalogLogo, booksLogo, usersLogo, logoutLogo;
     @FXML
     private VBox navigationContainer;
+
+    private static boolean uploadedBooksData = false, uploadedUsersData = false;
 
     // Constructor to set the controller instance
     public AdminNavigationController() {
@@ -130,11 +136,25 @@ public class AdminNavigationController {
 
     @FXML
     public void booksButtonClicked(MouseEvent event) throws IOException {
+        // Preload books data
+        if (!uploadedBooksData) {
+            globalController
+                    .setObservableBookData(FXCollections.observableArrayList(globalController.preLoadBooksData()));
+            uploadedBooksData = true;
+        }
         handleNavigation(EnumUtils.NavigationButton.BOOKS, "admin-books-form.fxml", booksButton);
     }
 
     @FXML
     public void userButtonClicked(MouseEvent event) throws IOException {
+        // Preload users data
+        if (!uploadedUsersData) {
+            globalController
+                    .setStudentsData((FXCollections.observableArrayList(globalController.preLoadStudentsData())));
+            globalController.setGuestsData((FXCollections.observableArrayList(globalController.preLoadGuestsData())));
+
+            uploadedUsersData = true;
+        }
         handleNavigation(EnumUtils.NavigationButton.USERS, "admin-users-form.fxml", usersButton);
     }
 
@@ -163,5 +183,11 @@ public class AdminNavigationController {
 
     public void setLastButtonClicked(EnumUtils.NavigationButton button) {
         latestButtonClicked = button;
+    }
+
+    // Getter and Setter Methods
+    public void setUploadedData(boolean uploadedBooksData, boolean uploadedUsersData) {
+        AdminNavigationController.uploadedBooksData = uploadedBooksData;
+        AdminNavigationController.uploadedUsersData = uploadedUsersData;
     }
 }

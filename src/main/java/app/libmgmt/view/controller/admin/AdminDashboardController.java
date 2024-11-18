@@ -35,7 +35,7 @@ public class AdminDashboardController {
     @FXML
     private VBox vBoxAdmin;
     private List<String[]> borrowedBooksData = adminGlobalController.getBorrowedBooksData();
-    private List<String[]> booksData = adminGlobalController.getObservableBookData();
+    private List<String[]> booksData = adminGlobalController.getObservableBookData(); // TODO: Can be deleted after using database
     private List<String[]> adminData = adminGlobalController.getAdminData();
 
     public AdminDashboardController() {
@@ -49,6 +49,7 @@ public class AdminDashboardController {
     public void initialize() {
         System.out.println("Dashboard initialized");
 
+        // TODO: Set the total book and user count from database
         totalBook.setText(String.valueOf(booksData.size()));
         totalUser.setText(String.valueOf(AdminGlobalController.getInstance().getTotalUsersCount()));
 
@@ -60,8 +61,9 @@ public class AdminDashboardController {
     public ObservableList<PieChart.Data> addPieChartData() {
         int totalBorrowedBooks = getTotalBorrowedBooks();
         double percentageBorrowed = 0;
-        if (!booksData.isEmpty()) {
-            percentageBorrowed = ((double) totalBorrowedBooks / booksData.size()) * 100;
+        int totalBooks = Integer.parseInt(totalBook.getText());
+        if (totalBooks != 0) {
+            percentageBorrowed = ((double) totalBorrowedBooks / totalBooks) * 100;
         }
 
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
@@ -98,6 +100,7 @@ public class AdminDashboardController {
     }
 
     public void getOverdueData() {
+        // TODO: Replaceable by filtering from database
         Task<Void> task = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
@@ -127,15 +130,6 @@ public class AdminDashboardController {
         new Thread(task).start();
     }
 
-    public void getVBoxAdmin() {
-        for (String[] data : adminData) {
-            String name = data[0];
-            String email = data[1];
-
-            loadAdminDataTable(name, email);
-        }
-    }
-
     public void loadOverdueDataTable(String idText, String uidText) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(AdminDashboardController.class.getResource(
@@ -150,6 +144,15 @@ public class AdminDashboardController {
 
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public void getVBoxAdmin() {
+        for (String[] data : adminData) {
+            String name = data[0];
+            String email = data[1];
+
+            loadAdminDataTable(name, email);
         }
     }
 
