@@ -74,7 +74,7 @@ public class AdminBookViewDialogController {
         for (int i = 0; i < data.length; i++) {
             switch (i) {
                 case 0:
-                    idLabel.setText("Book ID : " + data[i]);
+                    idLabel.setText("Book ID / ISBN : " + data[i]);
                     break;
                 case 1:
                     loadImage(data[i]);

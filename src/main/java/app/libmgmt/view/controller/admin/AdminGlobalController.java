@@ -65,13 +65,20 @@ public class AdminGlobalController {
 
     private List<String[]> preLoadBooksData() {
         List<String[]> data = new ArrayList<>();
-        data.add(new String[]{"1", "https://marketplace.canva.com/EAFaQMYuZbo/1/0/1003w/canva-brown-rusty-mystery-novel-book-cover-hG1QhA7BiBU.jpg", "The Great Gatsby", "Education", "F. Scott Fitzgerald", "3", "NXB Trẻ", "13/08/2024"});
-        data.add(new String[]{"2", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS66i6hTBkniGtDdwxyi4hA3PFm2mJ0GUIDxw&s", "To Kill a Mockingbird", "Education", "Harper Lee", "4", "NXB Trẻ", "13/08/2024"});
-        data.add(new String[]{"3", "https://thuviensach.vn/img/news/2022/09/larger/1011-1984-1.jpg?v=8882", "1984", "Education", "George Orwell", "0", "NXB Trẻ", "13/08/2024"});
-        data.add(new String[]{"4", "https://play-lh.googleusercontent.com/f1jkKDk5wKz1CZMyNjOR7klTu-ORIZs9sBMWSOVtd09GE6ulfiW5M4FmWrS54CZmCDiZ", "Pride & Prejudice", "Education", "J.D. Salinger", "12", "NXB Trẻ", "13/08/2024"});
-        data.add(new String[]{"5", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYqVdifswPLs8J53knQLpfO0dYIVMq4Mu14w&s", "Sherlock Holmes", "Detective", "Arthur Conan Doyle", "32", "NXB Trẻ", "13/08/2024"});
-        data.add(new String[]{"6", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQapwj529X6xqxmWUlrZAbQLhi-jEpU1-gx8A&s", "Dracula", "Horror", "Bram Stoker", "0", "NXB Trẻ", "13/08/2024"});
-        data.add(new String[]{"7", "https://www.thejapanshop.com/cdn/shop/products/new_doc_91_1_1280x.jpg?v=1571438916", "Doraemon", "Comic", "Fujko F Fujio", "0", "NXB Trẻ", "13/08/2024"});
+        data.add(new String[]{"A1", "https://marketplace.canva" +
+                ".com/EAFaQMYuZbo/1/0/1003w/canva-brown-rusty-mystery-novel-book-cover-hG1QhA7BiBU.jpg", "The Great Gatsby", "Education", "F. Scott Fitzgerald", "3", "NXB Trẻ", "13/08/2024"});
+        data.add(new String[]{"B2", "https://encrypted-tbn0.gstatic" +
+                ".com/images?q=tbn:ANd9GcS66i6hTBkniGtDdwxyi4hA3PFm2mJ0GUIDxw&s", "To Kill a Mockingbird", "Education", "Harper Lee", "4", "NXB Trẻ", "13/08/2024"});
+        data.add(new String[]{"C3", "https://thuviensach.vn/img/news/2022/09/larger/1011-1984-1" +
+                ".jpg?v=8882", "1984", "Education", "George Orwell", "0", "NXB Trẻ", "13/08/2024"});
+        data.add(new String[]{"D4", "https://play-lh.googleusercontent" +
+                ".com/f1jkKDk5wKz1CZMyNjOR7klTu-ORIZs9sBMWSOVtd09GE6ulfiW5M4FmWrS54CZmCDiZ", "Pride & Prejudice", "Education", "J.D. Salinger", "12", "NXB Trẻ", "13/08/2024"});
+        data.add(new String[]{"E5", "https://encrypted-tbn0.gstatic" +
+                ".com/images?q=tbn:ANd9GcRYqVdifswPLs8J53knQLpfO0dYIVMq4Mu14w&s", "Sherlock Holmes", "Detective", "Arthur Conan Doyle", "32", "NXB Trẻ", "13/08/2024"});
+        data.add(new String[]{"F6", "https://encrypted-tbn0.gstatic" +
+                ".com/images?q=tbn:ANd9GcQapwj529X6xqxmWUlrZAbQLhi-jEpU1-gx8A&s", "Dracula", "Horror", "Bram Stoker", "0", "NXB Trẻ", "13/08/2024"});
+        data.add(new String[]{"G7", "https://www.thejapanshop" +
+                ".com/cdn/shop/products/new_doc_91_1_1280x.jpg?v=1571438916", "Doraemon", "Comic", "Fujko F Fujio", "0", "NXB Trẻ", "13/08/2024"});
         return data;
     }
 
@@ -99,7 +106,14 @@ public class AdminGlobalController {
 
     // CRUD Operations for Books
     public static void insertBooksData(String[] bookData) {
-        getInstance().observableBooksData.add(bookData);
+        // data format: [id, coverURL, name, type, author, quantity, publisher, publishedDate]
+
+        // test
+        String[] newArray = new String[bookData.length + 1];
+        newArray[0] = 23 + "";
+        System.arraycopy(bookData, 0, newArray, 1, bookData.length);
+        getInstance().observableBooksData.add(newArray);
+
         // TODO: Insert book data to database
     }
 
@@ -121,18 +135,6 @@ public class AdminGlobalController {
                 break;
             }
         }
-    }
-
-
-    public static String[] getLastBookDataFromDatabase() {
-        // TODO: Get last book data from database
-
-        // Return last book data
-        String[] lastBookData = getInstance().observableBooksData.getLast();
-        String[] newArray = new String[lastBookData.length + 1];
-        newArray[0] = 23 + "";
-        System.arraycopy(lastBookData, 0, newArray, 1, lastBookData.length);
-        return newArray;
     }
 
     // CRUD Operations for Users

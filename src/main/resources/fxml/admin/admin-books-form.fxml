@@ -24,7 +24,7 @@
             <Line endX="1000.0" layoutX="90.0" layoutY="40.0" startX="-74.0" />
             <HBox alignment="CENTER_LEFT" layoutX="13.0" prefHeight="45.0" prefWidth="1080.0" spacing="30.0">
               <children>
-                <Label alignment="CENTER" prefHeight="14.0" prefWidth="80.0" text="ID">
+                <Label alignment="CENTER" prefHeight="14.0" prefWidth="80.0" text="No.">
                   <font>
                     <Font size="13.0" />
                   </font>

@@ -110,6 +110,8 @@ public class AdminBookEditDialogController {
         originalData = data;
         setOriginalBasicInfo();
         setBookCoverImage(originalData[1]);
+        lastImageURL = originalData[1];
+        imgUrlTextField.setText(originalData[1]);
         setQrCodeImage(null);
     }
 

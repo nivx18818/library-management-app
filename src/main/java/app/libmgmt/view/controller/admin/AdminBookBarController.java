@@ -16,12 +16,12 @@ public class AdminBookBarController {
     private static AdminBookBarController controller;
 
     @FXML
-    private Label idLabel, authorLabel, nameLabel, statusLabel, typeLabel;
+    private Label orderLabel, authorLabel, nameLabel, statusLabel, typeLabel;
     @FXML
     private ImageView bookImage, editFunction, deleteFunction, viewFunction;
 
     private int quantity = -1;
-    private String imgPath = "", publisher = "", publishedDate = "";
+    private String imgPath = "", publisher = "", publishedDate = "", bookID = "";
 
     public AdminBookBarController() {
         controller = this;
@@ -38,7 +38,7 @@ public class AdminBookBarController {
                 if (change.wasReplaced() && change.getFrom() >= 0 && change.getFrom() < change.getList().size()) {
                     String[] updatedBookData = change.getList().get(change.getFrom());
 
-                    if (idLabel.getText().equals(updatedBookData[0])) {
+                    if (bookID.equals(updatedBookData[0])) {
                         setData(updatedBookData);
                     }
                 }
@@ -62,6 +62,7 @@ public class AdminBookBarController {
     @FXML
     void imgDeleteOnMouseClicked(MouseEvent event) {
         openPopUp("/fxml/admin/admin-delete-confirmation-dialog.fxml", EnumUtils.PopupList.BOOK_DELETE);
+        AdminBooksLayoutController.getInstance().setDeletedOrderNumber(orderLabel.getText());
     }
 
     @FXML
@@ -77,7 +78,7 @@ public class AdminBookBarController {
     // --- Helper Methods ---
     private void openPopUp(String fxmlPath, EnumUtils.PopupList popupType) {
         ChangeScene.openAdminPopUp(AdminBooksLayoutController.getInstance().getStackPaneContainer(),
-                fxmlPath, idLabel.getText(), popupType);
+                fxmlPath, bookID, popupType);
     }
 
     private void updateIconOnHover(MouseEvent event, boolean isHovered) {
@@ -99,12 +100,15 @@ public class AdminBookBarController {
     }
 
     public String[] getData() {
-        return new String[]{idLabel.getText(), imgPath, nameLabel.getText(), typeLabel.getText(),
+        return new String[]{bookID, imgPath, nameLabel.getText(), typeLabel.getText(),
                 authorLabel.getText(), Integer.toString(quantity), publisher, publishedDate};
     }
 
     public void setData(String[] data) {
-        updateLabelIfChanged(idLabel, data[0]);
+        // Form data: [id, imgPath, name, type, author, quantity, publisher, publishedDate]
+        // Form book bar: [No., imgPath, name, type, author, quantity(available)]
+        bookID = data[0];
+        orderLabel.setText(Integer.toString(AdminGlobalController.getInstance().getObservableBookData().indexOf(data) + 1));
         updateImageIfChanged(data[1], bookImage);
         updateLabelIfChanged(nameLabel, data[2]);
         updateLabelIfChanged(typeLabel, data[3]);
@@ -161,6 +165,10 @@ public class AdminBookBarController {
     }
 
     public String getId() {
-        return idLabel.getText();
+        return bookID;
+    }
+
+    public void setOrderNumber(String order) {
+        orderLabel.setText(order);
     }
 }

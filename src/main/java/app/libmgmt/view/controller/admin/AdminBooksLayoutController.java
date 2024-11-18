@@ -25,12 +25,20 @@ public class AdminBooksLayoutController {
     private static AdminBooksLayoutController controller;
     private final AdminGlobalController adminGlobalController = AdminGlobalController.getInstance();
 
-    @FXML private StackPane stackPaneContainer;
-    @FXML private JFXButton addBookButton;
-    @FXML private Pane refreshPaneButton;
-    @FXML private Pane searchPane;
-    @FXML private TextField textSearch;
-    @FXML private VBox vBoxBooksList;
+    @FXML
+    private StackPane stackPaneContainer;
+    @FXML
+    private JFXButton addBookButton;
+    @FXML
+    private Pane refreshPaneButton;
+    @FXML
+    private Pane searchPane;
+    @FXML
+    private TextField textSearch;
+    @FXML
+    private VBox vBoxBooksList;
+
+    private String deletedOrderNumber;
 
     private final List<String[]> observableBooksData = adminGlobalController.getObservableBookData();
 
@@ -71,7 +79,7 @@ public class AdminBooksLayoutController {
 
             @Override
             protected void failed() {
-                // Xử lý khi tác vụ thất bại
+                // Handle when task fails
                 System.out.println("Task failed: " + getException().getMessage());
             }
         };
@@ -79,14 +87,17 @@ public class AdminBooksLayoutController {
         new Thread(preloadTask).start();
     }
 
-
     private void loadBookBar(String[] data) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(AdminBooksLayoutController.class.getResource("/fxml/admin/admin-book-bar.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(
+                    AdminBooksLayoutController.class.getResource("/fxml/admin/admin-book-bar.fxml"));
             Pane scene = fxmlLoader.load();
             scene.setId(data[0]);
             AdminBookBarController controller = fxmlLoader.getController();
             controller.setData(data);
+
+            // Set the controller as UserData for easy access later
+            scene.setUserData(controller);
 
             Platform.runLater(() -> {
                 vBoxBooksList.getChildren().add(scene);
@@ -99,26 +110,41 @@ public class AdminBooksLayoutController {
 
     // Book Data Changes Listener
     private void listenBookDataChanges() {
-        adminGlobalController.getObservableBookData().addListener((ListChangeListener.Change<? extends String[]> change) -> {
-            while (change.next()) {
-                if (change.wasRemoved() && change.getRemovedSize() != change.getAddedSize()) {
-                    for (String[] book : change.getRemoved()) {
-                        if (book != null && book.length > 0) {
-                            String bookId = book[0];
-                            removeBookFromVBox(bookId);
+        adminGlobalController.getObservableBookData()
+                .addListener((ListChangeListener.Change<? extends String[]> change) -> {
+                    while (change.next()) {
+                        if (change.wasRemoved() && change.getRemovedSize() != change.getAddedSize()) {
+                            String[] book = change.getRemoved().get(0);
+                            if (book != null && book.length > 0) {
+                                String bookId = book[0];
+                                removeBookFromVBox(bookId);
+                            }
                         }
                     }
-                }
-            }
-        });
+                });
     }
-
 
     private void removeBookFromVBox(String bookId) {
         vBoxBooksList.getChildren().stream()
                 .filter(child -> child.getId() != null && child.getId().equals(bookId))
                 .findFirst()
-                .ifPresent(child -> Platform.runLater(() -> vBoxBooksList.getChildren().remove(child)));
+                .ifPresent(child -> Platform.runLater(() -> {
+                    vBoxBooksList.getChildren().remove(child);
+                    handleChangeOrderNumber(deletedOrderNumber);
+                }));
+    }
+
+    private void handleChangeOrderNumber(String deletedOrderNumber) {
+        int orderNumber = Integer.parseInt(deletedOrderNumber);
+        for (int i = orderNumber - 1; i < vBoxBooksList.getChildren().size(); i++) {
+            Pane bookBar = (Pane) vBoxBooksList.getChildren().get(i);
+            AdminBookBarController controller = (AdminBookBarController) bookBar.getUserData();
+            if (controller != null) {
+                controller.setOrderNumber(String.valueOf(i + 1));
+            } else {
+                System.out.println("Controller property is missing or not of type AdminBookBarController");
+            }
+        }
     }
 
     // Refresh Table
@@ -175,5 +201,9 @@ public class AdminBooksLayoutController {
 
     public StackPane getStackPaneContainer() {
         return stackPaneContainer;
+    }
+
+    public void setDeletedOrderNumber(String deletedOrderNumber) {
+        this.deletedOrderNumber = deletedOrderNumber;
     }
 }

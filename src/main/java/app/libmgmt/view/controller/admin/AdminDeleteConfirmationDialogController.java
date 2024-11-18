@@ -140,7 +140,7 @@ public class AdminDeleteConfirmationDialogController {
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.4), e -> {
             notificationLabel.setText("Deleted successfully!");
             lblConfirm.setText("Deleted!");
-            notificationLabel.setStyle("-fx-text-fill: #00ff00");
+            notificationLabel.setStyle("-fx-text-fill: green;");
         }));
         Timeline timeline2 = new Timeline(new KeyFrame(Duration.seconds(1.4), e -> {
             closeDialog();

@@ -102,7 +102,7 @@
               <children>
                 <VBox prefHeight="50.0" prefWidth="233.0">
                   <children>
-                    <Label fx:id="idLabel" text="Book ID : ">
+                    <Label fx:id="idLabel" text="Book ID / ISBN : ">
                       <font>
                         <Font size="15.0" />
                       </font>

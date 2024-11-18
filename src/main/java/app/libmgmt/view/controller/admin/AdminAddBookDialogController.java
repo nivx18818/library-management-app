@@ -53,30 +53,37 @@ public class AdminAddBookDialogController {
         container.setOnMouseClicked(
                 event -> {
                     container.requestFocus();
-                }
-        );
+                });
     }
 
     @FXML
     void addButtonOnAction(ActionEvent event) throws IOException {
         if (checkValidInfo()) {
-            String[] bookData = new String[]{txtCoverURL.getText(), txtName.getText(),
+            String[] bookData = new String[] { txtCoverURL.getText(), txtName.getText(),
                     txtType.getText(), txtAuthor.getText(), quantitySpinner.getValue().toString(),
-                    txtPublisher.getText(), publishedDatePicker.getValue().toString()};
+                    txtPublisher.getText(), publishedDatePicker.getValue().toString() };
             addBook(bookData);
         }
     }
 
     public void addBook(String[] bookData) {
+        // data format: [coverURL, name, type, author, quantity, publisher,
+        // publishedDate]
         AdminGlobalController.insertBooksData(bookData);
         Task<Void> task = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
                 AdminBooksLayoutController controller = AdminBooksLayoutController.getInstance();
                 if (controller.getSearchText().isEmpty()) {
-                    List<String[]> data = new ArrayList<>() {{
-                        add(AdminGlobalController.getLastBookDataFromDatabase());
-                    }};
+                    List<String[]> data = new ArrayList<>() {
+                        {
+                            // add id to the first index
+                            // data format: [id, coverURL, name, type, author, quantity, publisher,
+                            // publishedDate] to match the format of preloadData method in
+                            // AdminBooksLayoutController
+                            add(AdminGlobalController.getInstance().getObservableBookData().getLast());
+                        }
+                    };
                     controller.preloadData(data);
                 }
                 return null;
@@ -116,7 +123,6 @@ public class AdminAddBookDialogController {
         }
         return true;
     }
-
 
     @FXML
     void cancelButtonOnAction(ActionEvent event) {
