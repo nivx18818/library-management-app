@@ -115,6 +115,10 @@ public class ChangeScene {
         }
 
         pane.getChildren().clear();
+        if (fxmlPath.contains("loading")) {
+            pane.getChildren().add(FXMLLoader.load(AdminGlobalController.class.getResource("/fxml/" + fxmlPath)));
+            return;
+        }
         FXMLLoader loader = new FXMLLoader((userType == EnumUtils.UserType.ADMIN ? AdminGlobalController.class.getResource(
                 "/fxml/admin/" + fxmlPath) : UserGlobalController.class.getResource("/fxml/user/" + fxmlPath)));
         Parent root = loader.load();
