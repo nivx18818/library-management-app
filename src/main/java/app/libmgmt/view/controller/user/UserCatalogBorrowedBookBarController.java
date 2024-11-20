@@ -62,10 +62,11 @@ public class UserCatalogBorrowedBookBarController {
     void btnBookReturnedOnAction(ActionEvent event) {
 
     }
-    
+
     @FXML
     void btnBookReturnedOnMouseEntered(MouseEvent event) {
-        hBoxReturn.setStyle("-fx-background-color: #f2f2f2; -fx-background-radius: 10px; -fx-border-color: #000; -fx-border-radius: 10px; -fx-border-width: 1px;");
+        hBoxReturn.setStyle(
+                "-fx-background-color: #f2f2f2; -fx-background-radius: 10px; -fx-border-color: #000; -fx-border-radius: 10px; -fx-border-width: 1.2px;");
         returnImage.setImage(new Image(getClass().getResource(hoverReturnedLogo).toExternalForm()));
         returnLabel.setStyle("-fx-text-fill: #000;");
     }

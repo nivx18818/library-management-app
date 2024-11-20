@@ -188,7 +188,8 @@ public class AdminAddUserDialogController {
     private void addAdmin(String[] adminInfo) {
         if (checkValidAdmin(adminInfo, EnumUtils.UserType.ADMIN)) {
             AdminDashboardController adminDashboardController = AdminDashboardController.getInstance();
-            adminDashboardController.getAdminData().add(adminInfo);
+            // form data: [name, email, password, cfPassword]
+            AdminGlobalController.getInstance().getAdminData().add(adminInfo);
             adminDashboardController.loadAdminDataTable(adminInfo[0], adminInfo[1]);
             showNotification("Added successfully", "#08a80d");
             setDefaultContent();
@@ -198,9 +199,9 @@ public class AdminAddUserDialogController {
     private void addStudent(String[] studentInfo) {
         if (checkValidUser(studentInfo, EnumUtils.UserType.STUDENT)) {
             List<String[]> userData = new ArrayList<>();
+            // form data: ["Student", name, major, email, id, password, cfPassword]
             String[] newUser = { "Student", studentInfo[0], studentInfo[1], studentInfo[2], studentInfo[3],
                     studentInfo[4] };
-            System.out.println("Adding student");
             userData.add(newUser);
 
             if (adminUsersLayoutController.getStatus() == EnumUtils.UserType.STUDENT) {
@@ -209,7 +210,6 @@ public class AdminAddUserDialogController {
             }
 
             adminGlobalController.getObservableUsersData(EnumUtils.UserType.STUDENT).add(newUser);
-            adminUsersLayoutController.getStudentsData().add(newUser);
             showNotification("Added successfully", "#08a80d");
         }
     }
@@ -217,16 +217,15 @@ public class AdminAddUserDialogController {
     private void addGuest(String[] guestInfo) {
         if (checkValidUser(guestInfo, EnumUtils.UserType.GUEST)) {
             List<String[]> userData = new ArrayList<>();
+            // form data: ["External Borrower", name, phone, email, citizen id, password, cfPassword]
             String[] newUser = { "External Borrower", guestInfo[0], guestInfo[1], guestInfo[2], guestInfo[3],
                     guestInfo[4] };
-            System.out.println("Adding guest");
             userData.add(newUser);
             if (adminUsersLayoutController.getStatus() == EnumUtils.UserType.GUEST) {
                 adminUsersLayoutController.preloadData(userData, "admin-users-guest-bar.fxml",
                         AdminUsersLayoutController.PreloadType.ADD);
             }
             adminGlobalController.getObservableUsersData(EnumUtils.UserType.GUEST).add(newUser);
-            adminUsersLayoutController.getGuestsData().add(newUser);
             showNotification("Added successfully", "#08a80d");
         }
     }

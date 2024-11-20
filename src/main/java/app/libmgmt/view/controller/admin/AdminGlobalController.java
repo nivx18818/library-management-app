@@ -91,7 +91,7 @@ public class AdminGlobalController {
 
     public List<String[]> preLoadGuestsData() {
         List<String[]> data = new ArrayList<>();
-        data.add(new String[]{"Student", "Ho Hoai Ho", "0941512278", "2302ad21@vnu.edu.vn", "037205005003"});
+        data.add(new String[]{"External Borrower", "Ho Hoai Ho", "0941512278", "2302ad21@vnu.edu.vn", "037205005003"});
         return data;
     }
 
