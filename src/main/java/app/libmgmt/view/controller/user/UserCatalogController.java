@@ -89,6 +89,10 @@ public class UserCatalogController {
 
     @FXML
     void btnBorrowedBooksOnAction(ActionEvent event) {
+        if (EnumUtils.currentStateUserCatalog == EnumUtils.CATALOG_STATE.BORROWED) {
+            return;
+        }
+
         updateStatusUI(EnumUtils.CATALOG_STATE.BORROWED);
         showBorrowedBooksList();
     }
@@ -106,6 +110,10 @@ public class UserCatalogController {
 
     @FXML
     void btnReturnedBooksOnAction(ActionEvent event) {
+        if (EnumUtils.currentStateUserCatalog == EnumUtils.CATALOG_STATE.RETURNED) {
+            return;
+        }
+
         updateStatusUI(EnumUtils.CATALOG_STATE.RETURNED);
         showReturnedBooksList();
     }

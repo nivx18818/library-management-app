@@ -84,6 +84,7 @@ public class UserDashboardController {
     }
 
     public ObservableList<PieChart.Data> addPieChartData() {
+        // TODO: Get total borrowed books from database and calculate percentage
         int totalBorrowedBooks = getTotalBorrowedBooks();
         double percentageBorrowed = 0;
         // if (!booksData.isEmpty()) {
@@ -108,6 +109,7 @@ public class UserDashboardController {
 
     @FXML
     void btnBorrowedBookOnAction(ActionEvent event) throws IOException {
+        EnumUtils.currentStateUserCatalog = EnumUtils.CATALOG_STATE.BORROWED;
         navigationController.handleNavigation(EnumUtils.NavigationButton.CATALOG, "user-catalog-form.fxml", navigationController.getCatalogButton());
     }
 
