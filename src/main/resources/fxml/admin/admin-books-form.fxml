@@ -61,7 +61,7 @@
             </HBox>
             <ScrollPane hbarPolicy="NEVER" layoutY="43.0" prefHeight="546.0" prefWidth="1101.0" style="-fx-background-color: white;">
               <content>
-                <VBox fx:id="vBoxBooksList" alignment="TOP_CENTER" prefHeight="546.0" prefWidth="1105.0" style="-fx-background-color: white;" />
+                <VBox fx:id="vBoxBooksList" alignment="TOP_CENTER" prefHeight="546.0" prefWidth="1101.0" style="-fx-background-color: white;" />
               </content>
             </ScrollPane>
             <Pane layoutX="1087.0" layoutY="42.0" prefHeight="547.0" prefWidth="13.0" style="-fx-background-color: white;" />

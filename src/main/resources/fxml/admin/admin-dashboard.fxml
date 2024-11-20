@@ -4,6 +4,7 @@
 <?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.effect.Bloom?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
@@ -100,7 +101,7 @@
                 <Line startY="64.0" strokeWidth="1.5" />
                 <VBox alignment="CENTER_LEFT" prefHeight="105.0" prefWidth="148.0">
                   <children>
-                    <Text fx:id="totalUser" strokeType="OUTSIDE" strokeWidth="0.0" text="150">
+                    <Text fx:id="totalUser" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
                       <font>
                         <Font name="System Bold" size="34.0" />
                       </font>
@@ -131,7 +132,7 @@
                 <Line startY="64.0" strokeWidth="1.5" />
                 <VBox alignment="CENTER_LEFT" prefHeight="105.0" prefWidth="148.0">
                   <children>
-                    <Text fx:id="totalBook" strokeType="OUTSIDE" strokeWidth="0.0" text="18">
+                    <Text fx:id="totalBook" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
                       <font>
                         <Font name="System Bold" size="34.0" />
                       </font>
@@ -156,6 +157,9 @@
                       <font>
                         <Font size="18.0" />
                       </font>
+                                 <effect>
+                                    <Bloom threshold="0.21" />
+                                 </effect>
                     </Label>
                     <Pane layoutX="236.0" layoutY="56.0" prefHeight="273.0" prefWidth="13.0" style="-fx-background-color: #fff;" />
                     <ScrollPane hbarPolicy="NEVER" layoutX="11.0" layoutY="55.0" prefHeight="274.0" prefWidth="250.0" style="-fx-background-color: #fff; -fx-background-radius: 10px;">
@@ -175,6 +179,9 @@
                       <font>
                         <Font size="18.0" />
                       </font>
+                                 <effect>
+                                    <Bloom threshold="0.23" />
+                                 </effect>
                     </Label>
                     <ScrollPane hbarPolicy="NEVER" layoutX="15.0" layoutY="59.0" prefHeight="274.0" prefWidth="270.0" style="-fx-background-color: white; -fx-background-radius: 10px;">
                       <content>

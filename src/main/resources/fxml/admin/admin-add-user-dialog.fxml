@@ -121,7 +121,7 @@
             <ToggleGroup fx:id="addUserType" />
           </toggleGroup>
         </JFXRadioButton>
-        <JFXRadioButton fx:id="guestRadioBtn" onAction="#guestRadioBtnOnAction" prefHeight="21.0" prefWidth="145.0" text="External Borrowed" textAlignment="CENTER" toggleGroup="$addUserType">
+        <JFXRadioButton fx:id="guestRadioBtn" onAction="#guestRadioBtnOnAction" prefHeight="21.0" prefWidth="145.0" text="External Borrower" textAlignment="CENTER" toggleGroup="$addUserType">
           <font>
             <Font size="14.0" />
           </font>

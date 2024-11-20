@@ -118,7 +118,7 @@
                         </Label>
                      </children>
                      <effect>
-                        <Bloom />
+                        <Bloom threshold="0.34" />
                      </effect>
                   </HBox>
                   <ScrollPane hbarPolicy="NEVER" layoutY="43.0" prefHeight="602.0" prefWidth="1114.0" style="-fx-background-color: white;">
