@@ -1,4 +1,4 @@
-package app.libmgmt.service;
+package app.libmgmt.service.external;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
