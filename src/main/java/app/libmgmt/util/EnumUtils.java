@@ -2,6 +2,8 @@ package app.libmgmt.util;
 
 public class EnumUtils {
 
+    public static CATALOG_STATE currentStateUserCatalog = CATALOG_STATE.BORROWED;
+
     public enum Object {
         ADMIN,
         USER
@@ -27,6 +29,10 @@ public class EnumUtils {
         USER_EDIT,
         STUDENT_DELETE,
         GUEST_DELETE,
+    }
+
+    public enum CATALOG_STATE {
+        BORROWED, RETURNED
     }
 
     public static String[] UETMajor = {"CN1 - Information Technology", "CN2 - Computer Engineering",

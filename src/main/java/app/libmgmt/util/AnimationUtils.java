@@ -3,7 +3,9 @@ package app.libmgmt.util;
 import animatefx.animation.*;
 import com.jfoenix.controls.JFXButton;
 import javafx.animation.FadeTransition;
+import javafx.animation.ScaleTransition;
 import javafx.animation.SequentialTransition;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -11,6 +13,11 @@ import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
 public class AnimationUtils {
+
+    public final static double HOVER_SCALE = 1.1;
+    public final static double DEFAULT_SCALE = 1.0;
+    public final static Duration SCALE_DURATION = Duration.millis(200);
+
     public static void playNotificationTimeline(Label label, double seconds, String color) {
         label.setStyle("-fx-text-fill: " + color + ";");
         FadeTransition fadeIn = new FadeTransition(Duration.seconds(0.3), label);
@@ -26,6 +33,15 @@ public class AnimationUtils {
 
         SequentialTransition sequentialTransition = new SequentialTransition(fadeIn, fadeOut);
         sequentialTransition.play();
+    }
+
+    public static ScaleTransition createScaleTransition(double scaleTo, Node node) {
+        ScaleTransition scaleTransition = new ScaleTransition(SCALE_DURATION, node);
+
+        scaleTransition.setToX(scaleTo);
+        scaleTransition.setToY(scaleTo);
+
+        return scaleTransition;
     }
 
     public static void fadeInRight(Pane pane, double speed) {
@@ -56,9 +72,9 @@ public class AnimationUtils {
     }
 
     public static void zoomIn(Pane pane, double speed) {
-         ZoomIn zi = new ZoomIn(pane);
-         zi.setSpeed(speed);
-         zi.play();
+        ZoomIn zi = new ZoomIn(pane);
+        zi.setSpeed(speed);
+        zi.play();
     }
 
     public static void zoomOut(Pane pane, double speed) {
@@ -68,10 +84,9 @@ public class AnimationUtils {
     }
 
     public static void hoverCloseIcons(JFXButton closeDialogButton, ImageView imgClose) {
-        Image hoverImg =
-                new Image(AnimationUtils.class.getResource("/assets/icon/close-square2.png").toExternalForm());
-        Image defaultImg =
-                new Image(AnimationUtils.class.getResource("/assets/icon/close-square 1.png").toExternalForm());
+        Image hoverImg = new Image(AnimationUtils.class.getResource("/assets/icon/close-square2.png").toExternalForm());
+        Image defaultImg = new Image(
+                AnimationUtils.class.getResource("/assets/icon/close-square 1.png").toExternalForm());
         closeDialogButton.setOnMouseEntered(event -> imgClose.setImage(hoverImg));
         closeDialogButton.setOnMouseExited(event -> imgClose.setImage(defaultImg));
     }

@@ -21,13 +21,13 @@
 
 <StackPane fx:id="stackPaneContainer" prefHeight="718.0" prefWidth="1218.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.libmgmt.view.controller.user.UserDashboardController">
   <children>
-    <Pane style="-fx-background-color: #F2F2F2;">
+    <Pane style="-fx-background-color: #f2f2f2;">
       <children>
         <VBox alignment="CENTER_LEFT" fillWidth="false" layoutX="39.0" layoutY="1.0" prefHeight="718.0" prefWidth="670.0" spacing="40.0">
           <children>
             <HBox prefHeight="150.0" prefWidth="670.0" spacing="29.0">
               <children>
-                <HBox alignment="CENTER_LEFT" fillHeight="false" prefHeight="150.0" prefWidth="320.0" spacing="15.0" style="-fx-background-color: #fff; -fx-background-radius: 12;">
+                <HBox fx:id="hBoxBorrowedBookList" alignment="CENTER_LEFT" fillHeight="false" prefHeight="150.0" prefWidth="320.0" spacing="15.0" style="-fx-background-color: #fff; -fx-background-radius: 12;">
                   <children>
                     <Line endX="3.136810302734375" endY="109.91000366210938" startX="3.0" startY="-7.0">
                       <HBox.margin>
@@ -60,7 +60,7 @@
                     </Text>
                   </children>
                 </HBox>
-                <HBox alignment="CENTER_LEFT" fillHeight="false" prefHeight="150.0" prefWidth="320.0" spacing="15.0" style="-fx-background-color: #fff; -fx-background-radius: 12;">
+                <HBox fx:id="hBoxReturnedBookList" alignment="CENTER_LEFT" fillHeight="false" prefHeight="150.0" prefWidth="320.0" spacing="15.0" style="-fx-background-color: #fff; -fx-background-radius: 12;">
                   <children>
                     <Line endX="3.136810302734375" endY="109.91000366210938" startX="3.0" startY="-7.0">
                       <HBox.margin>
@@ -100,7 +100,7 @@
                 <Insets right="12.0" />
               </VBox.margin>
               <children>
-                <HBox alignment="CENTER_LEFT" fillHeight="false" prefHeight="150.0" prefWidth="389.0" spacing="15.0" style="-fx-background-color: #fff; -fx-background-radius: 12;">
+                <HBox fx:id="hBoxAvailableBookInvetory" alignment="CENTER_LEFT" fillHeight="false" prefHeight="150.0" prefWidth="389.0" spacing="15.0" style="-fx-background-color: #fff; -fx-background-radius: 12;">
                   <children>
                     <Line endX="3.136810302734375" endY="109.91000366210938" startX="3.0" startY="-7.0">
                       <HBox.margin>
@@ -230,17 +230,17 @@
             <Line endX="-11.268310546875" endY="85.0" layoutX="109.0" layoutY="9.0" startX="-11.268310546875" startY="8.0" />
           </children>
         </Pane>
-            <JFXButton layoutX="39.0" layoutY="47.0" onAction="#btnBorrowedBookOnAction" onMouseEntered="#btnBorrowedBookOnMouseEntered" onMouseExited="#btnBorrowedBookOnMouseExited" prefHeight="150.0" prefWidth="320.0" style="-fx-background-radius: 12;" text=" ">
+            <JFXButton fx:id="borrowedBookButton" layoutX="39.0" layoutY="47.0" onAction="#btnBorrowedBookOnAction" onMouseEntered="#btnOnMouseEntered" onMouseExited="#btnOnMouseExited" prefHeight="150.0" prefWidth="320.0" style="-fx-background-radius: 12;" text=" " textFill="#959595">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </JFXButton>
-            <JFXButton layoutX="388.0" layoutY="47.0" onAction="#btnReturnedBookOnAction" onMouseEntered="#btnBorrowedBookOnMouseEntered" onMouseExited="#btnBorrowedBookOnMouseExited" prefHeight="150.0" prefWidth="320.0" style="-fx-background-radius: 12;" text=" ">
+            <JFXButton fx:id="returnedBookButton" layoutX="388.0" layoutY="47.0" onAction="#btnReturnedBookOnAction" onMouseEntered="#btnOnMouseEntered" onMouseExited="#btnOnMouseExited" prefHeight="150.0" prefWidth="320.0" style="-fx-background-radius: 12;" text=" " textFill="#9e9e9e">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </JFXButton>
-            <JFXButton layoutX="39.0" layoutY="250.0" onAction="#btnAvailableBookOnAction" onMouseEntered="#btnBorrowedBookOnMouseEntered" onMouseExited="#btnBorrowedBookOnMouseExited" prefHeight="150.0" prefWidth="389.0" style="-fx-background-radius: 12;" text=" ">
+            <JFXButton fx:id="availableBookButton" layoutX="39.0" layoutY="250.0" onAction="#btnAvailableBookOnAction" onMouseEntered="#btnOnMouseEntered" onMouseExited="#btnOnMouseExited" prefHeight="150.0" prefWidth="389.0" style="-fx-background-radius: 12;" text=" " textFill="#929292">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>

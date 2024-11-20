@@ -22,9 +22,10 @@ public class ChangeScene {
     public static JFXDialog dialog;
 
     /**
-     *  Open a popup window for admin
+     * Open a popup window for admin
+     * 
      * @param stackPane The stack pane to display the pop up
-     * @param path The path to the fxml file
+     * @param path      The path to the fxml file
      */
     public static void openAdminPopUp(StackPane stackPane, String path) {
         try {
@@ -44,13 +45,14 @@ public class ChangeScene {
 
     /**
      * Open a popup window for admin
+     * 
      * @param stackPane The stack pane to display the popup
-     * @param path The path to the fxml file
-     * @param id The id which is used to identify the object
+     * @param path      The path to the fxml file
+     * @param id        The id which is used to identify the object
      * @param popupList The type of popup
      */
     public static void openAdminPopUp(StackPane stackPane, String path, String id,
-                                      EnumUtils.PopupList popupList) {
+            EnumUtils.PopupList popupList) {
         try {
             FXMLLoader loader = new FXMLLoader(AdminNavigationController.class.getResource(path));
             Pane content = loader.load();
@@ -73,7 +75,8 @@ public class ChangeScene {
                     AdminDeleteConfirmationDialogController deleteController = loader.getController();
                     if (popupList == EnumUtils.PopupList.BOOK_DELETE) {
                         deleteController.setId(id, popupList);
-                    } else if (popupList == EnumUtils.PopupList.STUDENT_DELETE || popupList == EnumUtils.PopupList.GUEST_DELETE) {
+                    } else if (popupList == EnumUtils.PopupList.STUDENT_DELETE
+                            || popupList == EnumUtils.PopupList.GUEST_DELETE) {
                         deleteController.setId(id, popupList);
                     }
                     break;
@@ -89,7 +92,7 @@ public class ChangeScene {
     }
 
     public static void openUserPopUp(StackPane stackPane, String path) {
-        //TODO: Implement for user popup
+        // TODO: Implement for user popup
     }
 
     public static void closePopUp() {
@@ -108,21 +111,25 @@ public class ChangeScene {
 
         Pane pane = new Pane();
         if (fxmlPath.contains("loading")) {
-            pane = (userType == EnumUtils.UserType.ADMIN ? ((AdminGlobalController)controller).getBackgroundPane() : ((UserGlobalController)controller).getBackgroundPane());
+            pane = (userType == EnumUtils.UserType.ADMIN ? ((AdminGlobalController) controller).getBackgroundPane()
+                    : ((UserGlobalController) controller).getBackgroundPane());
             pane.getChildren().clear();
             pane.getChildren().add(FXMLLoader.load(AdminGlobalController.class.getResource("/fxml/" + fxmlPath)));
             return;
-        }
-        else {
-            pane = (userType == EnumUtils.UserType.ADMIN ? ((AdminGlobalController)controller).getPagingPane() : ((UserGlobalController)controller).getPagingPane());
+        } else {
+            pane = (userType == EnumUtils.UserType.ADMIN ? ((AdminGlobalController) controller).getPagingPane()
+                    : ((UserGlobalController) controller).getPagingPane());
         }
 
         pane.getChildren().clear();
-        FXMLLoader loader = new FXMLLoader((userType == EnumUtils.UserType.ADMIN ? AdminGlobalController.class.getResource(
-                "/fxml/admin/" + fxmlPath) : UserGlobalController.class.getResource("/fxml/user/" + fxmlPath)));
+        FXMLLoader loader = new FXMLLoader(
+                (userType == EnumUtils.UserType.ADMIN ? AdminGlobalController.class.getResource(
+                        "/fxml/admin/" + fxmlPath) : UserGlobalController.class.getResource("/fxml/user/" + fxmlPath)));
         Parent root = loader.load();
         pane.getChildren().add(root);
-        AnimationUtils.zoomIn( (userType == EnumUtils.UserType.ADMIN ? ((AdminGlobalController)controller).getPagingPane() : ((UserGlobalController)controller).getPagingPane()), 1.1);
+        AnimationUtils
+                .zoomIn((userType == EnumUtils.UserType.ADMIN ? ((AdminGlobalController) controller).getPagingPane()
+                        : ((UserGlobalController) controller).getPagingPane()), 1.1);
     }
 
     public static void changeInterfaceWindow(Stage stage, String fxmlPath, String title) throws IOException {

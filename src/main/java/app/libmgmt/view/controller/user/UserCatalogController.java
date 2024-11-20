@@ -7,6 +7,7 @@ import java.util.List;
 import com.jfoenix.controls.JFXButton;
 
 import app.libmgmt.util.AnimationUtils;
+import app.libmgmt.util.EnumUtils;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -22,10 +23,6 @@ import javafx.scene.text.Text;
 public class UserCatalogController {
 
     private static UserCatalogController controller;
-
-    public enum STATE {
-        BORROWED, RETURNED
-    }
 
     @FXML
     private JFXButton borrowedBooksButton;
@@ -67,7 +64,6 @@ public class UserCatalogController {
     private final UserGlobalController userGlobalController = UserGlobalController.getInstance();
     private final List<String[]> borrowedBooksData = userGlobalController.getBorrowedBooksData();
     private final List<String[]> returnedBooksData = getReturnedBooksData();
-    private STATE status = STATE.BORROWED;
 
     // Constructor and Singleton Pattern
     public UserCatalogController() {
@@ -82,24 +78,26 @@ public class UserCatalogController {
     public void initialize() {
         System.out.println("User Catalog initialized");
 
-        if (status == STATE.BORROWED) {
+        if (EnumUtils.currentStateUserCatalog == EnumUtils.CATALOG_STATE.BORROWED) {
+            updateStatusUI(EnumUtils.CATALOG_STATE.BORROWED);
             showBorrowedBooksList();
-        } else if (status == STATE.RETURNED) {
+        } else if (EnumUtils.currentStateUserCatalog == EnumUtils.CATALOG_STATE.RETURNED) {
+            updateStatusUI(EnumUtils.CATALOG_STATE.RETURNED);
             showReturnedBooksList();
         }
     }
 
     @FXML
     void btnBorrowedBooksOnAction(ActionEvent event) {
-        updateStatusUI(STATE.BORROWED);
+        updateStatusUI(EnumUtils.CATALOG_STATE.BORROWED);
         showBorrowedBooksList();
     }
 
     @FXML
     void btnRefreshTableOnAction(ActionEvent event) {
-        if (status == STATE.BORROWED) {
+        if (EnumUtils.currentStateUserCatalog == EnumUtils.CATALOG_STATE.BORROWED) {
             showBorrowedBooksList();
-        } else if (status == STATE.RETURNED) {
+        } else if (EnumUtils.currentStateUserCatalog == EnumUtils.CATALOG_STATE.RETURNED) {
             showReturnedBooksList();
         }
         textSearch.clear();
@@ -108,7 +106,7 @@ public class UserCatalogController {
 
     @FXML
     void btnReturnedBooksOnAction(ActionEvent event) {
-        updateStatusUI(STATE.RETURNED);
+        updateStatusUI(EnumUtils.CATALOG_STATE.RETURNED);
         showReturnedBooksList();
     }
 
@@ -122,22 +120,22 @@ public class UserCatalogController {
     // Data Display
     public void showBorrowedBooksList() {
         vBoxBooksList.getChildren().clear();
-        preloadData(borrowedBooksData, STATE.BORROWED);
+        preloadData(borrowedBooksData, EnumUtils.CATALOG_STATE.BORROWED);
     }
 
     public void showReturnedBooksList() {
         vBoxBooksList.getChildren().clear();
-        preloadData(returnedBooksData, STATE.RETURNED);
+        preloadData(returnedBooksData, EnumUtils.CATALOG_STATE.RETURNED);
     }
 
     // Data Preloading
-    public void preloadData(List<String[]> data, STATE status) {
+    public void preloadData(List<String[]> data, EnumUtils.CATALOG_STATE currentStatus) {
         Task<Void> preloadTask = new Task<Void>() {
             @Override
             protected Void call() {
                 try {
                     for (String[] d : data) {
-                        loadBorrowedBookBar(d, status);
+                        loadBorrowedBookBar(d, currentStatus);
                     }
                 } catch (Exception e) {
                     System.out.println("Error loading data table: " + e.getMessage());
@@ -157,14 +155,14 @@ public class UserCatalogController {
     }
 
     // Load a single borrowed book bar
-    public void loadBorrowedBookBar(String[] d, STATE status) {
+    public void loadBorrowedBookBar(String[] d, EnumUtils.CATALOG_STATE currentStatus) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(
                     getClass().getResource("/fxml/user/user-catalog-borowed-books-bar.fxml"));
             Pane scene = fxmlLoader.load();
             UserCatalogBorrowedBookBarController controller = fxmlLoader.getController();
             controller.setData(d);
-            if (status == STATE.BORROWED) {
+            if (currentStatus == EnumUtils.CATALOG_STATE.BORROWED) {
                 controller.setVisibleAction(true);
             } else {
                 controller.setVisibleAction(false);
@@ -201,17 +199,15 @@ public class UserCatalogController {
         returnedBooksPane.setStyle("-fx-background-color: #e3e3e3; -fx-background-radius: 12px;");
     }
 
-    private void updateStatusUI(STATE newStatus) {
+    private void updateStatusUI(EnumUtils.CATALOG_STATE newStatus) {
         setDefaultStyle();
-        if (newStatus == STATE.BORROWED) {
+        if (newStatus == EnumUtils.CATALOG_STATE.BORROWED) {
             borrowedBooksLabel.setStyle("-fx-text-fill: white;");
             borrowedBooksPane.setStyle("-fx-background-color: black; -fx-background-radius: 12px;");
         } else {
             returnedBooksLabel.setStyle("-fx-text-fill: white;");
             returnedBooksPane.setStyle("-fx-background-color: black; -fx-background-radius: 12px;");
         }
-        status = newStatus;
+        EnumUtils.currentStateUserCatalog = newStatus;
     }
-
-
 }

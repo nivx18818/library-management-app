@@ -122,9 +122,19 @@ public class UserNavigationController {
     }
 
     // Handles the navigation between scenes
-    private void handleNavigation(EnumUtils.NavigationButton buttonType, String fxmlFile, JFXButton button) throws IOException {
+    public void handleNavigation(EnumUtils.NavigationButton buttonType, String fxmlFile, JFXButton button) throws IOException {
         if (latestButtonClicked == buttonType) return;
         ChangeScene.navigateToScene(fxmlFile, UserType.STUDENT);
         handleEffectButtonClicked(button);
     }
+
+    // Getters for the navigation buttons
+    public JFXButton getCatalogButton() {
+        return catalogButton;
+    }
+
+    public JFXButton getBooksButton() {
+        return booksButton;
+    }
+
 }

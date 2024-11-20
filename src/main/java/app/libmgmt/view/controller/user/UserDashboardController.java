@@ -1,16 +1,25 @@
 package app.libmgmt.view.controller.user;
 
+import java.io.IOException;
+
+import com.jfoenix.controls.JFXButton;
+
+import app.libmgmt.util.AnimationUtils;
+import app.libmgmt.util.EnumUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.chart.PieChart;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 
 public class UserDashboardController {
+
+    UserNavigationController navigationController = UserNavigationController.getInstance();
 
     private static UserDashboardController controller;
 
@@ -26,6 +35,24 @@ public class UserDashboardController {
     @FXML
     private Text textQuote;
 
+    @FXML
+    private HBox hBoxBorrowedBookList;
+
+    @FXML
+    private HBox hBoxAvailableBookInvetory;
+
+    @FXML
+    private HBox hBoxReturnedBookList;
+
+    @FXML
+    private JFXButton borrowedBookButton;
+
+    @FXML
+    private JFXButton availableBookButton;
+
+    @FXML
+    private JFXButton returnedBookButton;
+
     public UserDashboardController() {
         controller = this;
     }
@@ -37,7 +64,7 @@ public class UserDashboardController {
     @FXML
     public void initialize() {
         System.out.println("User Dashboard initialized");
-        
+
         setPieChart();
     }
 
@@ -75,28 +102,41 @@ public class UserDashboardController {
     }
 
     @FXML
-    void btnAvailableBookOnAction(ActionEvent event) {
-
+    void btnAvailableBookOnAction(ActionEvent event) throws IOException {
+        navigationController.handleNavigation(EnumUtils.NavigationButton.BOOKS, "user-books-layout.fxml", navigationController.getBooksButton());
     }
 
     @FXML
-    void btnBorrowedBookOnAction(ActionEvent event) {
-
+    void btnBorrowedBookOnAction(ActionEvent event) throws IOException {
+        navigationController.handleNavigation(EnumUtils.NavigationButton.CATALOG, "user-catalog-form.fxml", navigationController.getCatalogButton());
     }
 
     @FXML
-    void btnBorrowedBookOnMouseEntered(MouseEvent event) {
-
+    void btnReturnedBookOnAction(ActionEvent event) throws IOException {
+        EnumUtils.currentStateUserCatalog = EnumUtils.CATALOG_STATE.RETURNED;
+        navigationController.handleNavigation(EnumUtils.NavigationButton.CATALOG, "user-catalog-form.fxml", navigationController.getCatalogButton());
     }
 
     @FXML
-    void btnBorrowedBookOnMouseExited(MouseEvent event) {
-
+    void btnOnMouseEntered(MouseEvent event) {
+        if (event.getSource() == borrowedBookButton) {
+            AnimationUtils.createScaleTransition(AnimationUtils.HOVER_SCALE, hBoxBorrowedBookList).play();
+        } else if (event.getSource() == availableBookButton) {
+            AnimationUtils.createScaleTransition(AnimationUtils.HOVER_SCALE, hBoxAvailableBookInvetory).play();
+        } else if (event.getSource() == returnedBookButton) {
+            AnimationUtils.createScaleTransition(AnimationUtils.HOVER_SCALE, hBoxReturnedBookList).play();
+        }
     }
 
     @FXML
-    void btnReturnedBookOnAction(ActionEvent event) {
-
+    void btnOnMouseExited(MouseEvent event) {
+        if (event.getSource() == borrowedBookButton) {
+            AnimationUtils.createScaleTransition(AnimationUtils.DEFAULT_SCALE, hBoxBorrowedBookList).play();
+        } else if (event.getSource() == availableBookButton) {
+            AnimationUtils.createScaleTransition(AnimationUtils.DEFAULT_SCALE, hBoxAvailableBookInvetory).play();
+        } else if (event.getSource() == returnedBookButton) {
+            AnimationUtils.createScaleTransition(AnimationUtils.DEFAULT_SCALE, hBoxReturnedBookList).play();
+        }
     }
 
 }
