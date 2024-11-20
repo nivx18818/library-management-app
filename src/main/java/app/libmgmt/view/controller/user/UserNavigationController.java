@@ -111,7 +111,7 @@ public class UserNavigationController {
 
     @FXML
     public void booksButtonClicked(MouseEvent event) throws IOException {
-//        handleNavigation(EnumUtils.NavigationButton.BOOKS, "admin-books-form.fxml", booksButton);
+       handleNavigation(EnumUtils.NavigationButton.BOOKS, "user-books-layout.fxml", booksButton);
     }
 
     @FXML
