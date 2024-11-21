@@ -11,13 +11,17 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.util.Duration;
 import app.libmgmt.util.AnimationUtils;
+import app.libmgmt.util.ChangeScene;
 import app.libmgmt.util.DateTimeUtils;
+import app.libmgmt.util.EnumUtils;
+import app.libmgmt.view.controller.admin.AdminGlobalController;
 
 import java.text.DateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Locale;
+
 public class UserHeaderController {
 
     @FXML
@@ -52,7 +56,7 @@ public class UserHeaderController {
     }
 
     @FXML
-    public void initialize() {        
+    public void initialize() {
         AnimationUtils.fadeInDown(rootPane);
         setDateAndTimeHeader();
     }
@@ -85,9 +89,17 @@ public class UserHeaderController {
         clock.play();
     }
 
+    // Handles the click event on the settings icon
     @FXML
-    void handleSettingOnMouseClicked(MouseEvent event) {
-        // TODO: Implement setting on mouse clicked
+    private void handleSettingOnMouseClicked(MouseEvent event) {
+        openSettingsDialog();
+    }
+
+    // Opens the settings dialog
+    private void openSettingsDialog() {
+        ChangeScene.openAdminPopUp(
+                UserGlobalController.getInstance().getStackPaneContainer(),
+                "/fxml/change-credentials-dialog.fxml", null, EnumUtils.PopupList.CHANGE_CREDENTIALS);
     }
 
     @FXML

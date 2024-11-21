@@ -2,6 +2,7 @@ package app.libmgmt.view.controller.user;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 import app.libmgmt.util.AnimationUtils;
 import javafx.collections.FXCollections;
@@ -100,6 +101,10 @@ public class UserGlobalController {
 
     public Pane getBackgroundPane() {
         return backgroundPane;
+    }
+
+    public StackPane getStackPaneContainer() {
+        return stackPaneContainer;
     }
 
 }

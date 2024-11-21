@@ -4,9 +4,7 @@ import app.libmgmt.view.controller.LoginController;
 import app.libmgmt.view.controller.admin.AdminBorrowedBookViewDialogController;
 import app.libmgmt.view.controller.admin.AdminDeleteConfirmationDialogController;
 import app.libmgmt.view.controller.admin.AdminGlobalController;
-import app.libmgmt.view.controller.admin.AdminNavigationController;
 import app.libmgmt.view.controller.user.UserGlobalController;
-import app.libmgmt.view.controller.user.UserNavigationController;
 
 import com.jfoenix.controls.JFXDialog;
 import app.libmgmt.initializer.AdminInitializer;

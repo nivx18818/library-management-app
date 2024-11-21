@@ -8,7 +8,6 @@ import javafx.scene.input.MouseEvent;
 
 import app.libmgmt.util.ChangeScene;
 import app.libmgmt.util.EnumUtils;
-import app.libmgmt.util.EnumUtils.UserType;
 
 public class AdminBorrowedBooksBarController {
 
