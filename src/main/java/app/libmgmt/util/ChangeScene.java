@@ -5,10 +5,10 @@ import app.libmgmt.view.controller.admin.AdminBorrowedBookViewDialogController;
 import app.libmgmt.view.controller.admin.AdminDeleteConfirmationDialogController;
 import app.libmgmt.view.controller.admin.AdminGlobalController;
 import app.libmgmt.view.controller.user.UserGlobalController;
+import app.libmgmt.view.controller.user.UserReturnBookConfirmationDialogController;
 
 import com.jfoenix.controls.JFXDialog;
 import app.libmgmt.initializer.AdminInitializer;
-
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -53,6 +53,11 @@ public class ChangeScene {
                         deleteController.setId(id, popupList);
                     }
                     break;
+                case RETURN_BOOK:
+                    UserReturnBookConfirmationDialogController returnController = loader.getController();
+                    if (id != null && !id.isEmpty()) {
+                        returnController.setId(id);
+                    }
                 case ADD_BOOK:
                 case ADD_USER:
                 case BOOK_VIEW:

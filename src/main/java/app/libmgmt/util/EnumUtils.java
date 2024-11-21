@@ -28,7 +28,8 @@ public class EnumUtils {
         CHANGE_CREDENTIALS,
         LOGOUT,
         USER_VIEW,
-        ADD_USER
+        ADD_USER,
+        RETURN_BOOK
     }
 
     public enum CATALOG_STATE {
