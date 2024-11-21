@@ -12,6 +12,7 @@ import javafx.util.Duration;
 import app.libmgmt.util.AnimationUtils;
 import app.libmgmt.util.ChangeScene;
 import app.libmgmt.util.DateTimeUtils;
+import app.libmgmt.util.EnumUtils;
 
 import java.text.DateFormat;
 import java.time.LocalDateTime;
@@ -111,7 +112,7 @@ public class AdminHeaderController {
     private void openSettingsDialog() {
         ChangeScene.openAdminPopUp(
                 AdminGlobalController.getInstance().getStackPaneContainer(),
-                "/fxml/change-credentials-dialog.fxml");
+                "/fxml/change-credentials-dialog.fxml", null, EnumUtils.PopupList.CHANGE_CREDENTIALS);
     }
 
 }

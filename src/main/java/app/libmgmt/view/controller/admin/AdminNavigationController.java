@@ -165,7 +165,7 @@ public class AdminNavigationController {
         }
 
         ChangeScene.openAdminPopUp(AdminGlobalController.getInstance().getStackPaneContainer(),
-                "/fxml/logout-dialog.fxml");
+                "/fxml/logout-dialog.fxml", null, EnumUtils.PopupList.LOGOUT);
         LogoutDialogController.getInstance().setUserType(UserType.ADMIN);
         handleEffectButtonClicked(logoutButton);
     }

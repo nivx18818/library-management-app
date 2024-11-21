@@ -4,11 +4,6 @@ public class EnumUtils {
 
     public static CATALOG_STATE currentStateUserCatalog = CATALOG_STATE.BORROWED;
 
-    public enum Object {
-        ADMIN,
-        USER
-    }
-
     public enum NavigationButton {
         DASHBOARD, CATALOG, BOOKS, USERS, LOGOUT
     }
@@ -20,15 +15,20 @@ public class EnumUtils {
     }
 
     public enum PopupList {
+        FORGOT_PASSWORD,
+        ADD_BOOK,
         BORROWED_BOOK_CATALOG,
         OVERDUE_BOOK_DASHBOARD,
         BOOK_VIEW,
         BOOK_EDIT,
         BOOK_DELETE,
-        STUDENT_VIEW,
         USER_EDIT,
         STUDENT_DELETE,
         GUEST_DELETE,
+        CHANGE_CREDENTIALS,
+        LOGOUT,
+        USER_VIEW,
+        ADD_USER
     }
 
     public enum CATALOG_STATE {

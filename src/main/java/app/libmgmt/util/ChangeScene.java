@@ -1,10 +1,12 @@
 package app.libmgmt.util;
 
+import app.libmgmt.view.controller.LoginController;
 import app.libmgmt.view.controller.admin.AdminBorrowedBookViewDialogController;
 import app.libmgmt.view.controller.admin.AdminDeleteConfirmationDialogController;
 import app.libmgmt.view.controller.admin.AdminGlobalController;
 import app.libmgmt.view.controller.admin.AdminNavigationController;
 import app.libmgmt.view.controller.user.UserGlobalController;
+import app.libmgmt.view.controller.user.UserNavigationController;
 
 import com.jfoenix.controls.JFXDialog;
 import app.libmgmt.initializer.AdminInitializer;
@@ -24,37 +26,16 @@ public class ChangeScene {
     /**
      * Open a popup window for admin
      * 
-     * @param stackPane The stack pane to display the pop up
+     * @param stackPane The stack pane to contain the popup
      * @param path      The path to the fxml file
-     */
-    public static void openAdminPopUp(StackPane stackPane, String path) {
-        try {
-            FXMLLoader loader = new FXMLLoader(AdminNavigationController.class.getResource(path));
-            Pane content = loader.load();
-
-            dialog = new JFXDialog(stackPane, content,
-                    JFXDialog.DialogTransition.CENTER);
-
-            dialog.setOverlayClose(false);
-
-            dialog.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Open a popup window for admin
-     * 
-     * @param stackPane The stack pane to display the popup
-     * @param path      The path to the fxml file
-     * @param id        The id which is used to identify the object
+     * @param id        <option>The id which is used to identify the object</option>
      * @param popupList The type of popup
      */
     public static void openAdminPopUp(StackPane stackPane, String path, String id,
             EnumUtils.PopupList popupList) {
         try {
-            FXMLLoader loader = new FXMLLoader(AdminNavigationController.class.getResource(path));
+            FXMLLoader loader;
+            loader = new FXMLLoader(LoginController.class.getResource(path));
             Pane content = loader.load();
 
             dialog = new JFXDialog(stackPane, content,
@@ -64,21 +45,25 @@ public class ChangeScene {
                 case BORROWED_BOOK_CATALOG:
                 case OVERDUE_BOOK_DASHBOARD:
                     AdminBorrowedBookViewDialogController borrowedController = loader.getController();
-                    borrowedController.setId(id);
-                    break;
-                case BOOK_VIEW:
-                case STUDENT_VIEW:
-                case BOOK_EDIT:
-                case USER_EDIT:
+                    if (id != null && !id.isEmpty()) {
+                        borrowedController.setId(id);
+                    }
                     break;
                 case BOOK_DELETE, STUDENT_DELETE, GUEST_DELETE:
                     AdminDeleteConfirmationDialogController deleteController = loader.getController();
-                    if (popupList == EnumUtils.PopupList.BOOK_DELETE) {
-                        deleteController.setId(id, popupList);
-                    } else if (popupList == EnumUtils.PopupList.STUDENT_DELETE
-                            || popupList == EnumUtils.PopupList.GUEST_DELETE) {
+                    if (id != null && !id.isEmpty()) {
                         deleteController.setId(id, popupList);
                     }
+                    break;
+                case ADD_BOOK:
+                case ADD_USER:
+                case BOOK_VIEW:
+                case USER_VIEW:
+                case BOOK_EDIT:
+                case USER_EDIT:
+                case CHANGE_CREDENTIALS:
+                case FORGOT_PASSWORD:
+                case LOGOUT:
                     break;
                 default:
                     throw new IllegalArgumentException("Unexpected value: " + popupList);
@@ -90,11 +75,7 @@ public class ChangeScene {
             e.printStackTrace();
         }
     }
-
-    public static void openUserPopUp(StackPane stackPane, String path) {
-        // TODO: Implement for user popup
-    }
-
+    
     public static void closePopUp() {
         dialog.close();
     }

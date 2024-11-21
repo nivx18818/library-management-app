@@ -9,6 +9,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import app.libmgmt.util.ChangeScene;
 import app.libmgmt.util.EnumUtils;
+import app.libmgmt.util.EnumUtils.UserType;
 
 public class AdminUsersGuestBarController {
 
@@ -62,29 +63,24 @@ public class AdminUsersGuestBarController {
     @FXML
     void imgViewOnMouseClicked(MouseEvent event) {
         System.out.println("View");
-        ChangeScene.openAdminPopUp(AdminUsersLayoutController.getInstance().stackPaneContainer, "/fxml/admin" +
-                "-users" +
-                "-view-dialog" +
-                ".fxml");
+        ChangeScene.openAdminPopUp(AdminUsersLayoutController.getInstance().stackPaneContainer,
+                "/fxml/admin/admin-users-view-dialog.fxml", null, EnumUtils.PopupList.USER_VIEW);
         AdminUsersViewDialogController.getInstance().setData(getData(), EnumUtils.UserType.GUEST);
     }
 
     @FXML
     void imgEditOnMouseClicked(MouseEvent event) {
         System.out.println("Edit");
-        ChangeScene.openAdminPopUp(AdminUsersLayoutController.getInstance().stackPaneContainer, "/fxml/admin" +
-                "-users" +
-                "-edit-dialog" +
-                ".fxml");
+        ChangeScene.openAdminPopUp(AdminUsersLayoutController.getInstance().stackPaneContainer, "/fxml/admin/admin" +
+                "-users-edit-dialog.fxml", null, EnumUtils.PopupList.USER_EDIT);
         AdminUsersEditDialogController.getInstance().showOriginalUserData(getData(), EnumUtils.UserType.GUEST);
     }
 
     @FXML
     void imgDeleteOnMouseClicked(MouseEvent event) {
         System.out.println("Delete");
-        ChangeScene.openAdminPopUp(AdminUsersLayoutController.getInstance().stackPaneContainer, "/fxml/admin" +
-                "-delete-confirmation-dialog" +
-                ".fxml", idLabel.getText(), EnumUtils.PopupList.GUEST_DELETE);
+        ChangeScene.openAdminPopUp(AdminUsersLayoutController.getInstance().stackPaneContainer, "/fxml/admin/admin" +
+                "-delete-confirmation-dialog.fxml", idLabel.getText(), EnumUtils.PopupList.GUEST_DELETE);
     }
 
     @FXML

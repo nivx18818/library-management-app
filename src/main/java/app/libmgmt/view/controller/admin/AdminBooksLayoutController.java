@@ -15,6 +15,7 @@ import javafx.scene.layout.VBox;
 
 import app.libmgmt.util.AnimationUtils;
 import app.libmgmt.util.ChangeScene;
+import app.libmgmt.util.EnumUtils.PopupList;
 
 import java.io.IOException;
 import java.util.List;
@@ -188,7 +189,7 @@ public class AdminBooksLayoutController {
     // Button Actions
     @FXML
     void addBookButtonClicked(MouseEvent event) throws IOException {
-        ChangeScene.openAdminPopUp(stackPaneContainer, "/fxml/admin/admin-add-book-dialog.fxml");
+        ChangeScene.openAdminPopUp(stackPaneContainer, "/fxml/admin/admin-add-book-dialog.fxml", null, PopupList.ADD_BOOK);
     }
 
     @FXML

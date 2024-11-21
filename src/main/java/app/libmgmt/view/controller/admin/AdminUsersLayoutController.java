@@ -201,7 +201,7 @@ public class AdminUsersLayoutController {
     @FXML
     void addUserButtonOnAction(ActionEvent event) {
         Platform.runLater(() -> {
-            ChangeScene.openAdminPopUp(stackPaneContainer, "/fxml/admin/admin-add-user-dialog.fxml");
+            ChangeScene.openAdminPopUp(stackPaneContainer, "/fxml/admin/admin-add-user-dialog.fxml", null, EnumUtils.PopupList.ADD_USER);
         });
     }
 
