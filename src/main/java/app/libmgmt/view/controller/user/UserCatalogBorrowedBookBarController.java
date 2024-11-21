@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 
 import app.libmgmt.util.ChangeScene;
 import app.libmgmt.util.EnumUtils;
+import app.libmgmt.view.controller.admin.AdminBookViewDialogController;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -82,7 +83,10 @@ public class UserCatalogBorrowedBookBarController {
 
     @FXML
     void imageViewOnMouseClicked(MouseEvent event) {
-
+        openPopUp("/fxml/admin/admin-book-view-dialog.fxml", EnumUtils.PopupList.BOOK_VIEW);
+        // Get book data in O(1) time using HashMap
+        String[] bookData = UserGlobalController.getInstance().getBookDataById(bookId);
+        AdminBookViewDialogController.getInstance().setData(bookData);
     }
 
     @FXML
@@ -97,7 +101,8 @@ public class UserCatalogBorrowedBookBarController {
 
     public void setData(String[] data) {
         // form data in global: [bookId, bookImage, bookName, borrowedDate, dueDate]
-        // form data in book bar: [orderNumber, bookImage, bookName, borrowedDate, dueDate]
+        // form data in book bar: [orderNumber, bookImage, bookName, borrowedDate,
+        // dueDate]
         bookId = data[0];
         orderLabel
                 .setText(Integer.toString(UserGlobalController.getInstance().getBorrowedBooksData().indexOf(data) + 1));

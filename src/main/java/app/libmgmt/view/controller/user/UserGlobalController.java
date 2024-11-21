@@ -1,8 +1,10 @@
 package app.libmgmt.view.controller.user;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import app.libmgmt.util.AnimationUtils;
@@ -20,10 +22,9 @@ public class UserGlobalController {
     // Observable Lists for managing data
     private final ObservableList<String[]> borrowedBooksData = FXCollections
             .observableArrayList(preLoadBorrowedBooksData());
-    private final ObservableList<String[]> observableBooksData = FXCollections.observableArrayList(preLoadBooksData());
-
     private final ObservableList<String[]> returnedBooksData = FXCollections
             .observableArrayList(preLoadReturnedBooksData());
+    private final ObservableList<String[]> observableBooksData = FXCollections.observableArrayList(preLoadBooksData());
 
     private final Set<String> returnedBookIds = new HashSet<>();
 
@@ -57,9 +58,9 @@ public class UserGlobalController {
     // Data Pre-loading Methods
     private List<String[]> preLoadBorrowedBooksData() {
         List<String[]> data = new ArrayList<>();
-        data.add(new String[] { "A1",
-                "https://99designs-blog.imgix.net/blog/wp-content/uploads/2017/01/enceladus.jpg?auto=format&q=60&fit=max&w=930",
-                "Story Book", "11/11/2024", "17/11/2024" });
+        data.add(new String[] { "A1", "https://marketplace.canva" +
+                ".com/EAFaQMYuZbo/1/0/1003w/canva-brown-rusty-mystery-novel-book-cover-hG1QhA7BiBU.jpg",
+                "The Great Gatsby", "11/11/2024", "17/11/2024" });
         data.add(new String[] { "B2",
                 "https://marketplace.canva.com/EAFaQMYuZbo/1/0/1003w/canva-brown-rusty-mystery-novel-book-cover-hG1QhA7BiBU.jpg",
                 "Story Book", "11/11/2024", "17/11/2024" });
@@ -122,6 +123,15 @@ public class UserGlobalController {
         }
     }
 
+    public String[] getBookDataById(String id) {
+        for (String[] data : observableBooksData) {
+            if (data[0].equals(id)) {
+                return data;
+            }
+        }
+        return null;
+    }
+
     // Getter Methods for Data
     public ObservableList<String[]> getBorrowedBooksData() {
         return borrowedBooksData;
@@ -141,8 +151,8 @@ public class UserGlobalController {
 
     // Add method to check if book is returned
     public boolean isBookReturned(String bookId) {
-            return returnedBookIds.contains(bookId);
-    }        
+        return returnedBookIds.contains(bookId);
+    }
 
     // Getter Methods for UI components
     public Pane getPagingPane() {
