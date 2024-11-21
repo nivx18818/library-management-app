@@ -26,7 +26,7 @@
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <JFXButton fx:id="borrowedBooksButton" onAction="#btnBorrowedBooksOnAction" prefHeight="30.0" prefWidth="170.0" style="-fx-background-radius: 12px;" text=" ">
+                  <JFXButton fx:id="borrowedBooksButton" onAction="#btnBorrowedBooksOnAction" onMouseEntered="#btnOnMouseEntered" onMouseExited="#btnOnMouseExited" prefHeight="30.0" prefWidth="170.0" style="-fx-background-radius: 12px;" text=" ">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -40,14 +40,14 @@
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <JFXButton fx:id="returnedBooksButton" onAction="#btnReturnedBooksOnAction" prefHeight="30.0" prefWidth="170.0" style="-fx-background-radius: 12px;" text=" ">
+                  <JFXButton fx:id="returnedBooksButton" onAction="#btnReturnedBooksOnAction" onMouseEntered="#btnOnMouseEntered" onMouseExited="#btnOnMouseExited" prefHeight="30.0" prefWidth="170.0" style="-fx-background-radius: 12px;" text=" ">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </JFXButton>
                </children>
             </Pane>
-            <Pane fx:id="searchPane" layoutX="865.0" layoutY="14.0" prefHeight="30.0" prefWidth="299.0" style="-fx-background-color: white; -fx-background-radius: 12;">
+            <Pane fx:id="searchPane" layoutX="865.0" layoutY="14.0" onMouseEntered="#btnOnMouseEntered" onMouseExited="#btnOnMouseExited" prefHeight="30.0" prefWidth="299.0" style="-fx-background-color: white; -fx-background-radius: 12;">
                <children>
                   <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="14.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -71,7 +71,7 @@
                         <Image url="@../../assets/icon/R.png" />
                      </image>
                   </ImageView>
-                  <JFXButton onAction="#btnRefreshTableOnAction" prefHeight="30.0" prefWidth="30.0" style="-fx-background-radius: 12px;" text=" ">
+                  <JFXButton fx:id="refreshButton" onAction="#btnRefreshTableOnAction" onMouseEntered="#btnOnMouseEntered" onMouseExited="#btnOnMouseExited" prefHeight="30.0" prefWidth="30.0" style="-fx-background-radius: 12px;" text=" ">
                      <font>
                         <Font size="16.0" />
                      </font>

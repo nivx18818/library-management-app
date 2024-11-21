@@ -114,6 +114,7 @@ public class UserGlobalController {
     public void addReturnedBook(String id) {
         for (String[] data : borrowedBooksData) {
             if (data[0].equals(id)) {
+                // TODO: Add returned book to database
                 returnedBooksData.add(data);
                 returnedBookIds.add(id);
                 break;

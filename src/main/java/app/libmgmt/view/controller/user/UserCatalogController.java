@@ -15,6 +15,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -25,6 +26,9 @@ public class UserCatalogController {
 
     @FXML
     private JFXButton borrowedBooksButton;
+
+    @FXML
+    private JFXButton refreshButton;
 
     @FXML
     private Label borrowedBooksLabel;
@@ -143,6 +147,32 @@ public class UserCatalogController {
 
         updateStatusUI(EnumUtils.CATALOG_STATE.RETURNED);
         showReturnedBooksList();
+    }
+
+    @FXML
+    void btnOnMouseEntered(MouseEvent event) {
+        if (event.getSource() == borrowedBooksButton) {
+            AnimationUtils.createScaleTransition(AnimationUtils.HOVER_SCALE, borrowedBooksPane).play();
+        } else if (event.getSource() == returnedBooksButton) {
+            AnimationUtils.createScaleTransition(AnimationUtils.HOVER_SCALE, returnedBooksPane).play();
+        } else if (event.getSource() == refreshButton) {
+            AnimationUtils.createScaleTransition(1.15, refreshPaneButton).play();
+        } else if (event.getSource() == searchPane) {
+            AnimationUtils.createScaleTransition(1.05, searchPane).play();
+        }
+    }
+
+    @FXML
+    void btnOnMouseExited(MouseEvent event) {
+        if (event.getSource() == borrowedBooksButton) {
+            AnimationUtils.createScaleTransition(AnimationUtils.DEFAULT_SCALE, borrowedBooksPane).play();
+        } else if (event.getSource() == returnedBooksButton) {
+            AnimationUtils.createScaleTransition(AnimationUtils.DEFAULT_SCALE, returnedBooksPane).play();
+        } else if (event.getSource() == refreshButton) {
+            AnimationUtils.createScaleTransition(AnimationUtils.DEFAULT_SCALE, refreshPaneButton).play();
+        } else if (event.getSource() == searchPane) {
+            AnimationUtils.createScaleTransition(AnimationUtils.DEFAULT_SCALE, searchPane).play();
+        }
     }
 
     @FXML
