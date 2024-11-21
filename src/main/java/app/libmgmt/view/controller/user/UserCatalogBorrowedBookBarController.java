@@ -17,9 +17,6 @@ import javafx.scene.layout.Pane;
 public class UserCatalogBorrowedBookBarController {
 
     @FXML
-    private Label amountLabel;
-
-    @FXML
     private ImageView bookImage;
 
     @FXML
@@ -99,6 +96,8 @@ public class UserCatalogBorrowedBookBarController {
     }
 
     public void setData(String[] data) {
+        // form data in global: [bookId, bookImage, bookName, borrowedDate, dueDate]
+        // form data in book bar: [orderNumber, bookImage, bookName, borrowedDate, dueDate]
         bookId = data[0];
         orderLabel
                 .setText(Integer.toString(UserGlobalController.getInstance().getBorrowedBooksData().indexOf(data) + 1));
@@ -106,9 +105,8 @@ public class UserCatalogBorrowedBookBarController {
             updateImage(data[1], bookImage);
         }
         nameLabel.setText(data[2]);
-        amountLabel.setText(data[3]);
-        borrowedDateLabel.setText(data[4]);
-        dueDateLabel.setText(data[5]);
+        borrowedDateLabel.setText(data[3]);
+        dueDateLabel.setText(data[4]);
 
     }
 
