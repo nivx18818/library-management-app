@@ -62,23 +62,21 @@ public class AdminUsersGuestBarController {
     void imgViewOnMouseClicked(MouseEvent event) {
         System.out.println("View");
         ChangeScene.openAdminPopUp(AdminUsersLayoutController.getInstance().stackPaneContainer,
-                "/fxml/admin/admin-users-view-dialog.fxml", null, EnumUtils.PopupList.USER_VIEW);
+                "/fxml/admin/admin-users-view-dialog.fxml", EnumUtils.PopupList.USER_VIEW);
         AdminUsersViewDialogController.getInstance().setData(getData(), EnumUtils.UserType.GUEST);
     }
 
     @FXML
     void imgEditOnMouseClicked(MouseEvent event) {
         System.out.println("Edit");
-        ChangeScene.openAdminPopUp(AdminUsersLayoutController.getInstance().stackPaneContainer, "/fxml/admin/admin" +
-                "-users-edit-dialog.fxml", null, EnumUtils.PopupList.USER_EDIT);
+        ChangeScene.openAdminPopUp(AdminUsersLayoutController.getInstance().stackPaneContainer, "/fxml/admin/admin-users-edit-dialog.fxml", EnumUtils.PopupList.USER_EDIT);
         AdminUsersEditDialogController.getInstance().showOriginalUserData(getData(), EnumUtils.UserType.GUEST);
     }
 
     @FXML
     void imgDeleteOnMouseClicked(MouseEvent event) {
         System.out.println("Delete");
-        ChangeScene.openAdminPopUp(AdminUsersLayoutController.getInstance().stackPaneContainer, "/fxml/admin/admin" +
-                "-delete-confirmation-dialog.fxml", idLabel.getText(), EnumUtils.PopupList.GUEST_DELETE);
+        ChangeScene.openAdminPopUp(AdminUsersLayoutController.getInstance().stackPaneContainer, "/fxml/admin/admin-delete-confirmation-dialog.fxml", idLabel.getText(), EnumUtils.PopupList.GUEST_DELETE);
     }
 
     @FXML

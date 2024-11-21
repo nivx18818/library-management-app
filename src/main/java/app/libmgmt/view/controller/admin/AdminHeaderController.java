@@ -112,7 +112,7 @@ public class AdminHeaderController {
     private void openSettingsDialog() {
         ChangeScene.openAdminPopUp(
                 AdminGlobalController.getInstance().getStackPaneContainer(),
-                "/fxml/change-credentials-dialog.fxml", null, EnumUtils.PopupList.CHANGE_CREDENTIALS);
+                "/fxml/change-credentials-dialog.fxml", EnumUtils.PopupList.CHANGE_CREDENTIALS);
     }
 
 }

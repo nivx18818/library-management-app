@@ -189,7 +189,7 @@ public class AdminBooksLayoutController {
     // Button Actions
     @FXML
     void addBookButtonClicked(MouseEvent event) throws IOException {
-        ChangeScene.openAdminPopUp(stackPaneContainer, "/fxml/admin/admin-add-book-dialog.fxml", null, PopupList.ADD_BOOK);
+        ChangeScene.openAdminPopUp(stackPaneContainer, "/fxml/admin/admin-add-book-dialog.fxml", PopupList.ADD_BOOK);
     }
 
     @FXML

@@ -52,7 +52,7 @@ public class AdminUsersStudentBarController {
     void imgViewOnMouseClicked(MouseEvent event) {
         System.out.println("View");
         ChangeScene.openAdminPopUp(AdminUsersLayoutController.getInstance().stackPaneContainer,
-                "/fxml/admin/admin-users-view-dialog.fxml", null, EnumUtils.PopupList.USER_VIEW);
+                "/fxml/admin/admin-users-view-dialog.fxml", EnumUtils.PopupList.USER_VIEW);
         AdminUsersViewDialogController.getInstance().setData(getData(), EnumUtils.UserType.STUDENT);
     }
 
@@ -60,7 +60,7 @@ public class AdminUsersStudentBarController {
     void imgEditOnMouseClicked(MouseEvent event) {
         System.out.println("Edit");
         ChangeScene.openAdminPopUp(AdminUsersLayoutController.getInstance().stackPaneContainer,
-                "/fxml/admin/admin-users-edit-dialog.fxml", null, EnumUtils.PopupList.USER_EDIT);
+                "/fxml/admin/admin-users-edit-dialog.fxml", EnumUtils.PopupList.USER_EDIT);
         AdminUsersEditDialogController.getInstance().showOriginalUserData(getData(), EnumUtils.UserType.STUDENT);
     }
 

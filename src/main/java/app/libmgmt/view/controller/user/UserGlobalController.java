@@ -2,7 +2,6 @@ package app.libmgmt.view.controller.user;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
 
 import app.libmgmt.util.AnimationUtils;
 import javafx.collections.FXCollections;

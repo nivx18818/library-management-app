@@ -73,7 +73,12 @@ public class ChangeScene {
             e.printStackTrace();
         }
     }
-    
+
+    public static void openAdminPopUp(StackPane stackPane, String path,
+            EnumUtils.PopupList popupList) {
+        openAdminPopUp(stackPane, path, null, popupList);
+    }
+
     public static void closePopUp() {
         dialog.close();
     }
