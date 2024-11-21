@@ -2,6 +2,9 @@ package app.libmgmt.view.controller.user;
 
 import com.jfoenix.controls.JFXCheckBox;
 
+import app.libmgmt.util.ChangeScene;
+import app.libmgmt.util.EnumUtils;
+import app.libmgmt.view.controller.admin.AdminBookViewDialogController;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -54,7 +57,8 @@ public class UserBookBarController {
     // --- Event Handlers ---
     @FXML
     void imgViewOnMouseClicked(MouseEvent event) {
-
+        openPopUp("/fxml/admin/admin-book-view-dialog.fxml", EnumUtils.PopupList.BOOK_VIEW);
+        AdminBookViewDialogController.getInstance().setData(getData());
     }
 
     @FXML
@@ -81,6 +85,11 @@ public class UserBookBarController {
         setQuantityAndStatus(data[5]);
         publisher = data[6];
         publishedDate = data[7];
+    }
+
+    public String[] getData() {
+        return new String[] { bookID, imgPath, nameLabel.getText(), typeLabel.getText(), authorLabel.getText(),
+                Integer.toString(quantity), publisher, publishedDate };
     }
 
     /**
@@ -120,6 +129,11 @@ public class UserBookBarController {
             statusLabel.setText("Borrowed");
             statusLabel.setStyle("-fx-text-fill: red");
         }
+    }
+
+    private void openPopUp(String fxmlPath, EnumUtils.PopupList popupType) {
+        ChangeScene.openAdminPopUp(UserGlobalController.getInstance().getStackPaneContainer(),
+                fxmlPath, bookID, popupType);
     }
 
 }
