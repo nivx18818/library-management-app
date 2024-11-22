@@ -31,6 +31,7 @@ public class EnumUtils {
         ADD_USER,
         RETURN_BOOK,
         ACQUIRE_BOOK,
+        EMPTY_DATA_NOTIFICATION,
     }
 
     public enum CATALOG_STATE {

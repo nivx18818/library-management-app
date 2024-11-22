@@ -145,7 +145,11 @@ public class UserBooksLayoutController {
 
     @FXML
     void btnAcquireOnAction(ActionEvent event) {
-        ChangeScene.openAdminPopUp(stackPaneContainer, "/fxml/user/user-borrowed-books-confirmation-dialog.fxml", PopupList.ACQUIRE_BOOK);
+        if (!getSelectedBooksList().isEmpty()) {
+            ChangeScene.openAdminPopUp(stackPaneContainer, "/fxml/user/user-borrowed-books-confirmation-dialog.fxml", PopupList.ACQUIRE_BOOK);
+        } else {
+            ChangeScene.openAdminPopUp(stackPaneContainer, "/fxml/empty-data-notification-dialog.fxml", PopupList.EMPTY_DATA_NOTIFICATION);
+        }
     }
 
     public List<String[]> getSelectedBooksList() {

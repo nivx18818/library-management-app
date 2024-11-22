@@ -10,7 +10,6 @@ import app.libmgmt.view.controller.user.UserReturnBookConfirmationDialogControll
 import com.jfoenix.controls.JFXDialog;
 import app.libmgmt.initializer.AdminInitializer;
 import javafx.application.Platform;
-import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -70,6 +69,7 @@ public class ChangeScene {
                 case CHANGE_CREDENTIALS:
                 case FORGOT_PASSWORD:
                 case LOGOUT:
+                case EMPTY_DATA_NOTIFICATION:
                     break;
                 default:
                     throw new IllegalArgumentException("Unexpected value: " + popupList);
