@@ -9,7 +9,7 @@ import java.util.List;
 public class BookService {
     private final BookDAO bookDAO;
 
-    public BookService() throws SQLException {
+    public BookService() {
         this.bookDAO = new BookDAO();
     }
 

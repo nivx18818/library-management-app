@@ -6,9 +6,10 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-
+import app.libmgmt.model.Book;
 import app.libmgmt.util.AnimationUtils;
 import app.libmgmt.util.EnumUtils;
+import app.libmgmt.service.BookService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +25,8 @@ public class AdminGlobalController {
     // Real time load data
     private final ObservableList<String[]> studentsData = FXCollections.observableArrayList();
     private final ObservableList<String[]> guestsData = FXCollections.observableArrayList();
-    private final ObservableList<String[]> observableBooksData = FXCollections.observableArrayList();
+    private final ObservableList<Book> observableBooksData = FXCollections.observableArrayList();
+    private final BookService bookService = new BookService();
 
     // FXML UI components
     @FXML
@@ -63,23 +65,13 @@ public class AdminGlobalController {
         return data;
     }
 
-    public List<String[]> preLoadBooksData() {
-        List<String[]> data = new ArrayList<>();
-        data.add(new String[]{"A1", "https://marketplace.canva" +
-                ".com/EAFaQMYuZbo/1/0/1003w/canva-brown-rusty-mystery-novel-book-cover-hG1QhA7BiBU.jpg", "The Great Gatsby", "Education", "F. Scott Fitzgerald", "3", "NXB Trẻ", "13/08/2024"});
-        data.add(new String[]{"B2", "https://encrypted-tbn0.gstatic" +
-                ".com/images?q=tbn:ANd9GcS66i6hTBkniGtDdwxyi4hA3PFm2mJ0GUIDxw&s", "To Kill a Mockingbird", "Education", "Harper Lee", "4", "NXB Trẻ", "13/08/2024"});
-        data.add(new String[]{"C3", "https://thuviensach.vn/img/news/2022/09/larger/1011-1984-1" +
-                ".jpg?v=8882", "1984", "Education", "George Orwell", "0", "NXB Trẻ", "13/08/2024"});
-        data.add(new String[]{"D4", "https://play-lh.googleusercontent" +
-                ".com/f1jkKDk5wKz1CZMyNjOR7klTu-ORIZs9sBMWSOVtd09GE6ulfiW5M4FmWrS54CZmCDiZ", "Pride & Prejudice", "Education", "J.D. Salinger", "12", "NXB Trẻ", "13/08/2024"});
-        data.add(new String[]{"E5", "https://encrypted-tbn0.gstatic" +
-                ".com/images?q=tbn:ANd9GcRYqVdifswPLs8J53knQLpfO0dYIVMq4Mu14w&s", "Sherlock Holmes", "Detective", "Arthur Conan Doyle", "32", "NXB Trẻ", "13/08/2024"});
-        data.add(new String[]{"F6", "https://encrypted-tbn0.gstatic" +
-                ".com/images?q=tbn:ANd9GcQapwj529X6xqxmWUlrZAbQLhi-jEpU1-gx8A&s", "Dracula", "Horror", "Bram Stoker", "0", "NXB Trẻ", "13/08/2024"});
-        data.add(new String[]{"G7", "https://www.thejapanshop" +
-                ".com/cdn/shop/products/new_doc_91_1_1280x.jpg?v=1571438916", "Doraemon", "Comic", "Fujko F Fujio", "0", "NXB Trẻ", "13/08/2024"});
-        return data;
+    public List<Book> preLoadBooksData() {
+        // List<Book> data = new ArrayList<>();
+        // data.add(new Book(new String[]{"1", "https://i.imgur.com/1.jpg", "The Alchemist", "Novel", "Paulo Coelho", "10", "HarperCollins", "1988"}));
+        // data.add(new Book(new String[]{"2", "https://i.imgur.com/2.jpg", "The Da Vinci Code", "Mystery", "Dan Brown", "5", "Doubleday", "2003"}));
+        // data.add(new Book(new String[]{"3", "https://i.imgur.com/3.jpg", "The Great Gatsby", "Novel", "F. Scott Fitzgerald", "7", "Scribner", "1925"}));
+        // return data;
+        return bookService.getAllBooks();
     }
 
     public List<String[]> preLoadStudentsData() {
@@ -105,36 +97,37 @@ public class AdminGlobalController {
     }
 
     // CRUD Operations for Books
-    public static void insertBooksData(String[] bookData) {
+    public void insertBooksData(String[] bookData) {
         // data format: [id, coverURL, name, type, author, quantity, publisher, publishedDate]
-
+        Book book = new Book(bookData);
         // test
-        String[] newArray = new String[bookData.length + 1];
-        newArray[0] = 23 + "";
-        System.arraycopy(bookData, 0, newArray, 1, bookData.length);
-        getInstance().observableBooksData.add(newArray);
+        // String[] newArray = new String[bookData.length + 1];
+        // newArray[0] = 23 + "";
+        // System.arraycopy(bookData, 0, newArray, 1, bookData.length);
+        // getInstance().observableBooksData.add(newArray);
 
         // TODO: Insert book data to database
+        bookService.addBook(book); 
     }
 
     public void updateBookData(String[] updatedData, String bookId) {
-        for (int i = 0; i < observableBooksData.size(); i++) {
-            String[] existingData = observableBooksData.get(i);
-            if (existingData[0].equals(bookId)) {
-                observableBooksData.set(i, updatedData);
-                return;
-            }
-        }
+        // for (int i = 0; i < observableBooksData.size(); i++) {
+        //     String[] existingData = observableBooksData.get(i);
+        //     if (existingData[0].equals(bookId)) {
+        //         observableBooksData.set(i, updatedData);
+        //         return;
+        //     }
+        // }
         System.out.println("Book data not found. Unable to update.");
     }
 
     public void deleteBookDataById(String id) {
-        for (String[] data : observableBooksData) {
-            if (data[0].equals(id)) {
-                observableBooksData.remove(data);
-                break;
-            }
-        }
+        // for (String[] data : observableBooksData) {
+        //     if (data[0].equals(id)) {
+        //         observableBooksData.remove(data);
+        //         break;
+        //     }
+        // }
     }
 
     // CRUD Operations for Users
@@ -175,7 +168,7 @@ public class AdminGlobalController {
         return adminsData;
     }
 
-    public ObservableList<String[]> getObservableBookData() {
+    public ObservableList<Book> getObservableBookData() {
         return observableBooksData;
     }
 
@@ -187,7 +180,7 @@ public class AdminGlobalController {
         return studentsData.size() + guestsData.size();
     }
 
-    public void setObservableBookData(List<String[]> data) {
+    public void setObservableBookData(List<Book> data) {
         observableBooksData.setAll(data);
     }
 

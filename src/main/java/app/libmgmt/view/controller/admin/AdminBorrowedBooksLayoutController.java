@@ -14,7 +14,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
 import app.libmgmt.util.AnimationUtils;
-import app.libmgmt.util.DateTimeUtils;
+import app.libmgmt.util.DateUtils;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -144,8 +144,8 @@ public class AdminBorrowedBooksLayoutController {
         List<String[]> overdueList = new ArrayList<>();
         for (String[] borrowedData : borrowedBooksData) {
             try {
-                LocalDate dueDateParsed = LocalDate.parse(borrowedData[3], DateTimeUtils.dateTimeFormatter);
-                if (dueDateParsed.isBefore(DateTimeUtils.currentLocalTime)) {
+                LocalDate dueDateParsed = LocalDate.parse(borrowedData[3], DateUtils.dateTimeFormatter);
+                if (dueDateParsed.isBefore(DateUtils.currentLocalTime)) {
                     overdueList.add(borrowedData);
                 }
             } catch (Exception e) {

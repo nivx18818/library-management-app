@@ -7,7 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-
+import app.libmgmt.model.Book;
 import app.libmgmt.util.ChangeScene;
 import app.libmgmt.util.EnumUtils;
 
@@ -33,10 +33,20 @@ public class AdminBookBarController {
 
     @FXML
     public void initialize() {
-        AdminGlobalController.getInstance().getObservableBookData().addListener((ListChangeListener<String[]>) change -> {
+        AdminGlobalController.getInstance().getObservableBookData().addListener((ListChangeListener<Book>) change -> {
             while (change.next()) {
                 if (change.wasReplaced() && change.getFrom() >= 0 && change.getFrom() < change.getList().size()) {
-                    String[] updatedBookData = change.getList().get(change.getFrom());
+                    Book updatedBook = change.getList().get(change.getFrom());
+                    String[] updatedBookData = new String[]{
+                        updatedBook.getIsbn(),
+                        updatedBook.getCoverUrl(),
+                        updatedBook.getTitle(),
+                        updatedBook.getCategories().toString(),
+                        updatedBook.getAuthors().toString(),
+                        String.valueOf(updatedBook.getAvailableCopies()),
+                        updatedBook.getPublisher(),
+                        updatedBook.getPublishedDate().toString()
+                    };
 
                     if (bookID.equals(updatedBookData[0])) {
                         setData(updatedBookData);

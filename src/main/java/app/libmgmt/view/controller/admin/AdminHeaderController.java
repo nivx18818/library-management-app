@@ -11,7 +11,7 @@ import javafx.util.Duration;
 
 import app.libmgmt.util.AnimationUtils;
 import app.libmgmt.util.ChangeScene;
-import app.libmgmt.util.DateTimeUtils;
+import app.libmgmt.util.DateUtils;
 
 import java.text.DateFormat;
 import java.time.LocalDateTime;
@@ -69,7 +69,7 @@ public class AdminHeaderController {
     // Updates the current date and time in the header
     private void updateDateAndTime() {
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("hh:mm");
-        Locale locale = DateTimeUtils.locale;
+        Locale locale = DateUtils.locale;
         DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.DEFAULT, locale);
 
         LocalDateTime currentTime = LocalDateTime.now();
@@ -84,7 +84,7 @@ public class AdminHeaderController {
     // Starts a clock to update the time and date every second
     private void startClock() {
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("hh:mm");
-        Locale locale = DateTimeUtils.locale;
+        Locale locale = DateUtils.locale;
         DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.DEFAULT, locale);
 
         Timeline clock = new Timeline(new KeyFrame(Duration.ZERO, e -> {

@@ -7,7 +7,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-
+import app.libmgmt.model.Admin;
+import app.libmgmt.model.Book;
 import app.libmgmt.util.AnimationUtils;
 import app.libmgmt.util.ChangeScene;
 import app.libmgmt.util.RegExPatterns;
@@ -40,7 +41,7 @@ public class AdminAddBookDialogController {
     private JFXButton closeDialogButton;
     @FXML
     private ImageView imgClose;
-
+    
     public void initialize() {
         System.out.println("Admin Add Book Dialog initialized");
 
@@ -67,21 +68,27 @@ public class AdminAddBookDialogController {
     }
 
     public void addBook(String[] bookData) {
-        // data format: [coverURL, name, type, author, quantity, publisher,
-        // publishedDate]
-        AdminGlobalController.insertBooksData(bookData);
+        // data format: [coverURL, name, type, author, quantity, publisher, publishedDate]
+        AdminGlobalController adminGlobalController = AdminGlobalController.getInstance();
+        adminGlobalController.insertBooksData(bookData);
         Task<Void> task = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
                 AdminBooksLayoutController controller = AdminBooksLayoutController.getInstance();
                 if (controller.getSearchText().isEmpty()) {
-                    List<String[]> data = new ArrayList<>() {
+                    List<Book> data = new ArrayList<>() {
                         {
                             // add id to the first index
                             // data format: [id, coverURL, name, type, author, quantity, publisher,
                             // publishedDate] to match the format of preloadData method in
                             // AdminBooksLayoutController
-                            add(AdminGlobalController.getInstance().getObservableBookData().getLast());
+                            Book lastBook = adminGlobalController.getInstance().getObservableBookData().getLast();
+                            String[] bookData = new String[] { lastBook.getIsbn(), lastBook.getCoverUrl(),
+                                    lastBook.getTitle(), lastBook.getCategories().toString(),
+                                    lastBook.getAuthors().toString(), String.valueOf(lastBook.getAvailableCopies()),
+                                    lastBook.getPublisher(), lastBook.getPublishedDate().toString() };
+                            lastBook = new Book(bookData);
+                            add(lastBook);
                         }
                     };
                     controller.preloadData(data);

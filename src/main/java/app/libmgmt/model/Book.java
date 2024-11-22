@@ -38,15 +38,16 @@ public class Book {
         this.categories = categories;
     }
 
+    // data format: [id, coverURL, name, type, author, quantity, publisher, publishedDate]
     public Book(String[] bookData) {
         this.isbn = bookData[0];
-        this.title = bookData[1];
-        this.publishedDate = DateUtils.parseStringToDate(bookData[2]);
-        this.publisher = bookData[3];
-        this.coverUrl = bookData[4];
+        this.title = bookData[2];
+        this.publishedDate = DateUtils.parseStringToDate(bookData[7]);
+        this.publisher = bookData[6];
+        this.coverUrl = bookData[1];
         this.availableCopies = Integer.parseInt(bookData[5]);
-        this.authors = List.of(bookData[6].split(","));
-        this.categories = List.of(bookData[7].split(","));
+        this.authors = List.of(bookData[4].split(","));
+        this.categories = List.of(bookData[3].split(","));
     }
 
     public String getIsbn() {

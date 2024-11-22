@@ -80,17 +80,17 @@ public class BookDAO {
     public List<Book> getAllBooks() throws SQLException {
         List<Book> books = new ArrayList<>();
         String sql = "SELECT isbn, title, published_date, publisher, cover_url, available_amount, authors, categories FROM Book";
-
+    
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(sql);
              ResultSet rs = statement.executeQuery()) {
-
+    
             while (rs.next()) {
                 List<String> authors = parseStrings(rs.getString("authors"));
                 List<String> categories = parseStrings(rs.getString("categories"));
 
-                String publishedDateString = rs.getString("published_date");
-                Date publishedDate = publishedDateString != null ? Date.valueOf(publishedDateString) : null;
+                java.sql.Date publishedDateSql = rs.getDate("published_date");
+                java.util.Date publishedDate = (publishedDateSql != null) ? new java.util.Date(publishedDateSql.getTime()) : null;
 
                 Book book = new Book(
                         rs.getString("isbn"),
@@ -100,14 +100,16 @@ public class BookDAO {
                         rs.getString("cover_url"),
                         rs.getInt("available_amount"),
                         authors,
-                        categories);
-
+                        categories
+                );
+    
                 books.add(book);
             }
         }
-
+    
         return books;
     }
+    
 
     public Book getBookByIsbn(String isbn) throws SQLException  {
         String sql = "SELECT isbn, title, published_date, publisher, cover_url, available_amount, authors, categories FROM Book WHERE isbn = ?";

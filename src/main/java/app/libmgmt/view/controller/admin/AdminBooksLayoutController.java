@@ -12,7 +12,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-
+import app.libmgmt.model.Book;
 import app.libmgmt.util.AnimationUtils;
 import app.libmgmt.util.ChangeScene;
 
@@ -40,7 +40,7 @@ public class AdminBooksLayoutController {
 
     private String deletedOrderNumber;
 
-    private final List<String[]> observableBooksData = adminGlobalController.getObservableBookData();
+    private final List<Book> observableBooksData = adminGlobalController.getObservableBookData();
 
     public AdminBooksLayoutController() {
         controller = this;
@@ -62,13 +62,28 @@ public class AdminBooksLayoutController {
     }
 
     // Data Preloading
-    public void preloadData(List<String[]> data) {
-        Task<Void> preloadTask = new Task<Void>() {
+    public void preloadData(List<Book> data) {
+        Task<Void> preloadTask = new Task<>() {
             @Override
             protected Void call() {
                 try {
-                    for (String[] d : data) {
-                        loadBookBar(d);
+                    for (Book d : data) {
+                        String publishedDateStr = (d.getPublishedDate() != null) 
+                            ? d.getPublishedDate().toString() 
+                            : "Not Available";
+    
+                        String[] bookData = new String[]{
+                            d.getIsbn(),
+                            d.getCoverUrl(),
+                            d.getTitle(),
+                            d.getCategories() != null ? d.getCategories().toString() : "[]",
+                            d.getAuthors() != null ? d.getAuthors().toString() : "[]",
+                            String.valueOf(d.getAvailableCopies()),
+                            d.getPublisher(),
+                            publishedDateStr
+                        };
+    
+                        loadBookBar(bookData);
                     }
                 } catch (Exception e) {
                     System.out.println("Error loading data table: " + e.getMessage());
@@ -76,16 +91,17 @@ public class AdminBooksLayoutController {
                 }
                 return null;
             }
-
+    
             @Override
             protected void failed() {
                 // Handle when task fails
                 System.out.println("Task failed: " + getException().getMessage());
             }
         };
-
+    
         new Thread(preloadTask).start();
     }
+    
 
     private void loadBookBar(String[] data) {
         try {
@@ -111,12 +127,12 @@ public class AdminBooksLayoutController {
     // Book Data Changes Listener
     private void listenBookDataChanges() {
         adminGlobalController.getObservableBookData()
-                .addListener((ListChangeListener.Change<? extends String[]> change) -> {
+                .addListener((ListChangeListener.Change<? extends Book> change) -> {
                     while (change.next()) {
                         if (change.wasRemoved() && change.getRemovedSize() != change.getAddedSize()) {
-                            String[] book = change.getRemoved().get(0);
-                            if (book != null && book.length > 0) {
-                                String bookId = book[0];
+                            Book book = change.getRemoved().get(0);
+                            if (book != null) {
+                                String bookId = book.getIsbn();
                                 removeBookFromVBox(bookId);
                             }
                         }
@@ -173,8 +189,20 @@ public class AdminBooksLayoutController {
     private void showFilteredData(String searchText) {
         vBoxBooksList.getChildren().clear();
         adminGlobalController.getObservableBookData().stream()
-                .filter(data -> data[2].toLowerCase().contains(searchText.toLowerCase()))
-                .forEach(this::loadBookBar);
+                .filter(book -> book.getTitle().toLowerCase().contains(searchText.toLowerCase()))
+                .forEach(book -> {
+                    String[] bookData = new String[]{
+                        book.getIsbn(),
+                        book.getCoverUrl(),
+                        book.getTitle(),
+                        book.getCategories().toString(),
+                        book.getAuthors().toString(),
+                        String.valueOf(book.getAvailableCopies()),
+                        book.getPublisher(),
+                        book.getPublishedDate().toString()
+                    };
+                    loadBookBar(bookData);
+                });
     }
 
     @FXML

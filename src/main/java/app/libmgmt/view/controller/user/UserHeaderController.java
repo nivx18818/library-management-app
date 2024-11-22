@@ -11,7 +11,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.util.Duration;
 import app.libmgmt.util.AnimationUtils;
-import app.libmgmt.util.DateTimeUtils;
+import app.libmgmt.util.DateUtils;
 
 import java.text.DateFormat;
 import java.time.LocalDateTime;
@@ -66,7 +66,7 @@ public class UserHeaderController {
         timeLabel.setText(
                 time.format(java.time.LocalTime.now()) + " " + (LocalDateTime.now().getHour() < 12 ? "AM" : "PM"));
 
-        Locale locale = DateTimeUtils.locale;
+        Locale locale = DateUtils.locale;
         DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.DEFAULT, locale);
         String date = dateFormat.format(new Date());
         dateLabel.setText(date);

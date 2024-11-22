@@ -11,8 +11,8 @@ import javafx.scene.chart.PieChart;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-
-import app.libmgmt.util.DateTimeUtils;
+import app.libmgmt.model.Book;
+import app.libmgmt.util.DateUtils;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -35,7 +35,7 @@ public class AdminDashboardController {
     @FXML
     private VBox vBoxAdmin;
     private List<String[]> borrowedBooksData = adminGlobalController.getBorrowedBooksData();
-    private List<String[]> booksData = adminGlobalController.getObservableBookData(); // TODO: Can be deleted after using database
+    private List<Book> booksData = adminGlobalController.getObservableBookData(); // TODO: Can be deleted after using database
     private List<String[]> adminData = adminGlobalController.getAdminData();
 
     public AdminDashboardController() {
@@ -107,9 +107,9 @@ public class AdminDashboardController {
                 for (String[] borrowedData : borrowedBooksData) {
                     String dueDate = borrowedData[3];
 
-                    LocalDate dueDateParsed = LocalDate.parse(dueDate, DateTimeUtils.dateTimeFormatter);
+                    LocalDate dueDateParsed = LocalDate.parse(dueDate, DateUtils.dateTimeFormatter);
 
-                    if (dueDateParsed.isBefore(DateTimeUtils.currentLocalTime)) {
+                    if (dueDateParsed.isBefore(DateUtils.currentLocalTime)) {
                         String name = borrowedData[0];
                         String id = borrowedData[1];
 
