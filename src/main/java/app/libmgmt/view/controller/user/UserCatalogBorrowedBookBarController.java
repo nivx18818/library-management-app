@@ -84,7 +84,6 @@ public class UserCatalogBorrowedBookBarController {
     @FXML
     void imageViewOnMouseClicked(MouseEvent event) {
         openPopUp("/fxml/admin/admin-book-view-dialog.fxml", EnumUtils.PopupList.BOOK_VIEW);
-        // Get book data in O(1) time using HashMap
         String[] bookData = UserGlobalController.getInstance().getBookDataById(bookId);
         AdminBookViewDialogController.getInstance().setData(bookData);
     }
@@ -104,8 +103,8 @@ public class UserCatalogBorrowedBookBarController {
         // form data in book bar: [orderNumber, bookImage, bookName, borrowedDate,
         // dueDate]
         bookId = data[0];
-        orderLabel
-                .setText(Integer.toString(UserGlobalController.getInstance().getBorrowedBooksData().indexOf(data) + 1));
+        orderLabel.setText(Integer.toString(UserGlobalController.getInstance().getBorrowedBooksData().
+            indexOf(data) + 1));
         if (data[1] != null) {
             updateImage(data[1], bookImage);
         }

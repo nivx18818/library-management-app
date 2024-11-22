@@ -6,7 +6,6 @@ import java.util.List;
 import com.jfoenix.controls.JFXButton;
 
 import app.libmgmt.util.AnimationUtils;
-import app.libmgmt.util.EnumUtils;
 import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
 import javafx.concurrent.Task;
@@ -22,43 +21,40 @@ import javafx.scene.layout.VBox;
 
 public class UserCatalogController {
 
+    // Enum defined within the class
+    public enum USER_CATALOG_STATE {
+        BORROWED, RETURNED
+    }
+
     private static UserCatalogController controller;
+    public static USER_CATALOG_STATE currentStateUserCatalog = USER_CATALOG_STATE.BORROWED; // Default state
 
     @FXML
     private JFXButton borrowedBooksButton;
-
     @FXML
     private JFXButton refreshButton;
-
     @FXML
     private Label borrowedBooksLabel;
-
     @FXML
     private Pane borrowedBooksPane;
-
     @FXML
     private Pane refreshPaneButton;
-
     @FXML
     private JFXButton returnedBooksButton;
-
     @FXML
     private Label returnedBooksLabel;
-
     @FXML
     private Pane returnedBooksPane;
-
     @FXML
     private Pane searchPane;
-
     @FXML
     private StackPane stackPaneContainer;
-
     @FXML
     private TextField textSearch;
-
     @FXML
     private VBox vBoxBooksList;
+    @FXML
+    private Label columnHeader1Label;
 
     private String deletedOrderNumber;
 
@@ -80,11 +76,11 @@ public class UserCatalogController {
     public void initialize() {
         System.out.println("User Catalog initialized");
 
-        if (EnumUtils.currentStateUserCatalog == EnumUtils.CATALOG_STATE.BORROWED) {
-            updateStatusUI(EnumUtils.CATALOG_STATE.BORROWED);
+        if (currentStateUserCatalog == USER_CATALOG_STATE.BORROWED) {
+            updateStatusUI(USER_CATALOG_STATE.BORROWED);
             showBorrowedBooksList();
-        } else if (EnumUtils.currentStateUserCatalog == EnumUtils.CATALOG_STATE.RETURNED) {
-            updateStatusUI(EnumUtils.CATALOG_STATE.RETURNED);
+        } else if (currentStateUserCatalog == USER_CATALOG_STATE.RETURNED) {
+            updateStatusUI(USER_CATALOG_STATE.RETURNED);
             showReturnedBooksList();
         }
 
@@ -92,47 +88,45 @@ public class UserCatalogController {
     }
 
     private void listenReturnBookEvent() {
-        userGlobalController.getReturnedBooksData()
-                .addListener((ListChangeListener.Change<? extends String[]> change) -> {
-                    while (change.next()) {
-                        if (change.wasAdded()) {
-                            try {
-                                Pane bookBar = (Pane) vBoxBooksList.getChildren()
-                                        .get(Integer.parseInt(deletedOrderNumber) - 1);
+        userGlobalController.getReturnedBooksData().addListener((ListChangeListener.Change<? extends String[]> change) -> {
+            while (change.next()) {
+                if (change.wasAdded()) {
+                    try {
+                        Pane bookBar = (Pane) vBoxBooksList.getChildren()
+                                .get(Integer.parseInt(deletedOrderNumber) - 1);
 
-                                // get scene of hbox and find controller
-                                UserCatalogBorrowedBookBarController controller = (UserCatalogBorrowedBookBarController) bookBar
-                                        .getUserData();
-                                if (controller != null) {
-                                    controller.setDisableReturnButton(true);
-                                } else {
-                                    System.err.println("Controller not found for book bar");
-                                }
-                            } catch (IndexOutOfBoundsException e) {
-                                System.err.println("Invalid order number: " + deletedOrderNumber);
-                            } catch (Exception e) {
-                                System.err.println("Error updating return button: " + e.getMessage());
-                            }
+                        // Retrieve controller from bookBar
+                        UserCatalogBorrowedBookBarController controller = (UserCatalogBorrowedBookBarController) bookBar.getUserData();
+                        if (controller != null) {
+                            controller.setDisableReturnButton(true);
+                        } else {
+                            System.err.println("Controller not found for book bar");
                         }
+                    } catch (IndexOutOfBoundsException e) {
+                        System.err.println("Invalid order number: " + deletedOrderNumber);
+                    } catch (Exception e) {
+                        System.err.println("Error updating return button: " + e.getMessage());
                     }
-                });
+                }
+            }
+        });
     }
 
     @FXML
     void btnBorrowedBooksOnAction(ActionEvent event) {
-        if (EnumUtils.currentStateUserCatalog == EnumUtils.CATALOG_STATE.BORROWED) {
+        if (currentStateUserCatalog == USER_CATALOG_STATE.BORROWED) {
             return;
         }
 
-        updateStatusUI(EnumUtils.CATALOG_STATE.BORROWED);
+        updateStatusUI(USER_CATALOG_STATE.BORROWED);
         showBorrowedBooksList();
     }
 
     @FXML
     void btnRefreshTableOnAction(ActionEvent event) {
-        if (EnumUtils.currentStateUserCatalog == EnumUtils.CATALOG_STATE.BORROWED) {
+        if (currentStateUserCatalog == USER_CATALOG_STATE.BORROWED) {
             showBorrowedBooksList();
-        } else if (EnumUtils.currentStateUserCatalog == EnumUtils.CATALOG_STATE.RETURNED) {
+        } else if (currentStateUserCatalog == USER_CATALOG_STATE.RETURNED) {
             showReturnedBooksList();
         }
         textSearch.clear();
@@ -141,36 +135,38 @@ public class UserCatalogController {
 
     @FXML
     void btnReturnedBooksOnAction(ActionEvent event) {
-        if (EnumUtils.currentStateUserCatalog == EnumUtils.CATALOG_STATE.RETURNED) {
+        if (currentStateUserCatalog == USER_CATALOG_STATE.RETURNED) {
             return;
         }
 
-        updateStatusUI(EnumUtils.CATALOG_STATE.RETURNED);
+        updateStatusUI(USER_CATALOG_STATE.RETURNED);
         showReturnedBooksList();
     }
 
     @FXML
     void btnOnMouseEntered(MouseEvent event) {
-        if (event.getSource() == borrowedBooksButton) {
+        Object source = event.getSource();
+        if (source == borrowedBooksButton) {
             AnimationUtils.createScaleTransition(AnimationUtils.HOVER_SCALE, borrowedBooksPane).play();
-        } else if (event.getSource() == returnedBooksButton) {
+        } else if (source == returnedBooksButton) {
             AnimationUtils.createScaleTransition(AnimationUtils.HOVER_SCALE, returnedBooksPane).play();
-        } else if (event.getSource() == refreshButton) {
+        } else if (source == refreshButton) {
             AnimationUtils.createScaleTransition(1.15, refreshPaneButton).play();
-        } else if (event.getSource() == searchPane) {
+        } else if (source == searchPane) {
             AnimationUtils.createScaleTransition(1.05, searchPane).play();
         }
     }
 
     @FXML
     void btnOnMouseExited(MouseEvent event) {
-        if (event.getSource() == borrowedBooksButton) {
+        Object source = event.getSource();
+        if (source == borrowedBooksButton) {
             AnimationUtils.createScaleTransition(AnimationUtils.DEFAULT_SCALE, borrowedBooksPane).play();
-        } else if (event.getSource() == returnedBooksButton) {
+        } else if (source == returnedBooksButton) {
             AnimationUtils.createScaleTransition(AnimationUtils.DEFAULT_SCALE, returnedBooksPane).play();
-        } else if (event.getSource() == refreshButton) {
+        } else if (source == refreshButton) {
             AnimationUtils.createScaleTransition(AnimationUtils.DEFAULT_SCALE, refreshPaneButton).play();
-        } else if (event.getSource() == searchPane) {
+        } else if (source == searchPane) {
             AnimationUtils.createScaleTransition(AnimationUtils.DEFAULT_SCALE, searchPane).play();
         }
     }
@@ -178,24 +174,23 @@ public class UserCatalogController {
     @FXML
     void txtSearchOnAction(ActionEvent event) {
         // TODO: Implement search functionality by book's name
-
         textSearch.setEditable(false);
     }
 
     // Data Display
     public void showBorrowedBooksList() {
         vBoxBooksList.getChildren().clear();
-        preloadData(borrowedBooksData, EnumUtils.CATALOG_STATE.BORROWED);
+        preloadData(borrowedBooksData, USER_CATALOG_STATE.BORROWED);
     }
 
     public void showReturnedBooksList() {
         vBoxBooksList.getChildren().clear();
-        preloadData(returnedBooksData, EnumUtils.CATALOG_STATE.RETURNED);
+        preloadData(returnedBooksData, USER_CATALOG_STATE.RETURNED);
     }
 
     // Data Preloading
-    public void preloadData(List<String[]> data, EnumUtils.CATALOG_STATE currentStatus) {
-        Task<Void> preloadTask = new Task<Void>() {
+    public void preloadData(List<String[]> data, USER_CATALOG_STATE currentStatus) {
+        Task<Void> preloadTask = new Task<>() {
             @Override
             protected Void call() {
                 try {
@@ -219,25 +214,22 @@ public class UserCatalogController {
     }
 
     // Load a single borrowed book bar
-    public void loadBorrowedBookBar(String[] d, EnumUtils.CATALOG_STATE currentStatus) {
+    public void loadBorrowedBookBar(String[] d, USER_CATALOG_STATE currentStatus) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(
                     getClass().getResource("/fxml/user/user-catalog-borowed-books-bar.fxml"));
             Pane scene = fxmlLoader.load();
             UserCatalogBorrowedBookBarController controller = fxmlLoader.getController();
-            // Set the controller data for the scene, serve for find controller later
             scene.setUserData(controller);
             controller.setData(d);
 
-            if (currentStatus == EnumUtils.CATALOG_STATE.BORROWED) {
+            if (currentStatus == USER_CATALOG_STATE.BORROWED) {
                 controller.setVisibleAction(true);
-                // Check if the book is already returned, then disable the return button
                 controller.setDisableReturnButton(userGlobalController.isBookReturned(d[0]));
             } else {
                 controller.setVisibleAction(false);
             }
 
-            // Add to VBox and animate
             Platform.runLater(() -> {
                 vBoxBooksList.getChildren().add(scene);
                 AnimationUtils.zoomIn(scene, 1.0);
@@ -255,16 +247,18 @@ public class UserCatalogController {
         returnedBooksPane.setStyle("-fx-background-color: #e3e3e3; -fx-background-radius: 12px;");
     }
 
-    private void updateStatusUI(EnumUtils.CATALOG_STATE newStatus) {
+    private void updateStatusUI(USER_CATALOG_STATE newStatus) {
         setDefaultStyle();
-        if (newStatus == EnumUtils.CATALOG_STATE.BORROWED) {
+        if (newStatus == USER_CATALOG_STATE.BORROWED) {
+            columnHeader1Label.setText("No.");
             borrowedBooksLabel.setStyle("-fx-text-fill: white;");
             borrowedBooksPane.setStyle("-fx-background-color: black; -fx-background-radius: 12px;");
         } else {
+            columnHeader1Label.setText("Book ID / ISBN");
             returnedBooksLabel.setStyle("-fx-text-fill: white;");
             returnedBooksPane.setStyle("-fx-background-color: black; -fx-background-radius: 12px;");
         }
-        EnumUtils.currentStateUserCatalog = newStatus;
+        currentStateUserCatalog = newStatus;
     }
 
     public void setDeletedOrderNumber(String deletedOrderNumber) {

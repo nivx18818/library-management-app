@@ -1,9 +1,7 @@
 package app.libmgmt.view.controller.user;
 
 import java.io.IOException;
-
 import com.jfoenix.controls.JFXButton;
-
 import app.libmgmt.util.AnimationUtils;
 import app.libmgmt.util.EnumUtils;
 import javafx.collections.FXCollections;
@@ -19,9 +17,9 @@ import javafx.scene.text.Text;
 
 public class UserDashboardController {
 
-    UserNavigationController navigationController = UserNavigationController.getInstance();
-
+    // Singleton Instance
     private static UserDashboardController controller;
+    private final UserNavigationController navigationController = UserNavigationController.getInstance();
 
     @FXML
     private PieChart pieChart;
@@ -39,7 +37,7 @@ public class UserDashboardController {
     private HBox hBoxBorrowedBookList;
 
     @FXML
-    private HBox hBoxAvailableBookInvetory;
+    private HBox hBoxAvailableBookInventory;
 
     @FXML
     private HBox hBoxReturnedBookList;
@@ -53,6 +51,7 @@ public class UserDashboardController {
     @FXML
     private JFXButton returnedBookButton;
 
+    // Constructor and Singleton Pattern
     public UserDashboardController() {
         controller = this;
     }
@@ -64,18 +63,24 @@ public class UserDashboardController {
     @FXML
     public void initialize() {
         System.out.println("User Dashboard initialized");
-
-        setPieChart();
+        setupPieChart();
     }
 
-    private void setPieChart() {
-        ObservableList<PieChart.Data> pieChartData = addPieChartData();
+    /**
+     * Initializes and configures the pie chart data.
+     */
+    private void setupPieChart() {
+        ObservableList<PieChart.Data> pieChartData = generatePieChartData();
         pieChart.getData().clear();
         pieChart.getData().addAll(pieChartData);
-        if (pieChart.getData().size() >= 2) {
-            pieChart.getData().get(0).getNode().setStyle("-fx-pie-color: #3D3E3E;");
-            pieChart.getData().get(1).getNode().setStyle("-fx-pie-color: #151619;");
+
+        // Apply custom styles if pie chart has at least two segments.
+        if (pieChartData.size() >= 2) {
+            pieChartData.get(0).getNode().setStyle("-fx-pie-color: #3D3E3E;");
+            pieChartData.get(1).getNode().setStyle("-fx-pie-color: #151619;");
         }
+
+        // General pie chart configuration
         pieChart.setLabelLineLength(0);
         pieChart.setLabelsVisible(false);
         pieChart.setLegendVisible(false);
@@ -83,62 +88,100 @@ public class UserDashboardController {
         pieChart.setClockwise(true);
     }
 
-    public ObservableList<PieChart.Data> addPieChartData() {
-        // TODO: Get total borrowed books from database and calculate percentage
+    /**
+     * Generates the pie chart data based on book statistics.
+     * 
+     * @return ObservableList of PieChart.Data with borrowing and return stats.
+     */
+    public ObservableList<PieChart.Data> generatePieChartData() {
         int totalBorrowedBooks = getTotalBorrowedBooks();
-        double percentageBorrowed = 0;
-        // if (!booksData.isEmpty()) {
-        // percentageBorrowed = ((double) totalBorrowedBooks / booksData.size()) * 100;
-        // }
-        percentageBorrowed = (double) totalBorrowedBooks / 10 * 100;
+        double percentageBorrowed = (double) totalBorrowedBooks / 10 * 100;
 
-        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
-        pieChartData.add(new PieChart.Data("Total Borrowed Books", percentageBorrowed));
-        pieChartData.add(new PieChart.Data("Total Returned Books", 100 - percentageBorrowed));
+        // ObservableList to hold data for the pie chart
+        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
+            new PieChart.Data("Total Borrowed Books", percentageBorrowed),
+            new PieChart.Data("Total Returned Books", 100 - percentageBorrowed)
+        );
+
         return pieChartData;
     }
 
+    /**
+     * Placeholder method to get the total number of borrowed books.
+     * 
+     * @return Total number of borrowed books.
+     */
     private int getTotalBorrowedBooks() {
+        // Placeholder value; replace with real data retrieval logic.
         return 6;
     }
 
     @FXML
-    void btnAvailableBookOnAction(ActionEvent event) throws IOException {
-        navigationController.handleNavigation(EnumUtils.NavigationButton.BOOKS, "user-books-layout.fxml", navigationController.getBooksButton());
+    private void btnAvailableBookOnAction(ActionEvent event) throws IOException {
+        navigateTo(EnumUtils.NavigationButton.BOOKS, "user-books-layout.fxml", navigationController.getBooksButton());
     }
 
     @FXML
-    void btnBorrowedBookOnAction(ActionEvent event) throws IOException {
-        EnumUtils.currentStateUserCatalog = EnumUtils.CATALOG_STATE.BORROWED;
-        navigationController.handleNavigation(EnumUtils.NavigationButton.CATALOG, "user-catalog-form.fxml", navigationController.getCatalogButton());
+    private void btnBorrowedBookOnAction(ActionEvent event) throws IOException {
+        UserCatalogController.currentStateUserCatalog = UserCatalogController.USER_CATALOG_STATE.BORROWED;
+        navigateTo(EnumUtils.NavigationButton.CATALOG, "user-catalog-form.fxml", navigationController.getCatalogButton());
     }
 
     @FXML
-    void btnReturnedBookOnAction(ActionEvent event) throws IOException {
-        EnumUtils.currentStateUserCatalog = EnumUtils.CATALOG_STATE.RETURNED;
-        navigationController.handleNavigation(EnumUtils.NavigationButton.CATALOG, "user-catalog-form.fxml", navigationController.getCatalogButton());
+    private void btnReturnedBookOnAction(ActionEvent event) throws IOException {
+        UserCatalogController.currentStateUserCatalog = UserCatalogController.USER_CATALOG_STATE.RETURNED;
+        navigateTo(EnumUtils.NavigationButton.CATALOG, "user-catalog-form.fxml", navigationController.getCatalogButton());
+    }
+
+    /**
+     * Handles navigation to different layouts.
+     * 
+     * @param buttonType Enum specifying the navigation button type.
+     * @param layout     The FXML layout to load.
+     * @param button     The associated navigation button.
+     * @throws IOException if the FXML file is not found.
+     */
+    private void navigateTo(EnumUtils.NavigationButton buttonType, String layout, JFXButton button) throws IOException {
+        navigationController.handleNavigation(buttonType, layout, button);
     }
 
     @FXML
-    void btnOnMouseEntered(MouseEvent event) {
+    private void btnOnMouseEntered(MouseEvent event) {
         if (event.getSource() == borrowedBookButton) {
-            AnimationUtils.createScaleTransition(AnimationUtils.HOVER_SCALE, hBoxBorrowedBookList).play();
+            animateButtonHover(hBoxBorrowedBookList);
         } else if (event.getSource() == availableBookButton) {
-            AnimationUtils.createScaleTransition(AnimationUtils.HOVER_SCALE, hBoxAvailableBookInvetory).play();
+            animateButtonHover(hBoxAvailableBookInventory);
         } else if (event.getSource() == returnedBookButton) {
-            AnimationUtils.createScaleTransition(AnimationUtils.HOVER_SCALE, hBoxReturnedBookList).play();
+            animateButtonHover(hBoxReturnedBookList);
         }
     }
 
     @FXML
-    void btnOnMouseExited(MouseEvent event) {
+    private void btnOnMouseExited(MouseEvent event) {
         if (event.getSource() == borrowedBookButton) {
-            AnimationUtils.createScaleTransition(AnimationUtils.DEFAULT_SCALE, hBoxBorrowedBookList).play();
+            resetButtonHover(hBoxBorrowedBookList);
         } else if (event.getSource() == availableBookButton) {
-            AnimationUtils.createScaleTransition(AnimationUtils.DEFAULT_SCALE, hBoxAvailableBookInvetory).play();
+            resetButtonHover(hBoxAvailableBookInventory);
         } else if (event.getSource() == returnedBookButton) {
-            AnimationUtils.createScaleTransition(AnimationUtils.DEFAULT_SCALE, hBoxReturnedBookList).play();
+            resetButtonHover(hBoxReturnedBookList);
         }
     }
 
+    /**
+     * Animates button hover state with scale transition.
+     * 
+     * @param target HBox target to animate.
+     */
+    private void animateButtonHover(HBox target) {
+        AnimationUtils.createScaleTransition(AnimationUtils.HOVER_SCALE, target).play();
+    }
+
+    /**
+     * Resets button hover state with default scale transition.
+     * 
+     * @param target HBox target to reset animation.
+     */
+    private void resetButtonHover(HBox target) {
+        AnimationUtils.createScaleTransition(AnimationUtils.DEFAULT_SCALE, target).play();
+    }
 }

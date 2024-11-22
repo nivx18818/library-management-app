@@ -1,9 +1,6 @@
 package app.libmgmt.util;
 
 public class EnumUtils {
-
-    public static CATALOG_STATE currentStateUserCatalog = CATALOG_STATE.BORROWED;
-
     public enum NavigationButton {
         DASHBOARD, CATALOG, BOOKS, USERS, LOGOUT
     }
@@ -32,10 +29,6 @@ public class EnumUtils {
         RETURN_BOOK,
         ACQUIRE_BOOK,
         EMPTY_DATA_NOTIFICATION,
-    }
-
-    public enum CATALOG_STATE {
-        BORROWED, RETURNED
     }
 
     public static String[] UETMajor = {"CN1 - Information Technology", "CN2 - Computer Engineering",

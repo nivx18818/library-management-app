@@ -86,7 +86,7 @@
                   <Line endX="1010.0" layoutX="90.0" layoutY="40.0" startX="-74.0" />
                   <HBox alignment="CENTER" prefHeight="45.0" prefWidth="1114.0" spacing="30.0">
                      <children>
-                        <Label alignment="CENTER" prefHeight="14.0" prefWidth="120.0" text="No.">
+                        <Label fx:id="columnHeader1Label" alignment="CENTER" prefHeight="14.0" prefWidth="120.0" text="No.">
                            <font>
                               <Font size="13.0" />
                            </font>
