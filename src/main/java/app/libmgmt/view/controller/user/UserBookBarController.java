@@ -75,6 +75,7 @@ public class UserBookBarController {
         // Form of global data: [id, imgPath, name, type, author, quantity, publisher,
         // publishedDate]
         // Form of book bar: [No., imgPath, name, type, author, quantity(available)]
+
         bookID = data[0];
         orderLabel.setText(
                 Integer.toString(UserGlobalController.getInstance().getObservableBooksData().indexOf(data) + 1));
@@ -121,7 +122,7 @@ public class UserBookBarController {
         int newQuantity = Integer.parseInt(newQuantityStr);
         quantity = newQuantity;
         if (quantity >= 1) {
-            checkBoxButton.setDisable(false);
+            checkBoxButton.setDisable(UserGlobalController.getInstance().getBorrowedBookIds().contains(bookID));
             statusLabel.setText("Available");
             statusLabel.setStyle("-fx-text-fill: green");
         } else {

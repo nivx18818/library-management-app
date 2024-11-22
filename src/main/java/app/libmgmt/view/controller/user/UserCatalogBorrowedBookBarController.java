@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXButton;
 import app.libmgmt.util.ChangeScene;
 import app.libmgmt.util.EnumUtils;
 import app.libmgmt.view.controller.admin.AdminBookViewDialogController;
+import app.libmgmt.view.controller.user.UserCatalogController.USER_CATALOG_STATE;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -103,8 +104,11 @@ public class UserCatalogBorrowedBookBarController {
         // form data in book bar: [orderNumber, bookImage, bookName, borrowedDate,
         // dueDate]
         bookId = data[0];
-        orderLabel.setText(Integer.toString(UserGlobalController.getInstance().getBorrowedBooksData().
-            indexOf(data) + 1));
+        if (UserCatalogController.currentStateUserCatalog == USER_CATALOG_STATE.BORROWED) {
+            orderLabel.setText(Integer.toString(UserGlobalController.getInstance().getBorrowedBooksData().indexOf(data) + 1));
+        } else {
+            orderLabel.setText(data[0]);
+        }
         if (data[1] != null) {
             updateImage(data[1], bookImage);
         }
