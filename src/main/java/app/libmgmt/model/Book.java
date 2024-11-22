@@ -3,6 +3,8 @@ package app.libmgmt.model;
 import java.util.Date;
 import java.util.List;
 
+import app.libmgmt.util.DateUtils;
+
 public class Book {
     private String isbn;
     private String title;
@@ -23,6 +25,17 @@ public class Book {
         this.availableCopies = availableCopies;
         this.authors = authors;
         this.categories = categories;
+    }
+
+    public Book(String[] bookData) {
+        this.isbn = bookData[0];
+        this.title = bookData[1];
+        this.publishedDate = DateUtils.parseStringToDate(bookData[2]);
+        this.publisher = bookData[3];
+        this.coverUrl = bookData[4];
+        this.availableCopies = Integer.parseInt(bookData[5]);
+        this.authors = List.of(bookData[6].split(","));
+        this.categories = List.of(bookData[7].split(","));
     }
 
     public String getIsbn() {

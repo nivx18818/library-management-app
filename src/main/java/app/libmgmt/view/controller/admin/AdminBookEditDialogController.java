@@ -15,7 +15,7 @@ import javafx.util.Duration;
 
 import app.libmgmt.util.AnimationUtils;
 import app.libmgmt.util.ChangeScene;
-import app.libmgmt.util.DateTimeUtils;
+import app.libmgmt.util.DateUtils;
 import app.libmgmt.util.RegExPatterns;
 public class AdminBookEditDialogController {
 
@@ -121,7 +121,7 @@ public class AdminBookEditDialogController {
         authorTextField.setText(originalData[4]);
         quantitySpinner.getValueFactory().setValue(Integer.parseInt(originalData[5]));
         publisherTextField.setText(originalData[6]);
-        publishedDatePicker.setValue(DateTimeUtils.convertStringToDate(originalData[7]));
+        publishedDatePicker.setValue(DateUtils.parseStringToLocalDate(originalData[7]));
     }
 
     private String[] getUpdatedData() {
@@ -133,7 +133,7 @@ public class AdminBookEditDialogController {
                 authorTextField.getText(),
                 quantitySpinner.getValue().toString(),
                 publisherTextField.getText(),
-                publishedDatePicker.getValue() == null ? "" : DateTimeUtils.convertDateToString(publishedDatePicker.getValue())
+                publishedDatePicker.getValue() == null ? "" : DateUtils.parseLocalDateToString(publishedDatePicker.getValue())
         };
     }
 
