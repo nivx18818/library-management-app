@@ -69,7 +69,7 @@ public class AdminAddBookDialogController {
     public void addBook(String[] bookData) {
         // data format: [coverURL, name, type, author, quantity, publisher,
         // publishedDate]
-        AdminGlobalController.insertBooksData(bookData);
+        AdminGlobalController.getInstance().insertBooksData(bookData);
         Task<Void> task = new Task<Void>() {
             @Override
             protected Void call() throws Exception {

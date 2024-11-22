@@ -116,13 +116,20 @@ public class AdminDeleteConfirmationDialogController {
         lblConfirm.setText("Deleting...");
         disableButtons(true);
 
-        if (popupType == EnumUtils.PopupList.BOOK_DELETE) {
-            AdminGlobalController.getInstance().deleteBookDataById(id);
-        } else if (popupType == EnumUtils.PopupList.STUDENT_DELETE || popupType == EnumUtils.PopupList.GUEST_DELETE) {
-            AdminGlobalController.getInstance().deleteUserById(popupType, id);
-        }
+        try {
+            if (popupType == EnumUtils.PopupList.BOOK_DELETE) {
+                AdminGlobalController.getInstance().deleteBookDataById(id);
+            } else if (popupType == EnumUtils.PopupList.STUDENT_DELETE || popupType == EnumUtils.PopupList.GUEST_DELETE) {
+                AdminGlobalController.getInstance().deleteUserById(popupType, id);
+            }
 
-        closeDialogAfterDelay();
+            closeDialogAfterDelay();
+        } catch (Exception e) {
+            notificationLabel.setText("Error deleting data!");
+            notificationLabel.setStyle("-fx-text-fill: red;");
+            lblConfirm.setText("Error!");
+            disableButtons(false);
+        }
     }
 
     /**

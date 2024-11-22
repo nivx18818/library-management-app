@@ -105,7 +105,7 @@ public class AdminGlobalController {
     }
 
     // CRUD Operations for Books
-    public static void insertBooksData(String[] bookData) {
+    public void insertBooksData(String[] bookData) {
         // data format: [id, coverURL, name, type, author, quantity, publisher, publishedDate]
 
         // test
