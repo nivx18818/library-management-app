@@ -29,7 +29,8 @@ public class EnumUtils {
         LOGOUT,
         USER_VIEW,
         ADD_USER,
-        RETURN_BOOK
+        RETURN_BOOK,
+        ACQUIRE_BOOK,
     }
 
     public enum CATALOG_STATE {

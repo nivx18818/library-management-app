@@ -1,17 +1,21 @@
 package app.libmgmt.view.controller.user;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
 import com.jfoenix.controls.JFXButton;
 
 import app.libmgmt.util.AnimationUtils;
+import app.libmgmt.util.ChangeScene;
+import app.libmgmt.util.EnumUtils.PopupList;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -107,10 +111,10 @@ public class UserBooksLayoutController {
             FXMLLoader fxmlLoader = new FXMLLoader(
                     UserBooksLayoutController.class.getResource("/fxml/user/user-book-bar.fxml"));
             Pane scene = fxmlLoader.load();
-            scene.setId(data[0]);
             UserBookBarController controller = fxmlLoader.getController();
             controller.setData(data);
             // Set the controller as UserData for easy access later
+            scene.setId(data[0]);
             scene.setUserData(controller);
 
             Platform.runLater(() -> {
@@ -124,7 +128,14 @@ public class UserBooksLayoutController {
 
     @FXML
     void btnRefreshTableOnAction(ActionEvent event) {
+        refreshBooksList();
+    }
 
+    public void refreshBooksList() {
+        vBoxBooksList.getChildren().clear();
+        preloadData(observableBooksData);
+        textSearch.clear();
+        textSearch.setEditable(true);
     }
 
     @FXML
@@ -134,7 +145,28 @@ public class UserBooksLayoutController {
 
     @FXML
     void btnAcquireOnAction(ActionEvent event) {
+        ChangeScene.openAdminPopUp(stackPaneContainer, "/fxml/user/user-borrowed-books-confirmation-dialog.fxml", PopupList.ACQUIRE_BOOK);
+    }
 
+    public List<String[]> getSelectedBooksList() {
+        List<String[]> selectedBooks = new ArrayList<>();
+
+        for (Node node : vBoxBooksList.getChildren()) {
+            if (node instanceof Pane) {
+                Pane bookBar = (Pane) node;
+                UserBookBarController controller = (UserBookBarController) bookBar.getUserData();
+                
+                try {
+                    if (controller.getCheckBoxButton().isSelected()) {
+                        selectedBooks.add(controller.getData());
+                    }
+                } catch (Exception e) {
+                    System.out.println("Error getting selected books: " + e.getMessage());
+                }
+            }
+        }
+
+        return selectedBooks;
     }
 
     @FXML

@@ -136,4 +136,9 @@ public class UserBookBarController {
                 fxmlPath, bookID, popupType);
     }
 
+    // Getters and Setters methods
+    public JFXCheckBox getCheckBoxButton() {
+        return checkBoxButton;
+    }
+
 }
