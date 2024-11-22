@@ -96,6 +96,7 @@ public class AdminBorrowedBookViewDialogController {
 
     @FXML
     private void btnCloseOnAction(ActionEvent event) {
+        vBox.getChildren().clear();
         ChangeScene.closePopUp();
     }
 
