@@ -1,12 +1,18 @@
 package app.libmgmt.util;
 
 import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Locale;
 
 public class DateUtils {
+
+    private static final String DATE_FORMAT = "yyyy-MM-dd";
+
     public static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter
             .ofPattern("dd/MM/yyyy");
 
@@ -27,11 +33,29 @@ public class DateUtils {
     }
 
     public static Date parseLocalDateToDate(LocalDate localDate) {
-        return java.sql.Date.valueOf(localDate);
+        if (localDate == null) {
+            return null;
+        }
+        return Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
     }
 
     public static Date parseStringToDate(String originalDatum) {
         LocalDate localDate = parseStringToLocalDate(originalDatum);
         return localDate != null ? parseLocalDateToDate(localDate) : null;
+    }
+
+    public static Date parseStringToUtilDate(String originalDatum) {
+        if (originalDatum == null || originalDatum.isEmpty()) {
+            System.err.println("Invalid date format. Expected format: " + DATE_FORMAT);
+            return null;
+        }
+        SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
+        try {
+            return dateFormat.parse(originalDatum);
+        } catch (ParseException e) {
+            System.err.println("Invalid date format. Expected format: " + DATE_FORMAT);
+            e.printStackTrace();
+            return null;
+        }
     }
 }

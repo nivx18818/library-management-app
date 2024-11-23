@@ -51,7 +51,9 @@ public class BookDAO {
              PreparedStatement statement = connection.prepareStatement(sql)) {
             String authorsString = String.join(",", book.getAuthors());
             String categoriesString = String.join(",", book.getCategories());
-            String publishString = book.getPublishedDate().toString();
+            // String publishString = book.getPublishedDate() != null ? book.getPublishedDate().toString() : null;
+            java.sql.Date publishDate = book.getPublishedDate() != null ? new java.sql.Date(book.getPublishedDate().getTime()) : null;
+            String publishString = publishDate != null ? publishDate.toString() : null;
 
             statement.setString(1, book.getIsbn());
             statement.setString(2, book.getTitle());
