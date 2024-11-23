@@ -7,7 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Date;
 import java.sql.SQLException;
-import java.time.LocalDate;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -21,19 +21,41 @@ public class BookDAO {
         return DatabaseConnection.getConnection();
     }
 
+    public String generateNextIsbn() throws SQLException {
+        String nextIsbn = "BK0001";
+        String sql = "SELECT isbn FROM Book WHERE isbn LIKE 'BK%' ORDER BY isbn DESC LIMIT 1";
+    
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql);
+             ResultSet resultSet = statement.executeQuery()) {
+    
+            if (resultSet.next()) {
+                String lastIsbn = resultSet.getString("isbn");
+                int numberPart = Integer.parseInt(lastIsbn.replace("BK", ""));
+                nextIsbn = "BK" + String.format("%04d", numberPart + 1);
+            }
+        }
+        return nextIsbn;
+    }
+    
+
     public void addBook(Book book) throws SQLException {
+        if (book.getIsbn().equals("0") || book.getIsbn().isEmpty()) {
+            book.setIsbn(generateNextIsbn()); 
+        }
+
         String sql = "INSERT INTO Book(isbn, title, published_date, publisher, cover_url, "
                 + "available_amount, authors, categories) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
-
+        
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             String authorsString = String.join(",", book.getAuthors());
             String categoriesString = String.join(",", book.getCategories());
+            String publishString = book.getPublishedDate().toString();
 
             statement.setString(1, book.getIsbn());
             statement.setString(2, book.getTitle());
-            statement.setString(3,
-                    book.getPublishedDate() != null ? book.getPublishedDate().toString() : null);
+            statement.setString(3, publishString);
             statement.setString(4, book.getPublisher());
             statement.setString(5, book.getCoverUrl());
             statement.setInt(6, book.getAvailableCopies());

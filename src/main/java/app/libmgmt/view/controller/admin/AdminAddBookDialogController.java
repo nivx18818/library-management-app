@@ -7,7 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import app.libmgmt.model.Admin;
+
 import app.libmgmt.model.Book;
 import app.libmgmt.util.AnimationUtils;
 import app.libmgmt.util.ChangeScene;
@@ -69,8 +69,10 @@ public class AdminAddBookDialogController {
 
     public void addBook(String[] bookData) {
         // data format: [coverURL, name, type, author, quantity, publisher, publishedDate]
+        String[] newBook = new String[] { "0", bookData[0], bookData[1], bookData[2], bookData[3], bookData[4],
+                bookData[5], bookData[6] };
         AdminGlobalController adminGlobalController = AdminGlobalController.getInstance();
-        adminGlobalController.insertBooksData(bookData);
+        adminGlobalController.insertBooksData(newBook);
         Task<Void> task = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
@@ -82,13 +84,14 @@ public class AdminAddBookDialogController {
                             // data format: [id, coverURL, name, type, author, quantity, publisher,
                             // publishedDate] to match the format of preloadData method in
                             // AdminBooksLayoutController
-                            Book lastBook = adminGlobalController.getInstance().getObservableBookData().getLast();
-                            String[] bookData = new String[] { lastBook.getIsbn(), lastBook.getCoverUrl(),
+                            Book lastBook = AdminGlobalController.getInstance().getObservableBookData().getLast();
+                            String[] book_Data = new String[] { lastBook.getIsbn(), lastBook.getCoverUrl(),
                                     lastBook.getTitle(), lastBook.getCategories().toString(),
                                     lastBook.getAuthors().toString(), String.valueOf(lastBook.getAvailableCopies()),
                                     lastBook.getPublisher(), lastBook.getPublishedDate().toString() };
-                            lastBook = new Book(bookData);
+                            lastBook = new Book(book_Data);
                             add(lastBook);
+                            System.out.println("Book added: Fac diu vai lc" + lastBook.toString());
                         }
                     };
                     controller.preloadData(data);
@@ -99,7 +102,7 @@ public class AdminAddBookDialogController {
             @Override
             protected void succeeded() {
                 super.succeeded();
-                notificationLabel.setText("Book added successfully.");
+                notificationLabel.setText("Book added successfully." + bookData[7]);
                 AnimationUtils.playNotificationTimeline(notificationLabel, 3, "#08a80d");
             }
 
