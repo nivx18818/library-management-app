@@ -64,38 +64,27 @@ public class AdminHeaderController {
     // Initializes and continuously updates the current date and time in the header
     private void initializeDateAndTime() {
         updateDateAndTime(); // Initial update of date and time
-        startClock(); // Start the clock to continuously update time
     }
 
     // Updates the current date and time in the header
     private void updateDateAndTime() {
-        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("hh:mm");
+        DateTimeFormatter time = DateTimeFormatter.ofPattern("hh:mm");
+        timeText.setText(
+                time.format(java.time.LocalTime.now()) + " " + (LocalDateTime.now().getHour() < 12 ? "AM" : "PM"));
+
         Locale locale = DateTimeUtils.locale;
         DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.DEFAULT, locale);
-
-        LocalDateTime currentTime = LocalDateTime.now();
-        String formattedTime = timeFormatter.format(currentTime.toLocalTime())
-                + (currentTime.getHour() < 12 ? " AM" : " PM");
-        String formattedDate = dateFormat.format(new Date());
-
-        timeText.setText(formattedTime);
-        dateText.setText(formattedDate);
-    }
-
-    // Starts a clock to update the time and date every second
-    private void startClock() {
-        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("hh:mm");
-        Locale locale = DateTimeUtils.locale;
-        DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.DEFAULT, locale);
+        String date = dateFormat.format(new Date());
+        dateText.setText(date);
 
         Timeline clock = new Timeline(new KeyFrame(Duration.ZERO, e -> {
             LocalDateTime currentTime = LocalDateTime.now();
-            String formattedTime = timeFormatter.format(currentTime.toLocalTime())
-                    + (currentTime.getHour() < 12 ? " AM" : " PM");
-            String formattedDate = dateFormat.format(new Date());
+            timeText.setText(time.format(java.time.LocalTime.now()) + " " + (currentTime.getHour() < 12
+                    ? "AM"
+                    : "PM"));
 
-            timeText.setText(formattedTime);
-            dateText.setText(formattedDate);
+            String newDate = dateFormat.format(new Date());
+            dateText.setText(newDate);
         }), new KeyFrame(Duration.seconds(1)));
 
         clock.setCycleCount(Timeline.INDEFINITE);
