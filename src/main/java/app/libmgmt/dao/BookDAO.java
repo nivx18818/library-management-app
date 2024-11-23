@@ -51,7 +51,7 @@ public class BookDAO {
              PreparedStatement statement = connection.prepareStatement(sql)) {
             String authorsString = String.join(",", book.getAuthors());
             String categoriesString = String.join(",", book.getCategories());
-            // String publishString = book.getPublishedDate() != null ? book.getPublishedDate().toString() : null;
+
             java.sql.Date publishDate = book.getPublishedDate() != null ? new java.sql.Date(book.getPublishedDate().getTime()) : null;
             String publishString = publishDate != null ? publishDate.toString() : null;
 
@@ -77,9 +77,11 @@ public class BookDAO {
             String authorsString = String.join(",", book.getAuthors());
             String categoriesString = String.join(",", book.getCategories());
 
+            java.sql.Date publishDate = book.getPublishedDate() != null ? new java.sql.Date(book.getPublishedDate().getTime()) : null;
+            String publishString = publishDate != null ? publishDate.toString() : null;
+
             statement.setString(1, book.getTitle());
-            statement.setString(2,
-                    book.getPublishedDate() != null ? book.getPublishedDate().toString() : null);
+            statement.setString(2, publishString);
             statement.setString(3, book.getPublisher());
             statement.setString(4, book.getCoverUrl());
             statement.setInt(5, book.getAvailableCopies());
@@ -91,12 +93,12 @@ public class BookDAO {
         }
     }
 
-    public void deleteBook(Book book) throws SQLException  {
+    public void deleteBook(String id) throws SQLException  {
         String sql = "DELETE FROM Book WHERE isbn = ?";
 
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, book.getIsbn());
+            statement.setString(1, id);
             statement.executeUpdate();
         }
     }

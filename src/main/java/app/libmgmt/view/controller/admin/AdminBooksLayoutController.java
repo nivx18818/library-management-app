@@ -170,10 +170,29 @@ public class AdminBooksLayoutController {
     }
 
     public void refreshBooksList() {
-        vBoxBooksList.getChildren().clear();
-        preloadData(observableBooksData);
-        textSearch.clear();
-        textSearch.setEditable(true);
+        Task<List<Book>> reloadTask = new Task<>() {
+            @Override
+            protected List<Book> call() {
+                return adminGlobalController.fetchBooksFromDatabase();
+            }
+
+            @Override
+            protected void succeeded() {
+                observableBooksData.clear();
+                observableBooksData.addAll(getValue());
+                vBoxBooksList.getChildren().clear();
+                preloadData(observableBooksData);
+                textSearch.clear();
+                textSearch.setEditable(true);
+            }
+
+            @Override
+            protected void failed() {
+                System.out.println("Failed to reload data from database: " + getException().getMessage());
+            }
+        };
+
+        new Thread(reloadTask).start();
     }
 
     // Search Functionality

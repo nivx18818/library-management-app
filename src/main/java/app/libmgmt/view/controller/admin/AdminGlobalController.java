@@ -105,7 +105,9 @@ public class AdminGlobalController {
         // newArray[0] = 23 + "";
         // System.arraycopy(bookData, 0, newArray, 1, bookData.length);
         // getInstance().observableBooksData.add(newArray);
-
+        getInstance().observableBooksData.add(book);
+        System.out.println("Book data: " + book.getPublishedDate());
+        System.out.println("Book data: " + bookData[0] + " " + bookData[1] + " " + bookData[2] + " " + bookData[3] + " " + bookData[4] + " " + bookData[5] + " " + bookData[6] + " " + bookData[7]);
         // TODO: Insert book data to database
         bookService.addBook(book); 
     }
@@ -118,7 +120,9 @@ public class AdminGlobalController {
         //         return;
         //     }
         // }
-        System.out.println("Book data not found. Unable to update.");
+        Book book = new Book(updatedData);
+        bookService.updateBook(book);
+        AdminBooksLayoutController.getInstance().refreshBooksList();
     }
 
     public void deleteBookDataById(String id) {
@@ -128,6 +132,7 @@ public class AdminGlobalController {
         //         break;
         //     }
         // }
+        bookService.deleteBook(id);
     }
 
     // CRUD Operations for Users
@@ -157,6 +162,11 @@ public class AdminGlobalController {
     // Helper Methods
     private ObservableList<String[]> getUserListByType(EnumUtils.UserType userType) {
         return userType == EnumUtils.UserType.STUDENT ? studentsData : guestsData;
+    }
+
+    //fetchBooksFromDatabase
+    public List<Book> fetchBooksFromDatabase() {
+        return bookService.getAllBooks();
     }
 
     // Getter and Setter Methods for Data

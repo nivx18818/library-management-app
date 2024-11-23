@@ -31,9 +31,9 @@ public class BookService {
         }
     }
 
-    public void deleteBook(Book book) {
+    public void deleteBook(String id) {
         try {
-            bookDAO.deleteBook(book);
+            bookDAO.deleteBook(id);
             System.out.println("Book deleted successfully");
         } catch (SQLException e) {
             throw new ServiceException("Error in book delete: ", e);
