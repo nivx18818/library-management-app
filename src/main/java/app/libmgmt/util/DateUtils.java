@@ -7,8 +7,8 @@ import java.time.format.DateTimeParseException;
 import java.util.Locale;
 
 public class DateUtils {
-    public static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM" +
-            "/yyyy");
+    public static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter
+            .ofPattern("dd/MM/yyyy");
 
     public static final LocalDate currentLocalTime = LocalDate.now();
 
