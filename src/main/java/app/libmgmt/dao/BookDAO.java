@@ -7,7 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Date;
 import java.sql.SQLException;
-
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -89,8 +89,8 @@ public class BookDAO {
                 List<String> authors = parseStrings(rs.getString("authors"));
                 List<String> categories = parseStrings(rs.getString("categories"));
 
-                java.sql.Date publishedDateSql = rs.getDate("published_date");
-                java.util.Date publishedDate = (publishedDateSql != null) ? new java.util.Date(publishedDateSql.getTime()) : null;
+                String publishedDateString = rs.getString("published_date");
+                Date publishedDate = publishedDateString != null ? Date.valueOf(publishedDateString) : null;
 
                 Book book = new Book(
                         rs.getString("isbn"),

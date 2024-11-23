@@ -118,7 +118,14 @@ public class AdminBookBarController {
         // Form data: [id, imgPath, name, type, author, quantity, publisher, publishedDate]
         // Form book bar: [No., imgPath, name, type, author, quantity(available)]
         bookID = data[0];
-        orderLabel.setText(Integer.toString(AdminGlobalController.getInstance().getObservableBookData().indexOf(data) + 1));
+        int bookIndex = -1;
+        for (int i = 0; i < AdminGlobalController.getInstance().getObservableBookData().size(); i++) {
+            if (AdminGlobalController.getInstance().getObservableBookData().get(i).getIsbn().equals(data[0])) {
+                bookIndex = i;
+                break;
+            }
+        }
+        orderLabel.setText(Integer.toString(bookIndex + 1));
         updateImageIfChanged(data[1], bookImage);
         updateLabelIfChanged(nameLabel, data[2]);
         updateLabelIfChanged(typeLabel, data[3]);
