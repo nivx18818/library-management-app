@@ -100,7 +100,7 @@
                 <Insets right="12.0" />
               </VBox.margin>
               <children>
-                <HBox fx:id="hBoxAvailableBookInvetory" alignment="CENTER_LEFT" fillHeight="false" prefHeight="150.0" prefWidth="389.0" spacing="15.0" style="-fx-background-color: #fff; -fx-background-radius: 12;">
+                <HBox fx:id="hBoxAvailableBookInventory" alignment="CENTER_LEFT" fillHeight="false" prefHeight="150.0" prefWidth="389.0" spacing="15.0" style="-fx-background-color: #fff; -fx-background-radius: 12;">
                   <children>
                     <Line endX="3.136810302734375" endY="109.91000366210938" startX="3.0" startY="-7.0">
                       <HBox.margin>

@@ -101,7 +101,7 @@
                               <Font size="13.0" />
                            </font>
                         </Label>
-                        <Label alignment="CENTER" layoutX="729.0" layoutY="23.0" prefHeight="14.0" prefWidth="190.0" text="Due Date">
+                        <Label alignment="CENTER" layoutX="729.0" layoutY="23.0" prefHeight="14.0" prefWidth="190.0" text="Returned Date">
                            <font>
                               <Font size="13.0" />
                            </font>
