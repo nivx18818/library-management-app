@@ -112,7 +112,7 @@ public class AdminGlobalController {
         bookService.addBook(book); 
     }
 
-    public void updateBookData(String[] updatedData, String bookId) {
+    public void updateBookData(String[] updatedData) {
         // for (int i = 0; i < observableBooksData.size(); i++) {
         //     String[] existingData = observableBooksData.get(i);
         //     if (existingData[0].equals(bookId)) {
@@ -120,19 +120,27 @@ public class AdminGlobalController {
         //         return;
         //     }
         // }
-        Book book = new Book(updatedData);
-        bookService.updateBook(book);
-        AdminBooksLayoutController.getInstance().refreshBooksList();
+        Book updatedBook = new Book(updatedData);
+        bookService.updateBook(updatedBook);
+
+        for (int i = 0; i < observableBooksData.size(); i++) {
+            Book book = observableBooksData.get(i);
+
+            if (book.getIsbn().equals(updatedBook.getIsbn())) {
+                observableBooksData.set(i, updatedBook);
+                return;
+            }
+        }
     }
 
-    public void deleteBookDataById(String id) {
+    public void deleteBookDataByIsbn(String isbn) {
         // for (String[] data : observableBooksData) {
         //     if (data[0].equals(id)) {
-        //         observableBooksData.remove(data);
-        //         break;
-        //     }
+        //     observableBooksData.remove(data);
+        //     break;
         // }
-        bookService.deleteBook(id);
+        observableBooksData.removeIf(book -> book.getIsbn().equals(isbn));
+        bookService.deleteBook(isbn);
     }
 
     // CRUD Operations for Users

@@ -147,7 +147,7 @@ public class AdminBookEditDialogController {
     }
 
     private void updateBookData(String[] updatedData) {
-        AdminGlobalController.getInstance().updateBookData(updatedData, originalData[0]);
+        AdminGlobalController.getInstance().updateBookData(updatedData);
         originalData = updatedData;
         showUpdateSuccessNotification();
     }
