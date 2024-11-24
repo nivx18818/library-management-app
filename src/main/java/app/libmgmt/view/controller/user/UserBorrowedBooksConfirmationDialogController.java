@@ -1,5 +1,6 @@
 package app.libmgmt.view.controller.user;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +10,10 @@ import app.libmgmt.model.Loan;
 import app.libmgmt.util.AnimationUtils;
 import app.libmgmt.util.ChangeScene;
 import app.libmgmt.util.DateTimeUtils;
+import app.libmgmt.util.EnumUtils;
 import app.libmgmt.view.controller.admin.AdminBooksLayoutController;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -19,6 +23,7 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 
 public class UserBorrowedBooksConfirmationDialogController {
 
@@ -70,7 +75,7 @@ public class UserBorrowedBooksConfirmationDialogController {
 
         borrowedDateLabel.setText(DateTimeUtils.convertLocalDateToString(DateTimeUtils.currentLocalTime));
         totalBorrowedBooksLabel.setText(selectedBooksList.size() + (selectedBooksList.size() > 1 ? " Books" : " Book"));
-        
+
         preloadData();
     }
 
@@ -82,9 +87,29 @@ public class UserBorrowedBooksConfirmationDialogController {
 
     @FXML
     void btnConfirmOnAction(ActionEvent event) {
+        confirmLabel.setText("Borrowing...");
         UserGlobalController.getInstance().addBorrowedBook(newBorrowedBooksList);
         confirmButton.setDisable(true);
-        ChangeScene.closePopUp();
+        closeDialogAndNavigateToCatalog();
+    }
+
+    private void closeDialogAndNavigateToCatalog() {
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.5), e -> {
+            confirmLabel.setText("Borrowed!");
+        }));
+        Timeline timeline2 = new Timeline(new KeyFrame(Duration.seconds(1.5), e -> {
+            ChangeScene.closePopUp();
+            UserCatalogController.currentStateUserCatalog = UserCatalogController.USER_CATALOG_STATE.BORROWED;
+            try {
+                UserNavigationController userNavigationController = UserNavigationController.getInstance();
+                userNavigationController.handleNavigation(EnumUtils.NavigationButton.CATALOG, "user-catalog-form.fxml",
+                        userNavigationController.getCatalogButton());
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        }));
+        timeline.play();
+        timeline2.play();
     }
 
     @FXML
@@ -147,7 +172,10 @@ public class UserBorrowedBooksConfirmationDialogController {
             controller.setOrderNumber(orderNumber);
             controller.setData(bookData);
             // form of borrowed book data in global: [isbn, book Image, name, due date]
-            Loan newBorrowedBookData = new Loan(UserGlobalController.getInstance().getBorrowedBooksData().size() + orderNumber, DateTimeUtils.convertStringToDate(borrowedDateLabel.getText()), DateTimeUtils.convertStringToDate(controller.getDueDate()), bookData[0], 23020708, "BORROWED");
+            Loan newBorrowedBookData = new Loan(
+                    UserGlobalController.getInstance().getBorrowedBooksData().size() + orderNumber,
+                    DateTimeUtils.convertStringToDate(borrowedDateLabel.getText()),
+                    DateTimeUtils.convertStringToDate(controller.getDueDate()), bookData[0], 23020708, "BORROWED");
             newBorrowedBooksList.add(newBorrowedBookData);
             Platform.runLater(() -> {
                 vBoxSelectedBooksList.getChildren().add(scene);

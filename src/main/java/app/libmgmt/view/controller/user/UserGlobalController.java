@@ -110,20 +110,23 @@ public class UserGlobalController {
         }
     }
 
-    public void addReturnedBook(String isbn) {
-        if (isbn == null || isbn.trim().isEmpty()) {
+    public void addReturnedBook(int loanId) {
+        if (loanId <= 0 || loanId > borrowedBooksData.size()) {
+            System.out.println("Invalid loan id");
             return;
         }
 
+        System.out.println("Return book size: " + returnedBooksData.size());
         for (int i = 0; i < borrowedBooksData.size(); i++) {
             Loan data = borrowedBooksData.get(i);
-            if (data.getBookIsbn().equals(isbn) && (data.getStatus().equals("BORROWED") || data.getStatus().equals("OVERDUE"))) {
+            if (data.getLoanId() == loanId && (data.getStatus().equals("BORROWED") || data.getStatus().equals("OVERDUE"))) {
                 System.out.println(data.toString());
                 data.markAsReturned();
                 returnedBooksData.add(data);
                 break;
             }
         }
+        System.out.println("Return book size: " + returnedBooksData.size());
     }
 
     public String[] getBookDataById(String id) {

@@ -142,7 +142,7 @@ public class UserCatalogBorrowedBookBarController {
 
     private void openPopUp(String fxmlPath, EnumUtils.PopupList popupType) {
         ChangeScene.openAdminPopUp(UserGlobalController.getInstance().getStackPaneContainer(),
-                fxmlPath, bookId, popupType);
+                fxmlPath, orderLabel.getText(), popupType);
     }
 
     public void setOrderNumber(String orderNumber) {

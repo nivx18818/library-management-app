@@ -136,5 +136,4 @@ public class UserNavigationController {
     public JFXButton getBooksButton() {
         return booksButton;
     }
-
 }
