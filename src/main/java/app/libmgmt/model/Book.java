@@ -15,17 +15,6 @@ public class Book {
     private List<String> authors;
     private List<String> categories;
 
-    public Book(String title, Date publishedDate, String publisher, String coverUrl,
-            int availableCopies, List<String> authors, List<String> categories) {
-        this.title = title;
-        this.publishedDate = publishedDate;
-        this.publisher = publisher;
-        this.coverUrl = coverUrl;
-        this.availableCopies = availableCopies;
-        this.authors = authors;
-        this.categories = categories;
-    }
-
     public Book(String isbn, String title, Date publishedDate, String publisher, String coverUrl,
             int availableCopies, List<String> authors, List<String> categories) {
         this.isbn = isbn;
