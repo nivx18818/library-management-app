@@ -1,6 +1,9 @@
 package app.libmgmt.model;
 
 import java.util.Date;
+import java.util.Objects;
+
+import app.libmgmt.util.DateTimeUtils;
 
 public class Loan {
     private int loanId;
@@ -68,7 +71,28 @@ public class Loan {
         return "Loan ID: " + loanId
                 + ", ISBN: " + isbn
                 + ", User ID: " + userId
-                + ", Borrowed Date: " + borrowedDate
+                + ", Borrowed Date: " + DateTimeUtils.convertDateToString(borrowedDate)
+                + ", Returned Date: " + DateTimeUtils.convertDateToString(returnedDate)
                 + ", Status: " + getStatus();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        Loan loan = (Loan) o;
+        return loanId == loan.loanId &&
+               userId == loan.userId &&
+               Objects.equals(borrowedDate, loan.borrowedDate) &&
+               Objects.equals(returnedDate, loan.returnedDate) &&
+               Objects.equals(isbn, loan.isbn) &&
+               Objects.equals(status, loan.status);
+    }
+    
+    @Override
+    public int hashCode() {
+        return Objects.hash(loanId, borrowedDate, returnedDate, isbn, userId, status);
+    }    
 }
