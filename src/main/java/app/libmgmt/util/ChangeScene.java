@@ -57,7 +57,7 @@ public class ChangeScene {
                 case RETURN_BOOK:
                     UserReturnBookConfirmationDialogController returnController = loader.getController();
                     if (id != null && !id.isEmpty()) {
-                        returnController.setId(id);
+                        returnController.setLoanId(Integer.parseInt(id));
                     }
                 case ADD_BOOK:
                 case ADD_USER:

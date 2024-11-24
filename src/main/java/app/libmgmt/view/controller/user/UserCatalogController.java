@@ -87,6 +87,7 @@ public class UserCatalogController {
         listenReturnBookEvent();
     }
 
+    // TODO:: This method should be reviewed and refactored
     private void listenReturnBookEvent() {
         userGlobalController.getReturnedBooksData().addListener((ListChangeListener.Change<? extends Loan> change) -> {
             while (change.next()) {

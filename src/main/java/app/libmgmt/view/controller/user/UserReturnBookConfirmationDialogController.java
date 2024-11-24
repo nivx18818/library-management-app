@@ -43,10 +43,10 @@ public class UserReturnBookConfirmationDialogController {
     @FXML
     private Pane confirmPane;
 
-    private String bookId;
+    private int loanId;
 
-    public void setId(String id) {
-        this.bookId = id;
+    public void setLoanId(int loanId) {
+        this.loanId = loanId;
     }
 
     @FXML
@@ -63,8 +63,8 @@ public class UserReturnBookConfirmationDialogController {
     private void startReturnBookProcess() {
         lblConfirm.setText("Returning...");
         disableButtons(true);
-        UserGlobalController.getInstance().addReturnedBook(bookId);
         closeDialogAfterDelay();
+        UserGlobalController.getInstance().addReturnedBook(loanId);
     }
 
     /**
