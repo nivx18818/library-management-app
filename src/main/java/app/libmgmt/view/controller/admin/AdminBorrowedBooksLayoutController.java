@@ -144,7 +144,7 @@ public class AdminBorrowedBooksLayoutController {
         List<String[]> overdueList = new ArrayList<>();
         for (String[] borrowedData : borrowedBooksData) {
             try {
-                LocalDate dueDateParsed = LocalDate.parse(borrowedData[3], DateTimeUtils.dateTimeFormatter);
+                LocalDate dueDateParsed = DateTimeUtils.convertStringToLocalDate(borrowedData[4]);
                 if (dueDateParsed.isBefore(DateTimeUtils.currentLocalTime)) {
                     overdueList.add(borrowedData);
                 }

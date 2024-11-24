@@ -54,6 +54,10 @@ public class UserBookBarController {
         return controller;
     }
 
+    @FXML
+    public void initialize() {
+    }
+
     // --- Event Handlers ---
     @FXML
     void imgViewOnMouseClicked(MouseEvent event) {
@@ -77,8 +81,8 @@ public class UserBookBarController {
         // Form of book bar: [No., imgPath, name, type, author, quantity(available)]
 
         bookID = data[0];
-        orderLabel.setText(
-                Integer.toString(UserGlobalController.getInstance().getObservableBooksData().indexOf(data) + 1));
+        int orderNumber = UserGlobalController.getInstance().getObservableBooksData().indexOf(data) + 1;
+        orderLabel.setText(orderNumber + "");
         updateImageIfChanged(data[1], bookImage);
         nameLabel.setText(data[2]);
         typeLabel.setText(data[3]);
@@ -122,7 +126,8 @@ public class UserBookBarController {
         int newQuantity = Integer.parseInt(newQuantityStr);
         quantity = newQuantity;
         if (quantity >= 1) {
-            checkBoxButton.setDisable(UserGlobalController.getInstance().getBorrowedBookIds().contains(bookID));
+            boolean isBorrowed = UserGlobalController.getInstance().isBookBorrowed(bookID);
+            checkBoxButton.setDisable(isBorrowed);
             statusLabel.setText("Available");
             statusLabel.setStyle("-fx-text-fill: green");
         } else {

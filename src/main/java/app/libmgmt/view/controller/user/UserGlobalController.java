@@ -1,11 +1,11 @@
 package app.libmgmt.view.controller.user;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
+import app.libmgmt.model.Loan;
 import app.libmgmt.util.AnimationUtils;
+import app.libmgmt.util.DateTimeUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -15,32 +15,30 @@ import javafx.scene.layout.StackPane;
 
 public class UserGlobalController {
 
-    private static UserGlobalController controller;
+    private static volatile UserGlobalController controller;
 
-    // Observable Lists for managing data
-    private final ObservableList<String[]> borrowedBooksData = FXCollections
-            .observableArrayList(preLoadBorrowedBooksData());
-    private final ObservableList<String[]> returnedBooksData = FXCollections
-            .observableArrayList(preLoadReturnedBooksData());
-    private final ObservableList<String[]> observableBooksData = FXCollections.observableArrayList(preLoadBooksData());
+    // Collections for data management
+    private final ObservableList<Loan> borrowedBooksData;
+    private final ObservableList<Loan> returnedBooksData;
+    private final ObservableList<String[]> observableBooksData;
 
-    private final Set<String> returnedBookIds = new HashSet<>();
-
+    // FXML injected components
     @FXML
     private Pane backgroundPane;
-
     @FXML
     private HBox globalFormContainer;
-
     @FXML
     private Pane pagingPane;
-
     @FXML
     private StackPane stackPaneContainer;
 
     // Constructor and Singleton Pattern
     public UserGlobalController() {
-        controller = this;
+
+        // Initialize collections
+        borrowedBooksData = FXCollections.observableArrayList(preLoadLoansData());
+        returnedBooksData = FXCollections.observableArrayList(setOriginalReturnedBooksData());
+        observableBooksData = FXCollections.observableArrayList(preLoadBooksData());
     }
 
     public static UserGlobalController getInstance() {
@@ -49,38 +47,30 @@ public class UserGlobalController {
 
     @FXML
     public void initialize() {
-        System.out.println("User Global Form initialized");
+        controller = this;
         AnimationUtils.fadeInRight(pagingPane, 1);
     }
 
     // Data Pre-loading Methods
-    private List<String[]> preLoadBorrowedBooksData() {
-        List<String[]> data = new ArrayList<>();
-        data.add(new String[] { "A1", "https://marketplace.canva" +
-                ".com/EAFaQMYuZbo/1/0/1003w/canva-brown-rusty-mystery-novel-book-cover-hG1QhA7BiBU.jpg",
-                "The Great Gatsby", "11/11/2024", "17/11/2024" });
-        data.add(new String[] { "B2",
-                "https://marketplace.canva.com/EAFaQMYuZbo/1/0/1003w/canva-brown-rusty-mystery-novel-book-cover-hG1QhA7BiBU.jpg",
-                "Story Book", "11/11/2024", "17/11/2024" });
-        data.add(new String[] { "C3",
-                "https://th.bing.com/th/id/OIP.FTtvbIR52uSVcUrvWBENsAHaLG?w=1170&h=1753&rs=1&pid=ImgDetMain",
-                "Story Book", "11/11/2024", "17/11/2024" });
-        data.add(new String[] { "D4",
-                "https://cdn11.bigcommerce.com/s-ep2pzxabtm/images/stencil/1280w/products/395/816/healinggrief__40416.1554653848.jpg?c=2",
-                "Story Book", "11/11/2024", "17/11/2024" });
+    private List<Loan> preLoadLoansData() {
+        // test data
+        List<Loan> data = new ArrayList<>();
+
+        data.add(new Loan(1, DateTimeUtils.convertStringToDate("09/11/2024"), DateTimeUtils.convertStringToDate("22/11/2024"), "A1", 23020708, "BORROWED"));
+        data.add(new Loan(2, DateTimeUtils.convertStringToDate("11/11/2024"), DateTimeUtils.convertStringToDate("24/11/2024"), "B2", 23020708, "BORROWED"));
+        data.add(new Loan(3, DateTimeUtils.convertStringToDate("13/11/2024"), DateTimeUtils.convertStringToDate("26/11/2024"), "C3", 23020708, "RETURNED"));
+        data.add(new Loan(4, DateTimeUtils.convertStringToDate("15/11/2024"), DateTimeUtils.convertStringToDate("28/11/2024"), "D4", 23020708, "BORROWED"));
+
         return data;
     }
 
-    private List<String[]> preLoadReturnedBooksData() {
-        // TODO: Load returned books data from database
-
-        List<String[]> data = new ArrayList<>();
-        // data.add(new String[] { "1",
-        // "https://th.bing.com/th/id/OIP.FTtvbIR52uSVcUrvWBENsAHaLG?w=1170&h=1753&rs=1&pid=ImgDetMain",
-        // "Story Book", "2", "11/11/2024", "17/11/2024" });
-        // data.add(new String[] { "1",
-        // "https://cdn11.bigcommerce.com/s-ep2pzxabtm/images/stencil/1280w/products/395/816/healinggrief__40416.1554653848.jpg?c=2",
-        // "Story Book", "2", "11/11/2024", "17/11/2024" });
+    private List<Loan> setOriginalReturnedBooksData() {
+        List<Loan> data = new ArrayList<>();
+        for (Loan d : borrowedBooksData) {
+            if (d.getStatus().equals("RETURNED")) {
+                data.add(d);
+            }
+        }
         return data;
     }
 
@@ -110,28 +100,76 @@ public class UserGlobalController {
     }
 
     // CRUD Methods
-    public void addReturnedBook(String id) {
-        for (String[] data : borrowedBooksData) {
-            if (data[0].equals(id)) {
-                // TODO: Add returned book to database
+    public void addBorrowedBook(List<Loan> newBorrowedBooksList) {
+        if (newBorrowedBooksList == null || newBorrowedBooksList.isEmpty()) {
+            return;
+        }
+
+        for (int i = 0; i < newBorrowedBooksList.size(); i++) {
+            borrowedBooksData.add(newBorrowedBooksList.get(i));
+        }
+    }
+
+    public void addReturnedBook(String isbn) {
+        if (isbn == null || isbn.trim().isEmpty()) {
+            return;
+        }
+
+        for (int i = 0; i < borrowedBooksData.size(); i++) {
+            Loan data = borrowedBooksData.get(i);
+            if (data.getBookIsbn().equals(isbn) && (data.getStatus().equals("BORROWED") || data.getStatus().equals("OVERDUE"))) {
+                System.out.println(data.toString());
+                data.markAsReturned();
                 returnedBooksData.add(data);
-                returnedBookIds.add(id);
                 break;
             }
         }
     }
 
     public String[] getBookDataById(String id) {
-        for (String[] data : observableBooksData) {
-            if (data[0].equals(id)) {
-                return data;
+        if (id == null || id.trim().isEmpty()) {
+            return null;
+        }
+
+        return observableBooksData.stream()
+                .filter(data -> data[0].equals(id))
+                .findFirst()
+                .map(String[]::clone)
+                .orElse(null);
+    }
+
+    public boolean isBookReturned(int loanId, String isbn) {
+        if (isbn == null || isbn.trim().isEmpty()) {
+            return false;
+        }
+        for (int i = 0; i < borrowedBooksData.size(); i++) {
+            Loan data = borrowedBooksData.get(i);
+            if (data.getLoanId() == loanId && data.getBookIsbn().equals(isbn) && data.getStatus().equals("RETURNED")) {
+                return true;
             }
         }
-        return null;
+
+        return false;
+    }
+
+    public boolean isBookBorrowed(String isbn) {
+        if (isbn == null || isbn.trim().isEmpty()) {
+            return false;
+        }
+
+        for (int i = 0; i < borrowedBooksData.size(); i++) {
+            Loan data = borrowedBooksData.get(i);
+            if (data.getBookIsbn().equals(isbn) && (borrowedBooksData.get(i).getStatus().equals("BORROWED") || 
+            borrowedBooksData.get(i).getStatus().equals("OVERDUE"))) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     // Getter Methods for Data
-    public ObservableList<String[]> getBorrowedBooksData() {
+    public ObservableList<Loan> getBorrowedBooksData() {
         return borrowedBooksData;
     }
 
@@ -139,17 +177,8 @@ public class UserGlobalController {
         return observableBooksData;
     }
 
-    public ObservableList<String[]> getReturnedBooksData() {
+    public ObservableList<Loan> getReturnedBooksData() {
         return returnedBooksData;
-    }
-
-    public Set<String> getReturnedBookIds() {
-        return returnedBookIds;
-    }
-
-    // Add method to check if book is returned
-    public boolean isBookReturned(String bookId) {
-        return returnedBookIds.contains(bookId);
     }
 
     // Getter Methods for UI components

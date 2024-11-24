@@ -100,22 +100,18 @@ public class UserCatalogBorrowedBookBarController {
     }
 
     public void setData(String[] data) {
-        // form data in global: [bookId, bookImage, bookName, borrowedDate, dueDate]
-        // form data in book bar: [orderNumber, bookImage, bookName, borrowedDate,
-        // dueDate]
         bookId = data[0];
         if (UserCatalogController.currentStateUserCatalog == USER_CATALOG_STATE.BORROWED) {
-            orderLabel.setText(Integer.toString(UserGlobalController.getInstance().getBorrowedBooksData().indexOf(data) + 1));
+            orderLabel.setText(data[1]);
         } else {
             orderLabel.setText(data[0]);
         }
-        if (data[1] != null) {
-            updateImage(data[1], bookImage);
+        if (data[2] != null) {
+            updateImage(data[2], bookImage);
         }
-        nameLabel.setText(data[2]);
-        borrowedDateLabel.setText(data[3]);
-        dueDateLabel.setText(data[4]);
-
+        nameLabel.setText(data[3]);
+        borrowedDateLabel.setText(data[4]);
+        dueDateLabel.setText(data[5]);
     }
 
     private void updateImage(String imgPath, ImageView bookImage) {
@@ -151,6 +147,10 @@ public class UserCatalogBorrowedBookBarController {
 
     public void setOrderNumber(String orderNumber) {
         orderLabel.setText(orderNumber);
+    }
+
+    public int getOrderNumber() {
+        return Integer.parseInt(orderLabel.getText());
     }
 
 }

@@ -5,7 +5,9 @@ import java.util.List;
 
 import com.jfoenix.controls.JFXButton;
 
+import app.libmgmt.model.Loan;
 import app.libmgmt.util.AnimationUtils;
+import app.libmgmt.util.DateTimeUtils;
 import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
 import javafx.concurrent.Task;
@@ -60,8 +62,8 @@ public class UserCatalogController {
 
     // External controllers and data
     private final UserGlobalController userGlobalController = UserGlobalController.getInstance();
-    private List<String[]> borrowedBooksData = userGlobalController.getBorrowedBooksData();
-    private List<String[]> returnedBooksData = userGlobalController.getReturnedBooksData();
+    private List<Loan> borrowedBooksData = userGlobalController.getBorrowedBooksData();
+    private List<Loan> returnedBooksData = userGlobalController.getReturnedBooksData();
 
     // Constructor and Singleton Pattern
     public UserCatalogController() {
@@ -74,8 +76,6 @@ public class UserCatalogController {
 
     @FXML
     public void initialize() {
-        System.out.println("User Catalog initialized");
-
         if (currentStateUserCatalog == USER_CATALOG_STATE.BORROWED) {
             updateStatusUI(USER_CATALOG_STATE.BORROWED);
             showBorrowedBooksList();
@@ -88,22 +88,30 @@ public class UserCatalogController {
     }
 
     private void listenReturnBookEvent() {
-        userGlobalController.getReturnedBooksData().addListener((ListChangeListener.Change<? extends String[]> change) -> {
+        userGlobalController.getReturnedBooksData().addListener((ListChangeListener.Change<? extends Loan> change) -> {
             while (change.next()) {
-                if (change.wasAdded()) {
+                if (change.wasAdded() && currentStateUserCatalog == USER_CATALOG_STATE.BORROWED) {
                     try {
-                        Pane bookBar = (Pane) vBoxBooksList.getChildren()
-                                .get(Integer.parseInt(deletedOrderNumber) - 1);
+                        int index = Integer.parseInt(deletedOrderNumber) - 1;
+                        if (index >= 0 && index < vBoxBooksList.getChildren().size()) {
+                            Pane bookBar = (Pane) vBoxBooksList.getChildren().get(index);
 
-                        // Retrieve controller from bookBar
-                        UserCatalogBorrowedBookBarController controller = (UserCatalogBorrowedBookBarController) bookBar.getUserData();
-                        if (controller != null) {
-                            controller.setDisableReturnButton(true);
+                            // Retrieve controller from bookBar
+                            UserCatalogBorrowedBookBarController controller = (UserCatalogBorrowedBookBarController) bookBar
+                                    .getUserData();
+                            if (controller != null) {
+                                controller.setDisableReturnButton(true);
+                            } else {
+                                System.err.println("Controller not found for book bar");
+                            }
                         } else {
-                            System.err.println("Controller not found for book bar");
+                            System.err.println("Index out of bounds: " + index);
                         }
+
                     } catch (IndexOutOfBoundsException e) {
                         System.err.println("Invalid order number: " + deletedOrderNumber);
+                    } catch (NumberFormatException e) {
+                        System.err.println("Invalid format for order number: " + deletedOrderNumber);
                     } catch (Exception e) {
                         System.err.println("Error updating return button: " + e.getMessage());
                     }
@@ -189,13 +197,24 @@ public class UserCatalogController {
     }
 
     // Data Preloading
-    public void preloadData(List<String[]> data, USER_CATALOG_STATE currentStatus) {
+    public void preloadData(List<Loan> data, USER_CATALOG_STATE currentStatus) {
         Task<Void> preloadTask = new Task<>() {
             @Override
             protected Void call() {
                 try {
-                    for (String[] d : data) {
-                        loadBorrowedBookBar(d, currentStatus);
+                    for (Loan d : data) {
+                        String[] loanData = new String[] {
+                                d.getBookIsbn(),
+                                d.getLoanId() + "",
+                                // TODO: Get book image from the database
+                                "https://marketplace.canva.com/EAFaQMYuZbo/1/0/1003w/canva-brown-rusty-mystery-novel-book-cover-hG1QhA7BiBU.jpg",
+                                // TODO: Get book name from the database
+                                "Book Name",
+                                DateTimeUtils.convertDateToString(d.getBorrowedDate()),
+                                DateTimeUtils.convertDateToString(d.getReturnedDate()),
+                                d.getReturnedDate().toString(),
+                        };
+                        loadBorrowedBookBar(loanData, currentStatus);
                     }
                 } catch (Exception e) {
                     System.out.println("Error loading data table: " + e.getMessage());
@@ -225,7 +244,10 @@ public class UserCatalogController {
 
             if (currentStatus == USER_CATALOG_STATE.BORROWED) {
                 controller.setVisibleAction(true);
-                controller.setDisableReturnButton(userGlobalController.isBookReturned(d[0]));
+                String isbn = d[0];
+                int loanId = Integer.parseInt(d[1]);
+                boolean isReturned = userGlobalController.isBookReturned(loanId, isbn);
+                controller.setDisableReturnButton(isReturned);
             } else {
                 controller.setVisibleAction(false);
             }

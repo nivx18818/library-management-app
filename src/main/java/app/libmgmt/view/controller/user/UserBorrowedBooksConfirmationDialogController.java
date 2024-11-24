@@ -1,9 +1,11 @@
 package app.libmgmt.view.controller.user;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.jfoenix.controls.JFXButton;
 
+import app.libmgmt.model.Loan;
 import app.libmgmt.util.AnimationUtils;
 import app.libmgmt.util.ChangeScene;
 import app.libmgmt.util.DateTimeUtils;
@@ -51,6 +53,8 @@ public class UserBorrowedBooksConfirmationDialogController {
 
     private List<String[]> selectedBooksList;
 
+    private List<Loan> newBorrowedBooksList;
+
     public UserBorrowedBooksConfirmationDialogController() {
         controller = this;
     }
@@ -61,11 +65,13 @@ public class UserBorrowedBooksConfirmationDialogController {
 
     @FXML
     public void initialize() {
-        System.out.println("User Borrowed Books Confirmation Dialog initialized");
         selectedBooksList = UserBooksLayoutController.getInstance().getSelectedBooksList();
-        borrowedDateLabel.setText(getToday());
-        preloadData();
+        newBorrowedBooksList = new ArrayList<>();
+
+        borrowedDateLabel.setText(DateTimeUtils.convertLocalDateToString(DateTimeUtils.currentLocalTime));
         totalBorrowedBooksLabel.setText(selectedBooksList.size() + (selectedBooksList.size() > 1 ? " Books" : " Book"));
+        
+        preloadData();
     }
 
     @FXML
@@ -76,17 +82,19 @@ public class UserBorrowedBooksConfirmationDialogController {
 
     @FXML
     void btnConfirmOnAction(ActionEvent event) {
-        // TODO: Implement confirmation logic
+        UserGlobalController.getInstance().addBorrowedBook(newBorrowedBooksList);
+        confirmButton.setDisable(true);
+        ChangeScene.closePopUp();
     }
 
     @FXML
     void btnOnMouseEntered(MouseEvent event) {
         if (event.getSource() == closeButton) {
             closePane.setStyle(
-                "-fx-background-color: #d7d7d7; -fx-background-radius: 10;");
+                    "-fx-background-color: #d7d7d7; -fx-background-radius: 10;");
         } else if (event.getSource() == confirmButton) {
             confirmPane.setStyle(
-                "-fx-background-color: #F2F2F2; -fx-background-radius: 10; -fx-border-color: #000; -fx-border-radius: 10; -fx-border-width: 1.2;");
+                    "-fx-background-color: #F2F2F2; -fx-background-radius: 10; -fx-border-color: #000; -fx-border-radius: 10; -fx-border-width: 1.2;");
             confirmLabel.setStyle("-fx-text-fill: #000;");
         }
     }
@@ -95,10 +103,10 @@ public class UserBorrowedBooksConfirmationDialogController {
     void btnOnMouseExited(MouseEvent event) {
         if (event.getSource() == closeButton) {
             closePane.setStyle(
-                "-fx-background-color: #fff; -fx-background-radius: 10;");
+                    "-fx-background-color: #fff; -fx-background-radius: 10;");
         } else if (event.getSource() == confirmButton) {
             confirmPane.setStyle(
-                "-fx-background-color: #000; -fx-background-radius: 10;");
+                    "-fx-background-color: #000; -fx-background-radius: 10;");
             confirmLabel.setStyle("-fx-text-fill: #fff;");
         }
 
@@ -138,6 +146,9 @@ public class UserBorrowedBooksConfirmationDialogController {
             UserBorrowedBookBarController controller = fxmlLoader.getController();
             controller.setOrderNumber(orderNumber);
             controller.setData(bookData);
+            // form of borrowed book data in global: [isbn, book Image, name, due date]
+            Loan newBorrowedBookData = new Loan(UserGlobalController.getInstance().getBorrowedBooksData().size() + orderNumber, DateTimeUtils.convertStringToDate(borrowedDateLabel.getText()), DateTimeUtils.convertStringToDate(controller.getDueDate()), bookData[0], 23020708, "BORROWED");
+            newBorrowedBooksList.add(newBorrowedBookData);
             Platform.runLater(() -> {
                 vBoxSelectedBooksList.getChildren().add(scene);
                 AnimationUtils.zoomIn(scene, 1.0);
@@ -146,9 +157,4 @@ public class UserBorrowedBooksConfirmationDialogController {
             System.err.println("Error loading book data: " + e.getMessage());
         }
     }
-
-    public String getToday() {
-        return DateTimeUtils.convertDateToString(DateTimeUtils.currentLocalTime);
-    }
-
 }

@@ -57,16 +57,15 @@ public class UserBorrowedBookBarController {
         new Thread(imageLoadTask).start();
     }
 
-    private String getDueDate() {
+    public String getDueDate() {
         LocalDate today = DateTimeUtils.currentLocalTime;
     
         // Add 14 days to the current date = due date
         LocalDate dueDate = today.plusDays(14);
     
         // Format the due date to dd/MM/yyyy
-        return DateTimeUtils.convertDateToString(dueDate);
+        return DateTimeUtils.convertLocalDateToString(dueDate);
     }
-    
 
     @FXML
     void imgOnMouseClicked(MouseEvent event) {

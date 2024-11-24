@@ -121,7 +121,7 @@ public class AdminBookEditDialogController {
         authorTextField.setText(originalData[4]);
         quantitySpinner.getValueFactory().setValue(Integer.parseInt(originalData[5]));
         publisherTextField.setText(originalData[6]);
-        publishedDatePicker.setValue(DateTimeUtils.convertStringToDate(originalData[7]));
+        publishedDatePicker.setValue(DateTimeUtils.convertStringToLocalDate(originalData[7]));
     }
 
     private String[] getUpdatedData() {
@@ -133,7 +133,7 @@ public class AdminBookEditDialogController {
                 authorTextField.getText(),
                 quantitySpinner.getValue().toString(),
                 publisherTextField.getText(),
-                publishedDatePicker.getValue() == null ? "" : DateTimeUtils.convertDateToString(publishedDatePicker.getValue())
+                publishedDatePicker.getValue() == null ? "" : DateTimeUtils.convertLocalDateToString(publishedDatePicker.getValue())
         };
     }
 
