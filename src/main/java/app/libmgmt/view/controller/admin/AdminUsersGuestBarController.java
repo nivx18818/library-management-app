@@ -31,7 +31,7 @@ public class AdminUsersGuestBarController {
                         if (change.wasReplaced() && change.getFrom() >= 0
                                 && change.getFrom() < change.getList().size()) {
                             ExternalBorrower updatedUser = (ExternalBorrower) change.getList().get(change.getFrom());
-                            //data format: [name, major, email, id, password]
+                            //data format: [name, phone, email, id, password]
                             String[] updatedUserData = new String[] {
                                     updatedUser.getName(),
                                     updatedUser.getPhoneNumber(),
@@ -43,7 +43,7 @@ public class AdminUsersGuestBarController {
                             UserService userService = new UserService();
                             userService.updateUser(updatedUserObj);
 
-                            if (idLabel.getText().equals(updatedUserData[4])) {
+                            if (idLabel.getText().equals(updatedUserData[3])) {
                                 setUpdateData(updatedUserData);
                             }
                         }
