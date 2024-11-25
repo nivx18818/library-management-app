@@ -29,8 +29,8 @@ public class AdminGlobalController {
     private final List<String[]> adminsData = preLoadAdminData();
 
     // Real time load data
-    private final ObservableList<User> studentsData = FXCollections.observableArrayList();
-    private final ObservableList<User> externalBorrowersData = FXCollections.observableArrayList();
+    private final ObservableList<Student> studentsData = FXCollections.observableArrayList();
+    private final ObservableList<ExternalBorrower> externalBorrowersData = FXCollections.observableArrayList();
     private final ObservableList<Book> observableBooksData = FXCollections.observableArrayList();
 
     private final BookService bookService = new BookService();
@@ -77,19 +77,12 @@ public class AdminGlobalController {
         return bookService.getAllBooks();
     }
 
-    public List<String[]> preLoadStudentsData() {
-        List<String[]> data = new ArrayList<>();
-        data.add(new String[] { "Student", "Hoang Duy Thinh", "CN1 - Information Technology", "23020708@vnu.edu.vn",
-                "23020708" });
-        data.add(new String[] { "Student", "Hoang Duy Thinh", "CN1 - Information Technology", "23020708@vnu.edu.vn",
-                "23020709" });
-        return data;
+    public List<Student> preLoadStudentsData() {
+        return userService.getAllStudents();
     }
 
-    public List<String[]> preLoadExternalBorrowersData() {
-        List<String[]> data = new ArrayList<>();
-        data.add(new String[] { "Student", "Ho Hoai Ho", "0941512278", "2302ad21@vnu.edu.vn", "037205005003" });
-        return data;
+    public List<ExternalBorrower> preLoadExternalBorrowersData() {
+        return userService.getAllExternalBorrowers();
     }
 
     private List<String[]> preLoadAdminData() {
@@ -146,10 +139,10 @@ public class AdminGlobalController {
                 : new ExternalBorrower(updatedData);
 
         userService.updateUser(updatedUser);
+        System.out.println("Updated user: " + updatedUser.getName() + " " + updatedUser.getEmail() + " " + updatedUser.getUserId());
                 
         for (int i = 0; i < userList.size(); i++) {
             User user = userList.get(i);
-
             if (user.getUserId() == updatedUser.getUserId()) {
                 userList.set(i, updatedUser);
                 return;
@@ -159,17 +152,20 @@ public class AdminGlobalController {
 
     public void deleteUserById(EnumUtils.PopupList popupType, String id) {
         ObservableList<User> userList = popupType == EnumUtils.PopupList.STUDENT_DELETE
-                ? studentsData
-                : externalBorrowersData;
+                ? FXCollections.observableArrayList(studentsData)
+                : FXCollections.observableArrayList(externalBorrowersData);
 
-        int userId = Integer.parseInt(id);
-        userList.removeIf(user -> user.getUserId() == userId);
-        userService.deleteUserById(userId);
+        userList.removeIf(user -> user.getUserId().equals(id));
+        userService.deleteUserById(id);
     }
 
     // Helper Methods
     private ObservableList<User> getUserListByType(EnumUtils.UserType userType) {
-        return userType == EnumUtils.UserType.STUDENT ? studentsData : externalBorrowersData;
+        if (userType == EnumUtils.UserType.STUDENT) {
+            return FXCollections.observableArrayList(studentsData);
+        } else {
+            return FXCollections.observableArrayList(externalBorrowersData);
+        }
     }
 
     // fetchBooksFromDatabase
@@ -190,8 +186,12 @@ public class AdminGlobalController {
         return observableBooksData;
     }
 
-    public ObservableList<String[]> getObservableUsersData(EnumUtils.UserType userType) {
-        return getUserListByType(userType);
+    public ObservableList<Student> getObservableStudentsData() {
+        return studentsData;
+    }
+
+    public ObservableList<ExternalBorrower> getObservableExternalBorrowersData() {
+        return externalBorrowersData;
     }
 
     public int getTotalUsersCount() {
@@ -202,11 +202,11 @@ public class AdminGlobalController {
         observableBooksData.setAll(data);
     }
 
-    public void setStudentsData(List<String[]> data) {
+    public void setStudentsData(List<Student> data) {
         studentsData.setAll(data);
     }
 
-    public void setExternalBorrowersData(List<String[]> data) {
+    public void setExternalBorrowersData(List<ExternalBorrower> data) {
         externalBorrowersData.setAll(data);
     }
 

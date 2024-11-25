@@ -7,6 +7,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import app.libmgmt.model.ExternalBorrower;
+import app.libmgmt.model.User;
+import app.libmgmt.service.UserService;
 import app.libmgmt.util.ChangeScene;
 import app.libmgmt.util.EnumUtils;
 
@@ -22,12 +25,23 @@ public class AdminUsersGuestBarController {
     @FXML
     public void initialize() {
         // Setup listener to handle updates in user data for GUEST type
-        AdminGlobalController.getInstance().getObservableUsersData(EnumUtils.UserType.GUEST)
-                .addListener((ListChangeListener<String[]>) change -> {
+        AdminGlobalController.getInstance().getObservableExternalBorrowersData()
+                .addListener((ListChangeListener<User>) change -> {
                     while (change.next()) {
                         if (change.wasReplaced() && change.getFrom() >= 0
                                 && change.getFrom() < change.getList().size()) {
-                            String[] updatedUserData = change.getList().get(change.getFrom());
+                            ExternalBorrower updatedUser = (ExternalBorrower) change.getList().get(change.getFrom());
+                            //data format: [name, major, email, id, password]
+                            String[] updatedUserData = new String[] {
+                                    updatedUser.getName(),
+                                    updatedUser.getPhoneNumber(),
+                                    updatedUser.getEmail(),
+                                    updatedUser.getSocialId(),
+                                    updatedUser.getPassword()
+                            };
+                            User updatedUserObj = new ExternalBorrower(updatedUserData);
+                            UserService userService = new UserService();
+                            userService.updateUser(updatedUserObj);
 
                             if (idLabel.getText().equals(updatedUserData[4])) {
                                 setUpdateData(updatedUserData);
@@ -47,10 +61,11 @@ public class AdminUsersGuestBarController {
 
     // Updates user data when changes occur
     public void setUpdateData(String[] data) {
-        idLabel.setText(data[4]);
-        nameLabel.setText(data[1]);
-        phoneLabel.setText(data[2]);
-        emailLabel.setText(data[3]);
+        //data format: [name, major, email, id, password]
+        idLabel.setText(data[3]);
+        nameLabel.setText(data[0]);
+        phoneLabel.setText(data[1]);
+        emailLabel.setText(data[2]);
     }
 
     // Gets user data as an array

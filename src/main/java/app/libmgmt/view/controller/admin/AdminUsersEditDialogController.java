@@ -154,11 +154,13 @@ public class AdminUsersEditDialogController {
 
     // Extracts updated data from fields
     private String[] extractUpdatedData() {
+        //data format: [name, major/phone, email, id, password]
         return new String[] {
-                idTextField.getText(),
                 nameTextField.getText(),
                 majorLabel.isVisible() ? majorComboBox.getValue() : phoneNumberTextField.getText(),
-                emailTextField.getText()
+                emailTextField.getText(),
+                idTextField.getText(),
+                "password"
         };
     }
 
@@ -175,13 +177,14 @@ public class AdminUsersEditDialogController {
     // Processes the user data update and updates the UI
     private void processUserDataUpdate(String[] updatedData) {
         String[] formattedData = formatUserData(updatedData);
-        AdminGlobalController.getInstance().updateUserData(formattedData, userType);
+        AdminGlobalController.getInstance().updateUserData(updatedData, userType);
         showSuccessMessage("User updated successfully!");
         originalData = updatedData;
     }
 
     // Formats the user data for updating
     private String[] formatUserData(String[] updatedData) {
+        //data format: [name, major, email, id, password]
         return new String[] {
                 userType == EnumUtils.UserType.STUDENT ? "Student" : "External Borrower",
                 updatedData[1],
