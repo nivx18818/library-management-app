@@ -93,7 +93,7 @@ public class BookDAO {
         }
     }
 
-    public void deleteBook(String isbn) throws SQLException  {
+    public void deleteBookByIsbn(String isbn) throws SQLException  {
         String sql = "DELETE FROM Book WHERE isbn = ?";
 
         try (Connection connection = getConnection();

@@ -7,11 +7,23 @@ public abstract class User {
     private String password;
     private String salt;
 
+    public User(String name, String email, String password) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+    }
+
     public User(int userId, String name, String email, String password) {
         this.userId = userId;
         this.name = name;
         this.email = email;
         this.password = password;
+    }
+
+    // data format: [userRole, name, major/phoneNumber, email, studentId/socialId]
+    public User(String[] userData) {
+        this.name = userData[1];
+        this.email = userData[3];
     }
 
     public int getUserId() {

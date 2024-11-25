@@ -117,12 +117,12 @@ public class UserDAO {
     }
     
 
-    public void deleteUser(User user) throws SQLException {
+    public void deleteUserById(int userId) throws SQLException {
         String sql = "DELETE FROM User WHERE id = ?";
 
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, user.getUserId());
+            statement.setInt(1, userId);
             statement.executeUpdate();
         }
     }

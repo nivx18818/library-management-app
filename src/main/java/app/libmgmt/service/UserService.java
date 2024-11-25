@@ -15,7 +15,7 @@ import javax.crypto.spec.PBEKeySpec;
 public class UserService {
     private final UserDAO userDAO;
 
-    public UserService() throws SQLException {
+    public UserService() {
         this.userDAO = new UserDAO();
     }
 
@@ -67,9 +67,9 @@ public class UserService {
         }
     }
 
-    public void deleteUser(User user) {
+    public void deleteUserById(int userId) {
         try {
-            userDAO.deleteUser(user);
+            userDAO.deleteUserById(userId);
             System.out.println("User deleted successfully");
         } catch (SQLException e) {
             throw new ServiceException("Error deleting user", e);

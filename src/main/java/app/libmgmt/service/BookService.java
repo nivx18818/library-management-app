@@ -31,9 +31,9 @@ public class BookService {
         }
     }
 
-    public void deleteBook(String isbn) {
+    public void deleteBookByIsbn(String isbn) {
         try {
-            bookDAO.deleteBook(isbn);
+            bookDAO.deleteBookByIsbn(isbn);
             System.out.println("Book deleted successfully");
         } catch (SQLException e) {
             throw new ServiceException("Error in book delete: ", e);

@@ -151,7 +151,7 @@ public class AdminNavigationController {
         if (!uploadedUsersData) {
             globalController
                     .setStudentsData((FXCollections.observableArrayList(globalController.preLoadStudentsData())));
-            globalController.setGuestsData((FXCollections.observableArrayList(globalController.preLoadGuestsData())));
+            globalController.setExternalBorrowersData((FXCollections.observableArrayList(globalController.preLoadExternalBorrowersData())));
 
             uploadedUsersData = true;
         }

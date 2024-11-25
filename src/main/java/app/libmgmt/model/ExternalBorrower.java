@@ -11,6 +11,13 @@ public class ExternalBorrower extends User {
         this.phoneNumber = phoneNumber;
     }
 
+    // data format: [userRole, name, phoneNumber, email, socialId]
+    public ExternalBorrower(String[] userData) {
+        super(userData);
+        this.socialId = userData[4];
+        this.phoneNumber = userData[2];
+    }
+
     public String getSocialId() {
         return socialId;
     }
