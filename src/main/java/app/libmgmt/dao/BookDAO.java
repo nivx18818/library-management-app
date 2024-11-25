@@ -22,7 +22,7 @@ public class BookDAO {
     }
 
     public String generateNextIsbn() throws SQLException {
-        String nextIsbn = "BK0001";
+        String nextIsbn = "BK000001";
         String sql = "SELECT isbn FROM Book WHERE isbn LIKE 'BK%' ORDER BY isbn DESC LIMIT 1";
     
         try (Connection connection = getConnection();
@@ -32,7 +32,7 @@ public class BookDAO {
             if (resultSet.next()) {
                 String lastIsbn = resultSet.getString("isbn");
                 int numberPart = Integer.parseInt(lastIsbn.replace("BK", ""));
-                nextIsbn = "BK" + String.format("%04d", numberPart + 1);
+                nextIsbn = "BK" + String.format("%06d", numberPart + 1);
             }
         }
         return nextIsbn;
@@ -93,12 +93,12 @@ public class BookDAO {
         }
     }
 
-    public void deleteBook(String id) throws SQLException  {
+    public void deleteBook(String isbn) throws SQLException  {
         String sql = "DELETE FROM Book WHERE isbn = ?";
 
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, id);
+            statement.setString(1, isbn);
             statement.executeUpdate();
         }
     }

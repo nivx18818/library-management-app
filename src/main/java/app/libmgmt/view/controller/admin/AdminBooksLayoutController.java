@@ -76,8 +76,8 @@ public class AdminBooksLayoutController {
                             d.getIsbn(),
                             d.getCoverUrl(),
                             d.getTitle(),
-                            d.getCategories() != null ? d.getCategories().toString() : "[]",
-                            d.getAuthors() != null ? d.getAuthors().toString() : "[]",
+                            d.getCategories() != null ? d.getCategories().toString() : "",
+                            d.getAuthors() != null ? d.getAuthors().toString() : "",
                             String.valueOf(d.getAvailableCopies()),
                             d.getPublisher(),
                             publishedDateStr
@@ -210,15 +210,18 @@ public class AdminBooksLayoutController {
         adminGlobalController.getObservableBookData().stream()
                 .filter(book -> book.getTitle().toLowerCase().contains(searchText.toLowerCase()))
                 .forEach(book -> {
+                    String publishedDateStr = (book.getPublishedDate() != null) 
+                            ? book.getPublishedDate().toString() 
+                            : "Not Available";
                     String[] bookData = new String[]{
                         book.getIsbn(),
                         book.getCoverUrl(),
                         book.getTitle(),
-                        book.getCategories().toString(),
-                        book.getAuthors().toString(),
+                        book.getCategories() != null ? book.getCategories().toString() : "",
+                        book.getAuthors() != null ? book.getAuthors().toString() : "",
                         String.valueOf(book.getAvailableCopies()),
                         book.getPublisher(),
-                        book.getPublishedDate().toString()
+                        publishedDateStr
                     };
                     loadBookBar(bookData);
                 });

@@ -133,7 +133,7 @@ public class AdminBookEditDialogController {
                 authorTextField.getText(),
                 quantitySpinner.getValue().toString(),
                 publisherTextField.getText(),
-                publishedDatePicker.getValue() == null ? "" : DateUtils.parseLocalDateToString(publishedDatePicker.getValue())
+                publishedDatePicker.getValue().toString()
         };
     }
 
