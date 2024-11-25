@@ -2,6 +2,8 @@ package app.libmgmt.service;
 
 import app.libmgmt.dao.UserDAO;
 import app.libmgmt.model.User;
+import app.libmgmt.model.Student;
+import app.libmgmt.model.ExternalBorrower;
 
 import java.security.SecureRandom;
 import java.sql.SQLException;
@@ -56,8 +58,8 @@ public class UserService {
 
     public void updateUser(User user) {
         try {
-            String hashedPassword = hashPassword(user.getPassword(), generateSalt());
-            user.resetPassword(hashedPassword);
+            // String hashedPassword = hashPassword(user.getPassword(), generateSalt());
+            // user.resetPassword(hashedPassword);
             userDAO.updateUser(user);
             System.out.println("User updated successfully");
         } catch (SQLException e) {
@@ -67,7 +69,7 @@ public class UserService {
         }
     }
 
-    public void deleteUserById(int userId) {
+    public void deleteUserById(String userId) {
         try {
             userDAO.deleteUserById(userId);
             System.out.println("User deleted successfully");
@@ -84,6 +86,22 @@ public class UserService {
         }
     }
 
+    public List<Student> getAllStudents() {
+        try {
+            return userDAO.getAllStudents();
+        } catch (SQLException e) {
+            throw new ServiceException("Error getting all students", e);
+        }
+    }
+
+    public List<ExternalBorrower> getAllExternalBorrowers() {
+        try {
+            return userDAO.getAllExternalBorrowers();
+        } catch (SQLException e) {
+            throw new ServiceException("Error getting all external borrowers", e);
+        }
+    }
+
     public User getUserById(int userId) {
         try {
             return userDAO.getUserById(userId);
@@ -92,9 +110,9 @@ public class UserService {
         }
     }
 
-    public boolean verifyPassword(String username, String password) throws SQLException {
+    public boolean verifyPassword(String userId, String password) throws SQLException {
         try {
-            Map<String, Object> passwordData = userDAO.getPasswordHashAndSalt(username);
+            Map<String, Object> passwordData = userDAO.getPasswordHashAndSalt(userId);
             if (passwordData.isEmpty()) {
                 System.out.println("Account not found");
                 return false; 

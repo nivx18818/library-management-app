@@ -4,18 +4,18 @@ public class ExternalBorrower extends User {
     private String socialId;
     private String phoneNumber;
 
-    public ExternalBorrower(int userId, String name, String email, String password, String socialId,
+    public ExternalBorrower(String userId, String name, String email, String password, String socialId,
             String phoneNumber) {
         super(userId, name, email, password);
         this.socialId = socialId;
         this.phoneNumber = phoneNumber;
     }
 
-    // data format: [userRole, name, phoneNumber, email, socialId]
+    //data format: [name, major, email, id, password]
     public ExternalBorrower(String[] userData) {
         super(userData);
-        this.socialId = userData[4];
-        this.phoneNumber = userData[2];
+        this.socialId = userData[3];
+        this.phoneNumber = userData[1];
     }
 
     public String getSocialId() {

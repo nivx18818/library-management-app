@@ -1,7 +1,7 @@
 package app.libmgmt.model;
 
 public abstract class User {
-    private int userId;
+    private String userId;
     private String name;
     private String email;
     private String password;
@@ -13,20 +13,22 @@ public abstract class User {
         this.password = password;
     }
 
-    public User(int userId, String name, String email, String password) {
+    public User(String userId, String name, String email, String password) {
         this.userId = userId;
         this.name = name;
         this.email = email;
         this.password = password;
     }
 
-    // data format: [userRole, name, major/phoneNumber, email, studentId/socialId]
+    //data format: [name, major, email, id, password]
     public User(String[] userData) {
-        this.name = userData[1];
-        this.email = userData[3];
+        this.name = userData[0];
+        this.email = userData[2];
+        this.password = userData[4];
+        this.userId = userData[3];
     }
 
-    public int getUserId() {
+    public String getUserId() {
         return userId;
     }
 
