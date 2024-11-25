@@ -72,19 +72,19 @@ public class AdminUsersGuestBarController {
     @FXML
     void imgEditOnMouseClicked(MouseEvent event) {
         System.out.println("Edit");
-        ChangeScene.openAdminPopUp(AdminUsersLayoutController.getInstance().stackPaneContainer, "/fxml/admin" +
-                "-users" +
-                "-edit-dialog" +
-                ".fxml");
+        ChangeScene.openAdminPopUp(AdminUsersLayoutController.getInstance().stackPaneContainer,
+            "/fxml/admin/admin-users-edit-dialog.fxml");
         AdminUsersEditDialogController.getInstance().showOriginalUserData(getData(), EnumUtils.UserType.GUEST);
     }
 
     @FXML
     void imgDeleteOnMouseClicked(MouseEvent event) {
         System.out.println("Delete");
-        ChangeScene.openAdminPopUp(AdminUsersLayoutController.getInstance().stackPaneContainer, "/fxml/admin" +
-                "-delete-confirmation-dialog" +
-                ".fxml", idLabel.getText(), EnumUtils.PopupList.GUEST_DELETE);
+        ChangeScene.openAdminPopUp(
+            AdminUsersLayoutController.getInstance().stackPaneContainer,
+            "/fxml/admin/admin-delete-confirmation-dialog.fxml",
+            idLabel.getText(),
+            EnumUtils.PopupList.GUEST_DELETE);
     }
 
     @FXML
