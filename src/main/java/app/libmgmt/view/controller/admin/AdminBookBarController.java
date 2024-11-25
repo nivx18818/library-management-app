@@ -37,12 +37,16 @@ public class AdminBookBarController {
             while (change.next()) {
                 if (change.wasReplaced() && change.getFrom() >= 0 && change.getFrom() < change.getList().size()) {
                     Book updatedBook = change.getList().get(change.getFrom());
+
+                    String authorsString = String.join(", ", updatedBook.getAuthors());
+                    String categoriesString = String.join(", ", updatedBook.getCategories());
+
                     String[] updatedBookData = new String[]{
                         updatedBook.getIsbn(),
                         updatedBook.getCoverUrl(),
                         updatedBook.getTitle(),
-                        updatedBook.getCategories().toString(),
-                        updatedBook.getAuthors().toString(),
+                        categoriesString,
+                        authorsString,
                         String.valueOf(updatedBook.getAvailableCopies()),
                         updatedBook.getPublisher(),
                         updatedBook.getPublishedDate().toString()

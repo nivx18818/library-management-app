@@ -86,9 +86,13 @@ public class AdminAddBookDialogController {
                             // publishedDate] to match the format of preloadData method in
                             // AdminBooksLayoutController
                             Book lastBook = AdminGlobalController.getInstance().getObservableBookData().getLast();
+
+                            String authorsString = String.join(", ", lastBook.getAuthors());
+                            String categoriesString = String.join(", ", lastBook.getCategories());
+
                             String[] book_Data = new String[] { lastBook.getIsbn(), lastBook.getCoverUrl(),
-                                    lastBook.getTitle(), lastBook.getCategories().toString(),
-                                    lastBook.getAuthors().toString(), String.valueOf(lastBook.getAvailableCopies()),
+                                    lastBook.getTitle(), categoriesString,
+                                    authorsString, String.valueOf(lastBook.getAvailableCopies()),
                                     lastBook.getPublisher(), lastBook.getPublishedDate().toString() };
                             lastBook = new Book(book_Data);
                             add(lastBook);

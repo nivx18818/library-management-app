@@ -71,13 +71,15 @@ public class AdminBooksLayoutController {
                         String publishedDateStr = (d.getPublishedDate() != null) 
                             ? d.getPublishedDate().toString() 
                             : "Not Available";
+                        String authorsString = String.join(", ", d.getAuthors());
+                        String categoriesString = String.join(", ", d.getCategories());
     
                         String[] bookData = new String[]{
                             d.getIsbn(),
                             d.getCoverUrl(),
                             d.getTitle(),
-                            d.getCategories() != null ? d.getCategories().toString() : "",
-                            d.getAuthors() != null ? d.getAuthors().toString() : "",
+                            categoriesString,
+                            authorsString,
                             String.valueOf(d.getAvailableCopies()),
                             d.getPublisher(),
                             publishedDateStr
@@ -213,12 +215,14 @@ public class AdminBooksLayoutController {
                     String publishedDateStr = (book.getPublishedDate() != null) 
                             ? book.getPublishedDate().toString() 
                             : "Not Available";
+                    String authorsString = String.join(", ", book.getAuthors());
+                    String categoriesString = String.join(", ", book.getCategories());
                     String[] bookData = new String[]{
                         book.getIsbn(),
                         book.getCoverUrl(),
                         book.getTitle(),
-                        book.getCategories() != null ? book.getCategories().toString() : "",
-                        book.getAuthors() != null ? book.getAuthors().toString() : "",
+                        categoriesString,
+                        authorsString,
                         String.valueOf(book.getAvailableCopies()),
                         book.getPublisher(),
                         publishedDateStr
