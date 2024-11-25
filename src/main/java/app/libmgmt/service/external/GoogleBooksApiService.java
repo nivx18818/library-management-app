@@ -2,6 +2,7 @@ package app.libmgmt.service.external;
 
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -41,16 +42,15 @@ public class GoogleBooksApiService {
         String encodedTitle = URLEncoder.encode(title, StandardCharsets.UTF_8.toString());
         return String.format("https://www.googleapis.com/books/v1/volumes?q=%s&maxResults=%d", encodedTitle, limit);
     }
-
-
     private static HttpURLConnection createHttpConnection(String apiUrl) throws Exception {
-        URL url = new URL(apiUrl);
+       
+        URI uri = new URI(apiUrl); 
+        URL url = uri.toURL(); 
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
         connection.setConnectTimeout(5000); 
         connection.setReadTimeout(5000);    
         return connection;
     }
-
-
+    
 }
