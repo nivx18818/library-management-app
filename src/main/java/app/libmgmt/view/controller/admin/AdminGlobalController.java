@@ -133,7 +133,6 @@ public class AdminGlobalController {
 
     // CRUD Operations for Users
     public void updateUserData(String[] updatedData, EnumUtils.UserType userType) {
-        ObservableList<User> userList = getUserListByType(userType);
         User updatedUser = userType == EnumUtils.UserType.STUDENT
                 ? new Student(updatedData)
                 : new ExternalBorrower(updatedData);
@@ -141,31 +140,39 @@ public class AdminGlobalController {
         userService.updateUser(updatedUser);
         System.out.println("Updated user: " + updatedUser.getName() + " " + updatedUser.getEmail() + " " + updatedUser.getUserId());
                 
-        for (int i = 0; i < userList.size(); i++) {
-            User user = userList.get(i);
-            if (user.getUserId() == updatedUser.getUserId()) {
-                userList.set(i, updatedUser);
+        if (userType == EnumUtils.UserType.STUDENT) {
+            for (int i = 0; i < studentsData.size(); i++) {
+                Student student = studentsData.get(i);
+
+                if (student.getStudentId().equals(updatedUser.getUserId())) {
+                    studentsData.set(i, (Student) updatedUser);
+                    return;
+                }
+            }
+        }
+
+        for (int i = 0; i < externalBorrowersData.size(); i++) {
+            ExternalBorrower externalBorrower = externalBorrowersData.get(i);
+
+            if (externalBorrower.getUserId().equals(updatedUser.getUserId())) {
+                externalBorrowersData.set(i, (ExternalBorrower) updatedUser);
                 return;
             }
         }
+
     }
 
     public void deleteUserById(EnumUtils.PopupList popupType, String id) {
-        ObservableList<User> userList = popupType == EnumUtils.PopupList.STUDENT_DELETE
-                ? FXCollections.observableArrayList(studentsData)
-                : FXCollections.observableArrayList(externalBorrowersData);
-
-        userList.removeIf(user -> user.getUserId().equals(id));
-        userService.deleteUserById(id);
-    }
-
-    // Helper Methods
-    private ObservableList<User> getUserListByType(EnumUtils.UserType userType) {
-        if (userType == EnumUtils.UserType.STUDENT) {
-            return FXCollections.observableArrayList(studentsData);
-        } else {
-            return FXCollections.observableArrayList(externalBorrowersData);
+        switch (popupType) {
+            case STUDENT_DELETE:
+                studentsData.removeIf(student -> student.getUserId().equals(id));
+                break;
+            case GUEST_DELETE:
+                externalBorrowersData.removeIf(externalBorrower -> externalBorrower.getUserId().equals(id));
+            default:
+                break;
         }
+        userService.deleteUserById(id);
     }
 
     // fetchBooksFromDatabase

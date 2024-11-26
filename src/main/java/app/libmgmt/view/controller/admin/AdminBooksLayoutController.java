@@ -203,7 +203,6 @@ public class AdminBooksLayoutController {
         String searchText = textSearch.getText();
         if (!searchText.isEmpty()) {
             showFilteredData(searchText);
-            textSearch.setEditable(false);
         }
     }
 
