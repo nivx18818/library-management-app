@@ -122,14 +122,28 @@ public class LoanDAO {
     }
     
     public void markOverdueLoans() throws SQLException {
-        String sql = "UPDATE Loan SET status = 'OVERDUE' WHERE status = 'BORROWED' AND due_date < CURRENT_DATE";
+        String updateDueDateSql = "UPDATE Loan " +
+                                  "SET due_date = DATE(borrowed_date, '+14 day') " +
+                                  "WHERE due_date IS NULL AND status = 'BORROWED'";
     
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
-            int rowsUpdated = statement.executeUpdate();
-            System.out.println("Marked " + rowsUpdated + " loans as OVERDUE.");
+        // UPDATE Loan SET status = 'OVERDUE' WHERE status = 'BORROWED' AND due_date < DATE('now');
+        String markOverdueSql = "UPDATE Loan " +
+                                "SET status = 'OVERDUE' " +
+                                "WHERE status = 'BORROWED' AND due_date < DATE('now')";
+    
+        try (Connection connection = getConnection()) {
+            try (PreparedStatement updateDueDateStmt = connection.prepareStatement(updateDueDateSql)) {
+                int dueDateRowsUpdated = updateDueDateStmt.executeUpdate();
+                System.out.println("Updated due_date for " + dueDateRowsUpdated + " loans.");
+            }
+    
+            try (PreparedStatement markOverdueStmt = connection.prepareStatement(markOverdueSql)) {
+                int overdueRowsUpdated = markOverdueStmt.executeUpdate();
+                System.out.println("Marked " + overdueRowsUpdated + " loans as OVERDUE.");
+            }
         }
     }
+    
     
     public Loan getLoanById(int loanId) throws SQLException {
         String sql = "SELECT id, user_name, userid, amount, status, borrowed_date, due_date, returned_date, book_isbn FROM Loan WHERE id = ?";

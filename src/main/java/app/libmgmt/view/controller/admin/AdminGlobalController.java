@@ -71,6 +71,7 @@ public class AdminGlobalController {
         // loans.add(new Loan(1, "23020705", "BK000001", 1, new Date(), new Date(), "BORROWED"));
         // loans.add(new Loan(2, "23050705", "BK000002", 1, new Date(), new Date(), "BORROWED"));
         // return loans;
+        loanService.markOverdueLoans();
         return loanService.getAllLoans();
     }
 

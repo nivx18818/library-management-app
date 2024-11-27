@@ -62,6 +62,14 @@ public class LoanService {
         }
     }
 
+    public void markOverdueLoans() {
+        try {
+            loanDAO.markOverdueLoans();
+        } catch (SQLException e) {
+            throw new ServiceException("Error mark Overdue Loans", e);
+        }
+    }
+
     public Loan getLoanById(int loanId) {
         try {
             return loanDAO.getLoanById(loanId);
