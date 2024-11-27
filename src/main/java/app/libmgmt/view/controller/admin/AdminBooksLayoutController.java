@@ -19,6 +19,7 @@ import app.libmgmt.util.ChangeScene;
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Logger;
+import java.text.SimpleDateFormat;
 
 public class AdminBooksLayoutController {
 
@@ -68,9 +69,9 @@ public class AdminBooksLayoutController {
             protected Void call() {
                 try {
                     for (Book d : data) {
-                        String publishedDateStr = (d.getPublishedDate() != null) 
-                            ? d.getPublishedDate().toString() 
-                            : "Not Available";
+                        SimpleDateFormat outputFormat = new SimpleDateFormat("dd-MM-yyyy");
+                        String publishedDateStr = (d.getPublishedDate() != null) ?
+                                outputFormat.format(d.getPublishedDate()) : "Not Available";
                         String authorsString = String.join(", ", d.getAuthors());
                         String categoriesString = String.join(", ", d.getCategories());
     

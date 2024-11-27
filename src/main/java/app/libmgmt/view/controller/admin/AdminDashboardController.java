@@ -11,7 +11,6 @@ import javafx.scene.chart.PieChart;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import app.libmgmt.model.Book;
 import app.libmgmt.model.Loan;
 import app.libmgmt.util.DateUtils;
 
@@ -36,7 +35,6 @@ public class AdminDashboardController {
     @FXML
     private VBox vBoxAdmin;
     private List<Loan> borrowedBooksData = adminGlobalController.getBorrowedBooksData();
-    private List<Book> booksData = adminGlobalController.getObservableBookData(); // TODO: Can be deleted after using database
     private List<String[]> adminData = adminGlobalController.getAdminData();
 
     public AdminDashboardController() {
