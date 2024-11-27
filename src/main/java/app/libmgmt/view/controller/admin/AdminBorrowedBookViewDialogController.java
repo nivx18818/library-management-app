@@ -11,10 +11,13 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import app.libmgmt.model.Book;
+import app.libmgmt.model.Loan;
+
 import app.libmgmt.service.LoanService;
 import app.libmgmt.util.AnimationUtils;
 import app.libmgmt.util.ChangeScene;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class AdminBorrowedBookViewDialogController {
@@ -40,13 +43,8 @@ public class AdminBorrowedBookViewDialogController {
     @FXML
     public void initialize() {
         System.out.println("AdminBorrowedBookViewDialogController initialized");
-        // data = setExampleData("sd"); // Initialize example data
-        // loadDataAsync(); // Load data asynchronously
     }
 
-    // public static AdminBookViewDialogController getInstance() {
-    //     return controller;
-    // }
     public AdminBorrowedBookViewDialogController() {
         controller = this;
     }
@@ -64,13 +62,14 @@ public class AdminBorrowedBookViewDialogController {
      */
     public void loadDataAsync(String id) {
         data = getBooksData(id);
+        List<Loan> loans = loanService.getLoansByUserId(id);
         this.totalBook = data.size();
         setTotalBook();
         Task<Void> preloadTask = new Task<>() {
             @Override
             protected Void call() throws Exception {
-                for (Book d : data) {
-                    loadBookData(d);
+                for (int i = 0; i < data.size(); i++) {
+                    loadBookData(data.get(i), loans.get(i));
                 }
                 return null;
             }
@@ -89,14 +88,16 @@ public class AdminBorrowedBookViewDialogController {
      * 
      * @param bookData Array containing [imageURL, title, author, date].
      */
-    private void loadBookData(Book bookData) {
+    private void loadBookData(Book bookData, Loan loanData) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(AdminBooksLayoutController.class.getResource(
                     "/fxml/admin/admin-borrowed-book-view-bar.fxml"));
             Pane scene = fxmlLoader.load();
             AdminBorrowedBookViewBarController controller = fxmlLoader.getController();
 
-            controller.setData(bookData.getCoverUrl(), bookData.getTitle(), bookData.getAuthors().toString(), "2021-01-01");
+            SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String dueDateString = outputFormat.format(loanData.getDueDate());
+            controller.setData(bookData.getCoverUrl(), bookData.getTitle(), bookData.getAuthors().toString(), dueDateString);
             Platform.runLater(() -> {
                 vBox.getChildren().add(scene);
                 AnimationUtils.zoomIn(scene, 1.0);
