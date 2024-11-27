@@ -63,6 +63,7 @@ public class ChangeScene {
                 case OVERDUE_BOOK_DASHBOARD:
                     AdminBorrowedBookViewDialogController borrowedController = loader.getController();
                     borrowedController.setId(id);
+                    borrowedController.setTotalBook();
                     break;
                 case BOOK_VIEW:
                 case STUDENT_VIEW:

@@ -10,6 +10,8 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import app.libmgmt.model.Book;
+import app.libmgmt.service.LoanService;
 import app.libmgmt.util.AnimationUtils;
 import app.libmgmt.util.ChangeScene;
 
@@ -17,7 +19,10 @@ import java.util.List;
 
 public class AdminBorrowedBookViewDialogController {
 
-    private List<String[]> data;
+    private static AdminBorrowedBookViewDialogController controller;
+    private List<Book> data;
+    private final LoanService loanService = new LoanService();
+    private int totalBook;
 
     @FXML
     private Pane closePane;
@@ -35,30 +40,36 @@ public class AdminBorrowedBookViewDialogController {
     @FXML
     public void initialize() {
         System.out.println("AdminBorrowedBookViewDialogController initialized");
-        data = setExampleData("sd"); // Initialize example data
-        loadDataAsync(); // Load data asynchronously
+        // data = setExampleData("sd"); // Initialize example data
+        // loadDataAsync(); // Load data asynchronously
     }
 
-    private List<String[]> setExampleData(String userId) {
-        return List.of(
-                new String[] { "https://th.bing.com/th/id/OIP.aQ3e1NxnNQVFCXiJJesFZwDMEx?rs=1&pid=ImgDetMain",
-                        "Book Title", "Author", "2021-01-01" },
-                new String[] { "https://th.bing.com/th/id/OIP.aQ3e1NxnNQVFCXiJJesFZwDMEx?rs=1&pid=ImgDetMain",
-                        "Book Title", "Author", "2021-01-01" },
-                new String[] { "https://th.bing.com/th/id/OIP.aQ3e1NxnNQVFCXiJJesFZwDMEx?rs=1&pid=ImgDetMain",
-                        "Book Title", "Author", "2021-01-01" }
+    // public static AdminBookViewDialogController getInstance() {
+    //     return controller;
+    // }
+    public AdminBorrowedBookViewDialogController() {
+        controller = this;
+    }
 
-        );
+    public static AdminBorrowedBookViewDialogController getInstance() {
+        return controller;
+    }
+
+    public List<Book> getBooksData(String id) {
+        return loanService.getBookFromLoan(loanService.getIsbnByUserId(id));
     }
 
     /**
      * Loads data asynchronously to prevent blocking the main thread.
      */
-    private void loadDataAsync() {
+    public void loadDataAsync(String id) {
+        data = getBooksData(id);
+        this.totalBook = data.size();
+        setTotalBook();
         Task<Void> preloadTask = new Task<>() {
             @Override
             protected Void call() throws Exception {
-                for (String[] d : data) {
+                for (Book d : data) {
                     loadBookData(d);
                 }
                 return null;
@@ -78,13 +89,14 @@ public class AdminBorrowedBookViewDialogController {
      * 
      * @param bookData Array containing [imageURL, title, author, date].
      */
-    private void loadBookData(String[] bookData) {
+    private void loadBookData(Book bookData) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(AdminBooksLayoutController.class.getResource(
                     "/fxml/admin/admin-borrowed-book-view-bar.fxml"));
             Pane scene = fxmlLoader.load();
             AdminBorrowedBookViewBarController controller = fxmlLoader.getController();
-            controller.setData(bookData[0], bookData[1], bookData[2], bookData[3]);
+
+            controller.setData(bookData.getCoverUrl(), bookData.getTitle(), bookData.getAuthors().toString(), "2021-01-01");
             Platform.runLater(() -> {
                 vBox.getChildren().add(scene);
                 AnimationUtils.zoomIn(scene, 1.0);
@@ -118,5 +130,9 @@ public class AdminBorrowedBookViewDialogController {
      */
     public void setId(String id) {
         lblId.setText(id);
+    }
+
+    public void setTotalBook() {
+        lblTotalBooks.setText(String.valueOf(this.totalBook));
     }
 }

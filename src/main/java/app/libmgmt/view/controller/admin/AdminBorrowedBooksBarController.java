@@ -53,6 +53,7 @@ public class AdminBorrowedBooksBarController {
                 idLabel.getText(),
                 EnumUtils.PopupList.BORROWED_BOOK_CATALOG
         );
+        AdminBorrowedBookViewDialogController.getInstance().loadDataAsync(getId());
     }
 
     // Handle image mouse hover
@@ -80,5 +81,9 @@ public class AdminBorrowedBooksBarController {
 
     public void setIdLabel(Label idLabel) {
         this.idLabel = idLabel;
+    }
+
+    public String getId() {
+        return this.idLabel.getText();
     }
 }

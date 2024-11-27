@@ -162,23 +162,22 @@ public class LoanDAO {
         return null;
     }
 
-    public List<Loan> getLoansByUserId(String userId) throws SQLException {
-        List<Loan> loans = new ArrayList<>();
-        String sql = "SELECT id, user_name, userid, amount, status, borrowed_date, due_date, returned_date, book_isbn FROM Loan WHERE userid = ?";
+    public String getIsbnByUserId (String userId) throws SQLException {
+        String sql = "SELECT GROUP_CONCAT(book_isbn) AS isbn_list FROM Loan WHERE userid = ? GROUP BY userid";
+        String isbnList = null;
 
         try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+            PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, userId);
 
             try (ResultSet rs = statement.executeQuery()) {
-                while (rs.next()) {
-                    Loan loan = mapResultSetToLoan(rs);
-                    loans.add(loan);
+                if (rs.next()) {
+                    isbnList = rs.getString("isbn_list");
                 }
             }
-        }
+        } 
 
-        return loans;
+        return isbnList;
     }
 
     private Loan mapResultSetToLoan(ResultSet rs) throws SQLException {

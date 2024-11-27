@@ -6,6 +6,7 @@ import app.libmgmt.model.Loan;
 import app.libmgmt.model.User;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class LoanService {
@@ -78,16 +79,28 @@ public class LoanService {
         }
     }
 
-    public List<Loan> getLoansByUserId(String userId) {
+    public String getIsbnByUserId(String userId) {
         try {
-            return loanDAO.getLoansByUserId(userId);
+            return loanDAO.getIsbnByUserId(userId);
         } catch (SQLException e) {
-            throw new ServiceException("Error getting loans by user id", e);
+            throw new ServiceException("Error getting isbn by user id", e);
         }
     }
 
-    public Book getBookFromLoan(Loan loan) {
-        return bookService.getBookByIsbn(loan.getIsbn());
+    public List<Book> getBookFromLoan(String string_isbn) {
+        List<Book> books = new ArrayList<>();
+        String[] isbnArray = string_isbn.split(",");
+        
+        for (String x : isbnArray) {
+            Book book = bookService.getBookByIsbn(x);
+            if (book != null) {
+                books.add(book);
+            } else {
+                System.out.println("Book with ISBN " + x + " not found.");
+            }
+        }
+        
+        return books;
     }
 
     public User getUserFromLoan(Loan loan) {
