@@ -71,4 +71,12 @@ public class BookService {
             throw new ServiceException("Error in getting books by category: ", e);
         }
     }
+
+    public int countBook() {
+        try {
+            return bookDAO.countBook();
+        } catch (SQLException e) {
+            throw new ServiceException("Error in getting count books: ", e);
+        }
+    }
 }

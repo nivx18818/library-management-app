@@ -51,7 +51,7 @@ public class AdminDashboardController {
         System.out.println("Dashboard initialized");
 
         // TODO: Set the total book and user count from database
-        totalBook.setText(String.valueOf(booksData.size()));
+        totalBook.setText(String.valueOf(AdminGlobalController.getInstance().getTotalBooksCount()));
         totalUser.setText(String.valueOf(AdminGlobalController.getInstance().getTotalUsersCount()));
 
         setPieChart();

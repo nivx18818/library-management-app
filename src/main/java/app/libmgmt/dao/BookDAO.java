@@ -242,6 +242,22 @@ public class BookDAO {
         return books;
     }
 
+    public int countBook() throws SQLException {
+        int count = 0;
+        String sql = "SELECT COUNT(*) FROM Book";
+        
+        try (Connection connection = getConnection();
+            PreparedStatement statement = connection.prepareStatement(sql)) {
+            ResultSet rs = statement.executeQuery();
+            
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+        } 
+        
+        return count;
+    }
+
     private List<String> parseStrings(String st) {
         if (st == null || st.isEmpty()) {
             return new ArrayList<>();

@@ -110,6 +110,14 @@ public class UserService {
         }
     }
 
+    public int countUser() {
+        try {
+            return userDAO.countUser();
+        } catch (SQLException e) {
+            throw new ServiceException("Error in getting count users: ", e);
+        }
+    }
+
     public String fetchUserNameFromUserId(String userId) {
         try {
             return userDAO.fetchUserNameFromUserId(userId);

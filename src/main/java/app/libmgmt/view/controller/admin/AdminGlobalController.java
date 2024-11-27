@@ -212,7 +212,11 @@ public class AdminGlobalController {
     }
 
     public int getTotalUsersCount() {
-        return studentsData.size() + externalBorrowersData.size();
+        return userService.countUser();
+    }
+
+    public int getTotalBooksCount() {
+        return bookService.countBook();
     }
 
     public void setObservableBookData(List<Book> data) {

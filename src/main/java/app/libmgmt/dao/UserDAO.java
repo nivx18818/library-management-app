@@ -258,6 +258,22 @@ public class UserDAO {
         return null;
     }
 
+    public int countUser() throws SQLException {
+        int count = 0;
+        String sql = "SELECT COUNT(*) FROM User";
+        
+        try (Connection connection = getConnection();
+            PreparedStatement statement = connection.prepareStatement(sql)) {
+            ResultSet rs = statement.executeQuery();
+            
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+        } 
+        
+        return count;
+    }
+
     public String fetchUserNameFromUserId(String userId) throws SQLException {
         String sql = "SELECT name FROM User WHERE id = ?";
 
