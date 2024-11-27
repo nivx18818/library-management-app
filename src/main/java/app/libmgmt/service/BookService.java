@@ -74,7 +74,7 @@ public class BookService {
 
     public int countBook() {
         try {
-            return bookDAO.countBook();
+            return bookDAO.countTotalAvailableBooks();
         } catch (SQLException e) {
             throw new ServiceException("Error in getting count books: ", e);
         }

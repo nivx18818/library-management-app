@@ -185,6 +185,22 @@ public class LoanDAO {
 
         return isbnList;
     }
+    
+    public int countTotalBorrowedBooks() throws SQLException {
+        int totalBooks = 0;
+        String sql = "SELECT SUM(amount) FROM Loan WHERE status = 'OVERDUE' or status = 'BORROWED'";
+        
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql);
+             ResultSet rs = statement.executeQuery()) {
+             
+            if (rs.next()) {
+                totalBooks = rs.getInt(1);
+            }
+        }
+        
+        return totalBooks;
+    }
 
     private Loan mapResultSetToLoan(ResultSet rs) throws SQLException {
         int loanId = rs.getInt("id");

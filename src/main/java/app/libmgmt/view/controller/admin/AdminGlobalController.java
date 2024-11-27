@@ -26,8 +26,7 @@ public class AdminGlobalController {
     private static AdminGlobalController controller;
 
     // Data loaded when starting the application
-    private final ObservableList<Loan> borrowedBooksData = FXCollections
-            .observableArrayList();
+    private final ObservableList<Loan> borrowedBooksData = FXCollections.observableArrayList();
     private final List<String[]> adminsData = preLoadAdminData();
 
     // Real time load data
@@ -217,6 +216,10 @@ public class AdminGlobalController {
 
     public int getTotalBooksCount() {
         return bookService.countBook();
+    }
+
+    public int getTotalBorrowedBooks() {
+        return loanService.countTotalBorrowedBooks();
     }
 
     public void setObservableBookData(List<Book> data) {

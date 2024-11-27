@@ -79,6 +79,14 @@ public class LoanService {
         }
     }
 
+    public int countTotalBorrowedBooks() {
+        try {
+            return loanDAO.countTotalBorrowedBooks();
+        } catch (SQLException e) {
+            throw new ServiceException("Error getting loan by userId", e);
+        }
+    }
+
     public String getIsbnByUserId(String userId) {
         try {
             return loanDAO.getIsbnByUserId(userId);

@@ -95,7 +95,7 @@ public class AdminBorrowedBookViewDialogController {
             Pane scene = fxmlLoader.load();
             AdminBorrowedBookViewBarController controller = fxmlLoader.getController();
 
-            SimpleDateFormat outputFormat = new SimpleDateFormat("dd-MM-yyyy");
+            SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
             String dueDateString = outputFormat.format(loanData.getDueDate());
             controller.setData(bookData.getCoverUrl(), bookData.getTitle(), bookData.getAuthors().toString(), dueDateString);
             Platform.runLater(() -> {

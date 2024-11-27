@@ -65,7 +65,7 @@
                             <Image url="@../../assets/icon/path917%20(1).png" />
                           </image>
                         </ImageView>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Total Returned Books">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Total Available Books">
                           <font>
                             <Font size="18.0" />
                           </font>

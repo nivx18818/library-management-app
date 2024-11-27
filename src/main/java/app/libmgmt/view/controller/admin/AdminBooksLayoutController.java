@@ -69,7 +69,7 @@ public class AdminBooksLayoutController {
             protected Void call() {
                 try {
                     for (Book d : data) {
-                        SimpleDateFormat outputFormat = new SimpleDateFormat("dd-MM-yyyy");
+                        SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
                         String publishedDateStr = (d.getPublishedDate() != null) ?
                                 outputFormat.format(d.getPublishedDate()) : "Not Available";
                         String authorsString = String.join(", ", d.getAuthors());

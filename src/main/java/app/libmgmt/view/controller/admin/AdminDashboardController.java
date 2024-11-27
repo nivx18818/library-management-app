@@ -12,10 +12,8 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import app.libmgmt.model.Loan;
-import app.libmgmt.util.DateUtils;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.List;
 
 public class AdminDashboardController {
@@ -58,7 +56,7 @@ public class AdminDashboardController {
     }
 
     public ObservableList<PieChart.Data> addPieChartData() {
-        int totalBorrowedBooks = getTotalBorrowedBooks();
+        int totalBorrowedBooks = AdminGlobalController.getInstance().getTotalBorrowedBooks();
         double percentageBorrowed = 0;
         int totalBooks = Integer.parseInt(totalBook.getText());
         if (totalBooks != 0) {
@@ -67,7 +65,7 @@ public class AdminDashboardController {
 
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
         pieChartData.add(new PieChart.Data("Total Borrowed Books", percentageBorrowed));
-        pieChartData.add(new PieChart.Data("Total Returned Books", 100 - percentageBorrowed));
+        pieChartData.add(new PieChart.Data("Total Available Books", 100 - percentageBorrowed));
         return pieChartData;
     }
 
@@ -96,21 +94,16 @@ public class AdminDashboardController {
 
     public void getOverdueData() {
         // TODO: Replaceable by filtering from database
+        List<Loan> OverdueData = adminGlobalController.getOverDueLoans();
         Task<Void> task = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
-                for (Loan borrowedData : borrowedBooksData) {
-                    String dueDate = borrowedData.getReturnedDate().toString();
+                for (Loan borrowedData : OverdueData) {
+                    String name = borrowedData.getUserName();
+                    String id = borrowedData.getIsbn();
 
-                    LocalDate dueDateParsed = LocalDate.parse(dueDate, DateUtils.dateTimeFormatter);
-
-                    if (dueDateParsed.isBefore(DateUtils.currentLocalTime)) {
-                        String name = borrowedData.getUserName();
-                        String id = borrowedData.getIsbn();
-
-                        Platform.runLater(() -> loadOverdueDataTable(name, id));
-                        Thread.sleep(50);
-                    }
+                    Platform.runLater(() -> loadOverdueDataTable(name, id));
+                    Thread.sleep(50);
                 }
 
                 return null;

@@ -242,20 +242,20 @@ public class BookDAO {
         return books;
     }
 
-    public int countBook() throws SQLException {
-        int count = 0;
-        String sql = "SELECT COUNT(*) FROM Book";
+    public int countTotalAvailableBooks() throws SQLException {
+        int totalBooks = 0;
+        String sql = "SELECT SUM(available_amount) FROM Book";
         
         try (Connection connection = getConnection();
-            PreparedStatement statement = connection.prepareStatement(sql)) {
-            ResultSet rs = statement.executeQuery();
-            
+             PreparedStatement statement = connection.prepareStatement(sql);
+             ResultSet rs = statement.executeQuery()) {
+             
             if (rs.next()) {
-                count = rs.getInt(1);
+                totalBooks = rs.getInt(1);
             }
-        } 
+        }
         
-        return count;
+        return totalBooks;
     }
 
     private List<String> parseStrings(String st) {

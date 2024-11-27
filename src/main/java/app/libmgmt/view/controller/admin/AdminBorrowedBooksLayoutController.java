@@ -97,7 +97,7 @@ public class AdminBorrowedBooksLayoutController {
             Pane scene = fxmlLoader.load();
             AdminBorrowedBooksBarController controller = fxmlLoader.getController();
             
-            SimpleDateFormat outputFormat = new SimpleDateFormat("dd-MM-yyyy");
+            SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
             String dueDateString = outputFormat.format(d.getDueDate());
             String borrowedDateString = outputFormat.format(d.getBorrowedDate());
             
