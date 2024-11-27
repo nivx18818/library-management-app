@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -44,6 +45,8 @@ public class AdminUsersLayoutController {
     private Label guestLabel;
     @FXML
     private VBox vBoxUserList;
+    @FXML
+    private TextField textSearch;
 
     private EnumUtils.UserType status = EnumUtils.UserType.STUDENT;
 
@@ -286,6 +289,7 @@ public class AdminUsersLayoutController {
     }
 
     public void refreshUsersList() {
+
         vBoxUserList.getChildren().clear();
 
         if (status == EnumUtils.UserType.STUDENT) {
@@ -307,7 +311,66 @@ public class AdminUsersLayoutController {
 
     @FXML
     void txtSearchOnAction(ActionEvent event) {
+        String searchText = textSearch.getText();
+        if (searchText.isEmpty()) {
+            if (status == EnumUtils.UserType.STUDENT) {
+                showStudentsList();
+            } else if (status == EnumUtils.UserType.GUEST) {
+                showGuestsList();
+            }
+        } else {
+            showFilteredData(searchText);
+        }
+        textSearch.setEditable(true);
+    }
 
+    // Filtering Logic
+    public void showFilteredData(String searchText) {
+        vBoxUserList.getChildren().clear();
+        if (status == EnumUtils.UserType.STUDENT) {
+            adminGlobalController.getObservableStudentsData().stream()
+                .filter(student -> student.getName().toLowerCase().contains(searchText.toLowerCase()))
+                .forEach(student -> {
+                    try {
+                        String[] studentData = new String[] {
+                        student.getUserRole(),
+                        student.getName(),
+                        student.getMajor(),
+                        student.getEmail(),
+                        student.getStudentId()
+                        };
+                        Pane scene = loadScene("admin-users-student-bar.fxml", studentData);
+                        scene.setId(student.getStudentId());
+
+                        Platform.runLater(() -> vBoxUserList.getChildren().add(scene));
+                        AnimationUtils.zoomIn(scene, 1.0);
+                    } catch (IOException e) {
+                        throw new RuntimeException("Error loading FXML: " + e.getMessage(), e);
+                    }
+
+                });
+        } else {
+            adminGlobalController.getObservableExternalBorrowersData().stream()
+                .filter(externalBorrower -> externalBorrower.getName().toLowerCase().contains(searchText.toLowerCase()))
+                .forEach(externalBorrower -> {
+                    try {
+                        String[] externalBorrowerData = new String[] {
+                        externalBorrower.getUserRole(),
+                        externalBorrower.getName(),
+                        externalBorrower.getPhoneNumber(),
+                        externalBorrower.getEmail(),
+                        externalBorrower.getSocialId()
+                        };
+                        Pane scene = loadScene("admin-users-guest-bar.fxml", externalBorrowerData);
+                        scene.setId(externalBorrower.getSocialId());
+
+                        Platform.runLater(() -> vBoxUserList.getChildren().add(scene));
+                        AnimationUtils.zoomIn(scene, 1.0);
+                    } catch (IOException e) {
+                        throw new RuntimeException("Error loading FXML: " + e.getMessage(), e);
+                    }
+                });
+        }
     }
 
     @FXML

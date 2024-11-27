@@ -6,7 +6,6 @@ import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.layout.HBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -17,7 +16,6 @@ import app.libmgmt.util.AnimationUtils;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -182,26 +180,22 @@ public class AdminBorrowedBooksLayoutController {
         } else {
             showFilteredData(searchText);
         }
-        textSearch.setEditable(false);
+        textSearch.setEditable(true);
     }
 
     // Filtering Logic
     public void showFilteredData(String searchText) {
-        List<HBox> filteredList = new ArrayList<>();
-        boolean isNumericSearch = searchText.matches(".*\\d.*");
-
-        for (var node : vBoxBorrowedBooks.getChildren()) {
-            if (node instanceof HBox data) {
-                String identifier = isNumericSearch
-                        ? ((Label) data.getChildren().get(1)).getText()
-                        : ((Label) data.getChildren().get(0)).getText();
-
-                if (identifier.toLowerCase().contains(searchText.toLowerCase())) {
-                    filteredList.add(data);
-                }
-            }
+        // vBoxBooksList.getChildren().clear();
+        vBoxBorrowedBooks.getChildren().clear();
+        if (status == STATE.BORROWED) {
+            adminGlobalController.getBorrowedBooksData().stream()
+                .filter(loan -> loan.getUserName().toLowerCase().contains(searchText.toLowerCase()))
+                .forEach(loan -> {loadBorrowedBookBar(loan);});
+        } else if (status == STATE.OVERDUE) {
+            adminGlobalController.getOverDueLoans().stream()
+                .filter(loan -> loan.getUserName().toLowerCase().contains(searchText.toLowerCase()))
+                .forEach(loan -> {loadBorrowedBookBar(loan);});
         }
-        vBoxBorrowedBooks.getChildren().setAll(filteredList);
     }
 
     public StackPane getStackPaneContainer() {
