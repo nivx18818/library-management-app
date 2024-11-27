@@ -32,7 +32,7 @@ public class AdminNavigationController {
     @FXML
     private VBox navigationContainer;
 
-    private static boolean uploadedBooksData = false, uploadedUsersData = false;
+    private static boolean uploadedBooksData = false, uploadedUsersData = false, uploadedLoansData = false;
 
     // Constructor to set the controller instance
     public AdminNavigationController() {
@@ -131,6 +131,12 @@ public class AdminNavigationController {
 
     @FXML
     public void catalogButtonClicked(MouseEvent event) throws IOException {
+        // Preload users data
+        if (!uploadedLoansData) {
+            globalController
+                    .setLoansData((FXCollections.observableArrayList(globalController.preLoadBorrowedBooksData())));
+            uploadedLoansData = true;
+        }
         handleNavigation(EnumUtils.NavigationButton.CATALOG, "admin-borrowed-books-form.fxml", catalogButton);
     }
 

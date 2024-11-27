@@ -12,6 +12,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import app.libmgmt.model.Book;
+import app.libmgmt.model.Loan;
 import app.libmgmt.util.DateUtils;
 
 import java.io.IOException;
@@ -34,7 +35,7 @@ public class AdminDashboardController {
     private Text totalUser;
     @FXML
     private VBox vBoxAdmin;
-    private List<String[]> borrowedBooksData = adminGlobalController.getBorrowedBooksData();
+    private List<Loan> borrowedBooksData = adminGlobalController.getBorrowedBooksData();
     private List<Book> booksData = adminGlobalController.getObservableBookData(); // TODO: Can be deleted after using database
     private List<String[]> adminData = adminGlobalController.getAdminData();
 
@@ -90,11 +91,7 @@ public class AdminDashboardController {
     }
 
     public int getTotalBorrowedBooks() {
-        int res = 0;
-
-        for (String[] data : borrowedBooksData) {
-            res += Integer.parseInt(data[2]);
-        }
+        int res = borrowedBooksData.size();
 
         return res;
     }
@@ -104,14 +101,14 @@ public class AdminDashboardController {
         Task<Void> task = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
-                for (String[] borrowedData : borrowedBooksData) {
-                    String dueDate = borrowedData[3];
+                for (Loan borrowedData : borrowedBooksData) {
+                    String dueDate = borrowedData.getReturnedDate().toString();
 
                     LocalDate dueDateParsed = LocalDate.parse(dueDate, DateUtils.dateTimeFormatter);
 
                     if (dueDateParsed.isBefore(DateUtils.currentLocalTime)) {
-                        String name = borrowedData[0];
-                        String id = borrowedData[1];
+                        String name = borrowedData.getUserName();
+                        String id = borrowedData.getIsbn();
 
                         Platform.runLater(() -> loadOverdueDataTable(name, id));
                         Thread.sleep(50);

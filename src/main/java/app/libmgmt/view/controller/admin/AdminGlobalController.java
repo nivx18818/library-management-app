@@ -11,8 +11,10 @@ import app.libmgmt.util.AnimationUtils;
 import app.libmgmt.model.Book;
 import app.libmgmt.model.User;
 import app.libmgmt.model.ExternalBorrower;
+import app.libmgmt.model.Loan;
 import app.libmgmt.model.Student;
 import app.libmgmt.service.BookService;
+import app.libmgmt.service.LoanService;
 import app.libmgmt.service.UserService;
 import app.libmgmt.util.EnumUtils;
 
@@ -24,8 +26,8 @@ public class AdminGlobalController {
     private static AdminGlobalController controller;
 
     // Data loaded when starting the application
-    private final ObservableList<String[]> borrowedBooksData = FXCollections
-            .observableArrayList(preLoadBorrowedBooksData());
+    private final ObservableList<Loan> borrowedBooksData = FXCollections
+            .observableArrayList();
     private final List<String[]> adminsData = preLoadAdminData();
 
     // Real time load data
@@ -35,6 +37,7 @@ public class AdminGlobalController {
 
     private final BookService bookService = new BookService();
     private final UserService userService = new UserService();
+    private final LoanService loanService = new LoanService();
 
     // FXML UI components
     @FXML
@@ -62,15 +65,17 @@ public class AdminGlobalController {
     }
 
     // Data Pre-loading Methods
-    private List<String[]> preLoadBorrowedBooksData() {
-        List<String[]> data = new ArrayList<>();
-        data.add(new String[] { "Hoang Duy Thinh", "23020708", "1", "13/04/2024", "14/08/2024" });
-        data.add(new String[] { "Luis Suarez", "23020710", "1", "13/11/2024", "14/08/2024" });
-        data.add(new String[] { "Picasso", "23020714", "1", "13/08/2022", "14/08/2024" });
-        data.add(new String[] { "Van Gogh", "23020715", "1", "13/12/2024", "14/08/2024" });
-        data.add(new String[] { "Cristiano Ronaldo", "23020712", "1", "13/08/2024", "14/08/2024" });
-        data.add(new String[] { "Lionel Messi", "23020713", "1", "13/08/2024", "14/08/2024" });
-        return data;
+    public List<Loan> preLoadBorrowedBooksData() {
+        // List<Loan> loans = new ArrayList<>();
+        // // int loanId, String userId, String isbn, int amount, Date borrowedDate, Date dueDate, String status
+        // loans.add(new Loan(1, "23020705", "BK000001", 1, new Date(), new Date(), "BORROWED"));
+        // loans.add(new Loan(2, "23050705", "BK000002", 1, new Date(), new Date(), "BORROWED"));
+        // return loans;
+        return loanService.getAllLoans();
+    }
+
+    public List<Loan> preLoadOverDueLoans() {
+        return loanService.getOverdueLoans();
     }
 
     public List<Book> preLoadBooksData() {
@@ -181,8 +186,12 @@ public class AdminGlobalController {
     }
 
     // Getter and Setter Methods for Data
-    public List<String[]> getBorrowedBooksData() {
+    public List<Loan> getBorrowedBooksData() {
         return borrowedBooksData;
+    }
+
+    public List<Loan> getOverDueLoans() {
+        return preLoadOverDueLoans();
     }
 
     public List<String[]> getAdminData() {
@@ -215,6 +224,10 @@ public class AdminGlobalController {
 
     public void setExternalBorrowersData(List<ExternalBorrower> data) {
         externalBorrowersData.setAll(data);
+    }
+
+    public void setLoansData(List<Loan> data) {
+        borrowedBooksData.setAll(data);
     }
 
     // Getter Methods for UI components

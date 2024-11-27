@@ -12,12 +12,11 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
-
+import app.libmgmt.model.Loan;
 import app.libmgmt.util.AnimationUtils;
-import app.libmgmt.util.DateUtils;
 
 import java.io.IOException;
-import java.time.LocalDate;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -52,8 +51,8 @@ public class AdminBorrowedBooksLayoutController {
 
     // External controllers and data
     private final AdminGlobalController adminGlobalController = AdminGlobalController.getInstance();
-    private final List<String[]> borrowedBooksData = adminGlobalController.getBorrowedBooksData();
-    private final List<String[]> overdueData = loadOverdueBorrowersList();
+    private final List<Loan> borrowedBooksData = adminGlobalController.getBorrowedBooksData();
+    private final List<Loan> overdueData = adminGlobalController.getOverDueLoans();
     private STATE status = STATE.BORROWED;
 
     // Constructor and Singleton Access
@@ -72,11 +71,11 @@ public class AdminBorrowedBooksLayoutController {
     }
 
     // Data Preloading
-    public void preloadData(List<String[]> data) {
+    public void preloadData(List<Loan> data) {
         Task<Void> preloadTask = new Task<>() {
             @Override
             protected Void call() throws Exception {
-                for (String[] d : data) {
+                for (Loan d : data) {
                     loadBorrowedBookBar(d);
                     Thread.sleep(10);
                 }
@@ -92,12 +91,18 @@ public class AdminBorrowedBooksLayoutController {
     }
 
     // Load a single borrowed book bar
-    private void loadBorrowedBookBar(String[] d) {
+    private void loadBorrowedBookBar(Loan d) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/admin/admin-borrowed-book-bar.fxml"));
             Pane scene = fxmlLoader.load();
             AdminBorrowedBooksBarController controller = fxmlLoader.getController();
-            controller.setData(d[0], d[1], Integer.parseInt(d[2]), d[3], d[4]);
+            
+            SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String dueDateString = outputFormat.format(d.getDueDate());
+            String borrowedDateString = outputFormat.format(d.getBorrowedDate());
+            
+            //String name, String id, int amount, String dueDate, String borrowedDate
+            controller.setData(d.getUserName(), d.getUserId(), d.getAmount(), dueDateString, borrowedDateString);
 
             // Add to VBox and animate
             Platform.runLater(() -> {
@@ -106,6 +111,8 @@ public class AdminBorrowedBooksLayoutController {
             });
         } catch (IOException e) {
             throw new RuntimeException(e);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -138,21 +145,6 @@ public class AdminBorrowedBooksLayoutController {
     public void showOverdueBorrowersList() {
         vBoxBorrowedBooks.getChildren().clear();
         preloadData(overdueData);
-    }
-
-    private List<String[]> loadOverdueBorrowersList() {
-        List<String[]> overdueList = new ArrayList<>();
-        for (String[] borrowedData : borrowedBooksData) {
-            try {
-                LocalDate dueDateParsed = LocalDate.parse(borrowedData[3], DateUtils.dateTimeFormatter);
-                if (dueDateParsed.isBefore(DateUtils.currentLocalTime)) {
-                    overdueList.add(borrowedData);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return overdueList;
     }
 
     // Event Handlers

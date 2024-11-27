@@ -35,11 +35,11 @@ public class AdminBorrowedBookViewDialogController {
     @FXML
     public void initialize() {
         System.out.println("AdminBorrowedBookViewDialogController initialized");
-        data = setExampleData(); // Initialize example data
+        data = setExampleData("sd"); // Initialize example data
         loadDataAsync(); // Load data asynchronously
     }
 
-    private List<String[]> setExampleData() {
+    private List<String[]> setExampleData(String userId) {
         return List.of(
                 new String[] { "https://th.bing.com/th/id/OIP.aQ3e1NxnNQVFCXiJJesFZwDMEx?rs=1&pid=ImgDetMain",
                         "Book Title", "Author", "2021-01-01" },
