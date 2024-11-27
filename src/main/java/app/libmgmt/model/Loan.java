@@ -2,41 +2,52 @@ package app.libmgmt.model;
 
 import java.util.Date;
 
+import app.libmgmt.service.BookService;
+import app.libmgmt.service.UserService;
+
 public class Loan {
     private int loanId;
+    private String userName;
+    private String userId;
+    private int amount;
     private Date borrowedDate;
+    private Date dueDate;
     private Date returnedDate;
     private String isbn;
-    private int userId;
     private String status;
-    private final long twoWeeksInMillis = 1209600000; // 14L * 24 * 60 * 60 * 1000
+    private static final long TWO_WEEKS_IN_MILLIS = 1209600000; // 14L * 24 * 60 * 60 * 1000
 
-    public Loan(int loanId, Date borrowedDate, Date returnedDate, String isbn, int userId,
-            String status) {
+    public Loan(int loanId, String userId, String isbn, int amount, Date borrowedDate, Date dueDate, String status) {
         this.loanId = loanId;
-        this.borrowedDate = borrowedDate;
-        this.returnedDate = returnedDate;
-        this.isbn = isbn;
         this.userId = userId;
+        this.isbn = isbn;
+        this.amount = amount;
+        this.borrowedDate = borrowedDate;
+        this.dueDate = dueDate;
         this.status = status;
+        this.userName = fetchUserNameFromUserId(userId);
+        this.dueDate = new Date(borrowedDate.getTime() + TWO_WEEKS_IN_MILLIS);
     }
 
+    // Getters và Setters
     public int getLoanId() {
         return loanId;
     }
 
-    public String getStatus() {
-        if (status.equals("BORROWED")
-                && new Date().getTime() - borrowedDate.getTime() > twoWeeksInMillis) {
-            status = "OVERDUE";
-        }
-
-        return status;
+    public String getUserName() {
+        return userName;
     }
 
-    public void markAsReturned() {
-        this.status = "RETURNED";
-        this.returnedDate = new Date();
+    public String getUserId() {
+        return userId;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
 
     public Date getBorrowedDate() {
@@ -47,6 +58,14 @@ public class Loan {
         this.borrowedDate = borrowedDate;
     }
 
+    public Date getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(Date dueDate) {
+        this.dueDate = dueDate;
+    }
+
     public Date getReturnedDate() {
         return returnedDate;
     }
@@ -55,20 +74,33 @@ public class Loan {
         this.returnedDate = returnedDate;
     }
 
-    public String getBookIsbn() {
+    public String getIsbn() {
         return isbn;
     }
 
-    public int getUserId() {
-        return userId;
+    public String getStatus() {
+        updateStatus();
+        return status;
     }
 
-    @Override
-    public String toString() {
-        return "Loan ID: " + loanId
-                + ", ISBN: " + isbn
-                + ", User ID: " + userId
-                + ", Borrowed Date: " + borrowedDate
-                + ", Status: " + getStatus();
+    private void updateStatus() {
+        if ("BORROWED".equals(status) && new Date().after(dueDate)) {
+            status = "OVERDUE";
+        }
+    }
+
+    public void markAsReturned() {
+        this.status = "RETURNED";
+        this.returnedDate = new Date();
+    }
+
+    private String fetchUserNameFromUserId(String userId) {
+        UserService userService = new UserService();
+        return userService.fetchUserNameFromUserId(userId);
+    }
+
+    public Book getBook() {
+        BookService bookService = new BookService();
+        return bookService.getBookByIsbn(isbn);
     }
 }
