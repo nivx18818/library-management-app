@@ -102,11 +102,19 @@ public class UserService {
         }
     }
 
-    public User getUserById(int userId) {
+    public User getUserById(String userId) {
         try {
             return userDAO.getUserById(userId);
         } catch (SQLException e) {
             throw new ServiceException("Error getting user by id", e);
+        }
+    }
+
+    public String fetchUserNameFromUserId(String userId) {
+        try {
+            return userDAO.fetchUserNameFromUserId(userId);
+        } catch (SQLException e) {
+            throw new ServiceException("Error fetching user name from user id", e);
         }
     }
 

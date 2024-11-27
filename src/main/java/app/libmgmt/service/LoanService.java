@@ -13,7 +13,7 @@ public class LoanService {
     private final BookService bookService;
     private final UserService userService;
 
-    public LoanService() throws SQLException {
+    public LoanService() {
         this.loanDAO = new LoanDAO();
         this.bookService = new BookService();
         this.userService = new UserService();
@@ -54,6 +54,14 @@ public class LoanService {
         }
     }
 
+    public List<Loan> getOverdueLoans() {
+        try {
+            return loanDAO.getOverdueLoans();
+        } catch (SQLException e) {
+            throw new ServiceException("Error getting overdue loans", e);
+        }
+    }
+
     public Loan getLoanById(int loanId) {
         try {
             return loanDAO.getLoanById(loanId);
@@ -62,7 +70,7 @@ public class LoanService {
         }
     }
 
-    public List<Loan> getLoansByUserId(int userId) {
+    public List<Loan> getLoansByUserId(String userId) {
         try {
             return loanDAO.getLoansByUserId(userId);
         } catch (SQLException e) {
@@ -71,7 +79,7 @@ public class LoanService {
     }
 
     public Book getBookFromLoan(Loan loan) {
-        return bookService.getBookByIsbn(loan.getBookIsbn());
+        return bookService.getBookByIsbn(loan.getIsbn());
     }
 
     public User getUserFromLoan(Loan loan) {

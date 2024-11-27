@@ -214,12 +214,12 @@ public class UserDAO {
         return externalBorrowers;
     }
 
-    public User getUserById(int userId) throws SQLException {
+    public User getUserById(String userId) throws SQLException {
         String sql = "SELECT id, name, email, password, role, admin_id, student_id, major, social_id, phone_number FROM User WHERE id = ?";
 
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, userId);
+            statement.setString(1, userId);
             ResultSet rs = statement.executeQuery();
 
             if (rs.next()) {
@@ -252,6 +252,22 @@ public class UserDAO {
                                 rs.getString("social_id"),
                                 rs.getString("phone_number"));
                 }
+            }
+        }
+
+        return null;
+    }
+
+    public String fetchUserNameFromUserId(String userId) throws SQLException {
+        String sql = "SELECT name FROM User WHERE id = ?";
+
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, userId);
+            ResultSet rs = statement.executeQuery();
+
+            if (rs.next()) {
+                return rs.getString("name");
             }
         }
 
