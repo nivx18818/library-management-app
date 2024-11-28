@@ -97,7 +97,7 @@
             <Insets left="15.0" right="15.0" />
           </padding>
         </TextField>
-        <TextField fx:id="txtType" prefHeight="32.0" prefWidth="174.0" promptText="Type" style="-fx-border-color: #727374; -fx-border-radius: 12px; -fx-background-color:                    white; -fx-background-radius: 12px;">
+        <TextField fx:id="txtType" prefHeight="32.0" prefWidth="174.0" promptText="Type" style="-fx-border-color: #727374; -fx-border-radius: 12px; -fx-background-color: white; -fx-background-radius: 12px;">
           <cursor>
             <Cursor fx:constant="TEXT" />
           </cursor>
@@ -123,7 +123,7 @@
             <Insets left="15.0" right="15.0" />
           </padding>
         </TextField>
-            <DatePicker fx:id="publishedDatePicker" editable="false" prefHeight="32.0" prefWidth="176.0" promptText="Published Date*" style="-fx-background-color: #fff; -fx-font-size: 14px;" />
+            <DatePicker fx:id="publishedDatePicker" prefHeight="32.0" prefWidth="176.0" promptText="Published Date*" style="-fx-background-color: #fff; -fx-font-size: 14px; -fx-background-radius: 12px;" />
       </children>
     </HBox>
     <HBox layoutX="32.0" layoutY="255.0" spacing="10.0">
@@ -139,7 +139,7 @@
             <Insets left="15.0" right="15.0" />
           </padding>
         </TextField>
-            <Spinner fx:id="quantitySpinner" prefHeight="32.0" prefWidth="174.0" style="-fx-background-color: #fff; -fx-font-size: 14px;" />
+            <Spinner fx:id="quantitySpinner" editable="true" prefHeight="32.0" prefWidth="174.0" style="-fx-background-color: #fff; -fx-font-size: 14px;" />
       </children>
     </HBox>
     <JFXButton fx:id="cancelButton" layoutX="33.0" layoutY="338.0" onAction="#cancelButtonOnAction" prefHeight="41.0" prefWidth="200.0" style="-fx-background-radius: 10;" text=" ">

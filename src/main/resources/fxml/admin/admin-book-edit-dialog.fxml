@@ -71,7 +71,7 @@
                         <Font size="15.0" />
                       </font>
                     </Label>
-                    <TextField fx:id="nameTextField" alignment="BOTTOM_LEFT" maxHeight="37.0" prefHeight="37.0" prefWidth="243.0" promptText="Name Book">
+                    <TextField fx:id="nameTextField" alignment="BOTTOM_LEFT" maxHeight="37.0" prefHeight="37.0" prefWidth="243.0" promptText="Name Book*">
                       <font>
                         <Font size="15.0" />
                       </font>
@@ -145,7 +145,7 @@
                         <Font size="15.0" />
                       </font>
                     </Label>
-                              <DatePicker fx:id="publishedDatePicker" editable="false" minHeight="37.0" prefHeight="36.0" prefWidth="150.0" style="-fx-padding: 10 0 0 0; -fx-font-size: 15; -fx-background-color: #fff;" />
+                              <DatePicker fx:id="publishedDatePicker" editable="false" minHeight="37.0" prefHeight="36.0" prefWidth="150.0" promptText="Published Date*" style="-fx-padding: 10 0 0 0; -fx-font-size: 15; -fx-background-color: #fff;" />
                   </children>
                 </HBox>
                 <Line endX="170.0" opacity="0.47" startX="-100.0" />
@@ -189,7 +189,7 @@
                         <Font size="15.0" />
                       </font>
                     </Label>
-                              <Spinner fx:id="quantitySpinner" prefHeight="25.0" prefWidth="193.0" style="-fx-background-color: #fff; -fx-border-color: #fff;">
+                              <Spinner fx:id="quantitySpinner" editable="true" prefHeight="25.0" prefWidth="193.0" style="-fx-background-color: #fff; -fx-border-color: #fff;">
                                  <HBox.margin>
                                     <Insets top="12.0" />
                                  </HBox.margin></Spinner>

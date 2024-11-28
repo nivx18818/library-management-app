@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Bloom?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<Pane prefHeight="670.0" prefWidth="1132.0" style="-fx-background-color: #f2f2f2;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Pane layoutX="21.0" layoutY="14.0" prefHeight="45.0" prefWidth="45.0" style="-fx-background-color: #D7D7D7; -fx-background-radius: 10;">
+         <children>
+            <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="6.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../assets/icon/8686768_ic_fluent_book_add_regular_icon.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <Label layoutX="74.0" layoutY="25.0" prefHeight="27.0" prefWidth="257.0" text="Add Book (Google Books API)">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Pane fx:id="closePane" layoutX="1088.0" layoutY="26.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-radius: 10;">
+         <children>
+            <JFXButton fx:id="closeDialogButton" alignment="CENTER" contentDisplay="CENTER" minHeight="24.0" minWidth="24.0" onAction="#closeButtonOnAction" prefHeight="24.0" prefWidth="24.0" text=" " textAlignment="CENTER">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <graphic>
+                  <ImageView fx:id="imgClose" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../assets/icon/close-square%201.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+         </children>
+      </Pane>
+      <Pane fx:id="searchPane" layoutX="21.0" layoutY="79.0" prefHeight="30.0" prefWidth="1091.0" style="-fx-background-color: white; -fx-background-radius: 12;">
+         <children>
+            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="14.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../assets/icon/search-normal.png" />
+               </image>
+               <effect>
+                  <Bloom threshold="0.31" />
+               </effect>
+            </ImageView>
+            <TextField fx:id="textSearch" layoutX="37.0" onAction="#txtSearchOnAction" prefHeight="30.0" prefWidth="1031.0" promptText="Search by Book Name" style="-fx-background-color: white; -fx-background-radius: 0 12 12 0;">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </TextField>
+         </children>
+      </Pane>
+      <Label layoutX="26.0" layoutY="125.0" prefHeight="20.0" prefWidth="353.0" text="Search Results (most relevant result shown first)">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Pane layoutX="21.0" layoutY="163.0" prefHeight="495.0" prefWidth="1092.0" style="-fx-background-color: white; -fx-background-radius: 12 12 0 0;">
+         <children>
+            <Line endX="988.0" layoutX="90.0" layoutY="40.0" startX="-74.0" />
+            <HBox alignment="CENTER" prefHeight="45.0" prefWidth="1078.0" spacing="30.0">
+               <effect>
+                  <Bloom />
+               </effect>
+               <children>
+                  <Label alignment="CENTER" layoutX="429.0" layoutY="23.0" prefHeight="14.0" prefWidth="120.0" text="ISBN">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" prefHeight="14.0" prefWidth="240.0" text="Name">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" layoutX="579.0" layoutY="23.0" prefHeight="14.0" prefWidth="200.0" text="Author">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" layoutX="714.0" layoutY="23.0" prefHeight="14.0" prefWidth="150.0" text="Type">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" layoutX="909.0" layoutY="23.0" prefHeight="14.0" prefWidth="120.0" text="Add to card">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <ScrollPane hbarPolicy="NEVER" layoutY="43.0" prefHeight="453.0" prefWidth="1092.0" style="-fx-background-color: white;">
+               <content>
+                  <VBox fx:id="vBoxBooksList" alignment="TOP_CENTER" prefHeight="453.0" prefWidth="1076.0" style="-fx-background-color: white;" />
+               </content>
+            </ScrollPane>
+         </children>
+      </Pane>
+   </children>
+</Pane>
