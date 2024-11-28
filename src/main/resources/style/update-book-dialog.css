@@ -14,7 +14,7 @@
 }
 
 .image-link:focused {
-    -fx-border-color: #gray;
+    -fx-border-color: gray;
     -fx-background-color: #FFFFFF;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 8, 0.7, 0, 2);
 }

@@ -1,7 +1,6 @@
 
 .text-field {
     -fx-border-color: #727374;
-    -fx-border-radius: 12px;
     -fx-background-color: #fff;
     -fx-background-radius: 12px;
     -fx-prompt-text-fill: #b2b2b2;
@@ -12,4 +11,3 @@
     -fx-background-color: #FFFFFF;
     -fx-border-width: 2px; /* Adjust the border width */
 }
-
