@@ -3,6 +3,11 @@ package app.libmgmt.util;
 import javafx.animation.PauseTransition;
 import javafx.scene.control.TextField;
 import javafx.util.Duration;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoField;
 import java.util.regex.Pattern;
 
 public class RegExPatterns {
@@ -53,6 +58,19 @@ public class RegExPatterns {
 
     public static boolean globalFormPattern(String text) {
         return Pattern.matches("^.*$\n", text);
+    }
+
+        public static boolean datePattern(String dateStr) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        try {
+            LocalDate date = LocalDate.parse(dateStr, formatter);
+            int day = date.get(ChronoField.DAY_OF_MONTH);
+            int month = date.get(ChronoField.MONTH_OF_YEAR);
+            int year = date.get(ChronoField.YEAR);
+            return day > 0 && day <= 31 && month > 0 && month <= 12 && year > 0;
+        } catch (DateTimeParseException e) {
+            return false;
+        }
     }
 
     public static void invalidPromptText(boolean status, TextField field, String errorMessage) {

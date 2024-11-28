@@ -1,5 +1,7 @@
 package app.libmgmt.view.controller.admin;
 
+import java.io.IOException;
+
 import com.jfoenix.controls.JFXButton;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -17,6 +19,7 @@ import app.libmgmt.util.AnimationUtils;
 import app.libmgmt.util.ChangeScene;
 import app.libmgmt.util.DateTimeUtils;
 import app.libmgmt.util.RegExPatterns;
+
 public class AdminBookEditDialogController {
 
     private static AdminBookEditDialogController controller;
@@ -24,14 +27,23 @@ public class AdminBookEditDialogController {
     private UpdateType lastUpdateType = UpdateType.BASIC_INFO;
 
     // UI Components
-    @FXML private TextField authorTextField, imgUrlTextField, nameTextField, publisherTextField, typeTextField, qrCodeTextField;
-    @FXML private HBox basicInfoContainer;
-    @FXML private Pane bookCoverContainer, container;
-    @FXML private ImageView bookCoverImage, imgClose, qrCodeImage;
-    @FXML private Label bookCoverLabel, notificationLabel;
-    @FXML private JFXButton closeDialogButton, updateButton, basicInfoButton, bookCoverButton, qrCodeButton;
-    @FXML private DatePicker publishedDatePicker;
-    @FXML private Spinner<Integer> quantitySpinner = new Spinner<>();
+    @FXML
+    private TextField authorTextField, imgUrlTextField, nameTextField, publisherTextField, typeTextField,
+            qrCodeTextField;
+    @FXML
+    private HBox basicInfoContainer;
+    @FXML
+    private Pane bookCoverContainer, container;
+    @FXML
+    private ImageView bookCoverImage, imgClose, qrCodeImage;
+    @FXML
+    private Label bookCoverLabel, notificationLabel;
+    @FXML
+    private JFXButton closeDialogButton, updateButton, basicInfoButton, bookCoverButton, qrCodeButton;
+    @FXML
+    private DatePicker publishedDatePicker;
+    @FXML
+    private Spinner<Integer> quantitySpinner = new Spinner<>();
 
     private String[] originalData;
     private String lastImageURL;
@@ -47,8 +59,8 @@ public class AdminBookEditDialogController {
 
     // Initialization
     public void initialize() {
-        quantitySpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 100, 0));
-        quantitySpinner.setStyle("-fx-font-size: 16px;");
+        setUpSpinner();
+
         AnimationUtils.hoverCloseIcons(closeDialogButton, imgClose);
     }
 
@@ -59,18 +71,24 @@ public class AdminBookEditDialogController {
     }
 
     @FXML
-    void updateButtonOnAction(ActionEvent event) {
-        String[] updatedData = getUpdatedData();
-        if (isDataChanged(updatedData)) {
-            updateBookData(updatedData);
+    void updateButtonOnAction(ActionEvent event) throws IOException {
+        if (checkValidFields()) {
+            String[] updatedData = getUpdatedData();
+            if (isDataChanged(updatedData)) {
+                updateBookData(updatedData);
+            } else {
+                showNoChangesNotification();
+            }
         } else {
-            showNoChangesNotification();
+            return;
         }
+
     }
 
     @FXML
     void uploadButtonOnAction(ActionEvent event) {
-        String imgUrl = currentUpdateType.equals(UpdateType.BOOK_COVER) ? imgUrlTextField.getText() : qrCodeTextField.getText();
+        String imgUrl = currentUpdateType.equals(UpdateType.BOOK_COVER) ? imgUrlTextField.getText()
+                : qrCodeTextField.getText();
         String lastUrl = currentUpdateType.equals(UpdateType.BOOK_COVER) ? lastImageURL : lastQrCodeURL;
 
         if (!imgUrl.equals(lastUrl)) {
@@ -125,7 +143,7 @@ public class AdminBookEditDialogController {
     }
 
     private String[] getUpdatedData() {
-        return new String[]{
+        return new String[] {
                 originalData[0],
                 imgUrlTextField.getText().isEmpty() ? originalData[1] : imgUrlTextField.getText(),
                 nameTextField.getText(),
@@ -133,7 +151,8 @@ public class AdminBookEditDialogController {
                 authorTextField.getText(),
                 quantitySpinner.getValue().toString(),
                 publisherTextField.getText(),
-                publishedDatePicker.getValue() == null ? "" : DateTimeUtils.convertLocalDateToString(publishedDatePicker.getValue())
+                publishedDatePicker.getValue() == null ? ""
+                        : DateTimeUtils.convertLocalDateToString(publishedDatePicker.getValue())
         };
     }
 
@@ -205,7 +224,8 @@ public class AdminBookEditDialogController {
         };
 
         loadImageTask.setOnSucceeded(event -> imageView.setImage(loadImageTask.getValue()));
-        loadImageTask.setOnFailed(event -> System.err.println("Failed to load image: " + loadImageTask.getException().getMessage()));
+        loadImageTask.setOnFailed(
+                event -> System.err.println("Failed to load image: " + loadImageTask.getException().getMessage()));
         new Thread(loadImageTask).start();
     }
 
@@ -255,6 +275,43 @@ public class AdminBookEditDialogController {
     private void changeSelectedButtonStyle() {
         JFXButton selectedButton = getSelectedButton();
         selectedButton.setStyle("-fx-background-color: #fff; -fx-text-fill: #000; -fx-border-color: #000;");
+    }
+
+    public boolean checkValidFields() throws IOException {
+        String quantityText = quantitySpinner.getEditor().getText();
+        if (nameTextField.getText().isEmpty() ||
+                publishedDatePicker.getValue() == null ||
+                publishedDatePicker.getValue().toString().isEmpty() ||
+                quantityText.isEmpty()) {
+
+            notificationLabel.setText("Please fill in all required fields.");
+            notificationLabel.setStyle("-fx-text-fill: #ff0000;");
+            AnimationUtils.playNotificationTimeline(notificationLabel, 2, "#ff0000");
+            return false;
+        }
+        
+        if (!RegExPatterns.datePattern(publishedDatePicker.getValue().toString())) {
+            notificationLabel.setText("Date is invalid. Please follow the format dd/MM/yyyy.");
+            notificationLabel.setStyle("-fx-text-fill: #ff0000;");
+            AnimationUtils.playNotificationTimeline(notificationLabel, 2, "#ff0000");
+            return false;
+        }
+        
+        return true;
+    }
+
+    public void setUpSpinner() {
+        quantitySpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 999, 0));
+        quantitySpinner.setStyle("-fx-font-size: 16px;");
+        quantitySpinner.setPromptText("Quantity*");
+        quantitySpinner.getEditor().setTextFormatter(new TextFormatter<>(change -> {
+            String newText = change.getControlNewText();
+            if (newText.matches("\\d*")) {
+                return change;
+            } else {
+                return null;
+            }
+        }));
     }
 
     private JFXButton getSelectedButton() {

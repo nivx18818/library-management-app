@@ -44,11 +44,9 @@ public class AdminAddBookDialogController {
     public void initialize() {
         System.out.println("Admin Add Book Dialog initialized");
 
+        setUpSpinner();
+
         AnimationUtils.hoverCloseIcons(closeDialogButton, imgClose);
-        quantitySpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0,
-                1000, 1));
-        quantitySpinner.getValueFactory().setValue(0);
-        quantitySpinner.setPromptText("Quantity*");
 
         container.setOnMouseClicked(
                 event -> {
@@ -109,13 +107,20 @@ public class AdminAddBookDialogController {
     public boolean checkValidInfo() throws IOException {
         String url = txtCoverURL.getText();
         String nameBook = txtName.getText();
-        String quantity = quantitySpinner.getValue().toString();
 
-        if (nameBook.isEmpty() || quantity.isEmpty() || url.isEmpty() || publishedDatePicker.getValue() == null) {
+        if (nameBook.isEmpty() || quantitySpinner.getValue() == null || url.isEmpty()
+                || publishedDatePicker.getValue() == null) {
             notificationLabel.setText("Please fill in mandatory fields.");
             AnimationUtils.playNotificationTimeline(notificationLabel, 3, "#ff0000");
             return false;
         }
+
+        if (!RegExPatterns.datePattern(publishedDatePicker.getValue().toString())) {
+            notificationLabel.setText("Date is invalid. Please follow the format dd/MM/yyyy.");
+            AnimationUtils.playNotificationTimeline(notificationLabel, 3, "#ff0000");
+            return false;
+        }
+
         if (!RegExPatterns.bookCoverUrlPattern(url)) {
             notificationLabel.setText("URL is invalid or not an image link.");
             AnimationUtils.playNotificationTimeline(notificationLabel, 3, "#ff0000");
@@ -142,6 +147,21 @@ public class AdminAddBookDialogController {
         quantitySpinner.getValueFactory().setValue(0);
         publishedDatePicker.setValue(null);
         txtPublisher.setText("");
+    }
+
+    public void setUpSpinner() {
+        quantitySpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0,
+                999, 0));
+        quantitySpinner.getValueFactory().setValue(0);
+        quantitySpinner.setPromptText("Quantity*");
+        quantitySpinner.getEditor().setTextFormatter(new TextFormatter<>(change -> {
+            String newText = change.getControlNewText();
+            if (newText.matches("\\d*")) {
+                return change;
+            } else {
+                return null;
+            }
+        }));
     }
 
 }
