@@ -1,13 +1,159 @@
+* {
+    -fx-primary-color: black;
+    -fx-secondary-color: #474747;
+    -fx-light-grey-color: #d1d1d1;
+
+    -fx-focus-color: -fx-secondary-color;
+}
 
 .text-field {
     -fx-border-color: #727374;
+    -fx-border-radius: 12px;
     -fx-background-color: #fff;
     -fx-background-radius: 12px;
     -fx-prompt-text-fill: #b2b2b2;
 }
 
-.text-field:focused, .jfx-combo-box:focused {
+.text-field:focused,
+.jfx-combo-box:focused {
     -fx-border-color: #242121;
-    -fx-background-color: #FFFFFF;
-    -fx-border-width: 2px; /* Adjust the border width */
+    -fx-background-color: #ffffff;
+    -fx-border-width: 2px;
 }
+
+/* DatePicker: BEGIN */
+
+.date-picker > .text-field {
+    -fx-border-width: 1px 0 1px 1px;
+    -fx-border-radius: 12px 0 0 12px;
+}
+
+.date-picker > .text-field:focused {
+    -fx-border-color: #727374;
+    -fx-border-width: 2px 0 2px 2px;
+}
+
+.date-picker > .arrow-button {
+    -fx-padding: 8px 10px 10px 8px;
+    -fx-border-width: 2px;
+    -fx-border-color: -fx-primary-color;
+    -fx-border-radius: 0 12px 12px 0;
+    -fx-background-color: -fx-primary-color;
+    -fx-background-radius: 0 12px 12px 0;
+}
+
+.date-picker > .arrow-button:hover {
+    -fx-background-color: -fx-secondary-color;
+    -fx-border-color: -fx-secondary-color;
+}
+
+.date-picker > .arrow-button > .arrow {
+    -fx-background-color: white;
+}
+
+.date-picker .cell {
+    -fx-background-color: white;
+}
+
+.date-picker .cell:hover {
+    -fx-background-color: -fx-light-grey-color;
+}
+
+.date-picker .cell:focused {
+    -fx-background-color: -fx-light-grey-color;
+}
+
+.date-picker .selected {
+    -fx-background-color: -fx-primary-color;
+    -fx-text-fill: white;
+}
+
+.date-picker .selected:focused {
+    -fx-background-color: -fx-primary-color;
+    -fx-text-fill: white;
+}
+
+.date-picker-popup {
+    -fx-border-color: transparent;
+}
+
+.date-picker-popup > .month-year-pane {
+    -fx-background-color: -fx-primary-color;
+    -fx-background-insets: 0;
+}
+
+.date-picker-popup > .month-year-pane .label {
+    -fx-text-fill: white;
+}
+
+.date-picker-popup .spinner > .button > .left-arrow,
+.date-picker-popup .spinner > .button > .right-arrow {
+    -fx-background-color: white;
+}
+
+.date-picker-popup .date-cell {
+    -fx-background-insets: 0;
+}
+
+.date-picker-popup .day-name-cell {
+    -fx-background-color: -fx-primary-color;
+    -fx-text-fill: white;
+}
+
+/* DatePicker: END */
+
+/* Spinner: BEGIN */
+
+.spinner {
+    -fx-min-height: 32px;
+    -fx-max-height: 32px;
+}
+
+.spinner > .text-field {
+    -fx-border-width: 1px 0 1px 1px;
+    -fx-border-radius: 12px 0 0 12px;
+}
+
+.spinner > .text-field:focused {
+    -fx-border-color: #727374;
+    -fx-border-width: 2px 0 2px 2px;
+}
+
+.spinner > .increment-arrow-button,
+.spinner > .decrement-arrow-button {
+    -fx-padding: 0 12px 0 11px;
+    -fx-background-color: -fx-primary-color;
+    -fx-background-radius: 0;
+    -fx-background-insets: 0;
+}
+
+.spinner:focused > .increment-arrow-button,
+.spinner:focused > .decrement-arrow-button {
+}
+
+.spinner > .increment-arrow-button:hover,
+.spinner > .decrement-arrow-button:hover {
+    -fx-background-color: -fx-secondary-color;
+}
+
+.spinner > .increment-arrow-button:hover:pressed,
+.spinner > .decrement-arrow-button:hover:pressed,
+.spinner > .increment-arrow-button:pressed,
+.spinner > .decrement-arrow-button:pressed {
+    -fx-background-color: -fx-secondary-color;
+}
+
+.spinner > .increment-arrow-button {
+    -fx-background-radius: 0 12px 0 0;
+}
+
+.spinner > .decrement-arrow-button {
+    -fx-background-radius: 0 0 12px 0;
+}
+
+.spinner > .increment-arrow-button > .increment-arrow,
+.spinner > .decrement-arrow-button > .decrement-arrow {
+    -fx-background-color: white;
+}
+
+/* Spinner: END */

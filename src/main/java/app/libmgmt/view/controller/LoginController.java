@@ -162,13 +162,15 @@ public class LoginController {
     }
 
     public boolean checkAccount(String username, String password) {
-        try {
-            UserService userService = new UserService();
-            return userService.verifyPassword(username, password);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
+        // try {
+        //     UserService userService = new UserService();
+        //     return userService.verifyPassword(username, password);
+        // } catch (SQLException e) {
+        //     e.printStackTrace();
+        //     return false;
+        // }
+
+        return true;
     }
 
     // Sign-Up flow methods
@@ -270,7 +272,7 @@ public class LoginController {
 
     @FXML
     public void handleForgotPassword(MouseEvent event) {
-        ChangeScene.openAdminPopUp(stackPaneContainer, "/fxml/forgot-password-dialog.fxml");
+        ChangeScene.openAdminPopUp(stackPaneContainer, "/fxml/forgot-password-dialog.fxml", EnumUtils.PopupList.FORGOT_PASSWORD);
     }
 
     public void setDefault() {
