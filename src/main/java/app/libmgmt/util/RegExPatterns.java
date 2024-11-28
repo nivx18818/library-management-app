@@ -8,6 +8,13 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoField;
+
+import java.io.IOException;
+
+import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.regex.Pattern;
 
 public class RegExPatterns {
@@ -48,29 +55,54 @@ public class RegExPatterns {
 
         String urlWithoutParams = path.split("\\?")[0].toLowerCase();
 
-        return urlWithoutParams.endsWith(".jpg") ||
-                urlWithoutParams.endsWith(".jpeg") ||
-                urlWithoutParams.endsWith(".png") ||
-                urlWithoutParams.endsWith(".gif") ||
-                urlWithoutParams.endsWith(".bmp") ||
-                urlWithoutParams.endsWith(".svg");
+        if (urlWithoutParams.endsWith(".jpg") ||
+            urlWithoutParams.endsWith(".jpeg") ||
+            urlWithoutParams.endsWith(".png") ||
+            urlWithoutParams.endsWith(".gif") ||
+            urlWithoutParams.endsWith(".bmp") ||
+            urlWithoutParams.endsWith(".svg")) {
+            return true;
+        }
+        
+        try {
+            URI uri = new URI(path);
+            URL url = uri.toURL();
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("HEAD");
+            connection.setConnectTimeout(5000);
+            connection.setReadTimeout(5000);
+
+            int responseCode = connection.getResponseCode();
+            if (responseCode != HttpURLConnection.HTTP_OK) {
+                return false;
+            }
+
+            String contentType = connection.getContentType();
+            return contentType != null && contentType.startsWith("image/");
+        } catch (URISyntaxException e) {
+            System.err.println("Invalid URL syntax: " + e.getMessage());
+            return false;
+        }catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public static boolean globalFormPattern(String text) {
         return Pattern.matches("^.*$\n", text);
     }
 
-        public static boolean datePattern(String dateStr) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        try {
-            LocalDate date = LocalDate.parse(dateStr, formatter);
-            int day = date.get(ChronoField.DAY_OF_MONTH);
-            int month = date.get(ChronoField.MONTH_OF_YEAR);
-            int year = date.get(ChronoField.YEAR);
-            return day > 0 && day <= 31 && month > 0 && month <= 12 && year > 0;
-        } catch (DateTimeParseException e) {
-            return false;
-        }
+    public static boolean datePattern(String dateStr) {
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    try {
+        LocalDate date = LocalDate.parse(dateStr, formatter);
+        int day = date.get(ChronoField.DAY_OF_MONTH);
+        int month = date.get(ChronoField.MONTH_OF_YEAR);
+        int year = date.get(ChronoField.YEAR);
+        return day > 0 && day <= 31 && month > 0 && month <= 12 && year > 0;
+    } catch (DateTimeParseException e) {
+        return false;
+    }
     }
 
     public static void invalidPromptText(boolean status, TextField field, String errorMessage) {

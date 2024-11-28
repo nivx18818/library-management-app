@@ -6,6 +6,7 @@ import app.libmgmt.model.Loan;
 import app.libmgmt.model.User;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class LoanService {
@@ -13,7 +14,7 @@ public class LoanService {
     private final BookService bookService;
     private final UserService userService;
 
-    public LoanService() throws SQLException {
+    public LoanService() {
         this.loanDAO = new LoanDAO();
         this.bookService = new BookService();
         this.userService = new UserService();
@@ -54,24 +55,60 @@ public class LoanService {
         }
     }
 
-    public Loan getLoanById(int loanId) {
+    public List<Loan> getOverdueLoans() {
         try {
-            return loanDAO.getLoanById(loanId);
+            return loanDAO.getOverdueLoans();
         } catch (SQLException e) {
-            throw new ServiceException("Error getting loan by id", e);
+            throw new ServiceException("Error getting overdue loans", e);
         }
     }
 
-    public List<Loan> getLoansByUserId(int userId) {
+    public void markOverdueLoans() {
+        try {
+            loanDAO.markOverdueLoans();
+        } catch (SQLException e) {
+            throw new ServiceException("Error mark Overdue Loans", e);
+        }
+    }
+
+    public List<Loan> getLoansByUserId(String userId) {
         try {
             return loanDAO.getLoansByUserId(userId);
         } catch (SQLException e) {
-            throw new ServiceException("Error getting loans by user id", e);
+            throw new ServiceException("Error getting loan by userId", e);
         }
     }
 
-    public Book getBookFromLoan(Loan loan) {
-        return bookService.getBookByIsbn(loan.getBookIsbn());
+    public int countTotalBorrowedBooks() {
+        try {
+            return loanDAO.countTotalBorrowedBooks();
+        } catch (SQLException e) {
+            throw new ServiceException("Error getting loan by userId", e);
+        }
+    }
+
+    public String getIsbnByUserId(String userId) {
+        try {
+            return loanDAO.getIsbnByUserId(userId);
+        } catch (SQLException e) {
+            throw new ServiceException("Error getting isbn by user id", e);
+        }
+    }
+
+    public List<Book> getBookFromLoan(String string_isbn) {
+        List<Book> books = new ArrayList<>();
+        String[] isbnArray = string_isbn.split(",");
+        
+        for (String x : isbnArray) {
+            Book book = bookService.getBookByIsbn(x);
+            if (book != null) {
+                books.add(book);
+            } else {
+                System.out.println("Book with ISBN " + x + " not found.");
+            }
+        }
+        
+        return books;
     }
 
     public User getUserFromLoan(Loan loan) {

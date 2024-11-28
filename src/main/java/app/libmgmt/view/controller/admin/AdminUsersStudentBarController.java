@@ -7,6 +7,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+
+import app.libmgmt.model.User;
+import app.libmgmt.model.Student;
+import app.libmgmt.service.UserService;
 import app.libmgmt.util.ChangeScene;
 import app.libmgmt.util.EnumUtils;
 
@@ -33,15 +37,26 @@ public class AdminUsersStudentBarController {
     public void initialize() {
         // Add listener to update user information if there's a change in the observable
         // student data
-        AdminGlobalController.getInstance().getObservableUsersData(EnumUtils.UserType.STUDENT)
-                .addListener((ListChangeListener<String[]>) change -> {
+        AdminGlobalController.getInstance().getObservableStudentsData()
+                .addListener((ListChangeListener<Student>) change -> {
                     while (change.next()) {
                         if (change.wasReplaced() && change.getFrom() >= 0
                                 && change.getFrom() < change.getList().size()) {
-                            String[] updatedUserData = change.getList().get(change.getFrom());
-
-                            if (idLabel.getText().equals(updatedUserData[4])) {
-                                updateUserData(updatedUserData);
+                            Student updatedStudent = (Student)change.getList().get(change.getFrom());
+                            //data format: [name, major, email, id, password]
+                            String[] updatedStudentData = new String[] {
+                                    updatedStudent.getName(),
+                                    updatedStudent.getMajor(),
+                                    updatedStudent.getEmail(),
+                                    updatedStudent.getStudentId(),
+                                    updatedStudent.getPassword()
+                            };
+                            User updatedStudentObj = new Student(updatedStudentData);
+                            UserService userService = new UserService();
+                            userService.updateUser(updatedStudentObj);
+                            
+                            if (idLabel.getText().equals(updatedStudentData[3])) {
+                                updateUserData(updatedStudentData);
                             }
                         }
                     }
@@ -116,12 +131,10 @@ public class AdminUsersStudentBarController {
 
     // Update user data in the fields
     private void updateUserData(String[] data) {
-        if (data != null && data.length >= 5) {
-            idLabel.setText(data[4]);
-            nameLabel.setText(data[1]);
-            majorLabel.setText(data[2]);
-            emailLabel.setText(data[3]);
-        }
+        idLabel.setText(data[3]);
+        nameLabel.setText(data[0]);
+        majorLabel.setText(data[1]);
+        emailLabel.setText(data[2]);
     }
 
     public String[] getData() {

@@ -7,7 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-
+import app.libmgmt.model.Book;
 import app.libmgmt.util.ChangeScene;
 import app.libmgmt.util.EnumUtils;
 
@@ -33,10 +33,24 @@ public class AdminBookBarController {
 
     @FXML
     public void initialize() {
-        AdminGlobalController.getInstance().getObservableBookData().addListener((ListChangeListener<String[]>) change -> {
+        AdminGlobalController.getInstance().getObservableBookData().addListener((ListChangeListener<Book>) change -> {
             while (change.next()) {
                 if (change.wasReplaced() && change.getFrom() >= 0 && change.getFrom() < change.getList().size()) {
-                    String[] updatedBookData = change.getList().get(change.getFrom());
+                    Book updatedBook = change.getList().get(change.getFrom());
+
+                    String authorsString = String.join(", ", updatedBook.getAuthors());
+                    String categoriesString = String.join(", ", updatedBook.getCategories());
+
+                    String[] updatedBookData = new String[]{
+                        updatedBook.getIsbn(),
+                        updatedBook.getCoverUrl(),
+                        updatedBook.getTitle(),
+                        categoriesString,
+                        authorsString,
+                        String.valueOf(updatedBook.getAvailableCopies()),
+                        updatedBook.getPublisher(),
+                        updatedBook.getPublishedDate().toString()
+                    };
 
                     if (bookID.equals(updatedBookData[0])) {
                         setData(updatedBookData);
@@ -108,7 +122,14 @@ public class AdminBookBarController {
         // Form data: [id, imgPath, name, type, author, quantity, publisher, publishedDate]
         // Form book bar: [No., imgPath, name, type, author, quantity(available)]
         bookID = data[0];
-        orderLabel.setText(Integer.toString(AdminGlobalController.getInstance().getObservableBookData().indexOf(data) + 1));
+        int bookIndex = -1;
+        for (int i = 0; i < AdminGlobalController.getInstance().getObservableBookData().size(); i++) {
+            if (AdminGlobalController.getInstance().getObservableBookData().get(i).getIsbn().equals(data[0])) {
+                bookIndex = i;
+                break;
+            }
+        }
+        orderLabel.setText(Integer.toString(bookIndex + 1));
         updateImageIfChanged(data[1], bookImage);
         updateLabelIfChanged(nameLabel, data[2]);
         updateLabelIfChanged(typeLabel, data[3]);

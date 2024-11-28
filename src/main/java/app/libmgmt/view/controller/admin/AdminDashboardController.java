@@ -11,11 +11,9 @@ import javafx.scene.chart.PieChart;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-
-import app.libmgmt.util.DateTimeUtils;
+import app.libmgmt.model.Loan;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.List;
 
 public class AdminDashboardController {
@@ -34,8 +32,7 @@ public class AdminDashboardController {
     private Text totalUser;
     @FXML
     private VBox vBoxAdmin;
-    private List<String[]> borrowedBooksData = adminGlobalController.getBorrowedBooksData();
-    private List<String[]> booksData = adminGlobalController.getObservableBookData(); // TODO: Can be deleted after using database
+    private List<Loan> borrowedBooksData = adminGlobalController.getBorrowedBooksData();
     private List<String[]> adminData = adminGlobalController.getAdminData();
 
     public AdminDashboardController() {
@@ -50,7 +47,7 @@ public class AdminDashboardController {
         System.out.println("Dashboard initialized");
 
         // TODO: Set the total book and user count from database
-        totalBook.setText(String.valueOf(booksData.size()));
+        totalBook.setText(String.valueOf(AdminGlobalController.getInstance().getTotalBooksCount()));
         totalUser.setText(String.valueOf(AdminGlobalController.getInstance().getTotalUsersCount()));
 
         setPieChart();
@@ -59,7 +56,7 @@ public class AdminDashboardController {
     }
 
     public ObservableList<PieChart.Data> addPieChartData() {
-        int totalBorrowedBooks = getTotalBorrowedBooks();
+        int totalBorrowedBooks = AdminGlobalController.getInstance().getTotalBorrowedBooks();
         double percentageBorrowed = 0;
         int totalBooks = Integer.parseInt(totalBook.getText());
         if (totalBooks != 0) {
@@ -68,7 +65,7 @@ public class AdminDashboardController {
 
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
         pieChartData.add(new PieChart.Data("Total Borrowed Books", percentageBorrowed));
-        pieChartData.add(new PieChart.Data("Total Returned Books", 100 - percentageBorrowed));
+        pieChartData.add(new PieChart.Data("Total Available Books", 100 - percentageBorrowed));
         return pieChartData;
     }
 
@@ -90,32 +87,20 @@ public class AdminDashboardController {
     }
 
     public int getTotalBorrowedBooks() {
-        int res = 0;
-
-        for (String[] data : borrowedBooksData) {
-            res += Integer.parseInt(data[2]);
-        }
+        int res = borrowedBooksData.size();
 
         return res;
     }
 
     public void getOverdueData() {
-        // TODO: Replaceable by filtering from database
+        List<Loan> OverdueData = adminGlobalController.getOverDueLoans();
         Task<Void> task = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
-                for (String[] borrowedData : borrowedBooksData) {
-                    String dueDate = borrowedData[3];
-
-                    LocalDate dueDateParsed = LocalDate.parse(dueDate, DateTimeUtils.dateTimeFormatter);
-
-                    if (dueDateParsed.isBefore(DateTimeUtils.currentLocalTime)) {
-                        String name = borrowedData[0];
-                        String id = borrowedData[1];
-
-                        Platform.runLater(() -> loadOverdueDataTable(name, id));
-                        Thread.sleep(50);
-                    }
+                for (Loan borrowedData : OverdueData) {
+                    //cover url, name, author, due_date
+                    Platform.runLater(() -> loadOverdueDataTable(borrowedData));
+                    Thread.sleep(50);
                 }
 
                 return null;
@@ -130,7 +115,7 @@ public class AdminDashboardController {
         new Thread(task).start();
     }
 
-    public void loadOverdueDataTable(String idText, String uidText) {
+    public void loadOverdueDataTable(Loan data) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(AdminDashboardController.class.getResource(
                     "/fxml/admin/admin-dashboard-overdue-bar.fxml"));
@@ -138,7 +123,7 @@ public class AdminDashboardController {
             Parent scene = fxmlLoader.load();
 
             AdminDashboardOverdueBarController controller = fxmlLoader.getController();
-            controller.setData(idText, uidText);
+            controller.setData(data);
 
             vBoxOverdue.getChildren().add(scene);
 

@@ -12,7 +12,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-
+import app.libmgmt.model.Book;
 import app.libmgmt.util.AnimationUtils;
 import app.libmgmt.util.ChangeScene;
 import app.libmgmt.util.EnumUtils.PopupList;
@@ -20,6 +20,7 @@ import app.libmgmt.util.EnumUtils.PopupList;
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Logger;
+import java.text.SimpleDateFormat;
 
 public class AdminBooksLayoutController {
 
@@ -41,7 +42,7 @@ public class AdminBooksLayoutController {
 
     private String deletedOrderNumber;
 
-    private final List<String[]> observableBooksData = adminGlobalController.getObservableBookData();
+    private final List<Book> observableBooksData = adminGlobalController.getObservableBookData();
 
     public AdminBooksLayoutController() {
         controller = this;
@@ -63,13 +64,30 @@ public class AdminBooksLayoutController {
     }
 
     // Data Preloading
-    public void preloadData(List<String[]> data) {
-        Task<Void> preloadTask = new Task<Void>() {
+    public void preloadData(List<Book> data) {
+        Task<Void> preloadTask = new Task<>() {
             @Override
             protected Void call() {
                 try {
-                    for (String[] d : data) {
-                        loadBookBar(d);
+                    for (Book d : data) {
+                        SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
+                        String publishedDateStr = (d.getPublishedDate() != null) ?
+                                outputFormat.format(d.getPublishedDate()) : "Not Available";
+                        String authorsString = String.join(", ", d.getAuthors());
+                        String categoriesString = String.join(", ", d.getCategories());
+    
+                        String[] bookData = new String[]{
+                            d.getIsbn(),
+                            d.getCoverUrl(),
+                            d.getTitle(),
+                            categoriesString,
+                            authorsString,
+                            String.valueOf(d.getAvailableCopies()),
+                            d.getPublisher(),
+                            publishedDateStr
+                        };
+    
+                        loadBookBar(bookData);
                     }
                 } catch (Exception e) {
                     System.out.println("Error loading data table: " + e.getMessage());
@@ -77,16 +95,17 @@ public class AdminBooksLayoutController {
                 }
                 return null;
             }
-
+    
             @Override
             protected void failed() {
                 // Handle when task fails
                 System.out.println("Task failed: " + getException().getMessage());
             }
         };
-
+    
         new Thread(preloadTask).start();
     }
+    
 
     private void loadBookBar(String[] data) {
         try {
@@ -112,12 +131,12 @@ public class AdminBooksLayoutController {
     // Book Data Changes Listener
     private void listenBookDataChanges() {
         adminGlobalController.getObservableBookData()
-                .addListener((ListChangeListener.Change<? extends String[]> change) -> {
+                .addListener((ListChangeListener.Change<? extends Book> change) -> {
                     while (change.next()) {
                         if (change.wasRemoved() && change.getRemovedSize() != change.getAddedSize()) {
-                            String[] book = change.getRemoved().get(0);
-                            if (book != null && book.length > 0) {
-                                String bookId = book[0];
+                            Book book = change.getRemoved().get(0);
+                            if (book != null) {
+                                String bookId = book.getIsbn();
                                 removeBookFromVBox(bookId);
                             }
                         }
@@ -136,6 +155,10 @@ public class AdminBooksLayoutController {
     }
 
     private void handleChangeOrderNumber(String deletedOrderNumber) {
+        // deletedOrderNumber = "1";
+        if (deletedOrderNumber == null || deletedOrderNumber.isEmpty()) {
+            deletedOrderNumber = "1";
+        }
         int orderNumber = Integer.parseInt(deletedOrderNumber);
         for (int i = orderNumber - 1; i < vBoxBooksList.getChildren().size(); i++) {
             Pane bookBar = (Pane) vBoxBooksList.getChildren().get(i);
@@ -155,10 +178,29 @@ public class AdminBooksLayoutController {
     }
 
     public void refreshBooksList() {
-        vBoxBooksList.getChildren().clear();
-        preloadData(observableBooksData);
-        textSearch.clear();
-        textSearch.setEditable(true);
+        Task<List<Book>> reloadTask = new Task<>() {
+            @Override
+            protected List<Book> call() {
+                return adminGlobalController.fetchBooksFromDatabase();
+            }
+
+            @Override
+            protected void succeeded() {
+                observableBooksData.clear();
+                observableBooksData.addAll(getValue());
+                vBoxBooksList.getChildren().clear();
+                preloadData(observableBooksData);
+                textSearch.clear();
+                textSearch.setEditable(true);
+            }
+
+            @Override
+            protected void failed() {
+                System.out.println("Failed to reload data from database: " + getException().getMessage());
+            }
+        };
+
+        new Thread(reloadTask).start();
     }
 
     // Search Functionality
@@ -167,15 +209,31 @@ public class AdminBooksLayoutController {
         String searchText = textSearch.getText();
         if (!searchText.isEmpty()) {
             showFilteredData(searchText);
-            textSearch.setEditable(false);
         }
     }
 
     private void showFilteredData(String searchText) {
         vBoxBooksList.getChildren().clear();
         adminGlobalController.getObservableBookData().stream()
-                .filter(data -> data[2].toLowerCase().contains(searchText.toLowerCase()))
-                .forEach(this::loadBookBar);
+                .filter(book -> book.getTitle().toLowerCase().contains(searchText.toLowerCase()))
+                .forEach(book -> {
+                    String publishedDateStr = (book.getPublishedDate() != null) 
+                            ? book.getPublishedDate().toString() 
+                            : "Not Available";
+                    String authorsString = String.join(", ", book.getAuthors());
+                    String categoriesString = String.join(", ", book.getCategories());
+                    String[] bookData = new String[]{
+                        book.getIsbn(),
+                        book.getCoverUrl(),
+                        book.getTitle(),
+                        categoriesString,
+                        authorsString,
+                        String.valueOf(book.getAvailableCopies()),
+                        book.getPublisher(),
+                        publishedDateStr
+                    };
+                    loadBookBar(bookData);
+                });
     }
 
     @FXML
@@ -205,6 +263,7 @@ public class AdminBooksLayoutController {
     }
 
     public void setDeletedOrderNumber(String deletedOrderNumber) {
+        System.out.println("deletedOrderNumber: " + deletedOrderNumber);
         this.deletedOrderNumber = deletedOrderNumber;
     }
 }

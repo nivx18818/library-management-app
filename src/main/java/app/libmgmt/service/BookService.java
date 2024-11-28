@@ -9,7 +9,7 @@ import java.util.List;
 public class BookService {
     private final BookDAO bookDAO;
 
-    public BookService() throws SQLException {
+    public BookService() {
         this.bookDAO = new BookDAO();
     }
 
@@ -31,9 +31,9 @@ public class BookService {
         }
     }
 
-    public void deleteBook(Book book) {
+    public void deleteBookByIsbn(String isbn) {
         try {
-            bookDAO.deleteBook(book);
+            bookDAO.deleteBookByIsbn(isbn);
             System.out.println("Book deleted successfully");
         } catch (SQLException e) {
             throw new ServiceException("Error in book delete: ", e);
@@ -69,6 +69,14 @@ public class BookService {
             return bookDAO.getBooksByCategory(category);
         } catch (SQLException e) {
             throw new ServiceException("Error in getting books by category: ", e);
+        }
+    }
+
+    public int countBook() {
+        try {
+            return bookDAO.countTotalAvailableBooks();
+        } catch (SQLException e) {
+            throw new ServiceException("Error in getting count books: ", e);
         }
     }
 }

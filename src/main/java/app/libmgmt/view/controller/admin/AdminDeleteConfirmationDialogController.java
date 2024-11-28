@@ -118,7 +118,7 @@ public class AdminDeleteConfirmationDialogController {
 
         try {
             if (popupType == EnumUtils.PopupList.BOOK_DELETE) {
-                AdminGlobalController.getInstance().deleteBookDataById(id);
+                AdminGlobalController.getInstance().deleteBookDataByIsbn(id);
             } else if (popupType == EnumUtils.PopupList.STUDENT_DELETE || popupType == EnumUtils.PopupList.GUEST_DELETE) {
                 AdminGlobalController.getInstance().deleteUserById(popupType, id);
             }

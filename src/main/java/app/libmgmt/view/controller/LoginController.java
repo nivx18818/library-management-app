@@ -27,7 +27,6 @@ import app.libmgmt.util.RegExPatterns;
 
 import java.io.IOException;
 import java.util.logging.Logger;
-import java.sql.SQLException;
 
 public class LoginController {
 
@@ -161,15 +160,14 @@ public class LoginController {
         timeline.play();
     }
 
-    public boolean checkAccount(String username, String password) {
+    public boolean checkAccount(String id, String password) {
         // try {
         //     UserService userService = new UserService();
-        //     return userService.verifyPassword(username, password);
+        //     return userService.verifyPassword(id, password);
         // } catch (SQLException e) {
         //     e.printStackTrace();
         //     return false;
         // }
-
         return true;
     }
 
@@ -188,22 +186,16 @@ public class LoginController {
             String username = selectedUserType.getText().equals("Student") ?
                     studentIDSignUp.getText() : citizenIDSignUp.getText();
             if (checkSignUp(fullName, majorOrPhoneNumber, email, username, password, registerNoticeText)) {
-                try {
-                    UserService userService = new UserService();
-                    Student student = null;
-                    ExternalBorrower externalBorrower = null;
-                    if (selectedUserType.getText().equals("Student")) {
-                        student = new Student(0, username, email, password, studentIDSignUp.getText(), majorOrPhoneNumber);
-                        userService.addUser(student);
-                    } else {
-                        externalBorrower = new ExternalBorrower(0, username, email, password,
-                         citizenIDSignUp.getText(), phoneNumberSignUp.getText());
-                        userService.addUser(externalBorrower);
-                    }
-                } catch (SQLException e) {
-                    registerNoticeText.setText("Username already exists.");
-                    AnimationUtils.playNotificationTimeline(registerNoticeText, 3.0, "red");
-                    return;
+                UserService userService = new UserService();
+                Student student = null;
+                ExternalBorrower externalBorrower = null;
+                if (selectedUserType.getText().equals("Student")) {
+                    student = new Student(studentIDSignUp.getText(), username, email, password, studentIDSignUp.getText(), majorOrPhoneNumber);
+                    userService.addUser(student);
+                } else {
+                    externalBorrower = new ExternalBorrower(citizenIDSignUp.getText(), username, email, password,
+                     citizenIDSignUp.getText(), phoneNumberSignUp.getText());
+                    userService.addUser(externalBorrower);
                 }
                 logInAfterRegister();
             }

@@ -7,7 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Date;
-
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,45 +21,58 @@ public class LoanDAO {
     }
 
     public void addLoan(Loan loan) throws SQLException {
-        String sql = "INSERT INTO Loan (status, borrowed_date, returned_date, isbn, userId) "
-                + "VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Loan (user_name, userid, amount, status, borrowed_date, due_date, book_isbn) " +
+                     "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
-            statement.setString(1, loan.getStatus());
+            // Set values for the prepared statement
+            statement.setString(1, loan.getUserName());
+            statement.setString(2, loan.getUserId());
+            statement.setDouble(3, loan.getAmount());
+            statement.setString(4, "BORROWED");
 
-            statement.setString(2,
-                    loan.getBorrowedDate() != null ? loan.getBorrowedDate().toString() : null);
+            LocalDate borrowedDate = LocalDate.now();
+            String borrowedDateString = Date.valueOf(borrowedDate).toString();
+            statement.setString(5, borrowedDateString);
 
-            statement.setString(3,
-                    loan.getReturnedDate() != null ? loan.getReturnedDate().toString() : null);
+            LocalDate dueDate = borrowedDate.plusDays(14);
+            String dueDateString = Date.valueOf(dueDate).toString();
+            statement.setString(6, dueDateString);
 
-            statement.setString(4, loan.getBookIsbn());
-            statement.setInt(5, loan.getUserId());
+            statement.setString(7, loan.getIsbn());
 
             statement.executeUpdate();
         }
     }
 
     public void updateLoan(Loan loan) throws SQLException {
-        String sql = "UPDATE Loan SET status = ?, borrowed_date = ?, returned_date = ?, isbn = ?, "
-                + "userId = ? WHERE id = ?";
+        String sql = "UPDATE Loan SET user_name = ?, userid = ?, amount = ?, status = ?, " +
+                     "borrowed_date = ?, due_date = ?, returned_date = ?, book_isbn = ? WHERE id = ?";
 
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
-            statement.setString(1, loan.getStatus());
+            statement.setString(1, loan.getUserName());
+            statement.setString(2, loan.getUserId());
+            statement.setDouble(3, loan.getAmount());
+            statement.setString(4, loan.getStatus());
 
-            statement.setString(2,
-                    loan.getBorrowedDate() != null ? loan.getBorrowedDate().toString() : null);
+            Date borrowDate = new java.sql.Date(loan.getBorrowedDate().getTime());
+            String borrowString = borrowDate.toString();
+            statement.setString(5, borrowString);
 
-            statement.setString(3,
-                    loan.getReturnedDate() != null ? loan.getReturnedDate().toString() : null);
+            Date duDate = new java.sql.Date(loan.getDueDate().getTime());
+            String dueDateString = duDate.toString();
+            statement.setString(6, dueDateString);
 
-            statement.setString(4, loan.getBookIsbn());
-            statement.setInt(5, loan.getUserId());
-            statement.setInt(6, loan.getLoanId());
+            Date returnedDate = new java.sql.Date(loan.getReturnedDate().getTime());
+            String returnedDateString = returnedDate.toString();
+            statement.setString(7, returnedDateString);
+            
+            statement.setString(8, loan.getIsbn());
+            statement.setInt(9, loan.getLoanId());
 
             statement.executeUpdate();
         }
@@ -77,12 +90,11 @@ public class LoanDAO {
 
     public List<Loan> getAllLoans() throws SQLException {
         List<Loan> loans = new ArrayList<>();
-        String sql = "SELECT id, status, borrowed_date, returned_date, isbn, userId FROM Loan";
+        String sql = "SELECT id, user_name, userid, amount, status, borrowed_date, due_date, returned_date, book_isbn FROM Loan WHERE status = 'BORROWED'";
 
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(sql);
              ResultSet rs = statement.executeQuery()) {
-
             while (rs.next()) {
                 Loan loan = mapResultSetToLoan(rs);
                 loans.add(loan);
@@ -92,30 +104,59 @@ public class LoanDAO {
         return loans;
     }
 
-    public Loan getLoanById(int loanId) throws SQLException {
-        String sql = "SELECT id, status, borrowed_date, returned_date, isbn, userId FROM Loan WHERE id = ?";
-
+    public List<Loan> getOverdueLoans() throws SQLException {
+        List<Loan> overdueLoans = new ArrayList<>();
+        String sql = "SELECT id, user_name, userid, amount, status, borrowed_date, due_date, returned_date, book_isbn " +
+                     "FROM Loan WHERE status = 'OVERDUE'";
+    
         try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, loanId);
-
-            try (ResultSet rs = statement.executeQuery()) {
-                if (rs.next()) {
-                    return mapResultSetToLoan(rs);
-                }
+             PreparedStatement statement = connection.prepareStatement(sql);
+             ResultSet rs = statement.executeQuery()) {
+            while (rs.next()) {
+                Loan loan = mapResultSetToLoan(rs);
+                overdueLoans.add(loan);
             }
         }
-
-        return null;
+    
+        return overdueLoans;
     }
-
-    public List<Loan> getLoansByUserId(int userId) throws SQLException {
+    
+    public void markOverdueLoans() throws SQLException {
+        String updateDueDateSql = "UPDATE Loan " +
+                                  "SET due_date = DATE(borrowed_date, '+14 day') " +
+                                  "WHERE due_date IS NULL AND status = 'BORROWED'";
+    
+        // UPDATE Loan SET status = 'OVERDUE' WHERE status = 'BORROWED' AND due_date < DATE('now');
+        String markOverdueSql = "UPDATE Loan " +
+                                "SET status = 'OVERDUE' " +
+                                "WHERE status = 'BORROWED' AND due_date < DATE('now')";
+    
+        try (Connection connection = getConnection()) {
+            try (PreparedStatement updateDueDateStmt = connection.prepareStatement(updateDueDateSql)) {
+                int dueDateRowsUpdated = updateDueDateStmt.executeUpdate();
+                System.out.println("Updated due_date for " + dueDateRowsUpdated + " loans.");
+            }
+    
+            try (PreparedStatement markOverdueStmt = connection.prepareStatement(markOverdueSql)) {
+                int overdueRowsUpdated = markOverdueStmt.executeUpdate();
+                System.out.println("Marked " + overdueRowsUpdated + " loans as OVERDUE.");
+            }
+        }
+    }
+    
+    public List<Loan> getLoansByUserId(String userId) throws SQLException {
+        if (userId == null || userId.isEmpty()) {
+            throw new IllegalArgumentException("User ID is null.");
+        }
+    
         List<Loan> loans = new ArrayList<>();
-        String sql = "SELECT id, status, borrowed_date, returned_date, isbn, userId FROM Loan WHERE userId = ?";
-
+        String sql = "SELECT id, user_name, userid, amount, status, borrowed_date, due_date, returned_date, book_isbn " +
+                     "FROM Loan WHERE userid = ?";
+    
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, userId);
+            statement.setString(1, userId);
+            
             try (ResultSet rs = statement.executeQuery()) {
                 while (rs.next()) {
                     Loan loan = mapResultSetToLoan(rs);
@@ -123,22 +164,63 @@ public class LoanDAO {
                 }
             }
         }
-
+    
         return loans;
+    }
+
+    public String getIsbnByUserId (String userId) throws SQLException {
+        String sql = "SELECT GROUP_CONCAT(book_isbn) AS isbn_list FROM Loan WHERE userid = ? GROUP BY userid";
+        String isbnList = null;
+
+        try (Connection connection = getConnection();
+            PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, userId);
+
+            try (ResultSet rs = statement.executeQuery()) {
+                if (rs.next()) {
+                    isbnList = rs.getString("isbn_list");
+                }
+            }
+        } 
+
+        return isbnList;
+    }
+    
+    public int countTotalBorrowedBooks() throws SQLException {
+        int totalBooks = 0;
+        String sql = "SELECT SUM(amount) FROM Loan WHERE status = 'OVERDUE' or status = 'BORROWED'";
+        
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql);
+             ResultSet rs = statement.executeQuery()) {
+             
+            if (rs.next()) {
+                totalBooks = rs.getInt(1);
+            }
+        }
+        
+        return totalBooks;
     }
 
     private Loan mapResultSetToLoan(ResultSet rs) throws SQLException {
         int loanId = rs.getInt("id");
+        String userId = rs.getString("userid");
+        int amount = rs.getInt("amount");
         String status = rs.getString("status");
 
-        String borrowedDateStr = rs.getString("borrowed_date");
-        Date borrowedDate = borrowedDateStr != null ? java.sql.Date.valueOf(borrowedDateStr) : null;
-        String returnedDateStr = rs.getString("returned_date");
-        Date returnedDate = returnedDateStr != null ? java.sql.Date.valueOf(returnedDateStr) : null;
+        // String publishedDateString = rs.getString("published_date");
+        // Date publishedDate = publishedDateString != null ? Date.valueOf(publishedDateString) : null;
 
-        String isbn = rs.getString("isbn");
-        int userId = rs.getInt("userId");
+        String borrowedDateString = rs.getString("borrowed_date");
+        Date borrowedDate = borrowedDateString !=  null ? Date.valueOf(borrowedDateString) : null;
+        String dueDateString = rs.getString("due_date");
+        Date dueDate = dueDateString != null ? Date.valueOf(dueDateString) : null;
+        // String returnedDateString = rs.getString("returned_date");
+        // Date returnedDate = returnedDateString != null ? Date.valueOf(returnedDateString) : null;
 
-        return new Loan(loanId, borrowedDate, returnedDate, isbn, userId, status);
+        String bookIsbn = rs.getString("book_isbn");
+
+        // int loanId, String userId, String isbn, int amount, Date borrowedDate, Date dueDate, String status
+        return new Loan(loanId, userId, bookIsbn, amount, borrowedDate, dueDate, status);
     }
 }

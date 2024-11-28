@@ -10,14 +10,22 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import app.libmgmt.model.Book;
+import app.libmgmt.model.Loan;
+
+import app.libmgmt.service.LoanService;
 import app.libmgmt.util.AnimationUtils;
 import app.libmgmt.util.ChangeScene;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class AdminBorrowedBookViewDialogController {
 
-    private List<String[]> data;
+    private static AdminBorrowedBookViewDialogController controller;
+    private final LoanService loanService = new LoanService();
+    private int totalBook;
+    private int totalLoan;
 
     @FXML
     private Pane closePane;
@@ -35,31 +43,37 @@ public class AdminBorrowedBookViewDialogController {
     @FXML
     public void initialize() {
         System.out.println("AdminBorrowedBookViewDialogController initialized");
-        data = setExampleData(); // Initialize example data
-        loadDataAsync(); // Load data asynchronously
     }
 
-    private List<String[]> setExampleData() {
-        return List.of(
-                new String[] { "https://th.bing.com/th/id/OIP.aQ3e1NxnNQVFCXiJJesFZwDMEx?rs=1&pid=ImgDetMain",
-                        "Book Title", "Author", "2021-01-01" },
-                new String[] { "https://th.bing.com/th/id/OIP.aQ3e1NxnNQVFCXiJJesFZwDMEx?rs=1&pid=ImgDetMain",
-                        "Book Title", "Author", "2021-01-01" },
-                new String[] { "https://th.bing.com/th/id/OIP.aQ3e1NxnNQVFCXiJJesFZwDMEx?rs=1&pid=ImgDetMain",
-                        "Book Title", "Author", "2021-01-01" }
+    public AdminBorrowedBookViewDialogController() {
+        controller = this;
+    }
 
-        );
+    public static AdminBorrowedBookViewDialogController getInstance() {
+        if (controller == null) {
+            controller = new AdminBorrowedBookViewDialogController();
+        }
+        return controller;
+    }
+
+    public List<Book> getBooksData(String id) {
+        return loanService.getBookFromLoan(loanService.getIsbnByUserId(id));
     }
 
     /**
      * Loads data asynchronously to prevent blocking the main thread.
      */
-    private void loadDataAsync() {
+    public void loadDataAsync(String id) {
+        List<Book> data = getBooksData(id);
+        List<Loan> loans = loanService.getLoansByUserId(id);
+        this.totalBook = data.size();
+        this.totalLoan = loans.size();
+        setTotalBook();
         Task<Void> preloadTask = new Task<>() {
             @Override
             protected Void call() throws Exception {
-                for (String[] d : data) {
-                    loadBookData(d);
+                for (int i = 0; i < data.size(); i++) {
+                    loadBookData(data.get(i), loans.get(i));
                 }
                 return null;
             }
@@ -78,13 +92,16 @@ public class AdminBorrowedBookViewDialogController {
      * 
      * @param bookData Array containing [imageURL, title, author, date].
      */
-    private void loadBookData(String[] bookData) {
+    public void loadBookData(Book bookData, Loan loanData) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(AdminBooksLayoutController.class.getResource(
                     "/fxml/admin/admin-borrowed-book-view-bar.fxml"));
             Pane scene = fxmlLoader.load();
             AdminBorrowedBookViewBarController controller = fxmlLoader.getController();
-            controller.setData(bookData[0], bookData[1], bookData[2], bookData[3]);
+
+            SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
+            String dueDateString = outputFormat.format(loanData.getDueDate());
+            controller.setData(bookData.getCoverUrl(), bookData.getTitle(), bookData.getAuthors().toString(), dueDateString);
             Platform.runLater(() -> {
                 vBox.getChildren().add(scene);
                 AnimationUtils.zoomIn(scene, 1.0);
@@ -119,5 +136,13 @@ public class AdminBorrowedBookViewDialogController {
      */
     public void setId(String id) {
         lblId.setText(id);
+    }
+
+    public void setTotalBook() {
+        lblTotalBooks.setText(String.valueOf(this.totalBook));
+    }
+
+    public void setTotalLoan() {
+        lblTotalBooks.setText(String.valueOf(this.totalLoan + 1));
     }
 }

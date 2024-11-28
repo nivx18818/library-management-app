@@ -36,17 +36,23 @@ public class ChangeScene {
             FXMLLoader loader;
             loader = new FXMLLoader(LoginController.class.getResource(path));
             Pane content = loader.load();
+            AdminBorrowedBookViewDialogController borrowedController;
 
             dialog = new JFXDialog(stackPane, content,
                     JFXDialog.DialogTransition.CENTER);
 
             switch (popupList) {
                 case BORROWED_BOOK_CATALOG:
+                    borrowedController = loader.getController();
+                    borrowedController.setId(id);
+                    borrowedController.setTotalBook();
+                    break;
                 case OVERDUE_BOOK_DASHBOARD:
-                    AdminBorrowedBookViewDialogController borrowedController = loader.getController();
+                    borrowedController = loader.getController();
                     if (id != null && !id.isEmpty()) {
                         borrowedController.setId(id);
                     }
+                    borrowedController.setTotalLoan();
                     break;
                 case BOOK_DELETE, STUDENT_DELETE, GUEST_DELETE:
                     AdminDeleteConfirmationDialogController deleteController = loader.getController();

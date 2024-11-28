@@ -4,12 +4,15 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXRadioButton;
 
+import app.libmgmt.model.Student;
+import app.libmgmt.model.ExternalBorrower;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-
+import app.libmgmt.service.UserService;
 import app.libmgmt.util.AnimationUtils;
 import app.libmgmt.util.ChangeScene;
 import app.libmgmt.util.EnumUtils;
@@ -23,6 +26,8 @@ public class AdminAddUserDialogController {
     private final String[] majorList = EnumUtils.UETMajor;
     AdminUsersLayoutController adminUsersLayoutController = AdminUsersLayoutController.getInstance();
     AdminGlobalController adminGlobalController = AdminGlobalController.getInstance();
+
+    private UserService userService = new UserService();
 
     // FXML UI components
     @FXML
@@ -197,35 +202,46 @@ public class AdminAddUserDialogController {
     }
 
     private void addStudent(String[] studentInfo) {
+        //student data format: [name, major, email, id, password, cfPassword]
         if (checkValidUser(studentInfo, EnumUtils.UserType.STUDENT)) {
-            List<String[]> userData = new ArrayList<>();
-            // form data: ["Student", name, major, email, id, password, cfPassword]
-            String[] newUser = { "Student", studentInfo[0], studentInfo[1], studentInfo[2], studentInfo[3],
-                    studentInfo[4] };
-            userData.add(newUser);
+            List<Student> userData = new ArrayList<>();
+            String[] newUser = { studentInfo[0], studentInfo[1], studentInfo[2], studentInfo[3], studentInfo[4] };
+            //data format: [name, major, email, id, password]
+            Student newStudent = new Student(newUser);
+            System.out.println("Adding student");
+            userData.add(newStudent);
+            userService.addUser(newStudent);
 
             if (adminUsersLayoutController.getStatus() == EnumUtils.UserType.STUDENT) {
-                adminUsersLayoutController.preloadData(userData, "admin-users-student-bar.fxml",
+                adminUsersLayoutController.preLoadStudentsData(userData, "admin-users-student-bar.fxml",
                         AdminUsersLayoutController.PreloadType.ADD);
             }
 
-            adminGlobalController.getObservableUsersData(EnumUtils.UserType.STUDENT).add(newUser);
+            adminGlobalController.getObservableStudentsData().add(newStudent);
+            adminUsersLayoutController.getStudentsData().add(newStudent);
             showNotification("Added successfully", "#08a80d");
         }
     }
 
     private void addGuest(String[] guestInfo) {
+        //guest data format: [name, phone, email, id, password, cfPassword]
         if (checkValidUser(guestInfo, EnumUtils.UserType.GUEST)) {
-            List<String[]> userData = new ArrayList<>();
-            // form data: ["External Borrower", name, phone, email, citizen id, password, cfPassword]
-            String[] newUser = { "External Borrower", guestInfo[0], guestInfo[1], guestInfo[2], guestInfo[3],
+            List<ExternalBorrower> userData = new ArrayList<>();
+
+            String[] newUser = {guestInfo[0], guestInfo[1], guestInfo[2], guestInfo[3],
                     guestInfo[4] };
-            userData.add(newUser);
+            //data format: [name, phone, email, id, password]
+            ExternalBorrower newGuest = new ExternalBorrower(newUser);
+            System.out.println("Adding guest");
+            userData.add(newGuest);
+            userService.addUser(newGuest);
+
             if (adminUsersLayoutController.getStatus() == EnumUtils.UserType.GUEST) {
-                adminUsersLayoutController.preloadData(userData, "admin-users-guest-bar.fxml",
+                adminUsersLayoutController.preloadExternalBorrowerData(userData, "admin-users-guest-bar.fxml",
                         AdminUsersLayoutController.PreloadType.ADD);
             }
-            adminGlobalController.getObservableUsersData(EnumUtils.UserType.GUEST).add(newUser);
+            adminGlobalController.getObservableExternalBorrowersData().add(newGuest);
+            adminUsersLayoutController.getGuestsData().add(newGuest);
             showNotification("Added successfully", "#08a80d");
         }
     }
@@ -261,6 +277,7 @@ public class AdminAddUserDialogController {
 
         if (selectedRadioButton == studentRadioBtn) {
             System.out.println("Add Student");
+            //format: [name, major, email, id, password, cfPassword]
             String[] studentInfo = { txtNameStudent.getText(), cbbMajorStudent.getSelectionModel().getSelectedItem(),
                     txtEmailStudent.getText(), txtIDStudent.getText(), txtPasswordStudent.getText(),
                     txtCfPasswordStudent.getText() };
@@ -268,6 +285,7 @@ public class AdminAddUserDialogController {
 
         } else if (selectedRadioButton == guestRadioBtn) {
             System.out.println("Add Guest");
+            //format: [name, phone, email, id, password, cfPassword]
             String[] guestInfo = { txtNameGuest.getText(), txtPhoneNumberGuest.getText(),
                     txtEmailGuest.getText(), txtIdGuest.getText(), txtPasswordGuest.getText(),
                     txtCfPasswordGuest.getText() };

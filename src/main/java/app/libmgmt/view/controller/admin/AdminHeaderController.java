@@ -11,7 +11,7 @@ import javafx.util.Duration;
 
 import app.libmgmt.util.AnimationUtils;
 import app.libmgmt.util.ChangeScene;
-import app.libmgmt.util.DateTimeUtils;
+import app.libmgmt.util.DateUtils;
 import app.libmgmt.util.EnumUtils;
 
 import java.text.DateFormat;
@@ -72,7 +72,7 @@ public class AdminHeaderController {
         timeText.setText(
                 time.format(java.time.LocalTime.now()) + " " + (LocalDateTime.now().getHour() < 12 ? "AM" : "PM"));
 
-        Locale locale = DateTimeUtils.locale;
+        Locale locale = DateUtils.locale;
         DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.DEFAULT, locale);
         String date = dateFormat.format(new Date());
         dateText.setText(date);

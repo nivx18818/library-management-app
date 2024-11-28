@@ -2,6 +2,8 @@ package app.libmgmt.service;
 
 import app.libmgmt.dao.UserDAO;
 import app.libmgmt.model.User;
+import app.libmgmt.model.Student;
+import app.libmgmt.model.ExternalBorrower;
 
 import java.security.SecureRandom;
 import java.sql.SQLException;
@@ -15,7 +17,7 @@ import javax.crypto.spec.PBEKeySpec;
 public class UserService {
     private final UserDAO userDAO;
 
-    public UserService() throws SQLException {
+    public UserService() {
         this.userDAO = new UserDAO();
     }
 
@@ -56,8 +58,8 @@ public class UserService {
 
     public void updateUser(User user) {
         try {
-            String hashedPassword = hashPassword(user.getPassword(), generateSalt());
-            user.resetPassword(hashedPassword);
+            // String hashedPassword = hashPassword(user.getPassword(), generateSalt());
+            // user.resetPassword(hashedPassword);
             userDAO.updateUser(user);
             System.out.println("User updated successfully");
         } catch (SQLException e) {
@@ -67,9 +69,9 @@ public class UserService {
         }
     }
 
-    public void deleteUser(User user) {
+    public void deleteUserById(String userId) {
         try {
-            userDAO.deleteUser(user);
+            userDAO.deleteUserById(userId);
             System.out.println("User deleted successfully");
         } catch (SQLException e) {
             throw new ServiceException("Error deleting user", e);
@@ -84,7 +86,23 @@ public class UserService {
         }
     }
 
-    public User getUserById(int userId) {
+    public List<Student> getAllStudents() {
+        try {
+            return userDAO.getAllStudents();
+        } catch (SQLException e) {
+            throw new ServiceException("Error getting all students", e);
+        }
+    }
+
+    public List<ExternalBorrower> getAllExternalBorrowers() {
+        try {
+            return userDAO.getAllExternalBorrowers();
+        } catch (SQLException e) {
+            throw new ServiceException("Error getting all external borrowers", e);
+        }
+    }
+
+    public User getUserById(String userId) {
         try {
             return userDAO.getUserById(userId);
         } catch (SQLException e) {
@@ -92,9 +110,25 @@ public class UserService {
         }
     }
 
-    public boolean verifyPassword(String username, String password) throws SQLException {
+    public int countUser() {
         try {
-            Map<String, Object> passwordData = userDAO.getPasswordHashAndSalt(username);
+            return userDAO.countUser();
+        } catch (SQLException e) {
+            throw new ServiceException("Error in getting count users: ", e);
+        }
+    }
+
+    public String fetchUserNameFromUserId(String userId) {
+        try {
+            return userDAO.fetchUserNameFromUserId(userId);
+        } catch (SQLException e) {
+            throw new ServiceException("Error fetching user name from user id", e);
+        }
+    }
+
+    public boolean verifyPassword(String userId, String password) throws SQLException {
+        try {
+            Map<String, Object> passwordData = userDAO.getPasswordHashAndSalt(userId);
             if (passwordData.isEmpty()) {
                 System.out.println("Account not found");
                 return false; 
