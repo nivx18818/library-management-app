@@ -93,16 +93,13 @@ public class AdminDashboardController {
     }
 
     public void getOverdueData() {
-        // TODO: Replaceable by filtering from database
         List<Loan> OverdueData = adminGlobalController.getOverDueLoans();
         Task<Void> task = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
                 for (Loan borrowedData : OverdueData) {
-                    String name = borrowedData.getUserName();
-                    String id = borrowedData.getIsbn();
-
-                    Platform.runLater(() -> loadOverdueDataTable(name, id));
+                    //cover url, name, author, due_date
+                    Platform.runLater(() -> loadOverdueDataTable(borrowedData));
                     Thread.sleep(50);
                 }
 
@@ -118,7 +115,7 @@ public class AdminDashboardController {
         new Thread(task).start();
     }
 
-    public void loadOverdueDataTable(String idText, String uidText) {
+    public void loadOverdueDataTable(Loan data) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(AdminDashboardController.class.getResource(
                     "/fxml/admin/admin-dashboard-overdue-bar.fxml"));
@@ -126,7 +123,7 @@ public class AdminDashboardController {
             Parent scene = fxmlLoader.load();
 
             AdminDashboardOverdueBarController controller = fxmlLoader.getController();
-            controller.setData(idText, uidText);
+            controller.setData(data);
 
             vBoxOverdue.getChildren().add(scene);
 

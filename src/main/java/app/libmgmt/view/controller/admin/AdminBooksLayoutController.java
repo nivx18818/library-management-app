@@ -154,6 +154,10 @@ public class AdminBooksLayoutController {
     }
 
     private void handleChangeOrderNumber(String deletedOrderNumber) {
+        // deletedOrderNumber = "1";
+        if (deletedOrderNumber == null || deletedOrderNumber.isEmpty()) {
+            deletedOrderNumber = "1";
+        }
         int orderNumber = Integer.parseInt(deletedOrderNumber);
         for (int i = orderNumber - 1; i < vBoxBooksList.getChildren().size(); i++) {
             Pane bookBar = (Pane) vBoxBooksList.getChildren().get(i);
@@ -258,6 +262,7 @@ public class AdminBooksLayoutController {
     }
 
     public void setDeletedOrderNumber(String deletedOrderNumber) {
+        System.out.println("deletedOrderNumber: " + deletedOrderNumber);
         this.deletedOrderNumber = deletedOrderNumber;
     }
 }

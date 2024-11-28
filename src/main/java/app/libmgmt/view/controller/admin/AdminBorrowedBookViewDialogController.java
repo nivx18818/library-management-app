@@ -23,9 +23,9 @@ import java.util.List;
 public class AdminBorrowedBookViewDialogController {
 
     private static AdminBorrowedBookViewDialogController controller;
-    private List<Book> data;
     private final LoanService loanService = new LoanService();
     private int totalBook;
+    private int totalLoan;
 
     @FXML
     private Pane closePane;
@@ -50,6 +50,9 @@ public class AdminBorrowedBookViewDialogController {
     }
 
     public static AdminBorrowedBookViewDialogController getInstance() {
+        if (controller == null) {
+            controller = new AdminBorrowedBookViewDialogController();
+        }
         return controller;
     }
 
@@ -61,9 +64,10 @@ public class AdminBorrowedBookViewDialogController {
      * Loads data asynchronously to prevent blocking the main thread.
      */
     public void loadDataAsync(String id) {
-        data = getBooksData(id);
+        List<Book> data = getBooksData(id);
         List<Loan> loans = loanService.getLoansByUserId(id);
         this.totalBook = data.size();
+        this.totalLoan = loans.size();
         setTotalBook();
         Task<Void> preloadTask = new Task<>() {
             @Override
@@ -88,7 +92,7 @@ public class AdminBorrowedBookViewDialogController {
      * 
      * @param bookData Array containing [imageURL, title, author, date].
      */
-    private void loadBookData(Book bookData, Loan loanData) {
+    public void loadBookData(Book bookData, Loan loanData) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(AdminBooksLayoutController.class.getResource(
                     "/fxml/admin/admin-borrowed-book-view-bar.fxml"));
@@ -135,5 +139,9 @@ public class AdminBorrowedBookViewDialogController {
 
     public void setTotalBook() {
         lblTotalBooks.setText(String.valueOf(this.totalBook));
+    }
+
+    public void setTotalLoan() {
+        lblTotalBooks.setText(String.valueOf(this.totalLoan + 1));
     }
 }

@@ -54,16 +54,21 @@ public class ChangeScene {
         try {
             FXMLLoader loader = new FXMLLoader(AdminNavigationController.class.getResource(path));
             Pane content = loader.load();
+            AdminBorrowedBookViewDialogController borrowedController;
 
             dialog = new JFXDialog(stackPane, content,
                     JFXDialog.DialogTransition.CENTER);
 
             switch (popupList) {
                 case BORROWED_BOOK_CATALOG:
-                case OVERDUE_BOOK_DASHBOARD:
-                    AdminBorrowedBookViewDialogController borrowedController = loader.getController();
+                    borrowedController = loader.getController();
                     borrowedController.setId(id);
                     borrowedController.setTotalBook();
+                    break;
+                case OVERDUE_BOOK_DASHBOARD:
+                    borrowedController = loader.getController();
+                    borrowedController.setId(id);
+                    borrowedController.setTotalLoan();
                     break;
                 case BOOK_VIEW:
                 case STUDENT_VIEW:
