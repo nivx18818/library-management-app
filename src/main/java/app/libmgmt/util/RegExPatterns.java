@@ -3,6 +3,12 @@ package app.libmgmt.util;
 import javafx.animation.PauseTransition;
 import javafx.scene.control.TextField;
 import javafx.util.Duration;
+import java.io.IOException;
+
+import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.regex.Pattern;
 
 public class RegExPatterns {
@@ -43,12 +49,37 @@ public class RegExPatterns {
 
         String urlWithoutParams = path.split("\\?")[0].toLowerCase();
 
-        return urlWithoutParams.endsWith(".jpg") ||
-                urlWithoutParams.endsWith(".jpeg") ||
-                urlWithoutParams.endsWith(".png") ||
-                urlWithoutParams.endsWith(".gif") ||
-                urlWithoutParams.endsWith(".bmp") ||
-                urlWithoutParams.endsWith(".svg");
+        if (urlWithoutParams.endsWith(".jpg") ||
+            urlWithoutParams.endsWith(".jpeg") ||
+            urlWithoutParams.endsWith(".png") ||
+            urlWithoutParams.endsWith(".gif") ||
+            urlWithoutParams.endsWith(".bmp") ||
+            urlWithoutParams.endsWith(".svg")) {
+            return true;
+        }
+        
+        try {
+            URI uri = new URI(path);
+            URL url = uri.toURL();
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("HEAD");
+            connection.setConnectTimeout(5000);
+            connection.setReadTimeout(5000);
+
+            int responseCode = connection.getResponseCode();
+            if (responseCode != HttpURLConnection.HTTP_OK) {
+                return false;
+            }
+
+            String contentType = connection.getContentType();
+            return contentType != null && contentType.startsWith("image/");
+        } catch (URISyntaxException e) {
+            System.err.println("Invalid URL syntax: " + e.getMessage());
+            return false;
+        }catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public static boolean globalFormPattern(String text) {

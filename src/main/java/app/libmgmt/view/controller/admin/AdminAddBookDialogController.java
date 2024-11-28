@@ -2,6 +2,7 @@ package app.libmgmt.view.controller.admin;
 
 import com.jfoenix.controls.JFXButton;
 
+import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,6 +11,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
 import app.libmgmt.model.Book;
+import app.libmgmt.service.external.GoogleBooksApiService;
 import app.libmgmt.util.AnimationUtils;
 import app.libmgmt.util.ChangeScene;
 import app.libmgmt.util.RegExPatterns;
@@ -17,6 +19,9 @@ import app.libmgmt.util.RegExPatterns;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.time.LocalDate;
+
+import org.json.JSONObject;
 
 public class AdminAddBookDialogController {
 
@@ -42,6 +47,9 @@ public class AdminAddBookDialogController {
     private JFXButton closeDialogButton;
     @FXML
     private ImageView imgClose;
+
+    private long lastKeyPressTime = 0;
+    private static final int DELAY = 3000;
     
     public void initialize() {
         System.out.println("Admin Add Book Dialog initialized");
@@ -56,6 +64,20 @@ public class AdminAddBookDialogController {
                 event -> {
                     container.requestFocus();
                 });
+
+        txtName.textProperty().addListener((observable, oldValue, newValue) -> {
+            lastKeyPressTime = System.currentTimeMillis();
+            new Thread(() -> {
+                try {
+                    Thread.sleep(DELAY);
+                    if (System.currentTimeMillis() - lastKeyPressTime >= DELAY) {
+                        fetchBookSuggestions(newValue);
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }).start();
+        });
     }
 
     @FXML
@@ -121,6 +143,73 @@ public class AdminAddBookDialogController {
         setDefault();
     }
 
+    private void fetchBookSuggestions(String title) {
+        if (title == null || title.trim().isEmpty()) {
+            return;
+        }
+        Task<Void> task = new Task<>() {
+            @Override
+            protected Void call() {
+                JSONObject response = GoogleBooksApiService.searchBook(title, 5);
+                if (response != null && response.has("items")) {
+                    var items = response.getJSONArray("items");
+
+                    if (items.length() > 0) {
+                        var book = items.getJSONObject(0).getJSONObject("volumeInfo");
+
+                        String id = response.getJSONArray("items").getJSONObject(0).optString("id", "No ID");
+                        String isbn = "No ISBN";
+                        if (book.has("industryIdentifiers")) {
+                            var identifiers = book.getJSONArray("industryIdentifiers");
+                            for (int j = 0; j < identifiers.length(); j++) {
+                                var identifier = identifiers.getJSONObject(j);
+                                if (identifier.optString("type").equals("ISBN_13")) {
+                                    isbn = identifier.optString("identifier", "No ISBN");
+                                    break;
+                                }
+                            }
+                        }
+
+                        String coverURL = book.optJSONObject("imageLinks") != null
+                                ? book.getJSONObject("imageLinks").optString("thumbnail", "No Cover URL") : "No Cover URL";
+                        String name = book.optString("title", "No Title");
+                        String authors = book.optJSONArray("authors") != null
+                                ? String.join(", ", book.getJSONArray("authors").toList().toArray(new String[0]))
+                                : "Unknown Author";
+                        String type = book.optJSONArray("categories") != null
+                                ? String.join(", ", book.getJSONArray("categories").toList().toArray(new String[0]))
+                                : "Unknown Type";
+                        String publisher = book.optString("publisher", "Unknown Publisher");
+                        String publishedDate = book.optString("publishedDate", "Unknown Date");
+
+                        String quantity = "1";
+
+                        String[] data = new String[]{isbn.equals("No ISBN") ? id : isbn, coverURL, name, type, authors, quantity, publisher, publishedDate};
+                        setData(data);
+                    }
+                }
+
+                return null;
+            }
+            @Override
+            protected void succeeded() {
+                super.succeeded();
+                Platform.runLater(() -> {
+                    super.succeeded();
+                    notificationLabel.setText("Book suggestion successfully.");
+                    AnimationUtils.playNotificationTimeline(notificationLabel, 3, "#08a80d");
+                });
+            }
+            @Override
+            protected void failed() {
+                super.failed();
+                Platform.runLater(() -> notificationLabel.setText("Failed to fetch book suggestions."));
+            }
+        };
+
+        new Thread(task).start();
+    }
+
     public boolean checkValidInfo() throws IOException {
         String url = txtCoverURL.getText();
         String nameBook = txtName.getText();
@@ -147,6 +236,17 @@ public class AdminAddBookDialogController {
     @FXML
     void closeButtonOnAction(ActionEvent event) {
         ChangeScene.closePopUp();
+    }
+
+    // [id/isbn, coverURL, name, type, author, quantity, publisher, publishedDate]
+    public void setData(String[] data) {
+        txtCoverURL.setText(data[1]);
+        txtName.setText(data[2]);
+        txtType.setText(data[3]);
+        txtAuthor.setText(data[4]);
+        quantitySpinner.getValueFactory().setValue(0);
+        publishedDatePicker.setValue(LocalDate.parse(data[7]));
+        txtPublisher.setText(data[6]);
     }
 
     public void setDefault() {
