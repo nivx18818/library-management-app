@@ -6,8 +6,6 @@ import app.libmgmt.service.BookService;
 import app.libmgmt.service.UserService;
 import java.util.Objects;
 
-import app.libmgmt.util.DateTimeUtils;
-
 public class Loan {
     private int loanId;
     private String userName;
