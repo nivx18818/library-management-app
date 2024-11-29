@@ -47,4 +47,13 @@ public class DateUtils {
             return null;
         }
     }
+
+    public static String parseDateToString(Date originalDatum) {
+        if (originalDatum == null) {
+            return null;
+        }
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
+        return dateFormat.format(originalDatum);
+    }
 }

@@ -7,7 +7,7 @@ import com.jfoenix.controls.JFXButton;
 
 import app.libmgmt.model.Loan;
 import app.libmgmt.util.AnimationUtils;
-import app.libmgmt.util.DateTimeUtils;
+import app.libmgmt.util.DateUtils;
 import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
 import javafx.concurrent.Task;
@@ -205,14 +205,14 @@ public class UserCatalogController {
                 try {
                     for (Loan d : data) {
                         String[] loanData = new String[] {
-                                d.getBookIsbn(),
+                                d.getIsbn(),
                                 d.getLoanId() + "",
                                 // TODO: Get book image from the database
                                 "https://marketplace.canva.com/EAFaQMYuZbo/1/0/1003w/canva-brown-rusty-mystery-novel-book-cover-hG1QhA7BiBU.jpg",
                                 // TODO: Get book name from the database
                                 "Book Name",
-                                DateTimeUtils.convertDateToString(d.getBorrowedDate()),
-                                DateTimeUtils.convertDateToString(d.getReturnedDate()),
+                                DateUtils.parseDateToString(d.getBorrowedDate()),
+                                DateUtils.parseDateToString(d.getReturnedDate()),
                                 d.getReturnedDate().toString(),
                         };
                         loadBorrowedBookBar(loanData, currentStatus);

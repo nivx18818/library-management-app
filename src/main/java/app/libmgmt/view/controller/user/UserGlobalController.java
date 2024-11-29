@@ -5,7 +5,7 @@ import java.util.List;
 
 import app.libmgmt.model.Loan;
 import app.libmgmt.util.AnimationUtils;
-import app.libmgmt.util.DateTimeUtils;
+import app.libmgmt.util.DateUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -55,11 +55,10 @@ public class UserGlobalController {
     private List<Loan> preLoadLoansData() {
         // test data
         List<Loan> data = new ArrayList<>();
-
-        data.add(new Loan(1, DateTimeUtils.convertStringToDate("09/11/2024"), DateTimeUtils.convertStringToDate("22/11/2024"), "A1", 23020708, "BORROWED"));
-        data.add(new Loan(2, DateTimeUtils.convertStringToDate("11/11/2024"), DateTimeUtils.convertStringToDate("24/11/2024"), "B2", 23020708, "BORROWED"));
-        data.add(new Loan(3, DateTimeUtils.convertStringToDate("13/11/2024"), DateTimeUtils.convertStringToDate("26/11/2024"), "C3", 23020708, "RETURNED"));
-        data.add(new Loan(4, DateTimeUtils.convertStringToDate("15/11/2024"), DateTimeUtils.convertStringToDate("28/11/2024"), "D4", 23020708, "BORROWED"));
+        // Loan(int loanId, String userId, String isbn, int amount, Date borrowedDate, Date dueDate, String status) 
+        data.add(new Loan(1, "23020708", "A1", 1, DateUtils.parseStringToDate("09/11/2024"), DateUtils.parseStringToDate("22/11/2024"), "BORROWED"));
+        data.add(new Loan(2, "23020708", "B2", 1, DateUtils.parseStringToDate("11/11/2024"), DateUtils.parseStringToDate("24/11/2024"), "BORROWED"));
+        data.add(new Loan(3, "23020708", "C3", 1, DateUtils.parseStringToDate("13/11/2024"), DateUtils.parseStringToDate("26/11/2024"),"RETURNED"));
 
         return data;
     }
@@ -147,7 +146,7 @@ public class UserGlobalController {
         }
         for (int i = 0; i < borrowedBooksData.size(); i++) {
             Loan data = borrowedBooksData.get(i);
-            if (data.getLoanId() == loanId && data.getBookIsbn().equals(isbn) && data.getStatus().equals("RETURNED")) {
+            if (data.getLoanId() == loanId && data.getIsbn().equals(isbn) && data.getStatus().equals("RETURNED")) {
                 return true;
             }
         }
@@ -162,7 +161,7 @@ public class UserGlobalController {
 
         for (int i = 0; i < borrowedBooksData.size(); i++) {
             Loan data = borrowedBooksData.get(i);
-            if (data.getBookIsbn().equals(isbn) && (borrowedBooksData.get(i).getStatus().equals("BORROWED") || 
+            if (data.getIsbn().equals(isbn) && (borrowedBooksData.get(i).getStatus().equals("BORROWED") || 
             borrowedBooksData.get(i).getStatus().equals("OVERDUE"))) {
                 return true;
             }

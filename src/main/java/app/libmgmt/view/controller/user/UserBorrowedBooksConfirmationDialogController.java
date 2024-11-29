@@ -9,7 +9,7 @@ import com.jfoenix.controls.JFXButton;
 import app.libmgmt.model.Loan;
 import app.libmgmt.util.AnimationUtils;
 import app.libmgmt.util.ChangeScene;
-import app.libmgmt.util.DateTimeUtils;
+import app.libmgmt.util.DateUtils;
 import app.libmgmt.util.EnumUtils;
 import app.libmgmt.view.controller.admin.AdminBooksLayoutController;
 import javafx.animation.KeyFrame;
@@ -73,7 +73,7 @@ public class UserBorrowedBooksConfirmationDialogController {
         selectedBooksList = UserBooksLayoutController.getInstance().getSelectedBooksList();
         newBorrowedBooksList = new ArrayList<>();
 
-        borrowedDateLabel.setText(DateTimeUtils.convertLocalDateToString(DateTimeUtils.currentLocalTime));
+        borrowedDateLabel.setText(DateUtils.parseLocalDateToString(DateUtils.currentLocalTime));
         totalBorrowedBooksLabel.setText(selectedBooksList.size() + (selectedBooksList.size() > 1 ? " Books" : " Book"));
 
         preloadData();
@@ -174,8 +174,11 @@ public class UserBorrowedBooksConfirmationDialogController {
             // form of borrowed book data in global: [isbn, book Image, name, due date]
             Loan newBorrowedBookData = new Loan(
                     UserGlobalController.getInstance().getBorrowedBooksData().size() + orderNumber,
-                    DateTimeUtils.convertStringToDate(borrowedDateLabel.getText()),
-                    DateTimeUtils.convertStringToDate(controller.getDueDate()), bookData[0], 23020708, "BORROWED");
+                    "23020708",
+                    bookData[0],
+                    1,
+                    DateUtils.parseStringToDate(borrowedDateLabel.getText()),
+                    DateUtils.parseStringToDate(controller.getDueDate()), "BORROWED");
             newBorrowedBooksList.add(newBorrowedBookData);
             Platform.runLater(() -> {
                 vBoxSelectedBooksList.getChildren().add(scene);

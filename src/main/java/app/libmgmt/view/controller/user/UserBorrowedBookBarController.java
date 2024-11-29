@@ -2,7 +2,7 @@ package app.libmgmt.view.controller.user;
 
 import java.time.LocalDate;
 
-import app.libmgmt.util.DateTimeUtils;
+import app.libmgmt.util.DateUtils;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -58,13 +58,13 @@ public class UserBorrowedBookBarController {
     }
 
     public String getDueDate() {
-        LocalDate today = DateTimeUtils.currentLocalTime;
+        LocalDate today = DateUtils.currentLocalTime;
     
         // Add 14 days to the current date = due date
         LocalDate dueDate = today.plusDays(14);
     
         // Format the due date to dd/MM/yyyy
-        return DateTimeUtils.convertLocalDateToString(dueDate);
+        return DateUtils.parseLocalDateToString(dueDate);
     }
 
     @FXML
