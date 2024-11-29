@@ -169,7 +169,7 @@ public class LoanDAO {
     }
 
     public String getIsbnByUserId (String userId) throws SQLException {
-        String sql = "SELECT GROUP_CONCAT(book_isbn) AS isbn_list FROM Loan WHERE userid = ? GROUP BY userid";
+        String sql = "SELECT GROUP_CONCAT(book_isbn) AS isbn_list FROM Loan WHERE userid = ? and status = 'BORROWED' GROUP BY userid";
         String isbnList = null;
 
         try (Connection connection = getConnection();
