@@ -25,6 +25,8 @@ import org.json.JSONObject;
 
 public class AdminAddBookDialogController {
 
+    private static AdminAddBookDialogController controller;
+
     @FXML
     private Pane container;
     @FXML
@@ -50,6 +52,14 @@ public class AdminAddBookDialogController {
 
     private long lastKeyPressTime = 0;
     private static final int DELAY = 3000;
+
+    public AdminAddBookDialogController() {
+        controller = this;
+    }
+
+    public static AdminAddBookDialogController getInstance() {
+        return controller;
+    }
     
     public void initialize() {
         System.out.println("Admin Add Book Dialog initialized");
@@ -64,6 +74,10 @@ public class AdminAddBookDialogController {
                 });
 
         txtName.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (ChangeScene.dialogs.size() > 1) {
+                System.out.println("Dialogs size: " + ChangeScene.dialogs.size());
+                return;
+            }
             lastKeyPressTime = System.currentTimeMillis();
             new Thread(() -> {
                 try {
@@ -178,7 +192,7 @@ public class AdminAddBookDialogController {
                                 ? String.join(", ", book.getJSONArray("categories").toList().toArray(new String[0]))
                                 : "Unknown Type";
                         String publisher = book.optString("publisher", "Unknown Publisher");
-                        String publishedDate = book.optString("publishedDate", "Unknown Date");
+                        String publishedDate = book.optString("publishedDate", "");
 
                         String quantity = "1";
 
@@ -192,11 +206,9 @@ public class AdminAddBookDialogController {
             @Override
             protected void succeeded() {
                 super.succeeded();
-                Platform.runLater(() -> {
                     super.succeeded();
                     notificationLabel.setText("Book suggestion successfully.");
                     AnimationUtils.playNotificationTimeline(notificationLabel, 3, "#08a80d");
-                });
             }
             @Override
             protected void failed() {
@@ -219,7 +231,8 @@ public class AdminAddBookDialogController {
             return false;
         }
 
-        if (!RegExPatterns.datePattern(publishedDatePicker.getValue().toString())) {
+        if (RegExPatterns.datePattern(publishedDatePicker.getValue().toString())) {
+            System.out.println(publishedDatePicker.getValue().toString());
             notificationLabel.setText("Date is invalid. Please follow the format dd/MM/yyyy.");
             AnimationUtils.playNotificationTimeline(notificationLabel, 3, "#ff0000");
             return false;
@@ -249,7 +262,7 @@ public class AdminAddBookDialogController {
         txtName.setText(data[2]);
         txtType.setText(data[3]);
         txtAuthor.setText(data[4]);
-        quantitySpinner.getValueFactory().setValue(0);
+        quantitySpinner.getValueFactory().setValue(1);
         publishedDatePicker.setValue(LocalDate.parse(data[7]));
         txtPublisher.setText(data[6]);
     }

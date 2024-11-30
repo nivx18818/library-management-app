@@ -29,6 +29,7 @@ public class EnumUtils {
         RETURN_BOOK,
         ACQUIRE_BOOK,
         EMPTY_DATA_NOTIFICATION,
+        API
     }
 
     public static String[] UETMajor = {"CN1 - Information Technology", "CN2 - Computer Engineering",

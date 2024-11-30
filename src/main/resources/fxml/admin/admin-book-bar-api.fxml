@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
@@ -9,14 +12,14 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="85.0" prefWidth="1076.0" spacing="30.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.libmgmt.view.controller.admin.AdminBookBarController">
+<HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="1076.0" spacing="30.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.libmgmt.view.controller.admin.AdminBookBarApiController">
    <children>
-      <Label fx:id="orderLabel" alignment="CENTER" prefHeight="14.0" prefWidth="120.0" text="001" textAlignment="CENTER">
+      <Label fx:id="isbnLabel" alignment="CENTER" prefHeight="14.0" prefWidth="150.0" text="001" textAlignment="CENTER">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <HBox alignment="CENTER_LEFT" fillHeight="false" prefHeight="100.0" prefWidth="240.0" spacing="10.0">
+      <HBox alignment="CENTER_LEFT" fillHeight="false" prefHeight="100.0" prefWidth="260.0" spacing="10.0">
          <HBox.margin>
             <Insets />
          </HBox.margin>
@@ -36,6 +39,9 @@
                      <VBox.margin>
                         <Insets />
                      </VBox.margin>
+                     <effect>
+                        <DropShadow />
+                     </effect>
                   </ImageView>
                </children>
             </VBox>
@@ -46,19 +52,19 @@
             </Label>
          </children>
       </HBox>
-      <Label fx:id="typeLabel" alignment="CENTER" prefHeight="60.0" prefWidth="200.0" text="Author" textAlignment="CENTER" wrapText="true">
+      <Label fx:id="authorLabel" alignment="CENTER" prefHeight="60.0" prefWidth="200.0" text="Author" textAlignment="CENTER" wrapText="true">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label fx:id="authorLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="60.0" prefWidth="150.0" text="Categories" textAlignment="CENTER" wrapText="true">
+      <Label fx:id="typeLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="60.0" prefWidth="150.0" text="Categories" textAlignment="CENTER" wrapText="true">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Pane prefHeight="45.0" prefWidth="170.0">
+      <Pane prefHeight="100.0" prefWidth="120.0">
          <children>
-            <HBox alignment="CENTER" fillHeight="false" layoutX="49.0" layoutY="28.0" prefHeight="30.0" prefWidth="73.0" spacing="8.0" style="-fx-background-color: #040000; -fx-background-radius: 10;">
+            <HBox alignment="CENTER" fillHeight="false" layoutX="24.0" layoutY="35.0" prefHeight="30.0" prefWidth="73.0" spacing="8.0" style="-fx-background-color: #040000; -fx-background-radius: 10;">
                <children>
                   <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -75,6 +81,11 @@
                   <Insets left="8.0" right="8.0" />
                </padding>
             </HBox>
+            <JFXButton fx:id="addBookButton" layoutX="24.0" layoutY="35.0" onAction="#addBookButtonOnAction" prefHeight="30.0" prefWidth="73.0" style="-fx-background-radius: 12;" text=" " textFill="WHITE">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </JFXButton>
          </children>
       </Pane>
    </children>

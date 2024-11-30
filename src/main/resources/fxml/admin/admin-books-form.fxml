@@ -106,7 +106,21 @@
             </Label>
           </children>
         </Pane>
-        <HBox alignment="CENTER" fillHeight="false" layoutX="680.0" layoutY="20.0" prefHeight="30.0" prefWidth="106.0" spacing="8.0" style="-fx-background-color: #040000; -fx-background-radius: 12;">
+            <Pane layoutX="685.0" layoutY="20.0" prefHeight="30.0" prefWidth="106.0" style="-fx-background-radius: 12; -fx-background-color: #d6d6d6;">
+               <children>
+                  <Label layoutX="38.0" layoutY="6.0" text="Using API">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+            <JFXButton fx:id="apiButton" layoutX="710.0" layoutY="20.0" onMouseClicked="#apiButtonOnMouseClicked" prefHeight="30.0" prefWidth="81.0" style="-fx-background-radius: 12;" text=" ">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </JFXButton>
+        <HBox alignment="CENTER" fillHeight="false" layoutX="618.0" layoutY="20.0" prefHeight="30.0" prefWidth="100.0" spacing="6.0" style="-fx-background-color: #040000; -fx-background-radius: 12;">
           <children>
             <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
               <image>
@@ -123,7 +137,7 @@
             <Insets left="8.0" right="8.0" />
           </padding>
         </HBox>
-        <JFXButton fx:id="addBookButton" layoutX="680.0" layoutY="20.0" onMouseClicked="#addBookButtonClicked" prefHeight="30.0" prefWidth="106.0" style="-fx-background-radius: 12;" text=" " textFill="WHITE">
+        <JFXButton fx:id="addBookButton" layoutX="618.0" layoutY="20.0" onMouseClicked="#addBookButtonClicked" prefHeight="30.0" prefWidth="100.0" style="-fx-background-radius: 12;" text=" " textFill="WHITE">
           <cursor>
             <Cursor fx:constant="HAND" />
           </cursor>

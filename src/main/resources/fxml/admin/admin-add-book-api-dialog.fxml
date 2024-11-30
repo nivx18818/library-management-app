@@ -14,7 +14,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<Pane prefHeight="670.0" prefWidth="1132.0" style="-fx-background-color: #f2f2f2;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1">
+<Pane prefHeight="670.0" prefWidth="1132.0" style="-fx-background-color: #f2f2f2;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.libmgmt.view.controller.admin.AdminAddBookApiController">
    <children>
       <Pane layoutX="21.0" layoutY="14.0" prefHeight="45.0" prefWidth="45.0" style="-fx-background-color: #D7D7D7; -fx-background-radius: 10;">
          <children>
@@ -56,7 +56,7 @@
                   <Bloom threshold="0.31" />
                </effect>
             </ImageView>
-            <TextField fx:id="textSearch" layoutX="37.0" onAction="#txtSearchOnAction" prefHeight="30.0" prefWidth="1031.0" promptText="Search by Book Name" style="-fx-background-color: white; -fx-background-radius: 0 12 12 0;">
+            <TextField fx:id="apiSearchText" layoutX="37.0" prefHeight="30.0" prefWidth="1031.0" promptText="Search by Book Name" style="-fx-background-color: white; -fx-background-radius: 0 12 12 0;">
                <font>
                   <Font size="13.0" />
                </font>
@@ -71,17 +71,17 @@
       <Pane layoutX="21.0" layoutY="163.0" prefHeight="495.0" prefWidth="1092.0" style="-fx-background-color: white; -fx-background-radius: 12 12 0 0;">
          <children>
             <Line endX="988.0" layoutX="90.0" layoutY="40.0" startX="-74.0" />
-            <HBox alignment="CENTER" prefHeight="45.0" prefWidth="1078.0" spacing="30.0">
+            <HBox alignment="CENTER" prefHeight="45.0" prefWidth="1076.0" spacing="30.0">
                <effect>
                   <Bloom />
                </effect>
                <children>
-                  <Label alignment="CENTER" layoutX="429.0" layoutY="23.0" prefHeight="14.0" prefWidth="120.0" text="ISBN">
+                  <Label alignment="CENTER" layoutX="429.0" layoutY="23.0" prefHeight="14.0" prefWidth="150.0" text="ISBN">
                      <font>
                         <Font size="13.0" />
                      </font>
                   </Label>
-                  <Label alignment="CENTER" prefHeight="14.0" prefWidth="240.0" text="Name">
+                  <Label alignment="CENTER" prefHeight="14.0" prefWidth="260.0" text="Name">
                      <font>
                         <Font size="13.0" />
                      </font>

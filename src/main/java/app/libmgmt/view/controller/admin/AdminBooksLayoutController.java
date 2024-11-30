@@ -251,6 +251,11 @@ public class AdminBooksLayoutController {
     }
 
     @FXML
+    void apiButtonOnMouseClicked(MouseEvent event) {
+        ChangeScene.openAdminPopUp(stackPaneContainer, "/fxml/admin/admin-add-book-api-dialog.fxml", PopupList.API);
+    }
+
+    @FXML
     void btnRefreshTableOnMouseEntered(MouseEvent event) {
     }
 

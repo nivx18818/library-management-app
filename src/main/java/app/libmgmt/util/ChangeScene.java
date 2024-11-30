@@ -18,9 +18,11 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ChangeScene {
-    public static JFXDialog dialog;
+    public static final List<JFXDialog> dialogs = new ArrayList<>();
 
     /**
      * Open a popup window for admin
@@ -38,8 +40,9 @@ public class ChangeScene {
             Pane content = loader.load();
             AdminBorrowedBookViewDialogController borrowedController;
 
-            dialog = new JFXDialog(stackPane, content,
+            JFXDialog dialog = new JFXDialog(stackPane, content,
                     JFXDialog.DialogTransition.CENTER);
+            dialogs.add(dialog);
 
             switch (popupList) {
                 case BORROWED_BOOK_CATALOG:
@@ -76,6 +79,7 @@ public class ChangeScene {
                 case FORGOT_PASSWORD:
                 case LOGOUT:
                 case EMPTY_DATA_NOTIFICATION:
+                case API:
                     break;
                 default:
                     throw new IllegalArgumentException("Unexpected value: " + popupList);
@@ -94,9 +98,13 @@ public class ChangeScene {
     }
 
     public static void closePopUp() {
-        Platform.runLater(() -> dialog.close());
+        Platform.runLater(() -> {
+            if (!dialogs.isEmpty()) {
+                JFXDialog dialog = dialogs.remove(dialogs.size() - 1); // Lấy popup cuối cùng
+                dialog.close();
+            }
+        });
     }
-
 
     public static void navigateToScene(String fxmlPath, EnumUtils.UserType userType) throws IOException {
 

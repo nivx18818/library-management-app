@@ -97,9 +97,12 @@ public class RegExPatterns {
     try {
         LocalDate date = LocalDate.parse(dateStr, formatter);
         int day = date.get(ChronoField.DAY_OF_MONTH);
+        System.out.println("Day: " + day); // Debug line
         int month = date.get(ChronoField.MONTH_OF_YEAR);
+        System.out.println("Month: " + month); // Debug line
         int year = date.get(ChronoField.YEAR);
-        return day > 0 && day <= 31 && month > 0 && month <= 12 && year > 0;
+        System.out.println("Year: " + year); // Debug line
+        return day >= 1 && day <= 31 && month >= 1 && month <= 12 && year >= 1900 && year <= 2100;
     } catch (DateTimeParseException e) {
         return false;
     }
