@@ -54,6 +54,9 @@ public class UserCatalogBorrowedBookBarController {
     @FXML
     private ImageView imageView;
 
+    @FXML
+    private Label amountLabel;
+
     private String bookId;
 
     private final String hoverReturnedLogo = "/assets/icon/redo 1 (1).png";
@@ -112,6 +115,7 @@ public class UserCatalogBorrowedBookBarController {
         nameLabel.setText(data[3]);
         borrowedDateLabel.setText(data[4]);
         dueDateLabel.setText(data[5]);
+        amountLabel.setText(data[6]);
     }
 
     private void updateImage(String imgPath, ImageView bookImage) {

@@ -38,6 +38,8 @@ public class UserCatalogController {
     @FXML
     private Label borrowedBooksLabel;
     @FXML
+    private Label dueDateHeaderLabel;
+    @FXML
     private Pane borrowedBooksPane;
     @FXML
     private Pane refreshPaneButton;
@@ -212,8 +214,9 @@ public class UserCatalogController {
                                 // TODO: Get book name from the database
                                 "Book Name",
                                 DateUtils.parseDateToString(d.getBorrowedDate()),
-                                DateUtils.parseDateToString(d.getReturnedDate()),
-                                d.getReturnedDate().toString(),
+                                currentStatus == USER_CATALOG_STATE.BORROWED ? DateUtils.parseDateToString(d.getDueDate())
+                                        : DateUtils.parseDateToString(d.getReturnedDate()),
+                                d.getAmount() + ""
                         };
                         loadBorrowedBookBar(loanData, currentStatus);
                     }
@@ -276,10 +279,12 @@ public class UserCatalogController {
             columnHeader1Label.setText("No.");
             borrowedBooksLabel.setStyle("-fx-text-fill: white;");
             borrowedBooksPane.setStyle("-fx-background-color: black; -fx-background-radius: 12px;");
+            dueDateHeaderLabel.setText("Due Date");
         } else {
-            columnHeader1Label.setText("Book ID / ISBN");
+            columnHeader1Label.setText("ISBN");
             returnedBooksLabel.setStyle("-fx-text-fill: white;");
             returnedBooksPane.setStyle("-fx-background-color: black; -fx-background-radius: 12px;");
+            dueDateHeaderLabel.setText("Returned Date");
         }
         currentStateUserCatalog = newStatus;
     }

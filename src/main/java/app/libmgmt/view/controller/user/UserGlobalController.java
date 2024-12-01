@@ -58,7 +58,7 @@ public class UserGlobalController {
         // Loan(int loanId, String userId, String isbn, int amount, Date borrowedDate, Date dueDate, String status) 
         data.add(new Loan(1, "23020708", "A1", 1, DateUtils.parseStringToDate("09/11/2024"), DateUtils.parseStringToDate("22/11/2024"), "BORROWED"));
         data.add(new Loan(2, "23020708", "B2", 1, DateUtils.parseStringToDate("11/11/2024"), DateUtils.parseStringToDate("24/11/2024"), "BORROWED"));
-        data.add(new Loan(3, "23020708", "C3", 1, DateUtils.parseStringToDate("13/11/2024"), DateUtils.parseStringToDate("26/11/2024"),"RETURNED"));
+        data.add(new Loan(3, "23020708", "C3", 1, DateUtils.parseStringToDate("13/11/2024"), DateUtils.parseStringToDate("26/11/2024"),"BORROWED"));
 
         return data;
     }
@@ -115,17 +115,14 @@ public class UserGlobalController {
             return;
         }
 
-        System.out.println("Return book size: " + returnedBooksData.size());
         for (int i = 0; i < borrowedBooksData.size(); i++) {
             Loan data = borrowedBooksData.get(i);
             if (data.getLoanId() == loanId && (data.getStatus().equals("BORROWED") || data.getStatus().equals("OVERDUE"))) {
-                System.out.println(data.toString());
                 data.markAsReturned();
                 returnedBooksData.add(data);
                 break;
             }
         }
-        System.out.println("Return book size: " + returnedBooksData.size());
     }
 
     public String[] getBookDataById(String id) {

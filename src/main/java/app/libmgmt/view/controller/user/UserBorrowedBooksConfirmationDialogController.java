@@ -88,6 +88,13 @@ public class UserBorrowedBooksConfirmationDialogController {
     @FXML
     void btnConfirmOnAction(ActionEvent event) {
         confirmLabel.setText("Borrowing...");
+        int idx = 0;
+        for (javafx.scene.Node node : vBoxSelectedBooksList.getChildren()) {
+            UserBorrowedBookBarController controller = (UserBorrowedBookBarController) node.getUserData();
+            if (controller != null) {
+            newBorrowedBooksList.get(idx++).setAmount(controller.getAmount());
+            }
+        }
         UserGlobalController.getInstance().addBorrowedBook(newBorrowedBooksList);
         confirmButton.setDisable(true);
         closeDialogAndNavigateToCatalog();
@@ -171,7 +178,7 @@ public class UserBorrowedBooksConfirmationDialogController {
             UserBorrowedBookBarController controller = fxmlLoader.getController();
             controller.setOrderNumber(orderNumber);
             controller.setData(bookData);
-            // form of borrowed book data in global: [isbn, book Image, name, due date]
+            scene.setUserData(controller);
             Loan newBorrowedBookData = new Loan(
                     UserGlobalController.getInstance().getBorrowedBooksData().size() + orderNumber,
                     "23020708",

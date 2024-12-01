@@ -6,9 +6,11 @@ import app.libmgmt.util.DateUtils;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 
 public class UserBorrowedBookBarController {
 
@@ -19,13 +21,13 @@ public class UserBorrowedBookBarController {
     private Label bookNameLabel;
 
     @FXML
-    private ImageView deleteImage;
-
-    @FXML
     private Label dueDateLabel;
 
     @FXML
     private Label orderLabel;
+
+    @FXML
+    private Spinner<Integer> amountSpinner;
 
     public void setData(String[] data) {
         // Form of global data: [id, imgPath, name, type, author, quantity,
@@ -39,6 +41,7 @@ public class UserBorrowedBookBarController {
         }
         bookNameLabel.setText(data[2]);
         dueDateLabel.setText(getDueDate());
+        setUpSpinner();
     }
 
     private void uploadImageAsync(String newImagePath, ImageView bookImage) {
@@ -67,23 +70,30 @@ public class UserBorrowedBookBarController {
         return DateUtils.parseLocalDateToString(dueDate);
     }
 
-    @FXML
-    void imgOnMouseClicked(MouseEvent event) {
-
-    }
-
-    @FXML
-    void imgOnMouseEntered(MouseEvent event) {
-
-    }
-
-    @FXML
-    void imgOnMouseExited(MouseEvent event) {
-
-    }
-
     public void setOrderNumber(int orderNumber) {
         orderLabel.setText(String.valueOf(orderNumber));
+    }
+
+    private void setUpSpinner() {
+        amountSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1,
+                999, 1));
+        amountSpinner.setPromptText("Quantity*");
+        amountSpinner.getEditor().setTextFormatter(new TextFormatter<>(change -> {
+            String newText = change.getControlNewText();
+            if (newText.matches("\\d*")) {
+                return change;
+            } else {
+                return null;
+            }
+        }));
+    }
+
+    public void setMaxAmount(int maxAmount) {
+        amountSpinner.getValueFactory().setValue(maxAmount);
+    }
+
+    public int getAmount() {
+        return amountSpinner.getValue();
     }
 
 }
