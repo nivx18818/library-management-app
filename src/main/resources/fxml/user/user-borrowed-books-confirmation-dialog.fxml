@@ -39,7 +39,7 @@
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <Label alignment="CENTER" layoutX="580.0" layoutY="10.0" prefHeight="25.0" prefWidth="80.0" text="Action">
+                  <Label alignment="CENTER" layoutX="580.0" layoutY="10.0" prefHeight="25.0" prefWidth="80.0" text="Amount">
                      <font>
                         <Font size="14.0" />
                      </font>

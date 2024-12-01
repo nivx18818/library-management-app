@@ -86,12 +86,17 @@
                   <Line endX="1010.0" layoutX="90.0" layoutY="40.0" startX="-74.0" />
                   <HBox alignment="CENTER" prefHeight="45.0" prefWidth="1114.0" spacing="30.0">
                      <children>
-                        <Label fx:id="columnHeader1Label" alignment="CENTER" prefHeight="14.0" prefWidth="120.0" text="No.">
+                        <Label fx:id="columnHeader1Label" alignment="CENTER" prefHeight="14.0" prefWidth="110.0" text="No.">
                            <font>
                               <Font size="13.0" />
                            </font>
                         </Label>
-                        <Label alignment="CENTER" layoutX="10.0" layoutY="30.0" prefHeight="14.0" prefWidth="260.0" text="Name">
+                        <Label alignment="CENTER" layoutX="10.0" layoutY="30.0" prefHeight="14.0" prefWidth="250.0" text="Name">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="columnHeader1Label1" alignment="CENTER" prefHeight="14.0" prefWidth="100.0" text="Amount">
                            <font>
                               <Font size="13.0" />
                            </font>
@@ -101,7 +106,7 @@
                               <Font size="13.0" />
                            </font>
                         </Label>
-                        <Label alignment="CENTER" layoutX="729.0" layoutY="23.0" prefHeight="14.0" prefWidth="190.0" text="Returned Date">
+                        <Label fx:id="dueDateHeaderLabel" alignment="CENTER" layoutX="729.0" layoutY="23.0" prefHeight="14.0" prefWidth="190.0" text="Due Date">
                            <font>
                               <Font size="13.0" />
                            </font>

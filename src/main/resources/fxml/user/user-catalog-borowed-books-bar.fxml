@@ -15,12 +15,12 @@
 
 <HBox alignment="CENTER" fillHeight="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="1114.0" spacing="30.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.libmgmt.view.controller.user.UserCatalogBorrowedBookBarController">
    <children>
-      <Label fx:id="orderLabel" alignment="CENTER" prefHeight="102.0" prefWidth="120.0" text="1" textAlignment="CENTER">
+      <Label fx:id="orderLabel" alignment="CENTER" prefHeight="102.0" prefWidth="110.0" text="1" textAlignment="CENTER">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <HBox alignment="CENTER_LEFT" fillHeight="false" prefHeight="110.0" prefWidth="260.0" spacing="10.0">
+      <HBox alignment="CENTER_LEFT" fillHeight="false" prefHeight="110.0" prefWidth="250.0" spacing="10.0">
          <HBox.margin>
             <Insets />
          </HBox.margin>
@@ -53,6 +53,11 @@
             </Label>
          </children>
       </HBox>
+      <Label fx:id="amountLabel" alignment="CENTER" layoutX="67.0" layoutY="10.0" prefHeight="102.0" prefWidth="100.0" text="1" textAlignment="CENTER">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
       <Label fx:id="borrowedDateLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="105.0" prefWidth="190.0" text="16/11/2024" textAlignment="CENTER" wrapText="true">
          <font>
             <Font size="14.0" />
