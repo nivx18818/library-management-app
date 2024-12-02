@@ -241,19 +241,12 @@
             </Lighting>
           </effect>
         </Label>
-        <VBox alignment="CENTER" layoutX="22.0" layoutY="2.0" prefHeight="252.0" prefWidth="110.0">
+        <VBox alignment="CENTER" layoutX="5.0" layoutY="5.0" prefHeight="252.0" prefWidth="110.0">
           <children>
-            <ImageView fx:id="qrCodeImage" fitHeight="138.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true" visible="false">
-              <effect>
-                <Lighting diffuseConstant="1.28" specularConstant="0.25">
-                  <bumpInput>
-                    <Shadow />
-                  </bumpInput>
-                  <light>
-                    <Light.Distant />
-                  </light>
-                </Lighting>
-              </effect>
+            <ImageView fx:id="qrCodeImage" fitHeight="140.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../../../../../../../../Users/Dell/Downloads/7994392.gif" />
+                     </image>
             </ImageView>
           </children>
         </VBox>
@@ -262,14 +255,14 @@
             <Font size="15.0" />
           </font>
         </TextField>
-        <HBox alignment="CENTER" layoutX="143.0" layoutY="186.0" prefHeight="55.0" prefWidth="394.0" spacing="10.0">
+        <HBox fx:id="hBoxImageNotification" alignment="CENTER" layoutX="143.0" layoutY="186.0" prefHeight="55.0" prefWidth="394.0" spacing="10.0">
           <children>
             <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
               <image>
                 <Image url="@../../assets/icon/7106357_graph_attention_data_infographic_element_icon.png" />
               </image>
             </ImageView>
-            <Label prefHeight="55.0" prefWidth="307.0" text="The image file must have one of the following extensions: .jpg, .jpeg, .png, .gif, .bmp, .svg." wrapText="true">
+            <Label fx:id="imageNotificationLabel" prefHeight="55.0" prefWidth="307.0" text="The image file must have one of the following extensions: .jpg, .jpeg, .png, .gif, .bmp, .svg." wrapText="true">
               <font>
                 <Font name="System Italic" size="15.0" />
               </font>

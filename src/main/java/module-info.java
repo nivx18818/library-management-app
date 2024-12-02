@@ -10,6 +10,8 @@ module app.libmgmt {
     requires transitive javafx.controls;
     requires transitive javafx.graphics;
     requires transitive com.jfoenix;
+    requires com.google.zxing;
+    requires com.google.zxing.javase;
 
     exports app.libmgmt.initializer;
     exports app.libmgmt.view.controller;

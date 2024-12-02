@@ -2,6 +2,9 @@ package app.libmgmt.view.controller.admin;
 
 import java.io.IOException;
 
+import org.json.JSONObject;
+
+import com.google.zxing.WriterException;
 import com.jfoenix.controls.JFXButton;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -14,10 +17,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
-
+import app.libmgmt.service.external.GoogleBooksApiService;
 import app.libmgmt.util.AnimationUtils;
 import app.libmgmt.util.ChangeScene;
 import app.libmgmt.util.DateUtils;
+import app.libmgmt.util.QRCodeGenerator;
 import app.libmgmt.util.RegExPatterns;
 
 public class AdminBookEditDialogController {
@@ -44,6 +48,10 @@ public class AdminBookEditDialogController {
     private DatePicker publishedDatePicker;
     @FXML
     private Spinner<Integer> quantitySpinner = new Spinner<>();
+    @FXML
+    private HBox hBoxImageNotification;
+    @FXML
+    private Label imageNotificationLabel;
 
     private String[] originalData;
     private String lastImageURL;
@@ -130,7 +138,7 @@ public class AdminBookEditDialogController {
         setBookCoverImage(originalData[1]);
         lastImageURL = originalData[1];
         imgUrlTextField.setText(originalData[1]);
-        setQrCodeImage(null);
+        setUpQrCode(originalData[0]);
     }
 
     private void setOriginalBasicInfo() {
@@ -200,8 +208,13 @@ public class AdminBookEditDialogController {
             setBookCoverImage(url);
             lastImageURL = url;
         } else if (updateType.equals(UpdateType.QR_CODE)) {
-            setQrCodeImage(url);
-            lastQrCodeURL = url;
+            try {
+                qrCodeImage.setImage(QRCodeGenerator.generateQRCode(url, 140, 140));
+            } catch (WriterException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -209,10 +222,36 @@ public class AdminBookEditDialogController {
         loadImageAsync(path, bookCoverImage);
     }
 
-    private void setQrCodeImage(String path) {
-        if (path != null) {
-            loadImageAsync(path, qrCodeImage);
-        }
+    private void setUpQrCode(String isbn) {
+        QRCodeGenerator.setWebReaderQrCode(isbn, qrCodeImage, 140, 140);
+        setWebReaderUrl(isbn);
+    }
+
+    private void setWebReaderUrl(String title) {
+        Task<Void> task = new Task<>() {
+            @Override
+            protected Void call() {
+                JSONObject response = GoogleBooksApiService.searchBook(title, 1);
+                if (response != null && response.has("items")) {
+                    var items = response.getJSONArray("items");
+                    var book = items.getJSONObject(0).getJSONObject("accessInfo");
+                    if (items.length() > 0 && book != null) {
+                        String webReaderLink = book.optString("webReaderLink", "No Web Reader Link");
+                        if (!"No Web Reader Link".equals(webReaderLink)) {
+                            try {
+                                qrCodeTextField.setText(webReaderLink);
+                                lastQrCodeURL = webReaderLink;
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }
+                return null;
+            }
+        };
+
+        new Thread(task).start();
     }
 
     private void loadImageAsync(String path, ImageView imageView) {
@@ -258,6 +297,11 @@ public class AdminBookEditDialogController {
         bookCoverImage.setVisible(isBookCover);
         basicInfoContainer.setVisible(false);
         bookCoverContainer.setVisible(true);
+        if (isBookCover) {
+            imageNotificationLabel.setText("The image file must have one of the following extensions: .jpg, .jpeg, .png, .gif, .bmp, .svg.");
+        } else {
+            imageNotificationLabel.setText("The URL should be Web Reader link.");
+        }
         AnimationUtils.zoomIn(bookCoverContainer, 1.0);
     }
 
@@ -289,14 +333,14 @@ public class AdminBookEditDialogController {
             AnimationUtils.playNotificationTimeline(notificationLabel, 2, "#ff0000");
             return false;
         }
-        
+
         if (!RegExPatterns.datePattern(publishedDatePicker.getValue().toString())) {
             notificationLabel.setText("Date is invalid. Please follow the format dd/MM/yyyy.");
             notificationLabel.setStyle("-fx-text-fill: #ff0000;");
             AnimationUtils.playNotificationTimeline(notificationLabel, 2, "#ff0000");
             return false;
         }
-        
+
         return true;
     }
 

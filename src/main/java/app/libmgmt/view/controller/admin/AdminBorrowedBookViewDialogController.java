@@ -139,10 +139,10 @@ public class AdminBorrowedBookViewDialogController {
     }
 
     public void setTotalBook() {
-        lblTotalBooks.setText(String.valueOf(this.totalBook));
+        lblTotalBooks.setText(String.valueOf(this.totalBook) + " Books");
     }
 
     public void setTotalLoan() {
-        lblTotalBooks.setText(String.valueOf(this.totalLoan + 1));
+        lblTotalBooks.setText(String.valueOf(this.totalLoan + 1) + " Books");
     }
 }

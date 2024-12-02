@@ -1,6 +1,7 @@
 package app.libmgmt.view.controller.admin;
 
 import com.jfoenix.controls.JFXButton;
+
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -8,9 +9,9 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-
 import app.libmgmt.util.AnimationUtils;
 import app.libmgmt.util.ChangeScene;
+import app.libmgmt.util.QRCodeGenerator;
 
 public class AdminBookViewDialogController {
 
@@ -74,7 +75,7 @@ public class AdminBookViewDialogController {
         for (int i = 0; i < data.length; i++) {
             switch (i) {
                 case 0:
-                    idLabel.setText("Book ID / ISBN : " + data[i]);
+                    idLabel.setText("ISBN : " + data[i]);
                     break;
                 case 1:
                     loadImage(data[i]);
@@ -99,6 +100,8 @@ public class AdminBookViewDialogController {
                     break;
             }
         }
+
+        QRCodeGenerator.setWebReaderQrCode(data[2], qrCodeImage, 120, 120);
     }
 
     private void setQuantityLabel(String quantity) {
@@ -127,16 +130,6 @@ public class AdminBookViewDialogController {
         });
 
         new Thread(loadImageTask).start();
-    }
-
-    // Set QR Code image path
-    public void setQrCodeImage(String path) {
-        loadImage(path);
-    }
-
-    // Get QR Code image URL
-    public String getQrCodeImagePath() {
-        return qrCodeImage.getImage().getUrl();
     }
 
     // Cancel button action
