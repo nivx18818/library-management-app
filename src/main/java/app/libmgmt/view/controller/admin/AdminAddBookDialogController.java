@@ -127,7 +127,7 @@ public class AdminAddBookDialogController {
             @Override
             protected void succeeded() {
                 super.succeeded();
-                notificationLabel.setText("Book added successfully." + bookData[7]);
+                notificationLabel.setText("Book added successfully.");
                 AnimationUtils.playNotificationTimeline(notificationLabel, 3, "#08a80d");
             }
 

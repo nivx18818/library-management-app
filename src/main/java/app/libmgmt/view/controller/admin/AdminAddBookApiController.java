@@ -104,6 +104,9 @@ public class AdminAddBookApiController {
                                 : "Unknown Type";
                         String publisher = book.optString("publisher", "Unknown Publisher");
                         String publishedDate = book.optString("publishedDate", "Unknown Date");
+                        if (publishedDate.length() == 4) {
+                            publishedDate = publishedDate.concat("-01-01");
+                        }
 
                         String[] data = new String[] { isbn.equals("No ISBN") ? id : isbn, coverURL, name, authors,
                                 type, publisher, publishedDate };
