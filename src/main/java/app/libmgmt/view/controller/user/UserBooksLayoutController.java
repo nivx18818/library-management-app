@@ -89,13 +89,13 @@ public class UserBooksLayoutController {
             protected Void call() {
                 try {
                     for (Book d : data) {
-                        String authors = d.getAuthors().stream().reduce("", (a, b) -> a + ", " + b);
-                        String categories = d.getCategories().stream().reduce("", (a, b) -> a + ", " + b);
+                        String authorsString = String.join(", ", d.getAuthors());
+                        String categoriesString = String.join(", ", d.getCategories());
                         SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
                         String publishedDateStr = (d.getPublishedDate() != null) ?
                                             outputFormat.format(d.getPublishedDate()) : "Not Available";
-                                            
-                        String[] data = new String[] { d.getIsbn(), d.getCoverUrl(), d.getTitle(), categories, authors,
+
+                        String[] data = new String[] { d.getIsbn(), d.getCoverUrl(), d.getTitle(), categoriesString, authorsString,
                                 String.valueOf(d.getAvailableCopies()), d.getPublisher(), publishedDateStr };
                         loadBookBar(data);
                     }
@@ -162,8 +162,8 @@ public class UserBooksLayoutController {
         }
     }
 
-    public List<String[]> getSelectedBooksList() {
-        List<String[]> selectedBooks = new ArrayList<>();
+    public List<Book> getSelectedBooksList() {
+        List<Book> selectedBooks = new ArrayList<>();
 
         for (Node node : vBoxBooksList.getChildren()) {
             if (node instanceof Pane) {
@@ -172,7 +172,8 @@ public class UserBooksLayoutController {
                 
                 try {
                     if (controller.getCheckBoxButton().isSelected()) {
-                        selectedBooks.add(controller.getData());
+                        Book book = new Book(controller.getData());
+                        selectedBooks.add(book);
                     }
                 } catch (Exception e) {
                     System.out.println("Error getting selected books: " + e.getMessage());

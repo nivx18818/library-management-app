@@ -6,11 +6,14 @@ import app.libmgmt.util.ChangeScene;
 import app.libmgmt.util.EnumUtils;
 import app.libmgmt.view.controller.admin.AdminBookViewDialogController;
 import javafx.concurrent.Task;
+
+import java.text.SimpleDateFormat;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import java.util.Date;
 
 public class UserBookBarController {
 
@@ -97,8 +100,20 @@ public class UserBookBarController {
     }
 
     public String[] getData() {
+            // data format: [id, coverURL, name, type, author, quantity, publisher, publishedDate]
+        SimpleDateFormat inputFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date parsedDate;
+        String formattedDate;
+        try {
+            parsedDate = inputFormat.parse(publishedDate);
+            formattedDate = outputFormat.format(parsedDate);
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
+            formattedDate = "";
+        }
         return new String[] { bookID, imgPath, nameLabel.getText(), typeLabel.getText(), authorLabel.getText(),
-                Integer.toString(quantity), publisher, publishedDate };
+                Integer.toString(quantity), publisher, formattedDate };
     }
 
     /**

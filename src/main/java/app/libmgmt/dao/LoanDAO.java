@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,23 +23,23 @@ public class LoanDAO {
 
     public void addLoan(Loan loan) throws SQLException {
         String sql = "INSERT INTO Loan (user_name, userid, amount, status, borrowed_date, due_date, book_isbn) " +
-                     "VALUES (?, ?, ?, ?, ?, ?, ?)";
+                    "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+            PreparedStatement statement = connection.prepareStatement(sql)) {
 
-            // Set values for the prepared statement
             statement.setString(1, loan.getUserName());
             statement.setString(2, loan.getUserId());
             statement.setDouble(3, loan.getAmount());
             statement.setString(4, "BORROWED");
-
+            
             LocalDate borrowedDate = LocalDate.now();
-            String borrowedDateString = Date.valueOf(borrowedDate).toString();
+            DateTimeFormatter outputFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            String borrowedDateString = borrowedDate.format(outputFormat);
             statement.setString(5, borrowedDateString);
 
             LocalDate dueDate = borrowedDate.plusDays(14);
-            String dueDateString = Date.valueOf(dueDate).toString();
+            String dueDateString = dueDate.format(outputFormat);
             statement.setString(6, dueDateString);
 
             statement.setString(7, loan.getIsbn());

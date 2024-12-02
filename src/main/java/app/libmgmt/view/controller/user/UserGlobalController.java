@@ -58,7 +58,7 @@ public class UserGlobalController {
     // Data Pre-loading Methods
     private List<Loan> preLoadLoansData() {
         // test data
-        return loanService.getAllLoans();
+        return loanService.getLoansByUserId("23020604");
     }
 
     private List<Loan> setOriginalReturnedBooksData() {
@@ -77,6 +77,7 @@ public class UserGlobalController {
 
         for (int i = 0; i < newBorrowedBooksList.size(); i++) {
             borrowedBooksData.add(newBorrowedBooksList.get(i));
+            loanService.addLoan(newBorrowedBooksList.get(i));
         }
     }
 

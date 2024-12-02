@@ -1,11 +1,13 @@
 package app.libmgmt.view.controller.user;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.jfoenix.controls.JFXButton;
 
+import app.libmgmt.model.Book;
 import app.libmgmt.model.Loan;
 import app.libmgmt.util.AnimationUtils;
 import app.libmgmt.util.ChangeScene;
@@ -24,6 +26,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
+import java.util.Date;
 
 public class UserBorrowedBooksConfirmationDialogController {
 
@@ -56,7 +59,7 @@ public class UserBorrowedBooksConfirmationDialogController {
     @FXML
     private VBox vBoxSelectedBooksList;
 
-    private List<String[]> selectedBooksList;
+    private List<Book> selectedBooksList;
 
     private List<Loan> newBorrowedBooksList;
 
@@ -150,8 +153,16 @@ public class UserBorrowedBooksConfirmationDialogController {
             @Override
             protected Void call() throws Exception {
                 int orderNumber = 1;
-                for (String[] d : selectedBooksList) {
-                    loadBookData(d, orderNumber++);
+                for (Book d : selectedBooksList) {
+                    String authors = d.getAuthors().stream().reduce("", (a, b) -> a + ", " + b);
+                    String categories = d.getCategories().stream().reduce("", (a, b) -> a + ", " + b);
+                    SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
+                    String publishedDateStr = (d.getPublishedDate() != null) ?
+                                        outputFormat.format(d.getPublishedDate()) : "Not Available";
+
+                    String[] data = new String[] { d.getIsbn(), d.getCoverUrl(), d.getTitle(), categories, authors,
+                                    String.valueOf(d.getAvailableCopies()), d.getPublisher(), publishedDateStr };
+                    loadBookData(data, orderNumber++);
                 }
                 return null;
             }
@@ -179,13 +190,23 @@ public class UserBorrowedBooksConfirmationDialogController {
             controller.setOrderNumber(orderNumber);
             controller.setData(bookData);
             scene.setUserData(controller);
+            SimpleDateFormat inputFormat = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+            String borrowedDateText = borrowedDateLabel.getText();
+            Date parsedDate = inputFormat.parse(borrowedDateText);
+            String formattedDate = outputFormat.format(parsedDate); 
+
+            String dueDateText = controller.getDueDate();
+            Date dueDate = inputFormat.parse(dueDateText);
+            String dueDateString = outputFormat.format(dueDate);  
             Loan newBorrowedBookData = new Loan(
                     UserGlobalController.getInstance().getBorrowedBooksData().size() + orderNumber,
-                    "23020708",
+                    "23020604",
                     bookData[0],
                     1,
-                    DateUtils.parseStringToDate(borrowedDateLabel.getText()),
-                    DateUtils.parseStringToDate(controller.getDueDate()), "BORROWED");
+                    DateUtils.parseStringToDate(formattedDate),
+                    DateUtils.parseStringToDate(dueDateString), "BORROWED");
             newBorrowedBooksList.add(newBorrowedBookData);
             Platform.runLater(() -> {
                 vBoxSelectedBooksList.getChildren().add(scene);
