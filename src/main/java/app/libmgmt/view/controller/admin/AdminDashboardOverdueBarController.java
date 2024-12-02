@@ -24,7 +24,7 @@ public class AdminDashboardOverdueBarController {
 
     public void setData(Loan d) {
         name.setText(d.getUserName());
-        id.setText("ID: " + d.getIsbn());
+        id.setText("ID: " + d.getUserId());
         this.loan = d;
     }
 

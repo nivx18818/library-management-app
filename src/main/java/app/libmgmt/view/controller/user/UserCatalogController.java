@@ -8,6 +8,8 @@ import com.jfoenix.controls.JFXButton;
 import app.libmgmt.model.Loan;
 import app.libmgmt.util.AnimationUtils;
 import app.libmgmt.util.DateUtils;
+import app.libmgmt.service.LoanService;
+import app.libmgmt.model.Book;
 import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
 import javafx.concurrent.Task;
@@ -66,6 +68,7 @@ public class UserCatalogController {
     private final UserGlobalController userGlobalController = UserGlobalController.getInstance();
     private List<Loan> borrowedBooksData = userGlobalController.getBorrowedBooksData();
     private List<Loan> returnedBooksData = userGlobalController.getReturnedBooksData();
+    private LoanService loanService = new LoanService(); // Add this line to initialize loanService
 
     // Constructor and Singleton Pattern
     public UserCatalogController() {
@@ -206,13 +209,13 @@ public class UserCatalogController {
             protected Void call() {
                 try {
                     for (Loan d : data) {
+                        List<Book> books = loanService.getBookFromLoan(d.getIsbn());
+                        Book book = books.isEmpty() ? null : books.get(0);
                         String[] loanData = new String[] {
                                 d.getIsbn(),
                                 d.getLoanId() + "",
-                                // TODO: Get book image from the database
-                                "https://marketplace.canva.com/EAFaQMYuZbo/1/0/1003w/canva-brown-rusty-mystery-novel-book-cover-hG1QhA7BiBU.jpg",
-                                // TODO: Get book name from the database
-                                "Book Name",
+                                book.getCoverUrl(),
+                                book.getTitle(),
                                 DateUtils.parseDateToString(d.getBorrowedDate()),
                                 currentStatus == USER_CATALOG_STATE.BORROWED ? DateUtils.parseDateToString(d.getDueDate())
                                         : DateUtils.parseDateToString(d.getReturnedDate()),

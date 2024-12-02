@@ -15,9 +15,12 @@ import app.libmgmt.util.ChangeScene;
 import app.libmgmt.util.RegExPatterns;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.time.LocalDate;
+import java.util.Date;
 
 public class AdminAddBookDialogController {
 
@@ -99,10 +102,18 @@ public class AdminAddBookDialogController {
                             String authorsString = String.join(", ", lastBook.getAuthors());
                             String categoriesString = String.join(", ", lastBook.getCategories());
 
+                            String inputPattern = "EEE MMM dd HH:mm:ss z yyyy";
+                            SimpleDateFormat inputFormat = new SimpleDateFormat(inputPattern, Locale.ENGLISH);
+                            String outputPattern = "yyyy-MM-dd";
+                            SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
+
+                            Date parsedDate = inputFormat.parse(lastBook.getPublishedDate().toString());
+                            String formattedDate = outputFormat.format(parsedDate);
+
                             String[] book_Data = new String[] { lastBook.getIsbn(), lastBook.getCoverUrl(),
                                     lastBook.getTitle(), categoriesString,
                                     authorsString, String.valueOf(lastBook.getAvailableCopies()),
-                                    lastBook.getPublisher(), lastBook.getPublishedDate().toString() };
+                                    lastBook.getPublisher(), formattedDate };
                             lastBook = new Book(book_Data);
                             add(lastBook);
                             System.out.println("Book added: Fac diu vai lc" + lastBook.toString());
