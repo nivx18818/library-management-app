@@ -81,7 +81,11 @@ public class UserBookBarController {
         // Form of book bar: [No., imgPath, name, type, author, quantity(available)]
 
         bookID = data[0];
-        int orderNumber = UserGlobalController.getInstance().getObservableBooksData().indexOf(data) + 1;
+        int orderNumber = UserGlobalController.getInstance().getObservableBooksData().stream()
+                .filter(book -> book.getIsbn().equals(data[0]))
+                .findFirst()
+                .map(book -> UserGlobalController.getInstance().getObservableBooksData().indexOf(book) + 1)
+                .orElse(-1);
         orderLabel.setText(orderNumber + "");
         updateImageIfChanged(data[1], bookImage);
         nameLabel.setText(data[2]);

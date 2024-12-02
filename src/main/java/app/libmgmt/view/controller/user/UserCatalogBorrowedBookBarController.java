@@ -1,11 +1,14 @@
 package app.libmgmt.view.controller.user;
 
+import java.text.SimpleDateFormat;
+
 import com.jfoenix.controls.JFXButton;
 
 import app.libmgmt.util.ChangeScene;
 import app.libmgmt.util.EnumUtils;
 import app.libmgmt.view.controller.admin.AdminBookViewDialogController;
 import app.libmgmt.view.controller.user.UserCatalogController.USER_CATALOG_STATE;
+import app.libmgmt.model.Book;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -88,8 +91,18 @@ public class UserCatalogBorrowedBookBarController {
     @FXML
     void imageViewOnMouseClicked(MouseEvent event) {
         openPopUp("/fxml/admin/admin-book-view-dialog.fxml", EnumUtils.PopupList.BOOK_VIEW);
-        String[] bookData = UserGlobalController.getInstance().getBookDataById(bookId);
-        AdminBookViewDialogController.getInstance().setData(bookData);
+        Book bookData = UserGlobalController.getInstance().getBookDataById(bookId);
+
+        String authors = bookData.getAuthors().stream().reduce("", (a, b) -> a + ", " + b);
+        String categories = bookData.getCategories().stream().reduce("", (a, b) -> a + ", " + b);
+        SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
+        String publishedDateStr = (bookData.getPublishedDate() != null) ?
+                    outputFormat.format(bookData.getPublishedDate()) : "Not Available";
+                                            
+        String[] data = new String[] { bookData.getIsbn(), bookData.getCoverUrl(), bookData.getTitle(), categories, authors,
+                            String.valueOf(bookData.getAvailableCopies()), bookData.getPublisher(), publishedDateStr };
+
+        AdminBookViewDialogController.getInstance().setData(data);
     }
 
     @FXML

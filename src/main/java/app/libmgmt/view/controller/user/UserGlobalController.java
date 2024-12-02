@@ -1,11 +1,12 @@
 package app.libmgmt.view.controller.user;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import app.libmgmt.model.Loan;
+import app.libmgmt.model.Book;
+import app.libmgmt.service.LoanService;
+import app.libmgmt.service.BookService;
 import app.libmgmt.util.AnimationUtils;
-import app.libmgmt.util.DateUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -20,7 +21,10 @@ public class UserGlobalController {
     // Collections for data management
     private final ObservableList<Loan> borrowedBooksData;
     private final ObservableList<Loan> returnedBooksData;
-    private final ObservableList<String[]> observableBooksData;
+    private final ObservableList<Book> observableBooksData;
+
+    private final LoanService loanService = new LoanService();
+    private final BookService bookService = new BookService();
 
     // FXML injected components
     @FXML
@@ -54,48 +58,15 @@ public class UserGlobalController {
     // Data Pre-loading Methods
     private List<Loan> preLoadLoansData() {
         // test data
-        List<Loan> data = new ArrayList<>();
-        // Loan(int loanId, String userId, String isbn, int amount, Date borrowedDate, Date dueDate, String status) 
-        data.add(new Loan(1, "23020708", "A1", 1, DateUtils.parseStringToDate("09/11/2024"), DateUtils.parseStringToDate("22/11/2024"), "BORROWED"));
-        data.add(new Loan(2, "23020708", "B2", 1, DateUtils.parseStringToDate("11/11/2024"), DateUtils.parseStringToDate("24/11/2024"), "BORROWED"));
-        data.add(new Loan(3, "23020708", "C3", 1, DateUtils.parseStringToDate("13/11/2024"), DateUtils.parseStringToDate("26/11/2024"),"BORROWED"));
-
-        return data;
+        return loanService.getAllLoans();
     }
 
     private List<Loan> setOriginalReturnedBooksData() {
-        List<Loan> data = new ArrayList<>();
-        for (Loan d : borrowedBooksData) {
-            if (d.getStatus().equals("RETURNED")) {
-                data.add(d);
-            }
-        }
-        return data;
+        return loanService.getOverdueLoans();
     }
 
-    public List<String[]> preLoadBooksData() {
-        List<String[]> data = new ArrayList<>();
-        data.add(new String[] { "A1", "https://marketplace.canva" +
-                ".com/EAFaQMYuZbo/1/0/1003w/canva-brown-rusty-mystery-novel-book-cover-hG1QhA7BiBU.jpg",
-                "The Great Gatsby", "Education", "F. Scott Fitzgerald", "3", "NXB Trẻ", "13/08/2024" });
-        data.add(new String[] { "B2", "https://encrypted-tbn0.gstatic" +
-                ".com/images?q=tbn:ANd9GcS66i6hTBkniGtDdwxyi4hA3PFm2mJ0GUIDxw&s", "To Kill a Mockingbird", "Education",
-                "Harper Lee", "4", "NXB Trẻ", "13/08/2024" });
-        data.add(new String[] { "C3", "https://thuviensach.vn/img/news/2022/09/larger/1011-1984-1" +
-                ".jpg?v=8882", "1984", "Education", "George Orwell", "0", "NXB Trẻ", "13/08/2024" });
-        data.add(new String[] { "D4", "https://play-lh.googleusercontent" +
-                ".com/f1jkKDk5wKz1CZMyNjOR7klTu-ORIZs9sBMWSOVtd09GE6ulfiW5M4FmWrS54CZmCDiZ", "Pride & Prejudice",
-                "Education", "J.D. Salinger", "12", "NXB Trẻ", "13/08/2024" });
-        data.add(new String[] { "E5", "https://encrypted-tbn0.gstatic" +
-                ".com/images?q=tbn:ANd9GcRYqVdifswPLs8J53knQLpfO0dYIVMq4Mu14w&s", "Sherlock Holmes", "Detective",
-                "Arthur Conan Doyle", "32", "NXB Trẻ", "13/08/2024" });
-        data.add(new String[] { "F6", "https://encrypted-tbn0.gstatic" +
-                ".com/images?q=tbn:ANd9GcQapwj529X6xqxmWUlrZAbQLhi-jEpU1-gx8A&s", "Dracula", "Horror", "Bram Stoker",
-                "0", "NXB Trẻ", "13/08/2024" });
-        data.add(new String[] { "G7", "https://www.thejapanshop" +
-                ".com/cdn/shop/products/new_doc_91_1_1280x.jpg?v=1571438916", "Doraemon", "Comic", "Fujko F Fujio", "0",
-                "NXB Trẻ", "13/08/2024" });
-        return data;
+    public List<Book> preLoadBooksData() {
+        return bookService.getAllBooks();
     }
 
     // CRUD Methods
@@ -125,15 +96,14 @@ public class UserGlobalController {
         }
     }
 
-    public String[] getBookDataById(String id) {
+    public Book getBookDataById(String id) {
         if (id == null || id.trim().isEmpty()) {
             return null;
         }
 
         return observableBooksData.stream()
-                .filter(data -> data[0].equals(id))
+                .filter(data -> data.getIsbn().equals(id))
                 .findFirst()
-                .map(String[]::clone)
                 .orElse(null);
     }
 
@@ -172,7 +142,7 @@ public class UserGlobalController {
         return borrowedBooksData;
     }
 
-    public ObservableList<String[]> getObservableBooksData() {
+    public ObservableList<Book> getObservableBooksData() {
         return observableBooksData;
     }
 

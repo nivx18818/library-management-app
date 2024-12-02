@@ -4,9 +4,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
+import java.text.SimpleDateFormat;
 
 import com.jfoenix.controls.JFXButton;
 
+import app.libmgmt.model.Book;
 import app.libmgmt.util.AnimationUtils;
 import app.libmgmt.util.ChangeScene;
 import app.libmgmt.util.EnumUtils.PopupList;
@@ -61,7 +63,7 @@ public class UserBooksLayoutController {
     private final String hoverAcquireLogo = "/assets/icon/acquire-logo-1.png";
     private final String acquireLogo = "/assets/icon/add-circle 1.png";
 
-    private final List<String[]> observableBooksData = userGlobalController.getObservableBooksData();
+    private final List<Book> observableBooksData = userGlobalController.getObservableBooksData();
 
     public UserBooksLayoutController() {
         controller = this;
@@ -81,13 +83,21 @@ public class UserBooksLayoutController {
     }
 
     // Data Preloading
-    public void preloadData(List<String[]> data) {
+    public void preloadData(List<Book> data) {
         Task<Void> preloadTask = new Task<Void>() {
             @Override
             protected Void call() {
                 try {
-                    for (String[] d : data) {
-                        loadBookBar(d);
+                    for (Book d : data) {
+                        String authors = d.getAuthors().stream().reduce("", (a, b) -> a + ", " + b);
+                        String categories = d.getCategories().stream().reduce("", (a, b) -> a + ", " + b);
+                        SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
+                        String publishedDateStr = (d.getPublishedDate() != null) ?
+                                            outputFormat.format(d.getPublishedDate()) : "Not Available";
+                                            
+                        String[] data = new String[] { d.getIsbn(), d.getCoverUrl(), d.getTitle(), categories, authors,
+                                String.valueOf(d.getAvailableCopies()), d.getPublisher(), publishedDateStr };
+                        loadBookBar(data);
                     }
                 } catch (Exception e) {
                     System.out.println("Error loading data table: " + e.getMessage());

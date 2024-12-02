@@ -65,11 +65,6 @@ public class AdminGlobalController {
 
     // Data Pre-loading Methods
     public List<Loan> preLoadBorrowedBooksData() {
-        // List<Loan> loans = new ArrayList<>();
-        // // int loanId, String userId, String isbn, int amount, Date borrowedDate, Date dueDate, String status
-        // loans.add(new Loan(1, "23020705", "BK000001", 1, new Date(), new Date(), "BORROWED"));
-        // loans.add(new Loan(2, "23050705", "BK000002", 1, new Date(), new Date(), "BORROWED"));
-        // return loans;
         loanService.markOverdueLoans();
         return loanService.getAllLoans();
     }
@@ -104,16 +99,11 @@ public class AdminGlobalController {
         // data format: [id, coverURL, name, type, author, quantity, publisher,
         // publishedDate]
         Book book = new Book(bookData);
-        // test
-        // String[] newArray = new String[bookData.length + 1];
-        // newArray[0] = 23 + "";
-        // System.arraycopy(bookData, 0, newArray, 1, bookData.length);
-        // getInstance().observableBooksData.add(newArray);
         getInstance().observableBooksData.add(book);
         System.out.println("Book data: " + book.getPublishedDate());
         System.out.println("Book data: " + bookData[0] + " " + bookData[1] + " " + bookData[2] + " " + bookData[3] + " "
                 + bookData[4] + " " + bookData[5] + " " + bookData[6] + " " + bookData[7]);
-        // TODO: Insert book data to database
+        // Insert book data to database
         bookService.addBook(book);
     }
 
