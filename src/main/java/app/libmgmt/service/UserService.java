@@ -21,10 +21,6 @@ public class UserService {
         this.userDAO = new UserDAO();
     }
 
-    public UserService(UserDAO userDAO) {
-        this.userDAO = userDAO;
-    }
-
     private String hashPassword(String password, byte[] salt) throws Exception {
         int iterations = 10000;
         int keyLength = 256;

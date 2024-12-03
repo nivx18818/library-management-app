@@ -1,7 +1,6 @@
 package app.libmgmt.service;
 
 import app.libmgmt.model.Book;
-import app.libmgmt.dao.BookDAO;
 import app.libmgmt.dao.DatabaseConnection;
 
 import org.junit.jupiter.api.*;
@@ -49,8 +48,7 @@ public class BookServiceTest {
                     "'http://test.com/cover-3.jpg', 10, 'Author3', 'Category3')");
         }
 
-        BookDAO bookDAO = new BookDAO();
-        bookService = new BookService(bookDAO);
+        bookService = new BookService();
     }
 
     @AfterAll

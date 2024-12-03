@@ -13,10 +13,6 @@ public class BookService {
         this.bookDAO = new BookDAO();
     }
 
-    public BookService(BookDAO bookDAO) {
-        this.bookDAO = bookDAO;
-    }
-
     public void addBook(Book book) {
         try {
             bookDAO.addBook(book);

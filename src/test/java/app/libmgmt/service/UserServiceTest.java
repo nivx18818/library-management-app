@@ -3,7 +3,6 @@ package app.libmgmt.service;
 import app.libmgmt.model.User;
 import app.libmgmt.model.ExternalBorrower;
 import app.libmgmt.model.Student;
-import app.libmgmt.dao.UserDAO;
 import app.libmgmt.dao.DatabaseConnection;
 
 import org.junit.jupiter.api.*;
@@ -50,8 +49,7 @@ public class UserServiceTest {
                     "'3', 'External User', 'external@test.com', 'password', 'EXTERNAL_BORROWER', NULL, NULL, NULL, '123456789', '1234567890', 'salt')");
         }
 
-        UserDAO userDAO = new UserDAO();
-        userService = new UserService(userDAO);
+        userService = new UserService();
     }
 
     @AfterAll
