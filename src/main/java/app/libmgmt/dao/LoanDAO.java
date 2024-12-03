@@ -28,8 +28,8 @@ public class LoanDAO {
         try (Connection connection = getConnection();
             PreparedStatement statement = connection.prepareStatement(sql)) {
 
-            statement.setString(1, loan.getUserName());
-            statement.setString(2, loan.getUserId());
+            statement.setString(1, loan.getUserId());
+            statement.setString(2, loan.getUserName());
             statement.setDouble(3, loan.getAmount());
             statement.setString(4, "BORROWED");
             
@@ -55,8 +55,8 @@ public class LoanDAO {
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
-            statement.setString(1, loan.getUserName());
-            statement.setString(2, loan.getUserId());
+            statement.setString(1, loan.getUserId());
+            statement.setString(2, loan.getUserName());
             statement.setDouble(3, loan.getAmount());
             statement.setString(4, loan.getStatus());
 
@@ -179,7 +179,7 @@ public class LoanDAO {
         return loans;
     }
 
-    public List<Loan> getReturLoansByUserId(String userId) throws SQLException {
+    public List<Loan> getReturnLoansByUserId(String userId) throws SQLException {
         if (userId == null || userId.isEmpty()) {
             throw new IllegalArgumentException("User ID is null.");
         }
