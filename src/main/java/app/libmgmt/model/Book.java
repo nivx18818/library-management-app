@@ -11,12 +11,13 @@ public class Book {
     private Date publishedDate;
     private String publisher;
     private String coverUrl;
+    private String webReaderUrl;
     private int availableCopies;
     private List<String> authors;
     private List<String> categories;
 
     public Book(String isbn, String title, Date publishedDate, String publisher, String coverUrl,
-            int availableCopies, List<String> authors, List<String> categories) {
+            int availableCopies, List<String> authors, List<String> categories, String webReaderUrl) {
         this.isbn = isbn;
         this.title = title;
         this.publishedDate = publishedDate;
@@ -25,6 +26,7 @@ public class Book {
         this.availableCopies = availableCopies;
         this.authors = authors;
         this.categories = categories;
+        this.webReaderUrl = webReaderUrl;
     }
 
     // data format: [id, coverURL, name, type, author, quantity, publisher, publishedDate]
@@ -37,6 +39,7 @@ public class Book {
         this.availableCopies = Integer.parseInt(bookData[5]);
         this.authors = List.of(bookData[4].split(","));
         this.categories = List.of(bookData[3].split(","));
+        this.webReaderUrl = bookData[8];
     }
 
     public String getIsbn() {
@@ -81,6 +84,14 @@ public class Book {
 
     public int getAvailableCopies() {
         return availableCopies;
+    }
+
+    public String getWebReaderUrl() {
+        return webReaderUrl;
+    }
+
+    public void setWebReaderUrl(String webReaderUrl) {
+        this.webReaderUrl = webReaderUrl;
     }
 
     public void updateAvailableCopies(int availableCopies) {

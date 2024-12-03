@@ -17,11 +17,7 @@ public class BookDAO {
     public BookDAO() {
     }
 
-    // public static void setConnection(Connection connection) {
-    //     BookDAO.connection = connection;
-    // }
-    
-    public Connection getConnection() throws SQLException {
+    private Connection getConnection() throws SQLException {
         return DatabaseConnection.getConnection();
     }
 
@@ -48,7 +44,7 @@ public class BookDAO {
         }
 
         String sql = "INSERT INTO Book(isbn, title, published_date, publisher, cover_url, "
-                + "available_amount, authors, categories) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+                + "available_amount, authors, categories, web_reader_url) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = getConnection();
                 PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -68,6 +64,7 @@ public class BookDAO {
             statement.setInt(6, book.getAvailableCopies());
             statement.setString(7, authorsString);
             statement.setString(8, categoriesString);
+            statement.setString(9, book.getWebReaderUrl());
 
             statement.executeUpdate();
         }
@@ -75,7 +72,7 @@ public class BookDAO {
 
     public void updateBook(Book book) throws SQLException {
         String sql = "UPDATE Book SET title = ?, published_date = ?, publisher = ?, cover_url = ?, "
-                + "available_amount = ?, authors = ?, categories = ? WHERE isbn = ?";
+                + "available_amount = ?, authors = ?, categories = ?, web_reader_url = ? WHERE isbn = ?";
 
         try (Connection connection = getConnection();
                 PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -95,6 +92,7 @@ public class BookDAO {
             statement.setString(6, authorsString);
             statement.setString(7, categoriesString);
             statement.setString(8, book.getIsbn());
+            statement.setString(9, book.getWebReaderUrl());
 
             statement.executeUpdate();
         }
@@ -112,7 +110,8 @@ public class BookDAO {
 
     public List<Book> getAllBooks() throws SQLException {
         List<Book> books = new ArrayList<>();
-        String sql = "SELECT isbn, title, published_date, publisher, cover_url, available_amount, authors, categories FROM Book";
+        String sql = "SELECT isbn, title, published_date, publisher, cover_url, available_amount," +
+                " authors, categories, web_reader_url FROM Book";
 
         try (Connection connection = getConnection();
                 PreparedStatement statement = connection.prepareStatement(sql);
@@ -133,7 +132,8 @@ public class BookDAO {
                         rs.getString("cover_url"),
                         rs.getInt("available_amount"),
                         authors,
-                        categories);
+                        categories,
+                        rs.getString("web_reader_url"));
 
                 books.add(book);
             }
@@ -143,7 +143,8 @@ public class BookDAO {
     }
 
     public Book getBookByIsbn(String isbn) throws SQLException {
-        String sql = "SELECT isbn, title, published_date, publisher, cover_url, available_amount, authors, categories FROM Book WHERE isbn = ?";
+        String sql = "SELECT isbn, title, published_date, publisher, cover_url, available_amount," +
+                " authors, categories, web_reader_url FROM Book WHERE isbn = ?";
         Book book = null;
 
         try (Connection connection = getConnection();
@@ -166,8 +167,8 @@ public class BookDAO {
                             rs.getString("cover_url"),
                             rs.getInt("available_amount"),
                             authors,
-                            categories);
-
+                            categories,
+                            rs.getString("web_reader_url"));
                 } else {
                     System.out.println("Book not found.");
                 }
@@ -179,7 +180,7 @@ public class BookDAO {
 
     public List<Book> getBooksByAuthor(String author) throws SQLException {
         List<Book> books = new ArrayList<>();
-        String sql = "SELECT isbn, title, published_date, publisher, cover_url, available_amount, authors, categories FROM Book WHERE authors LIKE ?";
+        String sql = "SELECT isbn, title, published_date, publisher, cover_url, available_amount, authors, categories, web_reader_url FROM Book WHERE authors LIKE ?";
 
         try (Connection connection = getConnection();
                 PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -201,7 +202,8 @@ public class BookDAO {
                             rs.getString("cover_url"),
                             rs.getInt("available_amount"),
                             authors,
-                            categories);
+                            categories,
+                            rs.getString("web_reader_url"));
 
                     books.add(book);
                 }
@@ -213,7 +215,7 @@ public class BookDAO {
 
     public List<Book> getBooksByCategory(String category) throws SQLException {
         List<Book> books = new ArrayList<>();
-        String sql = "SELECT isbn, title, published_date, publisher, cover_url, available_amount, authors, categories FROM Book WHERE categories LIKE ?";
+        String sql = "SELECT isbn, title, published_date, publisher, cover_url, available_amount, authors, categories, web_reader_url FROM Book WHERE categories LIKE ?";
 
         try (Connection connection = getConnection();
                 PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -235,7 +237,8 @@ public class BookDAO {
                         rs.getString("cover_url"),
                         rs.getInt("available_amount"),
                         authors,
-                        categories);
+                        categories,
+                        rs.getString("web_reader_url"));
 
                 books.add(book);
             }
