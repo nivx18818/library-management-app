@@ -1,5 +1,8 @@
 package app.libmgmt.view.controller.admin;
 
+import java.io.IOException;
+
+import com.google.zxing.WriterException;
 import com.jfoenix.controls.JFXButton;
 
 import javafx.concurrent.Task;
@@ -66,12 +69,12 @@ public class AdminBookViewDialogController {
     }
 
     // Set book details data into the UI
-    public void setData(String[] data) {
+    public void setData(String[] data) throws WriterException, IOException {
         // Set values to labels and load images
         setBookDetails(data);
     }
 
-    private void setBookDetails(String[] data) {
+    private void setBookDetails(String[] data) throws WriterException, IOException {
         for (int i = 0; i < data.length; i++) {
             switch (i) {
                 case 0:
@@ -98,11 +101,12 @@ public class AdminBookViewDialogController {
                 case 7:
                     publishedDateLabel.setText("Published Date : " + data[i]);
                     break;
+                case 8:
+                    // Web reader URL
+                    qrCodeImage.setImage(QRCodeGenerator.generateQRCode(data[i], 120, 120));
+                    break;
             }
         }
-
-        String isbn = data[0];
-        QRCodeGenerator.setWebReaderQrCode(isbn, qrCodeImage, 120, 120);
     }
 
     private void setQuantityLabel(String quantity) {

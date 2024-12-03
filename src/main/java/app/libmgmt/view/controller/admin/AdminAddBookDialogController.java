@@ -48,6 +48,7 @@ public class AdminAddBookDialogController {
     private JFXButton closeDialogButton;
     @FXML
     private ImageView imgClose;
+    private String webReaderUrl;
 
     public AdminAddBookDialogController() {
         controller = this;
@@ -56,7 +57,7 @@ public class AdminAddBookDialogController {
     public static AdminAddBookDialogController getInstance() {
         return controller;
     }
-    
+
     public void initialize() {
         System.out.println("Admin Add Book Dialog initialized");
 
@@ -75,15 +76,16 @@ public class AdminAddBookDialogController {
         if (checkValidInfo()) {
             String[] bookData = new String[] { txtCoverURL.getText(), txtName.getText(),
                     txtType.getText(), txtAuthor.getText(), quantitySpinner.getValue().toString(),
-                    txtPublisher.getText(), publishedDatePicker.getValue().toString() };
+                    txtPublisher.getText(), publishedDatePicker.getValue().toString(), webReaderUrl };
             addBook(bookData);
         }
     }
 
     public void addBook(String[] bookData) {
-        // data format: [coverURL, name, type, author, quantity, publisher, publishedDate]
+        // data format: [coverURL, name, type, author, quantity, publisher,
+        // publishedDate]
         String[] newBook = new String[] { "0", bookData[0], bookData[1], bookData[2], bookData[3], bookData[4],
-                bookData[5], bookData[6] };
+                bookData[5], bookData[6], bookData[7] };
         AdminGlobalController adminGlobalController = AdminGlobalController.getInstance();
         adminGlobalController.insertBooksData(newBook);
         Task<Void> task = new Task<Void>() {
@@ -95,7 +97,7 @@ public class AdminAddBookDialogController {
                         {
                             // add id to the first index
                             // data format: [id, coverURL, name, type, author, quantity, publisher,
-                            // publishedDate] to match the format of preloadData method in
+                            // publishedDate, webReaderUrl] to match the format of preloadData method in
                             // AdminBooksLayoutController
                             Book lastBook = AdminGlobalController.getInstance().getObservableBookData().getLast();
 
@@ -113,7 +115,7 @@ public class AdminAddBookDialogController {
                             String[] book_Data = new String[] { lastBook.getIsbn(), lastBook.getCoverUrl(),
                                     lastBook.getTitle(), categoriesString,
                                     authorsString, String.valueOf(lastBook.getAvailableCopies()),
-                                    lastBook.getPublisher(), formattedDate };
+                                    lastBook.getPublisher(), formattedDate, lastBook.getWebReaderUrl() };
                             lastBook = new Book(book_Data);
                             add(lastBook);
                             System.out.println("Book added: Fac diu vai lc" + lastBook.toString());
@@ -186,6 +188,7 @@ public class AdminAddBookDialogController {
         quantitySpinner.getValueFactory().setValue(1);
         publishedDatePicker.setValue(LocalDate.parse(data[7]));
         txtPublisher.setText(data[6]);
+        webReaderUrl = data[8];
     }
 
     public void setDefault() {

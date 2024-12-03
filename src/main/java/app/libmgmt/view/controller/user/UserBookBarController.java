@@ -1,5 +1,6 @@
 package app.libmgmt.view.controller.user;
 
+import com.google.zxing.WriterException;
 import com.jfoenix.controls.JFXCheckBox;
 
 import app.libmgmt.util.ChangeScene;
@@ -7,6 +8,7 @@ import app.libmgmt.util.EnumUtils;
 import app.libmgmt.view.controller.admin.AdminBookViewDialogController;
 import javafx.concurrent.Task;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -44,7 +46,7 @@ public class UserBookBarController {
     private ImageView viewImage;
 
     private int quantity = -1;
-    private String imgPath = "", publisher = "", publishedDate = "", bookID = "";
+    private String imgPath = "", publisher = "", publishedDate = "", bookID = "", webReaderUrl = "";
 
     private final String hoverViewLogo = "/assets/icon/Property 1=Variant2.png";
     private final String viewLogo = "/assets/icon/btn view.png";
@@ -63,7 +65,7 @@ public class UserBookBarController {
 
     // --- Event Handlers ---
     @FXML
-    void imgViewOnMouseClicked(MouseEvent event) {
+    void imgViewOnMouseClicked(MouseEvent event) throws WriterException, IOException {
         openPopUp("/fxml/admin/admin-book-view-dialog.fxml", EnumUtils.PopupList.BOOK_VIEW);
         AdminBookViewDialogController.getInstance().setData(getData());
     }
@@ -97,6 +99,7 @@ public class UserBookBarController {
         setQuantityAndStatus(data[5]);
         publisher = data[6];
         publishedDate = data[7];
+        webReaderUrl = data[8];
     }
 
     public String[] getData() {
@@ -113,7 +116,7 @@ public class UserBookBarController {
             formattedDate = "";
         }
         return new String[] { bookID, imgPath, nameLabel.getText(), typeLabel.getText(), authorLabel.getText(),
-                Integer.toString(quantity), publisher, formattedDate };
+                Integer.toString(quantity), publisher, formattedDate, webReaderUrl };
     }
 
     /**

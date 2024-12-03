@@ -84,7 +84,8 @@ public class AdminBooksLayoutController {
                             authorsString,
                             String.valueOf(d.getAvailableCopies()),
                             d.getPublisher(),
-                            publishedDateStr
+                            publishedDateStr,
+                            d.getWebReaderUrl()
                         };
     
                         loadBookBar(bookData);

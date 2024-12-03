@@ -1,7 +1,9 @@
 package app.libmgmt.view.controller.user;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 
+import com.google.zxing.WriterException;
 import com.jfoenix.controls.JFXButton;
 
 import app.libmgmt.util.ChangeScene;
@@ -89,7 +91,7 @@ public class UserCatalogBorrowedBookBarController {
     }
 
     @FXML
-    void imageViewOnMouseClicked(MouseEvent event) {
+    void imageViewOnMouseClicked(MouseEvent event) throws WriterException, IOException {
         openPopUp("/fxml/admin/admin-book-view-dialog.fxml", EnumUtils.PopupList.BOOK_VIEW);
         Book bookData = UserGlobalController.getInstance().getBookDataById(bookId);
 

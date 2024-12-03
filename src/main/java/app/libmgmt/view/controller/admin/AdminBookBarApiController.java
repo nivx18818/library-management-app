@@ -27,6 +27,7 @@ public class AdminBookBarApiController {
 
     private String publisher;
     private String publishedDate;
+    private String webReaderUrl;
 
     public void setData(String[] data) {
         isbnLabel.setText(data[0]);
@@ -49,14 +50,15 @@ public class AdminBookBarApiController {
         typeLabel.setText(data[4]);
         publisher = data[5];
         publishedDate = data[6];
+        webReaderUrl = data[7];
     }
 
     @FXML
     void addBookButtonOnAction() {
         // ChangeScene.closePopUp();
         ChangeScene.openAdminPopUp(AdminBooksLayoutController.getInstance().getStackPaneContainer(), "/fxml/admin/admin-add-book-dialog.fxml", PopupList.ADD_BOOK);
-
-        String[] data = {isbnLabel.getText(), bookImage.getImage().getUrl(), nameLabel.getText(), typeLabel.getText(), authorLabel.getText(), "1", publisher, publishedDate};
+        System.out.println(webReaderUrl);
+        String[] data = {isbnLabel.getText(), bookImage.getImage().getUrl(), nameLabel.getText(), typeLabel.getText(), authorLabel.getText(), "1", publisher, publishedDate, webReaderUrl};
         AdminAddBookDialogController.getInstance().setData(data);
     }
 }

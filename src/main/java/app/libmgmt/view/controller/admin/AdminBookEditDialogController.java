@@ -2,8 +2,6 @@ package app.libmgmt.view.controller.admin;
 
 import java.io.IOException;
 
-import org.json.JSONObject;
-
 import com.google.zxing.WriterException;
 import com.jfoenix.controls.JFXButton;
 import javafx.animation.KeyFrame;
@@ -17,7 +15,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
-import app.libmgmt.service.external.GoogleBooksApiService;
 import app.libmgmt.util.AnimationUtils;
 import app.libmgmt.util.ChangeScene;
 import app.libmgmt.util.DateUtils;
@@ -132,7 +129,15 @@ public class AdminBookEditDialogController {
         setBookCoverImage(originalData[1]);
         lastImageURL = originalData[1];
         imgUrlTextField.setText(originalData[1]);
-        setUpQrCode(originalData[0]);
+        try {
+            qrCodeImage.setImage(QRCodeGenerator.generateQRCode(originalData[8], 140, 140));
+        } catch (WriterException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        lastQrCodeURL = originalData[8];
+        qrCodeTextField.setText(originalData[8]);
     }
 
     private void setOriginalBasicInfo() {
@@ -154,7 +159,8 @@ public class AdminBookEditDialogController {
                 quantitySpinner.getValue().toString(),
                 publisherTextField.getText(),
                 // TODO: Handle null exception
-                publishedDatePicker.getValue().toString()
+                publishedDatePicker.getValue().toString(),
+                qrCodeTextField.getText().isEmpty() ? originalData[8] : qrCodeTextField.getText()
         };
     }
 
@@ -209,7 +215,6 @@ public class AdminBookEditDialogController {
             lastImageURL = url;
         } else if (updateType.equals(UpdateType.QR_CODE)) {
             try {
-
                 qrCodeImage.setImage(QRCodeGenerator.generateQRCode(url, 140, 140));
             } catch (WriterException e) {
                 e.printStackTrace();
@@ -221,38 +226,6 @@ public class AdminBookEditDialogController {
 
     private void setBookCoverImage(String path) {
         loadImageAsync(path, bookCoverImage);
-    }
-
-    private void setUpQrCode(String isbn) {
-        QRCodeGenerator.setWebReaderQrCode(isbn, qrCodeImage, 140, 140);
-        setWebReaderUrl(isbn);
-    }
-
-    private void setWebReaderUrl(String title) {
-        Task<Void> task = new Task<>() {
-            @Override
-            protected Void call() {
-                JSONObject response = GoogleBooksApiService.searchBook(title, 1);
-                if (response != null && response.has("items")) {
-                    var items = response.getJSONArray("items");
-                    var book = items.getJSONObject(0).getJSONObject("accessInfo");
-                    if (items.length() > 0 && book != null) {
-                        String webReaderLink = book.optString("webReaderLink", "No Web Reader Link");
-                        if (!"No Web Reader Link".equals(webReaderLink)) {
-                            try {
-                                qrCodeTextField.setText(webReaderLink);
-                                lastQrCodeURL = webReaderLink;
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-                }
-                return null;
-            }
-        };
-
-        new Thread(task).start();
     }
 
     private void loadImageAsync(String path, ImageView imageView) {
