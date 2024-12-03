@@ -105,7 +105,7 @@
                      <children>
               <ImageView fx:id="qrCodeImage" fitHeight="110.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true">
                 <image>
-                  <Image url="@../../../../../../../../Users/Dell/Downloads/7994392.gif" />
+                  <Image url="@../../assets/gif/7994392.gif" />
                 </image>
               </ImageView>
               <Label text="Web Reader">

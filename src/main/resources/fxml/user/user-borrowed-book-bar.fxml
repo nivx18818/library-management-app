@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Spinner?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
@@ -22,6 +23,9 @@
                <image>
                   <Image url="@../../assets/img/images.png" />
                </image>
+               <effect>
+                  <DropShadow />
+               </effect>
             </ImageView>
          </children>
       </Pane>

@@ -245,7 +245,7 @@
           <children>
             <ImageView fx:id="qrCodeImage" fitHeight="140.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
-                        <Image url="@../../../../../../../../Users/Dell/Downloads/7994392.gif" />
+                        <Image url="@../../assets/gif/7994392.gif" />
                      </image>
             </ImageView>
           </children>

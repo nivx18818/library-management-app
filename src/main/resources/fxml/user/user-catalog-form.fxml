@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
@@ -101,12 +102,12 @@
                               <Font size="13.0" />
                            </font>
                         </Label>
-                        <Label alignment="CENTER" layoutX="62.0" layoutY="30.0" prefHeight="14.0" prefWidth="190.0" text="Borrowed Date">
+                        <Label alignment="CENTER" layoutX="62.0" layoutY="30.0" prefHeight="14.0" prefWidth="170.0" text="Borrowed Date">
                            <font>
                               <Font size="13.0" />
                            </font>
                         </Label>
-                        <Label fx:id="dueDateHeaderLabel" alignment="CENTER" layoutX="729.0" layoutY="23.0" prefHeight="14.0" prefWidth="190.0" text="Due Date">
+                        <Label fx:id="dueDateHeaderLabel" alignment="CENTER" layoutX="729.0" layoutY="23.0" prefHeight="14.0" prefWidth="170.0" text="Due Date">
                            <font>
                               <Font size="13.0" />
                            </font>
@@ -120,6 +121,9 @@
                      <effect>
                         <Bloom threshold="0.34" />
                      </effect>
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
                   </HBox>
                   <ScrollPane hbarPolicy="NEVER" layoutY="43.0" prefHeight="602.0" prefWidth="1114.0" style="-fx-background-color: white;">
                      <content>

@@ -96,7 +96,7 @@
                         <Font size="13.0" />
                      </font>
                   </Label>
-                  <Label alignment="CENTER" layoutX="909.0" layoutY="23.0" prefHeight="14.0" prefWidth="120.0" text="Add to card">
+                  <Label alignment="CENTER" layoutX="909.0" layoutY="23.0" prefHeight="14.0" prefWidth="120.0" text="Add to cart">
                      <font>
                         <Font size="13.0" />
                      </font>

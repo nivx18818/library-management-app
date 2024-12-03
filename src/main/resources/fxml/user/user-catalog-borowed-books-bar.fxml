@@ -58,12 +58,12 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <Label fx:id="borrowedDateLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="105.0" prefWidth="190.0" text="16/11/2024" textAlignment="CENTER" wrapText="true">
+      <Label fx:id="borrowedDateLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="105.0" prefWidth="170.0" text="16/11/2024" textAlignment="CENTER" wrapText="true">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label fx:id="dueDateLabel" alignment="CENTER" prefHeight="101.0" prefWidth="190.0" text="17/11/2024" textAlignment="CENTER">
+      <Label fx:id="dueDateLabel" alignment="CENTER" prefHeight="101.0" prefWidth="170.0" text="17/11/2024" textAlignment="CENTER">
          <font>
             <Font size="14.0" />
          </font>
@@ -108,4 +108,7 @@
          </children>
       </StackPane>
    </children>
+   <padding>
+      <Insets left="10.0" />
+   </padding>
 </HBox>
