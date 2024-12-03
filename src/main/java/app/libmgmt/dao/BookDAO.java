@@ -17,18 +17,22 @@ public class BookDAO {
     public BookDAO() {
     }
 
-    private Connection getConnection() throws SQLException {
+    // public static void setConnection(Connection connection) {
+    //     BookDAO.connection = connection;
+    // }
+    
+    public Connection getConnection() throws SQLException {
         return DatabaseConnection.getConnection();
     }
 
     public String generateNextIsbn() throws SQLException {
         String nextIsbn = "BK000001";
         String sql = "SELECT isbn FROM Book WHERE isbn LIKE 'BK%' ORDER BY isbn DESC LIMIT 1";
-    
+
         try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql);
-             ResultSet resultSet = statement.executeQuery()) {
-    
+                PreparedStatement statement = connection.prepareStatement(sql);
+                ResultSet resultSet = statement.executeQuery()) {
+
             if (resultSet.next()) {
                 String lastIsbn = resultSet.getString("isbn");
                 int numberPart = Integer.parseInt(lastIsbn.replace("BK", ""));
@@ -37,22 +41,23 @@ public class BookDAO {
         }
         return nextIsbn;
     }
-    
 
     public void addBook(Book book) throws SQLException {
         if (book.getIsbn().equals("0") || book.getIsbn().isEmpty()) {
-            book.setIsbn(generateNextIsbn()); 
+            book.setIsbn(generateNextIsbn());
         }
 
         String sql = "INSERT INTO Book(isbn, title, published_date, publisher, cover_url, "
                 + "available_amount, authors, categories) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
-        
+
         try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+                PreparedStatement statement = connection.prepareStatement(sql)) {
             String authorsString = String.join(",", book.getAuthors());
             String categoriesString = String.join(",", book.getCategories());
 
-            java.sql.Date publishDate = book.getPublishedDate() != null ? new java.sql.Date(book.getPublishedDate().getTime()) : null;
+            java.sql.Date publishDate = book.getPublishedDate() != null
+                    ? new java.sql.Date(book.getPublishedDate().getTime())
+                    : null;
             String publishString = publishDate != null ? publishDate.toString() : null;
 
             statement.setString(1, book.getIsbn());
@@ -68,16 +73,18 @@ public class BookDAO {
         }
     }
 
-    public void updateBook(Book book) throws SQLException  {
+    public void updateBook(Book book) throws SQLException {
         String sql = "UPDATE Book SET title = ?, published_date = ?, publisher = ?, cover_url = ?, "
                 + "available_amount = ?, authors = ?, categories = ? WHERE isbn = ?";
 
         try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+                PreparedStatement statement = connection.prepareStatement(sql)) {
             String authorsString = String.join(",", book.getAuthors());
             String categoriesString = String.join(",", book.getCategories());
 
-            java.sql.Date publishDate = book.getPublishedDate() != null ? new java.sql.Date(book.getPublishedDate().getTime()) : null;
+            java.sql.Date publishDate = book.getPublishedDate() != null
+                    ? new java.sql.Date(book.getPublishedDate().getTime())
+                    : null;
             String publishString = publishDate != null ? publishDate.toString() : null;
 
             statement.setString(1, book.getTitle());
@@ -93,11 +100,11 @@ public class BookDAO {
         }
     }
 
-    public void deleteBookByIsbn(String isbn) throws SQLException  {
+    public void deleteBookByIsbn(String isbn) throws SQLException {
         String sql = "DELETE FROM Book WHERE isbn = ?";
 
         try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+                PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, isbn);
             statement.executeUpdate();
         }
@@ -106,11 +113,11 @@ public class BookDAO {
     public List<Book> getAllBooks() throws SQLException {
         List<Book> books = new ArrayList<>();
         String sql = "SELECT isbn, title, published_date, publisher, cover_url, available_amount, authors, categories FROM Book";
-    
+
         try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql);
-             ResultSet rs = statement.executeQuery()) {
-    
+                PreparedStatement statement = connection.prepareStatement(sql);
+                ResultSet rs = statement.executeQuery()) {
+
             while (rs.next()) {
                 List<String> authors = parseStrings(rs.getString("authors"));
                 List<String> categories = parseStrings(rs.getString("categories"));
@@ -126,23 +133,21 @@ public class BookDAO {
                         rs.getString("cover_url"),
                         rs.getInt("available_amount"),
                         authors,
-                        categories
-                );
-    
+                        categories);
+
                 books.add(book);
             }
         }
-    
+
         return books;
     }
-    
 
-    public Book getBookByIsbn(String isbn) throws SQLException  {
+    public Book getBookByIsbn(String isbn) throws SQLException {
         String sql = "SELECT isbn, title, published_date, publisher, cover_url, available_amount, authors, categories FROM Book WHERE isbn = ?";
         Book book = null;
 
         try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+                PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, isbn);
 
             try (ResultSet rs = statement.executeQuery()) {
@@ -172,12 +177,12 @@ public class BookDAO {
         return book;
     }
 
-    public List<Book> getBooksByAuthor(String author) throws SQLException  {
+    public List<Book> getBooksByAuthor(String author) throws SQLException {
         List<Book> books = new ArrayList<>();
         String sql = "SELECT isbn, title, published_date, publisher, cover_url, available_amount, authors, categories FROM Book WHERE authors LIKE ?";
 
         try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+                PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, "%" + author + "%");
 
             try (ResultSet rs = statement.executeQuery()) {
@@ -211,7 +216,7 @@ public class BookDAO {
         String sql = "SELECT isbn, title, published_date, publisher, cover_url, available_amount, authors, categories FROM Book WHERE categories LIKE ?";
 
         try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+                PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, "%" + category + "%");
             ResultSet rs = statement.executeQuery();
 
@@ -245,16 +250,16 @@ public class BookDAO {
     public int countTotalAvailableBooks() throws SQLException {
         int totalBooks = 0;
         String sql = "SELECT SUM(available_amount) FROM Book";
-        
+
         try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql);
-             ResultSet rs = statement.executeQuery()) {
-             
+                PreparedStatement statement = connection.prepareStatement(sql);
+                ResultSet rs = statement.executeQuery()) {
+
             if (rs.next()) {
                 totalBooks = rs.getInt(1);
             }
         }
-        
+
         return totalBooks;
     }
 
