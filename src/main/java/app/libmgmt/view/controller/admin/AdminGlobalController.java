@@ -167,6 +167,13 @@ public class AdminGlobalController {
             default:
                 break;
         }
+        for (int i = 0; i < borrowedBooksData.size(); i++) {
+            Loan loan = borrowedBooksData.get(i);
+            if (loan.getUserId().equals(id)) {
+                borrowedBooksData.removeIf(loan1 -> loan1.getUserId().equals(id));
+            }
+        }
+        loanService.deleteLoanByUserId(id);
         userService.deleteUserById(id);
     }
 

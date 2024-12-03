@@ -89,6 +89,16 @@ public class LoanDAO {
         }
     }
 
+    public void deleteLoanByUserId(String userId) throws SQLException {
+        String sql = "DELETE FROM Loan WHERE userid = ?";
+
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, userId);
+            statement.executeUpdate();
+        }
+    }
+
     public List<Loan> getAllLoans() throws SQLException {
         List<Loan> loans = new ArrayList<>();
         String sql = "SELECT id, user_name, userid, amount, status, borrowed_date, due_date, returned_date, book_isbn FROM Loan WHERE status = 'BORROWED'";

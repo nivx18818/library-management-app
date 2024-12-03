@@ -47,6 +47,15 @@ public class LoanService {
         }
     }
 
+    public void deleteLoanByUserId(String userId) {
+        try {
+            loanDAO.deleteLoanByUserId(userId);
+            System.out.println("Loan deleted successfully");
+        } catch (SQLException e) {
+            throw new ServiceException("Error deleting loan", e);
+        }
+    }
+
     public List<Loan> getAllLoans() {
         try {
             return loanDAO.getAllLoans();
