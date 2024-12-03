@@ -7,6 +7,12 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.text.ParseException;
+
 import app.libmgmt.model.Book;
 import app.libmgmt.util.ChangeScene;
 import app.libmgmt.util.EnumUtils;
@@ -41,6 +47,20 @@ public class AdminBookBarController {
                     String authorsString = String.join(", ", updatedBook.getAuthors());
                     String categoriesString = String.join(", ", updatedBook.getCategories());
 
+                    String inputPattern = "EEE MMM dd HH:mm:ss z yyyy";
+                    SimpleDateFormat inputFormat = new SimpleDateFormat(inputPattern, Locale.ENGLISH);
+                    String outputPattern = "dd/MM/yyyy";
+                    SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
+
+                    Date parsedDate;
+                    try {
+                        parsedDate = inputFormat.parse(updatedBook.getPublishedDate().toString());
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                        parsedDate = new Date();
+                    }
+                    String formattedDate = outputFormat.format(parsedDate);
+
                     String[] updatedBookData = new String[]{
                         updatedBook.getIsbn(),
                         updatedBook.getCoverUrl(),
@@ -49,7 +69,7 @@ public class AdminBookBarController {
                         authorsString,
                         String.valueOf(updatedBook.getAvailableCopies()),
                         updatedBook.getPublisher(),
-                        updatedBook.getPublishedDate().toString()
+                        formattedDate
                     };
 
                     if (bookID.equals(updatedBookData[0])) {

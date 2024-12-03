@@ -335,10 +335,10 @@ public class AdminBookEditDialogController {
             return false;
         }
 
-        if (!RegExPatterns.datePattern(publishedDatePicker.getValue().toString())) {
+        if (RegExPatterns.datePattern(publishedDatePicker.getValue().toString())) {
+            System.out.println(publishedDatePicker.getValue().toString());
             notificationLabel.setText("Date is invalid. Please follow the format dd/MM/yyyy.");
-            notificationLabel.setStyle("-fx-text-fill: #ff0000;");
-            AnimationUtils.playNotificationTimeline(notificationLabel, 2, "#ff0000");
+            AnimationUtils.playNotificationTimeline(notificationLabel, 3, "#ff0000");
             return false;
         }
 
