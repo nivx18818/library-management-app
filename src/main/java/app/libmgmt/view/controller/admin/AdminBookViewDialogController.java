@@ -101,7 +101,8 @@ public class AdminBookViewDialogController {
             }
         }
 
-        QRCodeGenerator.setWebReaderQrCode(data[2], qrCodeImage, 120, 120);
+        String isbn = data[0];
+        QRCodeGenerator.setWebReaderQrCode(isbn, qrCodeImage, 120, 120);
     }
 
     private void setQuantityLabel(String quantity) {

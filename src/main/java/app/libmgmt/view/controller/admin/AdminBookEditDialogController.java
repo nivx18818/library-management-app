@@ -100,13 +100,7 @@ public class AdminBookEditDialogController {
         String lastUrl = currentUpdateType.equals(UpdateType.BOOK_COVER) ? lastImageURL : lastQrCodeURL;
 
         if (!imgUrl.equals(lastUrl)) {
-            if (RegExPatterns.bookCoverUrlPattern(imgUrl)) {
-                updateImage(currentUpdateType, imgUrl);
-                bookCoverLabel.setText("Valid URL");
-                AnimationUtils.playNotificationTimeline(bookCoverLabel, 2, "#08a80d");
-            } else {
-                showInvalidUrlNotification();
-            }
+            updateImage(currentUpdateType, imgUrl);
         }
     }
 
@@ -205,10 +199,17 @@ public class AdminBookEditDialogController {
     // Image Update Methods
     private void updateImage(UpdateType updateType, String url) {
         if (updateType.equals(UpdateType.BOOK_COVER)) {
+            if (!RegExPatterns.bookCoverUrlPattern(url)) {
+                showInvalidUrlNotification();
+                return;
+            }
             setBookCoverImage(url);
+            bookCoverLabel.setText("Valid URL");
+            AnimationUtils.playNotificationTimeline(bookCoverLabel, 2, "#08a80d");
             lastImageURL = url;
         } else if (updateType.equals(UpdateType.QR_CODE)) {
             try {
+
                 qrCodeImage.setImage(QRCodeGenerator.generateQRCode(url, 140, 140));
             } catch (WriterException e) {
                 e.printStackTrace();
