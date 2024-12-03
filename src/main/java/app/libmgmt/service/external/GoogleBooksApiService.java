@@ -4,12 +4,12 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
 import org.json.JSONObject;
 
 public class GoogleBooksApiService {
+    private static final String API_KEY = "AIzaSyCTL9h6r-BxBZ5_GRe0Gu5r2Ef8YWJWoGo"; 
        
     public static JSONObject searchBook(String title, Integer limit) {
         if (title == null || title.isEmpty()) {
@@ -38,10 +38,13 @@ public class GoogleBooksApiService {
         }
     }
 
-    private static String buildUrl(String title, Integer limit) throws Exception {
-        String encodedTitle = URLEncoder.encode(title, StandardCharsets.UTF_8.toString());
-        return String.format("https://www.googleapis.com/books/v1/volumes?q=%s&maxResults=%d", encodedTitle, limit);
+    private static String buildUrl(String title, Integer limit) {
+        String query = title.replace(" ", "+");
+        return "https://www.googleapis.com/books/v1/volumes?q=" + query 
+               + "&maxResults=" + limit 
+               + "&key=" + API_KEY;
     }
+
     private static HttpURLConnection createHttpConnection(String apiUrl) throws Exception {
        
         URI uri = new URI(apiUrl); 
