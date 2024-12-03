@@ -22,7 +22,7 @@ public class LoanDAO {
     }
 
     public void addLoan(Loan loan) throws SQLException {
-        String sql = "INSERT INTO Loan (user_name, userid, amount, status, borrowed_date, due_date, book_isbn) " +
+        String sql = "INSERT INTO Loan (user_id, user_name, amount, status, borrowed_date, due_date, book_isbn) " +
                     "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = getConnection();
@@ -49,7 +49,7 @@ public class LoanDAO {
     }
 
     public void updateLoan(Loan loan) throws SQLException {
-        String sql = "UPDATE Loan SET user_name = ?, userid = ?, amount = ?, status = ?, " +
+        String sql = "UPDATE Loan SET user_id = ?, user_name = ?, amount = ?, status = ?, " +
                      "borrowed_date = ?, due_date = ?, returned_date = ?, book_isbn = ? WHERE id = ?";
 
         try (Connection connection = getConnection();
@@ -90,7 +90,7 @@ public class LoanDAO {
     }
 
     public void deleteLoanByUserId(String userId) throws SQLException {
-        String sql = "DELETE FROM Loan WHERE userid = ?";
+        String sql = "DELETE FROM Loan WHERE user_id = ?";
 
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -101,7 +101,7 @@ public class LoanDAO {
 
     public List<Loan> getAllLoans() throws SQLException {
         List<Loan> loans = new ArrayList<>();
-        String sql = "SELECT id, user_name, userid, amount, status, borrowed_date, due_date, returned_date, book_isbn FROM Loan WHERE status = 'BORROWED'";
+        String sql = "SELECT id, user_id, user_name, amount, status, borrowed_date, due_date, returned_date, book_isbn FROM Loan WHERE status = 'BORROWED'";
 
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(sql);
@@ -117,7 +117,7 @@ public class LoanDAO {
 
     public List<Loan> getOverdueLoans() throws SQLException {
         List<Loan> overdueLoans = new ArrayList<>();
-        String sql = "SELECT id, user_name, userid, amount, status, borrowed_date, due_date, returned_date, book_isbn " +
+        String sql = "SELECT id, user_id, user_name, amount, status, borrowed_date, due_date, returned_date, book_isbn " +
                      "FROM Loan WHERE status = 'OVERDUE'";
     
         try (Connection connection = getConnection();
@@ -161,8 +161,8 @@ public class LoanDAO {
         }
     
         List<Loan> loans = new ArrayList<>();
-        String sql = "SELECT id, user_name, userid, amount, status, borrowed_date, due_date, returned_date, book_isbn " +
-                     "FROM Loan WHERE userid = ?";
+        String sql = "SELECT id, user_id, user_name, amount, status, borrowed_date, due_date, returned_date, book_isbn " +
+                     "FROM Loan WHERE user_id = ?";
     
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -185,8 +185,8 @@ public class LoanDAO {
         }
     
         List<Loan> loans = new ArrayList<>();
-        String sql = "SELECT id, user_name, userid, amount, status, borrowed_date, due_date, returned_date, book_isbn " +
-                     "FROM Loan WHERE userid = ? and status = 'RETURNED'";
+        String sql = "SELECT id, user_name, user_id, amount, status, borrowed_date, due_date, returned_date, book_isbn " +
+                     "FROM Loan WHERE user_id = ? and status = 'RETURNED'";
     
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -204,7 +204,7 @@ public class LoanDAO {
     }
 
     public String getIsbnByUserId (String userId) throws SQLException {
-        String sql = "SELECT GROUP_CONCAT(book_isbn) AS isbn_list FROM Loan WHERE userid = ? and status = 'BORROWED' GROUP BY userid";
+        String sql = "SELECT GROUP_CONCAT(book_isbn) AS isbn_list FROM Loan WHERE user_id = ? and status = 'BORROWED' GROUP BY user_id";
         String isbnList = null;
 
         try (Connection connection = getConnection();
@@ -249,7 +249,7 @@ public class LoanDAO {
 
     private Loan mapResultSetToLoan(ResultSet rs) throws SQLException {
         int loanId = rs.getInt("id");
-        String userId = rs.getString("userid");
+        String user_id = rs.getString("user_id");
         int amount = rs.getInt("amount");
         String status = rs.getString("status");
 
@@ -266,6 +266,6 @@ public class LoanDAO {
         String bookIsbn = rs.getString("book_isbn");
 
         // int loanId, String userId, String isbn, int amount, Date borrowedDate, Date dueDate, String status
-        return new Loan(loanId, userId, bookIsbn, amount, borrowedDate, dueDate, status);
+        return new Loan(loanId, user_id, bookIsbn, amount, borrowedDate, dueDate, status);
     }
 }
