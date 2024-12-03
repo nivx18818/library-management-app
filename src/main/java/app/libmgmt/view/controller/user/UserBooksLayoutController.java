@@ -96,7 +96,7 @@ public class UserBooksLayoutController {
                                             outputFormat.format(d.getPublishedDate()) : "Not Available";
 
                         String[] data = new String[] { d.getIsbn(), d.getCoverUrl(), d.getTitle(), categoriesString, authorsString,
-                                String.valueOf(d.getAvailableCopies()), d.getPublisher(), publishedDateStr };
+                                String.valueOf(d.getAvailableCopies()), d.getPublisher(), publishedDateStr, d.getWebReaderUrl() };
                         loadBookBar(data);
                     }
                 } catch (Exception e) {

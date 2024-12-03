@@ -7,6 +7,11 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+
+import java.io.IOException;
+
+import com.google.zxing.WriterException;
+
 import app.libmgmt.model.Book;
 import app.libmgmt.util.ChangeScene;
 import app.libmgmt.util.EnumUtils;
@@ -21,7 +26,7 @@ public class AdminBookBarController {
     private ImageView bookImage, editFunction, deleteFunction, viewFunction;
 
     private int quantity = -1;
-    private String imgPath = "", publisher = "", publishedDate = "", bookID = "";
+    private String imgPath = "", publisher = "", publishedDate = "", bookID = "", webReaderUrl = "";
 
     public AdminBookBarController() {
         controller = this;
@@ -62,7 +67,7 @@ public class AdminBookBarController {
 
     // --- Event Handlers ---
     @FXML
-    void imgViewOnMouseClicked(MouseEvent event) {
+    void imgViewOnMouseClicked(MouseEvent event) throws WriterException, IOException {
         openPopUp("/fxml/admin/admin-book-view-dialog.fxml", EnumUtils.PopupList.BOOK_VIEW);
         AdminBookViewDialogController.getInstance().setData(getData());
     }
@@ -115,12 +120,10 @@ public class AdminBookBarController {
 
     public String[] getData() {
         return new String[]{bookID, imgPath, nameLabel.getText(), typeLabel.getText(),
-                authorLabel.getText(), Integer.toString(quantity), publisher, publishedDate};
+                authorLabel.getText(), Integer.toString(quantity), publisher, publishedDate, webReaderUrl};
     }
 
     public void setData(String[] data) {
-        // Form data: [id, imgPath, name, type, author, quantity, publisher, publishedDate]
-        // Form book bar: [No., imgPath, name, type, author, quantity(available)]
         bookID = data[0];
         int bookIndex = -1;
         for (int i = 0; i < AdminGlobalController.getInstance().getObservableBookData().size(); i++) {
@@ -142,6 +145,10 @@ public class AdminBookBarController {
 
         if (!publishedDate.equals(data[7])) {
             publishedDate = data[7];
+        }
+
+        if (!webReaderUrl.equals(data[8])) {
+            webReaderUrl = data[8];
         }
     }
 

@@ -109,9 +109,12 @@ public class AdminAddBookApiController {
                         } else if (publishedDate.equals("Unknown Date")) {
                             publishedDate = "0000-01-01";
                         }
+                        String webReader = items.getJSONObject(i).getJSONObject("accessInfo") != null
+                                ? items.getJSONObject(0).getJSONObject("accessInfo").optString("webReaderLink", "No Web Reader URL")
+                                : "No Web Reader URL";
 
                         String[] data = new String[] { isbn.equals("No ISBN") ? id : isbn, coverURL, name, authors,
-                                type, publisher, publishedDate };
+                                type, publisher, publishedDate, webReader };
 
                         loadBookBar(data);
                     }
