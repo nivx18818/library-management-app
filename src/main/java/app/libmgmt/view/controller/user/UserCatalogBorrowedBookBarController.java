@@ -119,15 +119,16 @@ public class UserCatalogBorrowedBookBarController {
         bookId = data[0];
         if (UserCatalogController.currentStateUserCatalog == USER_CATALOG_STATE.BORROWED) {
             orderLabel.setText(data[1]);
+            dueDateLabel.setText(data[5]);
         } else {
             orderLabel.setText(data[0]);
+            returnLabel.setText(data[5]);
         }
         if (data[2] != null) {
             updateImage(data[2], bookImage);
         }
         nameLabel.setText(data[3]);
         borrowedDateLabel.setText(data[4]);
-        dueDateLabel.setText(data[5]);
         amountLabel.setText(data[6]);
     }
 

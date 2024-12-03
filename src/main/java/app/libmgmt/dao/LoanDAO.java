@@ -179,6 +179,30 @@ public class LoanDAO {
         return loans;
     }
 
+    public List<Loan> getReturLoansByUserId(String userId) throws SQLException {
+        if (userId == null || userId.isEmpty()) {
+            throw new IllegalArgumentException("User ID is null.");
+        }
+    
+        List<Loan> loans = new ArrayList<>();
+        String sql = "SELECT id, user_name, userid, amount, status, borrowed_date, due_date, returned_date, book_isbn " +
+                     "FROM Loan WHERE userid = ? and status = 'RETURNED'";
+    
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, userId);
+            
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) {
+                    Loan loan = mapResultSetToLoan(rs);
+                    loans.add(loan);
+                }
+            }
+        }
+    
+        return loans;
+    }
+
     public String getIsbnByUserId (String userId) throws SQLException {
         String sql = "SELECT GROUP_CONCAT(book_isbn) AS isbn_list FROM Loan WHERE userid = ? and status = 'BORROWED' GROUP BY userid";
         String isbnList = null;
@@ -211,6 +235,16 @@ public class LoanDAO {
         }
         
         return totalBooks;
+    }
+
+    public void updateLoanReturnedDate(int loanId) throws SQLException {
+        String sql = "UPDATE Loan SET returned_date = DATE('now'), status = 'RETURNED' WHERE id = ?";
+
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, loanId);
+            statement.executeUpdate();
+        }
     }
 
     private Loan mapResultSetToLoan(ResultSet rs) throws SQLException {

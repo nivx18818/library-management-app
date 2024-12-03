@@ -2,6 +2,7 @@ package app.libmgmt.view.controller.user;
 
 import com.jfoenix.controls.JFXButton;
 
+import app.libmgmt.service.LoanService;
 import app.libmgmt.util.AnimationUtils;
 import app.libmgmt.util.ChangeScene;
 import javafx.animation.KeyFrame;
@@ -49,6 +50,7 @@ public class UserReturnBookConfirmationDialogController {
         this.loanId = loanId;
     }
 
+    private final LoanService loanService = new LoanService();
     @FXML
     public void initialize() {
         System.out.println("User Return Confirmation Dialog initialized");
@@ -64,6 +66,7 @@ public class UserReturnBookConfirmationDialogController {
         lblConfirm.setText("Returning...");
         disableButtons(true);
         closeDialogAfterDelay();
+        loanService.updateLoanReturnedDate(loanId);
         UserGlobalController.getInstance().addReturnedBook(loanId);
     }
 

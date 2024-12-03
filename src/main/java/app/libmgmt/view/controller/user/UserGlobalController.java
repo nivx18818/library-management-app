@@ -62,7 +62,7 @@ public class UserGlobalController {
     }
 
     private List<Loan> setOriginalReturnedBooksData() {
-        return loanService.getOverdueLoans();
+        return loanService.getReturLoansByUserId("23020604");
     }
 
     public List<Book> preLoadBooksData() {
@@ -89,8 +89,7 @@ public class UserGlobalController {
 
         for (int i = 0; i < borrowedBooksData.size(); i++) {
             Loan data = borrowedBooksData.get(i);
-            if (data.getLoanId() == loanId && (data.getStatus().equals("BORROWED") || data.getStatus().equals("OVERDUE"))) {
-                data.markAsReturned();
+            if (data.getLoanId() == loanId) {
                 returnedBooksData.add(data);
                 break;
             }

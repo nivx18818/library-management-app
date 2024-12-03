@@ -88,6 +88,14 @@ public class LoanService {
         }
     }
 
+    public List<Loan> getReturLoansByUserId(String userId) {
+        try {
+            return loanDAO.getReturLoansByUserId(userId);
+        } catch (SQLException e) {
+            throw new ServiceException("Error getting loan by userId", e);
+        }
+    }
+
     public int countTotalBorrowedBooks() {
         try {
             return loanDAO.countTotalBorrowedBooks();
@@ -122,5 +130,14 @@ public class LoanService {
 
     public User getUserFromLoan(Loan loan) {
         return userService.getUserById(loan.getUserId());
+    }
+
+    public void updateLoanReturnedDate(int loanId) {
+        try {
+            loanDAO.updateLoanReturnedDate(loanId);
+            System.out.println("Loan returned date updated successfully");
+        } catch (SQLException e) {
+            throw new ServiceException("Error updating loan returned date", e);
+        }
     }
 }
