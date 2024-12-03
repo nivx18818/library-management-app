@@ -249,23 +249,15 @@ public class LoanDAO {
 
     private Loan mapResultSetToLoan(ResultSet rs) throws SQLException {
         int loanId = rs.getInt("id");
-        String user_id = rs.getString("user_id");
+        String userId = rs.getString("user_id");
+        String bookIsbn = rs.getString("book_isbn");
         int amount = rs.getInt("amount");
-        String status = rs.getString("status");
-
-        // String publishedDateString = rs.getString("published_date");
-        // Date publishedDate = publishedDateString != null ? Date.valueOf(publishedDateString) : null;
 
         String borrowedDateString = rs.getString("borrowed_date");
-        Date borrowedDate = borrowedDateString !=  null ? Date.valueOf(borrowedDateString) : null;
-        String dueDateString = rs.getString("due_date");
-        Date dueDate = dueDateString != null ? Date.valueOf(dueDateString) : null;
-        // String returnedDateString = rs.getString("returned_date");
-        // Date returnedDate = returnedDateString != null ? Date.valueOf(returnedDateString) : null;
+        Date borrowedDate = borrowedDateString != null ? Date.valueOf(borrowedDateString) : null;
 
-        String bookIsbn = rs.getString("book_isbn");
+        String status = rs.getString("status");
 
-        // int loanId, String userId, String isbn, int amount, Date borrowedDate, Date dueDate, String status
-        return new Loan(loanId, user_id, bookIsbn, amount, borrowedDate, dueDate, status);
+        return new Loan(loanId, userId, bookIsbn, amount, borrowedDate, status);
     }
 }

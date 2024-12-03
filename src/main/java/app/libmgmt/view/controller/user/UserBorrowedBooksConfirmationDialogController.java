@@ -197,16 +197,13 @@ public class UserBorrowedBooksConfirmationDialogController {
             Date parsedDate = inputFormat.parse(borrowedDateText);
             String formattedDate = outputFormat.format(parsedDate); 
 
-            String dueDateText = controller.getDueDate();
-            Date dueDate = inputFormat.parse(dueDateText);
-            String dueDateString = outputFormat.format(dueDate);  
             Loan newBorrowedBookData = new Loan(
                     UserGlobalController.getInstance().getBorrowedBooksData().size() + orderNumber,
                     "23020604",
                     bookData[0],
                     1,
                     DateUtils.parseStringToDate(formattedDate),
-                    DateUtils.parseStringToDate(dueDateString), "BORROWED");
+                    "BORROWED");
             newBorrowedBooksList.add(newBorrowedBookData);
             Platform.runLater(() -> {
                 vBoxSelectedBooksList.getChildren().add(scene);

@@ -62,7 +62,7 @@ public class UserGlobalController {
     }
 
     private List<Loan> setOriginalReturnedBooksData() {
-        return loanService.getReturLoansByUserId("23020604");
+        return loanService.getReturnLoansByUserId("23020604");
     }
 
     public List<Book> preLoadBooksData() {

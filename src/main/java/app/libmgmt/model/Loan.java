@@ -18,27 +18,25 @@ public class Loan {
     private String status;
     private static final long TWO_WEEKS_IN_MILLIS = 1209600000; // 14L * 24 * 60 * 60 * 1000
 
-    public Loan(String userId, String isbn, int amount, Date borrowedDate, Date dueDate, String status) {
+    public Loan(String userId, String isbn, int amount, Date borrowedDate, String status) {
         this.userId = userId;
         this.userName = fetchUserNameFromUserId(userId);
         this.isbn = isbn;
         this.amount = amount;
         this.borrowedDate = borrowedDate;
-        this.dueDate = dueDate;
-        this.status = status;
         this.dueDate = new Date(borrowedDate.getTime() + TWO_WEEKS_IN_MILLIS);
+        this.status = status;
     }
 
-    public Loan(int loanId, String userId, String isbn, int amount, Date borrowedDate, Date dueDate, String status) {
+    public Loan(int loanId, String userId, String isbn, int amount, Date borrowedDate, String status) {
         this.loanId = loanId;
         this.userId = userId;
         this.userName = fetchUserNameFromUserId(userId);
         this.isbn = isbn;
         this.amount = amount;
         this.borrowedDate = borrowedDate;
-        this.dueDate = dueDate;
-        this.status = status;
         this.dueDate = new Date(borrowedDate.getTime() + TWO_WEEKS_IN_MILLIS);
+        this.status = status;
     }
 
     // Getters và Setters
