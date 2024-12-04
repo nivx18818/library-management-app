@@ -44,7 +44,7 @@ public class AdminAddUserDialogController {
     private PasswordField txtCfPasswordAdmin, txtCfPasswordGuest, txtCfPasswordStudent;
     @FXML
     private TextField txtEmailAdmin, txtEmailGuest, txtEmailStudent, txtIDStudent, txtIdGuest,
-            txtNameAdmin, txtNameGuest, txtNameStudent, txtPhoneNumberGuest;
+            txtNameAdmin, txtNameGuest, txtNameStudent, txtPhoneNumberGuest, txtIdAdmin;
     @FXML
     private PasswordField txtPasswordAdmin, txtPasswordGuest, txtPasswordStudent;
     @FXML
@@ -53,8 +53,6 @@ public class AdminAddUserDialogController {
     private ImageView imgClose;
 
     public void initialize() {
-        System.out.println("Initialize Add User Dialog");
-
         cbbMajorStudent.getItems().addAll(majorList);
 
         container.setOnMouseClicked(event -> container.requestFocus());
@@ -73,6 +71,7 @@ public class AdminAddUserDialogController {
     }
 
     private void setDefaultContent() {
+        txtIdAdmin.setText("");
         txtNameAdmin.setText("");
         txtEmailAdmin.setText("");
         txtPasswordAdmin.setText("");
@@ -106,12 +105,13 @@ public class AdminAddUserDialogController {
 
     // --- Validation Methods ---
     private boolean checkValidAdmin(String[] adminInfo, EnumUtils.UserType userType) {
-        String name = adminInfo[0];
-        String email = adminInfo[1];
-        String password = adminInfo[2];
-        String cfPassword = adminInfo[3];
+        String id = adminInfo[0];
+        String name = adminInfo[1];
+        String email = adminInfo[2];
+        String password = adminInfo[3];
+        String cfPassword = adminInfo[4];
 
-        if (isFieldEmpty(name, email, password, cfPassword)) {
+        if (isFieldEmpty(id, name, email, password, cfPassword)) {
             showNotification("Please fill in all fields.", "red");
             return false;
         }
@@ -192,10 +192,10 @@ public class AdminAddUserDialogController {
     // --- User Add Methods ---
     private void addAdmin(String[] adminInfo) {
         if (checkValidAdmin(adminInfo, EnumUtils.UserType.ADMIN)) {
-            AdminDashboardController adminDashboardController = AdminDashboardController.getInstance();
-            // form data: [name, email, password, cfPassword]
+            // form data: [id, name, email, password, cfPassword]
             AdminGlobalController.getInstance().getAdminData().add(adminInfo);
-            adminDashboardController.loadAdminDataTable(adminInfo[0], adminInfo[1]);
+            //TODO: Add admin to database
+            AdminDashboardController.getInstance().loadAdminDataTable(adminInfo[1], adminInfo[2]);
             showNotification("Added successfully", "#08a80d");
             setDefaultContent();
         }
@@ -218,8 +218,8 @@ public class AdminAddUserDialogController {
             }
 
             adminGlobalController.getObservableStudentsData().add(newStudent);
-            adminUsersLayoutController.getStudentsData().add(newStudent);
             showNotification("Added successfully", "#08a80d");
+            setDefaultContent();
         }
     }
 
@@ -241,7 +241,6 @@ public class AdminAddUserDialogController {
                         AdminUsersLayoutController.PreloadType.ADD);
             }
             adminGlobalController.getObservableExternalBorrowersData().add(newGuest);
-            adminUsersLayoutController.getGuestsData().add(newGuest);
             showNotification("Added successfully", "#08a80d");
         }
     }
