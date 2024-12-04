@@ -202,7 +202,7 @@ public class UserBorrowedBooksConfirmationDialogController {
             System.out.println("Borrowed size: " + UserGlobalController.getInstance().getBorrowedBooksData().size());
             Loan newBorrowedBookData = new Loan(
                     UserGlobalController.getInstance().getBorrowedBooksData().size() + orderNumber,
-                    "23020604",
+                    UserGlobalController.getInstance().getUserLoginInfo().getUserId(),
                     bookData[0],
                     1,
                     DateUtils.parseStringToDate(formattedDate),

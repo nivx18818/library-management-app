@@ -13,6 +13,7 @@ module app.libmgmt {
     requires com.google.zxing;
     requires com.google.zxing.javase;
 
+    exports app.libmgmt;
     exports app.libmgmt.initializer;
     exports app.libmgmt.view.controller;
     exports app.libmgmt.view.controller.admin;
@@ -20,6 +21,7 @@ module app.libmgmt {
     exports app.libmgmt.util;
     exports app.libmgmt.model;
 
+    opens app.libmgmt to javafx.fxml;
     opens app.libmgmt.initializer to javafx.fxml;
     opens app.libmgmt.view.controller to javafx.fxml;
     opens app.libmgmt.view.controller.admin to javafx.fxml;

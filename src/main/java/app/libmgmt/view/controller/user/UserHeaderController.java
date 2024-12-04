@@ -44,6 +44,9 @@ public class UserHeaderController {
     @FXML
     private Label timeLabel;
 
+    @FXML
+    private Label userRoleLabel;
+
     private static UserHeaderController controller;
 
     public UserHeaderController() {
@@ -61,7 +64,12 @@ public class UserHeaderController {
     }
 
     public static void setInformation() {
-        getInstance().nameUserLabel.setText("Hoang Duy Thinh");
+        getInstance().nameUserLabel.setText("Welcome, " + UserGlobalController.getInstance().getUserLoginInfo().getName());
+        if (UserGlobalController.getInstance().getUserLoginInfo().getUserRole().equals("STUDENT")) {
+            getInstance().userRoleLabel.setText("Student");
+        } else {
+            getInstance().userRoleLabel.setText("External Borrower");
+        }
     }
 
     public void setDateAndTimeHeader() {

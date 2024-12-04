@@ -4,10 +4,12 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import app.libmgmt.model.Loan;
+import app.libmgmt.model.User;
 import app.libmgmt.model.Book;
 import app.libmgmt.service.LoanService;
 import app.libmgmt.service.BookService;
 import app.libmgmt.util.AnimationUtils;
+import app.libmgmt.view.controller.LoginController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -38,9 +40,12 @@ public class UserGlobalController {
     @FXML
     private StackPane stackPaneContainer;
 
+    private final User user;
+
     // Constructor and Singleton Pattern
     public UserGlobalController() {
         controller = this;
+        user = LoginController.getInstance().getUserLoginInfo();
 
         // Initialize collections
         borrowedBooksData = FXCollections.observableArrayList(preLoadLoansData());
@@ -59,11 +64,13 @@ public class UserGlobalController {
     // Data Pre-loading Methods
     private List<Loan> preLoadLoansData() {
         // test data
-        return loanService.getLoansByUserId("23020604");
+        // return loanService.getLoansByUserId("23020604");
+        return loanService.getLoansByUserId(user.getUserId());
     }
 
     private List<Loan> setOriginalReturnedBooksData() {
-        return loanService.getReturnLoansByUserId("23020604");
+        // return loanService.getReturnLoansByUserId("23020604");
+        return loanService.getReturnLoansByUserId(user.getUserId());
     }
 
     public void preLoadBooksData(Consumer<List<Book>> onSuccess, Consumer<Throwable> onFailure) {
@@ -175,6 +182,10 @@ public class UserGlobalController {
     }
 
     // Getter Methods for Data
+    public User getUserLoginInfo() {
+        return user;
+    }
+
     public ObservableList<Loan> getBorrowedBooksData() {
         return borrowedBooksData;
     }

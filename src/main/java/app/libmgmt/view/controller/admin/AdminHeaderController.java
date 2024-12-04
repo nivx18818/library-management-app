@@ -51,14 +51,14 @@ public class AdminHeaderController {
     @FXML
     public void initialize() {
         AnimationUtils.fadeInDown(rootPane);
-        setUserInformation("Lionel Ronaldo", "Admin");
+        setInformation();
         initializeDateAndTime();
     }
 
     // Method to set user information in the header
-    private void setUserInformation(String userName, String userType) {
-        nameUserText.setText(userName);
-        typeUserText.setText(userType);
+    public static void setInformation() {
+        getInstance().nameUserText.setText("Hello, BookWorm Admin");
+        getInstance().typeUserText.setText("Admin");
     }
 
     // Initializes and continuously updates the current date and time in the header

@@ -2,7 +2,7 @@ package app.libmgmt.view.controller;
 
 import app.libmgmt.model.ExternalBorrower;
 import app.libmgmt.model.Student;
-
+import app.libmgmt.model.User;
 import animatefx.animation.SlideInLeft;
 import animatefx.animation.SlideInRight;
 import animatefx.animation.ZoomOut;
@@ -33,15 +33,26 @@ public class LoginController {
     public static JFXDialog dialog;
     private static LoginController controller;
 
-    @FXML private StackPane stackPaneContainer;
-    @FXML private TextField emailSignUp, fullNameSignUp, usernameField, studentIDSignUp, citizenIDSignUp, phoneNumberSignUp;
-    @FXML private PasswordField passwordField, passwordSignUp;
-    @FXML private Pane sectionFour, sectionOne, sectionThree, sectionTwo, loadingPane, logoPaneSignIn, logoPaneSignUp;
-    @FXML private Button signInButton, signInButton2, signUpButton, signUpButton2;
-    @FXML private Label errorAccountNotify, registerNoticeText, forgotPasswordLabel;
-    @FXML private ToggleGroup userType;
-    @FXML private JFXComboBox<String> majorComboBox;
-    @FXML private AnchorPane rootPane;
+    @FXML
+    private StackPane stackPaneContainer;
+    @FXML
+    private TextField emailSignUp, fullNameSignUp, usernameField, studentIDSignUp, citizenIDSignUp, phoneNumberSignUp;
+    @FXML
+    private PasswordField passwordField, passwordSignUp;
+    @FXML
+    private Pane sectionFour, sectionOne, sectionThree, sectionTwo, loadingPane, logoPaneSignIn, logoPaneSignUp;
+    @FXML
+    private Button signInButton, signInButton2, signUpButton, signUpButton2;
+    @FXML
+    private Label errorAccountNotify, registerNoticeText, forgotPasswordLabel;
+    @FXML
+    private ToggleGroup userType;
+    @FXML
+    private JFXComboBox<String> majorComboBox;
+    @FXML
+    private AnchorPane rootPane;
+
+    private final UserService userService = new UserService();
 
     public LoginController() {
         controller = this;
@@ -68,7 +79,8 @@ public class LoginController {
     void handleSignUpOption(MouseEvent event) {
         Platform.runLater(() -> sectionFour.requestFocus());
         setDefault();
-        if (event.getSource().equals(signUpButton)) handleSignUpButtonClicked();
+        if (event.getSource().equals(signUpButton))
+            handleSignUpButtonClicked();
     }
 
     public void handleSignUpButtonClicked() {
@@ -105,7 +117,8 @@ public class LoginController {
     @FXML
     void handleSignInOption(MouseEvent event) {
         setDefault();
-        if (event.getSource().equals(signInButton2)) handleSignInButtonClicked();
+        if (event.getSource().equals(signInButton2))
+            handleSignInButtonClicked();
     }
 
     public void handleSignInButtonClicked() {
@@ -134,14 +147,21 @@ public class LoginController {
         }
     }
 
-    public void goDashboard() throws IOException {
+    private void goDashboard() throws IOException {
         ZoomOut zoomOut = new ZoomOut(rootPane);
         AnimationUtils.zoomIn(loadingPane, 1);
         loadingPane.setVisible(true);
         zoomOut.setOnFinished(event -> {
             try {
-                ChangeScene.changeInterfaceWindow((Stage) loadingPane.getScene().getWindow(),
-                        "/fxml/admin/admin-global-layout.fxml", "BookWorm");
+                if (getRole(usernameField.getText()).equals("ADMIN")) {
+                    ChangeScene.changeInterfaceWindow((Stage) loadingPane.getScene().getWindow(),
+                            "/fxml/admin/admin-global-layout.fxml", "BookWorm");
+                } else {
+                    ChangeScene.changeInterfaceWindow((Stage) loadingPane.getScene().getWindow(),
+                            "/fxml/user/user-global-layout.fxml", "BookWorm");
+                }
+                // ChangeScene.changeInterfaceWindow((Stage) loadingPane.getScene().getWindow(),
+                // "/fxml/admin/admin-global-layout.fxml", "BookWorm");
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -150,7 +170,11 @@ public class LoginController {
         zoomOut.play();
     }
 
-    public void handleFailedLogin() {
+    private String getRole(String userName) {
+        return userService.getUserById(userName).getUserRole();
+    }
+
+    private void handleFailedLogin() {
         errorAccountNotify.setOpacity(1.0);
         forgotPasswordLabel.setVisible(false);
         AnimationUtils.playNotificationTimeline(errorAccountNotify, 3.0, "red");
@@ -160,15 +184,19 @@ public class LoginController {
         timeline.play();
     }
 
-    public boolean checkAccount(String id, String password) {
+    private boolean checkAccount(String id, String password) {
         // try {
-        //     UserService userService = new UserService();
-        //     return userService.verifyPassword(id, password);
+        // UserService userService = new UserService();
+        // return userService.verifyPassword(id, password);
         // } catch (SQLException e) {
-        //     e.printStackTrace();
-        //     return false;
+        // e.printStackTrace();
+        // return false;
         // }
         return true;
+    }
+
+    public User getUserLoginInfo() {
+        return userService.getUserById(usernameField.getText());
     }
 
     // Sign-Up flow methods
@@ -180,21 +208,22 @@ public class LoginController {
             String email = emailSignUp.getText();
             String password = passwordSignUp.getText();
             RadioButton selectedUserType = (RadioButton) userType.getSelectedToggle();
-            String majorOrPhoneNumber = selectedUserType.getText().equals("Student") ?
-                    ((majorComboBox.getValue() != null) ? majorComboBox.getValue() : "") :
-                    phoneNumberSignUp.getText();
-            String username = selectedUserType.getText().equals("Student") ?
-                    studentIDSignUp.getText() : citizenIDSignUp.getText();
+            String majorOrPhoneNumber = selectedUserType.getText().equals("Student")
+                    ? ((majorComboBox.getValue() != null) ? majorComboBox.getValue() : "")
+                    : phoneNumberSignUp.getText();
+            String username = selectedUserType.getText().equals("Student") ? studentIDSignUp.getText()
+                    : citizenIDSignUp.getText();
             if (checkSignUp(fullName, majorOrPhoneNumber, email, username, password, registerNoticeText)) {
                 UserService userService = new UserService();
                 Student student = null;
                 ExternalBorrower externalBorrower = null;
                 if (selectedUserType.getText().equals("Student")) {
-                    student = new Student(studentIDSignUp.getText(), username, email, password, studentIDSignUp.getText(), majorOrPhoneNumber);
+                    student = new Student(studentIDSignUp.getText(), username, email, password,
+                            studentIDSignUp.getText(), majorOrPhoneNumber);
                     userService.addUser(student);
                 } else {
                     externalBorrower = new ExternalBorrower(citizenIDSignUp.getText(), username, email, password,
-                     citizenIDSignUp.getText(), phoneNumberSignUp.getText());
+                            citizenIDSignUp.getText(), phoneNumberSignUp.getText());
                     userService.addUser(externalBorrower);
                 }
                 logInAfterRegister();
@@ -203,13 +232,15 @@ public class LoginController {
     }
 
     public void logInAfterRegister() {
-        int[] countdownSeconds = {5};
+        int[] countdownSeconds = { 5 };
         AnimationUtils.playNotificationTimeline(registerNoticeText, 5.0, "08a80d");
-        registerNoticeText.setText("Sign up successfully. Please log in! Automatically after " + countdownSeconds[0] + " seconds...");
+        registerNoticeText.setText(
+                "Sign up successfully. Please log in! Automatically after " + countdownSeconds[0] + " seconds...");
 
         Timeline countdown = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
             countdownSeconds[0]--;
-            registerNoticeText.setText("Sign up successfully. Please log in! Automatically after " + countdownSeconds[0] + " seconds...");
+            registerNoticeText.setText(
+                    "Sign up successfully. Please log in! Automatically after " + countdownSeconds[0] + " seconds...");
             if (countdownSeconds[0] == 0) {
                 registerNoticeText.setOpacity(0);
                 registerNoticeText.setText("");
@@ -224,9 +255,10 @@ public class LoginController {
     }
 
     public boolean checkSignUp(String fullName, String majorOrPhoneNumber, String email,
-                               String username, String password, Label registerNoticeText) {
+            String username, String password, Label registerNoticeText) {
 
-        if (fullName.isEmpty() || majorOrPhoneNumber.isEmpty() || email.isEmpty() || username.isEmpty() || password.isEmpty()) {
+        if (fullName.isEmpty() || majorOrPhoneNumber.isEmpty() || email.isEmpty() || username.isEmpty()
+                || password.isEmpty()) {
             registerNoticeText.setText("Please fill in all fields.");
             AnimationUtils.playNotificationTimeline(registerNoticeText, 3.0, "red");
             return false;
@@ -264,7 +296,8 @@ public class LoginController {
 
     @FXML
     public void handleForgotPassword(MouseEvent event) {
-        ChangeScene.openAdminPopUp(stackPaneContainer, "/fxml/forgot-password-dialog.fxml", EnumUtils.PopupList.FORGOT_PASSWORD);
+        ChangeScene.openAdminPopUp(stackPaneContainer, "/fxml/forgot-password-dialog.fxml",
+                EnumUtils.PopupList.FORGOT_PASSWORD);
     }
 
     public void setDefault() {

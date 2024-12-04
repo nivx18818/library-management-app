@@ -156,5 +156,5 @@ public class UserService {
             throw new ServiceException("Error hashing password during login", e);
         }
     }
-
+    
 }
