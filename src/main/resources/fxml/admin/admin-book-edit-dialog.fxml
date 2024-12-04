@@ -93,7 +93,7 @@
                         <Font size="15.0" />
                       </font>
                     </Label>
-                    <TextField fx:id="authorTextField" alignment="BOTTOM_LEFT" maxHeight="37.0" prefHeight="37.0" prefWidth="239.0" promptText="Thomas Edison">
+                    <TextField fx:id="authorTextField" alignment="BOTTOM_LEFT" maxHeight="37.0" prefHeight="37.0" prefWidth="239.0">
                       <font>
                         <Font size="15.0" />
                       </font>
@@ -115,7 +115,7 @@
                         <Font size="15.0" />
                       </font>
                     </Label>
-                    <TextField fx:id="publisherTextField" alignment="BOTTOM_LEFT" maxHeight="37.0" prefHeight="37.0" prefWidth="222.0" promptText="NXB Kim Dong">
+                    <TextField fx:id="publisherTextField" alignment="BOTTOM_LEFT" maxHeight="37.0" prefHeight="37.0" prefWidth="222.0">
                       <font>
                         <Font size="15.0" />
                       </font>
@@ -145,7 +145,7 @@
                         <Font size="15.0" />
                       </font>
                     </Label>
-                              <DatePicker fx:id="publishedDatePicker" editable="false" minHeight="37.0" prefHeight="36.0" prefWidth="150.0" promptText="Published Date*" style="-fx-padding: 10 0 0 0; -fx-font-size: 15; -fx-background-color: #fff;" />
+                              <DatePicker fx:id="publishedDatePicker" editable="false" minHeight="37.0" prefHeight="36.0" prefWidth="150.0" promptText="Published Date" style="-fx-padding: 10 0 0 0; -fx-font-size: 15; -fx-background-color: #fff;" />
                   </children>
                 </HBox>
                 <Line endX="170.0" opacity="0.47" startX="-100.0" />
@@ -167,7 +167,7 @@
                         <Font size="15.0" />
                       </font>
                     </Label>
-                    <TextField fx:id="typeTextField" alignment="BOTTOM_LEFT" maxHeight="37.0" prefHeight="37.0" prefWidth="180.0" promptText="Education">
+                    <TextField fx:id="typeTextField" alignment="BOTTOM_LEFT" maxHeight="37.0" prefHeight="37.0" prefWidth="180.0">
                       <font>
                         <Font size="15.0" />
                       </font>
