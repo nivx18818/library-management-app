@@ -54,7 +54,6 @@ public class UserServiceTest {
 
     @AfterAll
     static void tearDownClass() {
-        DatabaseConnection.close();
         DatabaseConnection.isTesting = false;
     }
 

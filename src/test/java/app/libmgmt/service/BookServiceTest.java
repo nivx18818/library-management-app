@@ -54,7 +54,6 @@ public class BookServiceTest {
 
     @AfterAll
     static void tearDownClass() {
-        DatabaseConnection.close();
         DatabaseConnection.isTesting = false;
     }
 
