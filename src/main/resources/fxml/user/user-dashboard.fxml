@@ -157,7 +157,7 @@
                     </Label>
                     <ImageView fitHeight="40.0" fitWidth="70.0" layoutX="65.0" layoutY="129.0" pickOnBounds="true" preserveRatio="true">
                       <image>
-                        <Image url="@../../../../../../../../Users/Dell/Downloads/SvgjsG2244.png" />
+                        <Image url="@../../assets/icon/SvgjsG2244.png" />
                       </image>
                       <effect>
                         <Lighting>
