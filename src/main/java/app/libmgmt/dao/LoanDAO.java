@@ -32,7 +32,7 @@ public class LoanDAO {
             statement.setString(2, loan.getUserName());
             statement.setDouble(3, loan.getAmount());
             statement.setString(4, "BORROWED");
-            
+
             LocalDate borrowedDate = LocalDate.now();
             DateTimeFormatter outputFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             String borrowedDateString = borrowedDate.format(outputFormat);
@@ -58,28 +58,24 @@ public class LoanDAO {
             statement.setString(1, loan.getUserId());
             statement.setString(2, loan.getUserName());
             statement.setDouble(3, loan.getAmount());
-            statement.setString(4, loan.getStatus());
+            statement.setString(4, "BORROWED");
 
-            Date borrowDate = new java.sql.Date(loan.getBorrowedDate().getTime());
-            String borrowString = borrowDate.toString();
-            statement.setString(5, borrowString);
+            LocalDate borrowedDate = LocalDate.now();
+            DateTimeFormatter outputFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            String borrowedDateString = borrowedDate.format(outputFormat);
+            statement.setString(5, borrowedDateString);
 
-            Date duDate = new java.sql.Date(loan.getDueDate().getTime());
-            String dueDateString = duDate.toString();
+            LocalDate dueDate = borrowedDate.plusDays(14);
+            String dueDateString = dueDate.format(outputFormat);
             statement.setString(6, dueDateString);
 
-            Date returnedDate = new java.sql.Date(loan.getReturnedDate().getTime());
-            String returnedDateString = returnedDate.toString();
-            statement.setString(7, returnedDateString);
-            
-            statement.setString(8, loan.getIsbn());
-            statement.setInt(9, loan.getLoanId());
+            statement.setString(7, loan.getIsbn());
 
             statement.executeUpdate();
         }
     }
 
-    public void deleteLoan(int loanId) throws SQLException {
+    public void deleteLoanById(int loanId) throws SQLException {
         String sql = "DELETE FROM Loan WHERE id = ?";
 
         try (Connection connection = getConnection();
@@ -256,8 +252,16 @@ public class LoanDAO {
         String borrowedDateString = rs.getString("borrowed_date");
         Date borrowedDate = borrowedDateString != null ? Date.valueOf(borrowedDateString) : null;
 
+        String dueDateString = rs.getString("borrowed_date");
+        Date dueDate = dueDateString != null ? Date.valueOf(dueDateString) : null;
+
+        String returnedDateString = rs.getString("returned_date");
+        Date returnedDate = returnedDateString != null
+                ? Date.valueOf(returnedDateString)
+                : Date.valueOf(LocalDate.of(2000, 1, 1));
+
         String status = rs.getString("status");
 
-        return new Loan(loanId, userId, bookIsbn, amount, borrowedDate, status);
+        return new Loan(loanId, userId, bookIsbn, amount, borrowedDate, dueDate, returnedDate, status);
     }
 }

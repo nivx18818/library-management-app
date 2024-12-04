@@ -39,6 +39,18 @@ public class Loan {
         this.status = status;
     }
 
+    public Loan(int loanId, String userId, String isbn, int amount, Date borrowedDate, Date dueDate, Date returnedDate, String status) {
+        this.loanId = loanId;
+        this.userId = userId;
+        this.userName = fetchUserNameFromUserId(userId);
+        this.isbn = isbn;
+        this.amount = amount;
+        this.borrowedDate = borrowedDate;
+        this.dueDate = dueDate;
+        this.returnedDate = returnedDate;
+        this.status = status;
+    }
+
     // Getters và Setters
     public int getLoanId() {
         return loanId;

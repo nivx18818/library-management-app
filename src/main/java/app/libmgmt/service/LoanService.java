@@ -38,9 +38,9 @@ public class LoanService {
         }
     }
 
-    public void deleteLoan(int loanId) {
+    public void deleteLoanById(int loanId) {
         try {
-            loanDAO.deleteLoan(loanId);
+            loanDAO.deleteLoanById(loanId);
             System.out.println("Loan deleted successfully");
         } catch (SQLException e) {
             throw new ServiceException("Error deleting loan", e);
