@@ -98,7 +98,6 @@ public class AdminGlobalController {
     public void insertBooksData(String[] bookData) {
         Book book = new Book(bookData);
         getInstance().observableBooksData.add(book);
-        System.out.println("Book data: " + book.toString());
         // Insert book data to database
         bookService.addBook(book);
     }

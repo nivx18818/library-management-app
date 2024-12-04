@@ -76,7 +76,7 @@ public class AdminAddBookDialogController {
         if (checkValidInfo()) {
             String[] bookData = new String[] { txtCoverURL.getText(), txtName.getText(),
                     txtType.getText(), txtAuthor.getText(), quantitySpinner.getValue().toString(),
-                    txtPublisher.getText(), publishedDatePicker.getValue().toString(), webReaderUrl };
+                    txtPublisher.getText(), publishedDatePicker.getValue() == null ? "Not Available" : publishedDatePicker.getValue().toString(), webReaderUrl };
             addBook(bookData);
         }
     }
@@ -152,15 +152,13 @@ public class AdminAddBookDialogController {
         String url = txtCoverURL.getText();
         String nameBook = txtName.getText();
 
-        if (nameBook.isEmpty() || quantitySpinner.getValue() == null || url.isEmpty()
-                || publishedDatePicker.getValue() == null) {
+        if (nameBook.isEmpty() || quantitySpinner.getValue() == null || url.isEmpty()) {
             notificationLabel.setText("Please fill in mandatory fields.");
             AnimationUtils.playNotificationTimeline(notificationLabel, 3, "#ff0000");
             return false;
         }
 
-        if (RegExPatterns.datePattern(publishedDatePicker.getValue().toString())) {
-            System.out.println(publishedDatePicker.getValue().toString());
+        if (publishedDatePicker.getValue() != null && RegExPatterns.datePattern(publishedDatePicker.getValue().toString())) {
             notificationLabel.setText("Date is invalid. Please follow the format dd/MM/yyyy.");
             AnimationUtils.playNotificationTimeline(notificationLabel, 3, "#ff0000");
             return false;
@@ -191,7 +189,11 @@ public class AdminAddBookDialogController {
         txtType.setText(data[3]);
         txtAuthor.setText(data[4]);
         quantitySpinner.getValueFactory().setValue(1);
-        publishedDatePicker.setValue(LocalDate.parse(data[7]));
+        if (data[7].equals("Not Available")) {
+            publishedDatePicker.setValue(null);
+        } else {
+            publishedDatePicker.setValue(LocalDate.parse(data[7]));
+        }
         txtPublisher.setText(data[6]);
         webReaderUrl = data[8];
     }
