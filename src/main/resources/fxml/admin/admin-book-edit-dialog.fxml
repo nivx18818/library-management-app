@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.effect.Light.Distant?>
 <?import javafx.scene.effect.Lighting?>
 <?import javafx.scene.effect.Shadow?>
@@ -19,7 +19,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="container" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="476.0" prefWidth="840.0" style="-fx-background-color: white; -fx-background-radius: 10;" stylesheets="@../../style/update-book-dialog.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.libmgmt.view.controller.admin.AdminBookEditDialogController">
+<Pane fx:id="container" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="476.0" prefWidth="840.0" style="-fx-background-color: white; -fx-background-radius: 10;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.libmgmt.view.controller.admin.AdminBookEditDialogController">
   <children>
     <Pane layoutX="32.0" layoutY="19.0" prefHeight="45.0" prefWidth="45.0" style="-fx-background-color: #D7D7D7; -fx-background-radius: 10;">
       <children>
@@ -71,7 +71,7 @@
                         <Font size="15.0" />
                       </font>
                     </Label>
-                    <TextField fx:id="nameTextField" alignment="BOTTOM_LEFT" maxHeight="37.0" prefHeight="37.0" prefWidth="243.0" promptText="Name Book*">
+                    <TextField fx:id="nameTextField" alignment="BOTTOM_CENTER" maxHeight="37.0" prefHeight="37.0" prefWidth="243.0" promptText="Name Book*">
                       <font>
                         <Font size="15.0" />
                       </font>
@@ -93,7 +93,7 @@
                         <Font size="15.0" />
                       </font>
                     </Label>
-                    <TextField fx:id="authorTextField" alignment="BOTTOM_LEFT" maxHeight="37.0" prefHeight="37.0" prefWidth="239.0">
+                    <TextField fx:id="authorTextField" alignment="BOTTOM_CENTER" maxHeight="37.0" prefHeight="37.0" prefWidth="239.0">
                       <font>
                         <Font size="15.0" />
                       </font>
@@ -115,7 +115,7 @@
                         <Font size="15.0" />
                       </font>
                     </Label>
-                    <TextField fx:id="publisherTextField" alignment="BOTTOM_LEFT" maxHeight="37.0" prefHeight="37.0" prefWidth="222.0">
+                    <TextField fx:id="publisherTextField" alignment="BOTTOM_CENTER" maxHeight="37.0" prefHeight="37.0" prefWidth="222.0">
                       <font>
                         <Font size="15.0" />
                       </font>
@@ -135,7 +135,7 @@
           <children>
             <VBox prefHeight="55.0" prefWidth="228.0">
               <children>
-                <HBox alignment="BOTTOM_LEFT" prefHeight="36.0" prefWidth="258.0">
+                <HBox alignment="BOTTOM_LEFT">
                   <VBox.margin>
                     <Insets left="5.0" />
                   </VBox.margin>
@@ -167,7 +167,7 @@
                         <Font size="15.0" />
                       </font>
                     </Label>
-                    <TextField fx:id="typeTextField" alignment="BOTTOM_LEFT" maxHeight="37.0" prefHeight="37.0" prefWidth="180.0">
+                    <TextField fx:id="typeTextField" alignment="BOTTOM_CENTER" maxHeight="37.0" prefHeight="37.0" prefWidth="223.0" style="-fx-padding: 0;">
                       <font>
                         <Font size="15.0" />
                       </font>
@@ -179,7 +179,7 @@
             </VBox>
             <VBox layoutX="10.0" layoutY="136.0" prefHeight="55.0" prefWidth="228.0">
               <children>
-                <HBox alignment="BOTTOM_LEFT">
+                  <HBox alignment="BOTTOM_LEFT" maxHeight="37.0" minHeight="37.0">
                   <VBox.margin>
                     <Insets left="5.0" />
                   </VBox.margin>
@@ -192,9 +192,10 @@
                               <Spinner fx:id="quantitySpinner" editable="true" prefHeight="25.0" prefWidth="193.0" style="-fx-background-color: #fff; -fx-border-color: #fff;">
                                  <HBox.margin>
                                     <Insets top="12.0" />
-                                 </HBox.margin></Spinner>
+                                 </HBox.margin>
+                              </Spinner>
                   </children>
-                </HBox>
+                  </HBox>
                 <Line endX="170.0" opacity="0.47" startX="-100.0" />
               </children>
             </VBox>
@@ -205,9 +206,6 @@
     <Pane fx:id="bookCoverContainer" layoutX="155.0" layoutY="117.0" prefHeight="254.0" prefWidth="591.0" style="-fx-background-radius: 12px; -fx-border-color: #d7d7d7; -fx-border-radius: 12px;" visible="false">
       <children>
         <ImageView fx:id="bookCoverImage" fitHeight="138.0" fitWidth="110.0" layoutX="22.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true">
-               <effect>
-                  <DropShadow blurType="GAUSSIAN" height="28.0" radius="13.5" spread="0.1" width="28.0" />
-               </effect>
                <image>
                   <Image url="@../../assets/img/9781581175660.gif" />
                </image>
@@ -346,4 +344,12 @@
       </effect>
     </Label>
   </children>
+   <stylesheets>
+      <URL value="@../../style/utils/variables.css" />
+      <URL value="@../../style/base/common.css" />
+      <URL value="@../../style/components/date-picker.css" />
+      <URL value="@../../style/components/spinner.css" />
+      <URL value="@../../style/admin-edit-dialog.css" />
+      <URL value="@../../style/admin-book-edit-dialog.css" />
+   </stylesheets>
 </Pane>

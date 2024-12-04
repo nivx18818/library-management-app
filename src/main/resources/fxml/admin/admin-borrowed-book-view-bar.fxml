@@ -2,24 +2,20 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<HBox alignment="CENTER_LEFT" maxHeight="122.0" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="770.0" spacing="50.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.libmgmt.view.controller.admin.AdminBorrowedBookViewBarController">
+<HBox alignment="CENTER_LEFT" maxHeight="122.0" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="770.0" spacing="50.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.libmgmt.view.controller.admin.AdminBorrowedBookViewBarController">
   <children>
     <Pane minHeight="120.0" minWidth="100.0">
       <children>
         <ImageView fx:id="bookImage" fitHeight="90.0" fitWidth="70.0" layoutX="15.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../assets/img/images.png" />
-               </image>
-               <effect>
-                  <DropShadow />
-               </effect></ImageView>
+               </image></ImageView>
       </children>
     </Pane>
     <Label fx:id="nameBookLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="60.0" layoutY="10.0" prefHeight="100.0" prefWidth="200.0" text="Story Book" textAlignment="CENTER" wrapText="true">

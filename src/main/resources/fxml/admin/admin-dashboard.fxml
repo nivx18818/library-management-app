@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Label?>
@@ -15,9 +16,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane fx:id="stackPaneContainer" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.libmgmt.view.controller.admin.AdminDashboardController">
+<StackPane fx:id="stackPaneContainer" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.libmgmt.view.controller.admin.AdminDashboardController">
   <children>
-    <HBox fx:id="dashboardContainer" prefHeight="670.0" prefWidth="1132.0" stylesheets="@../../style/dashboard.css">
+    <HBox fx:id="dashboardContainer" prefHeight="670.0" prefWidth="1132.0">
       <children>
         <VBox fx:id="chartBox" alignment="TOP_CENTER" fillWidth="false" prefHeight="670.0" prefWidth="497.0" spacing="18.0" style="-fx-background-color: #f2f2f2;">
           <padding>
@@ -204,4 +205,8 @@
       </children>
     </HBox>
   </children>
+   <stylesheets>
+      <URL value="@../../style/components/scroll-bar.css" />
+      <URL value="@../../style/components/chart-pie.css" />
+   </stylesheets>
 </StackPane>

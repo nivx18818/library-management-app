@@ -14,7 +14,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<Pane prefHeight="670.0" prefWidth="1132.0" style="-fx-background-color: #f2f2f2;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.libmgmt.view.controller.admin.AdminAddBookApiController">
+<Pane prefHeight="670.0" prefWidth="1132.0" style="-fx-background-color: #f2f2f2;" stylesheets="@../../style/components/scroll-bar.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.libmgmt.view.controller.admin.AdminAddBookApiController">
    <children>
       <Pane layoutX="21.0" layoutY="14.0" prefHeight="45.0" prefWidth="45.0" style="-fx-background-color: #D7D7D7; -fx-background-radius: 10;">
          <children>

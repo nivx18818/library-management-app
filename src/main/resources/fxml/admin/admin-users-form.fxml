@@ -15,7 +15,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="stackPaneContainer" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.libmgmt.view.controller.admin.AdminUsersLayoutController">
+<StackPane fx:id="stackPaneContainer" stylesheets="@../../style/components/scroll-bar.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.libmgmt.view.controller.admin.AdminUsersLayoutController">
   <children>
     <Pane fx:id="userContainer" prefHeight="670.0" prefWidth="1132.0" style="-fx-background-color: #F2F2F2;">
       <children>

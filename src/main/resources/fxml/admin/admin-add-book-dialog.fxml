@@ -172,10 +172,11 @@
       </effect>
     </Label>
   </children>
-   <stylesheets>
-      <URL value="@../../style/utils/variables.css" />
-      <URL value="@../../style/components/date-picker.css" />
-      <URL value="@../../style/components/spinner.css" />
-      <URL value="@../../style/base/common.css" />
-   </stylesheets>
+  <stylesheets>
+    <URL value="@../../style/utils/variables.css" />
+    <URL value="@../../style/base/common.css" />
+    <URL value="@../../style/components/date-picker.css" />
+    <URL value="@../../style/components/spinner.css" />
+    <URL value="@../../style/admin-add-book-dialog.css" />
+  </stylesheets>
 </Pane>

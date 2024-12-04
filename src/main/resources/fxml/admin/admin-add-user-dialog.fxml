@@ -3,7 +3,6 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXRadioButton?>
-<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
@@ -23,7 +22,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="container" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="500.0" style="-fx-background-color: white; -fx-background-radius: 12px;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.libmgmt.view.controller.admin.AdminAddUserDialogController">
+<Pane fx:id="container" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="500.0" style="-fx-background-color: white; -fx-background-radius: 12px;" stylesheets="@../../style/base/common.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.libmgmt.view.controller.admin.AdminAddUserDialogController">
   <children>
     <Pane layoutX="35.0" layoutY="15.0" prefHeight="45.0" prefWidth="45.0" style="-fx-background-color: #D7D7D7; -fx-background-radius: 10;">
       <children>
@@ -151,7 +150,7 @@
         </JFXRadioButton>
       </children>
     </HBox>
-    <Pane fx:id="studentPane" layoutX="35.0" layoutY="118.0" prefHeight="184.0" prefWidth="431.0">
+    <Pane fx:id="studentPane" layoutX="35.0" layoutY="128.0" prefHeight="184.0" prefWidth="431.0">
       <children>
         <VBox prefHeight="184.0" prefWidth="431.0" spacing="15.0">
           <padding>
@@ -220,28 +219,24 @@
         </VBox>
       </children>
     </Pane>
-    <Pane fx:id="guestPane" layoutX="35.0" layoutY="118.0" prefHeight="184.0" prefWidth="431.0">
+    <Pane fx:id="guestPane" layoutX="35.0" layoutY="128.0" prefHeight="184.0" prefWidth="431.0">
       <children>
         <VBox prefHeight="184.0" prefWidth="431.0" spacing="15.0">
           <padding>
             <Insets top="10.0" />
           </padding>
           <children>
-            <HBox spacing="10.0">
-              <children>
-                <TextField fx:id="txtNameGuest" prefHeight="32.0" prefWidth="431.0" promptText="Name*" style="-fx-border-color: #727374; -fx-border-radius: 12px; -fx-background-color: white; -fx-background-radius: 12px;">
-                  <cursor>
-                    <Cursor fx:constant="TEXT" />
-                  </cursor>
-                  <font>
-                    <Font size="14.0" />
-                  </font>
-                  <padding>
-                    <Insets left="15.0" right="15.0" />
-                  </padding>
-                </TextField>
-              </children>
-            </HBox>
+          <TextField fx:id="txtNameGuest" prefHeight="32.0" prefWidth="431.0" promptText="Name*" style="-fx-border-color: #727374; -fx-border-radius: 12px; -fx-background-color: white; -fx-background-radius: 12px;">
+            <cursor>
+              <Cursor fx:constant="TEXT" />
+            </cursor>
+            <font>
+              <Font size="14.0" />
+            </font>
+            <padding>
+              <Insets left="15.0" right="15.0" />
+            </padding>
+          </TextField>
             <HBox spacing="15.0">
               <children>
                 <TextField fx:id="txtIdGuest" prefHeight="32.0" prefWidth="208.0" promptText="Citizen ID*" style="-fx-border-color: #727374; -fx-border-radius: 12px; -fx-background-color: white; -fx-background-radius: 12px;">
@@ -305,9 +300,9 @@
     </Pane>
     <Pane fx:id="adminPane" layoutX="35.0" layoutY="128.0" prefHeight="184.0" prefWidth="431.0">
       <children>
-        <VBox prefHeight="185.0" prefWidth="431.0" spacing="20.0">
+        <VBox layoutY="10.0" prefHeight="184.0" prefWidth="431.0" spacing="15.0">
           <children>
-                  <TextField fx:id="txtIdAdmin" layoutX="10.0" layoutY="32.0" prefHeight="35.0" prefWidth="431.0" promptText="ID*" style="-fx-border-color: #727374; -fx-border-radius: 12px; -fx-background-color: white; -fx-background-radius: 12px;">
+                  <TextField fx:id="txtIdAdmin" prefHeight="32.0" prefWidth="431.0" promptText="ID*" style="-fx-border-color: #727374; -fx-border-radius: 12px; -fx-background-color: white; -fx-background-radius: 12px;">
                      <cursor>
                         <Cursor fx:constant="TEXT" />
                      </cursor>
@@ -318,7 +313,7 @@
                         <Insets left="15.0" right="15.0" />
                      </padding>
                   </TextField>
-          <TextField fx:id="txtNameAdmin" prefHeight="35.0" prefWidth="431.0" promptText="Name*" style="-fx-border-color: #727374; -fx-border-radius: 12px; -fx-background-color: white; -fx-background-radius: 12px;">
+          <TextField fx:id="txtNameAdmin" prefHeight="32.0" prefWidth="431.0" promptText="Name*" style="-fx-border-color: #727374; -fx-border-radius: 12px; -fx-background-color: white; -fx-background-radius: 12px;">
             <cursor>
               <Cursor fx:constant="TEXT" />
             </cursor>
@@ -329,7 +324,7 @@
               <Insets left="15.0" right="15.0" />
             </padding>
           </TextField>
-            <TextField fx:id="txtEmailAdmin" prefHeight="35.0" prefWidth="256.0" promptText="Email*" style="-fx-border-color: #727374; -fx-border-radius: 12px; -fx-background-color: white; -fx-background-radius: 12px;">
+            <TextField fx:id="txtEmailAdmin" prefHeight="32.0" prefWidth="256.0" promptText="Email*" style="-fx-border-color: #727374; -fx-border-radius: 12px; -fx-background-color: white; -fx-background-radius: 12px;">
               <cursor>
                 <Cursor fx:constant="TEXT" />
               </cursor>
@@ -342,7 +337,7 @@
             </TextField>
             <HBox prefHeight="35.0" prefWidth="431.0" spacing="15.0">
               <children>
-                <PasswordField fx:id="txtPasswordAdmin" prefHeight="35.0" prefWidth="208.0" promptText="Password*">
+                <PasswordField fx:id="txtPasswordAdmin" prefHeight="32.0" prefWidth="208.0" promptText="Password*">
                   <font>
                     <Font size="14.0" />
                   </font>
@@ -350,7 +345,7 @@
                     <Insets left="15.0" right="15.0" />
                   </padding>
                 </PasswordField>
-                <PasswordField fx:id="txtCfPasswordAdmin" layoutX="10.0" layoutY="10.0" prefHeight="35.0" prefWidth="208.0" promptText="Confirm Password*">
+                <PasswordField fx:id="txtCfPasswordAdmin" layoutX="10.0" layoutY="10.0" prefHeight="32.0" prefWidth="208.0" promptText="Confirm Password*">
                   <font>
                     <Font size="14.0" />
                   </font>
@@ -365,8 +360,4 @@
       </children>
     </Pane>
   </children>
-  <stylesheets>
-    <URL value="@../../style/add-book-dialog.css" />
-    <URL value="@../../style/add-user-dialog.css" />
-  </stylesheets>
 </Pane>
