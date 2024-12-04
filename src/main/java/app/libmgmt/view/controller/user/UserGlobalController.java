@@ -1,6 +1,5 @@
 package app.libmgmt.view.controller.user;
 
-import java.util.Date;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -89,6 +88,7 @@ public class UserGlobalController {
         }
 
         for (int i = 0; i < newBorrowedBooksList.size(); i++) {
+            System.out.println(newBorrowedBooksList.get(i).toString());
             borrowedBooksData.add(newBorrowedBooksList.get(i));
             loanService.addLoan(newBorrowedBooksList.get(i));
         }
@@ -107,16 +107,17 @@ public class UserGlobalController {
     }
 
     public void addReturnedBook(int loanId) {
-        int max = loanService.getMaxLoanId();
-        if (loanId <= 0 || loanId > max) {
-            System.out.println("Invalid loan id");
-            return;
-        }
+        // int max = loanService.getMaxLoanId();
+        // if (loanId <= 0 || loanId > max) {
+        //     System.out.println("Invalid loan id");
+        //     return;
+        // }
 
         for (int i = 0; i < borrowedBooksData.size(); i++) {
             Loan data = borrowedBooksData.get(i);
             if (data.getLoanId() == loanId) {
-                data.setReturnedDate(new Date());
+                data.markAsReturned();
+                // data.setReturnedDate(new Date());
                 returnedBooksData.add(data);
                 break;
             }
@@ -140,9 +141,18 @@ public class UserGlobalController {
         }
         for (int i = 0; i < borrowedBooksData.size(); i++) {
             Loan data = borrowedBooksData.get(i);
+            // boolean check1 = data.getLoanId() == loanId;
+            // System.out.println(check1);
+            // boolean check2 = data.getIsbn().equals(isbn);
+            // System.out.println(check2);
+            // boolean check3 = data.getStatus().equals("RETURNED");
+            // System.out.println(check3);
             if (data.getLoanId() == loanId && data.getIsbn().equals(isbn) && data.getStatus().equals("RETURNED")) {
                 return true;
             }
+            // if (check1 && check2 && check3) {
+            //     return true;
+            // }
         }
 
         return false;

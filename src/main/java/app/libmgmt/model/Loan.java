@@ -145,4 +145,19 @@ public class Loan {
     public int hashCode() {
         return Objects.hash(loanId, borrowedDate, returnedDate, isbn, userId, status);
     }
+
+    @Override
+    public String toString() {
+        return "Loan{" +
+                "loanId=" + loanId +
+                ", userId=" + userId +
+                ", userName=" + userName +
+                ", amount=" + amount +
+                ", borrowedDate=" + borrowedDate +
+                ", dueDate=" + dueDate +
+                ", returnedDate=" + returnedDate +
+                ", isbn='" + isbn + '\'' +
+                ", status='" + status + '\'' +
+                '}';
+    }
 }

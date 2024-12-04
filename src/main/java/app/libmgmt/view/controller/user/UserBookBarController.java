@@ -100,10 +100,13 @@ public class UserBookBarController {
         publisher = data[6];
         publishedDate = data[7];
         webReaderUrl = data[8];
+        if (UserGlobalController.getInstance().isBookBorrowed(bookID) || statusLabel.getText().equals("Borrowed")) {
+            checkBoxButton.setDisable(true);
+        }
     }
 
     public String[] getData() {
-            // data format: [id, coverURL, name, type, author, quantity, publisher, publishedDate]
+        // data format: [id, coverURL, name, type, author, quantity, publisher, publishedDate]
         SimpleDateFormat inputFormat = new SimpleDateFormat("dd/MM/yyyy");
         SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date parsedDate;

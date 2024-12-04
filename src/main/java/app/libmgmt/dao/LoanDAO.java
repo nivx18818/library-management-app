@@ -22,8 +22,8 @@ public class LoanDAO {
     }
 
     public void addLoan(Loan loan) throws SQLException {
-        String sql = "INSERT INTO Loan (user_id, user_name, amount, status, borrowed_date, due_date, book_isbn) " +
-                    "VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Loan (user_id, user_name, amount, status, borrowed_date, due_date, book_isbn, id) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = getConnection();
             PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -43,6 +43,8 @@ public class LoanDAO {
             statement.setString(6, dueDateString);
 
             statement.setString(7, loan.getIsbn());
+
+            statement.setInt(8, loan.getLoanId());
 
             statement.executeUpdate();
         }

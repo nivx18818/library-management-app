@@ -95,7 +95,9 @@ public class UserBorrowedBooksConfirmationDialogController {
         for (javafx.scene.Node node : vBoxSelectedBooksList.getChildren()) {
             UserBorrowedBookBarController controller = (UserBorrowedBookBarController) node.getUserData();
             if (controller != null) {
-            newBorrowedBooksList.get(idx++).setAmount(controller.getAmount());
+                int amount = controller.getAmount();
+                newBorrowedBooksList.get(idx++).setAmount(amount);
+                System.out.println("Amount: " + amount);
             }
         }
         UserGlobalController.getInstance().addBorrowedBook(newBorrowedBooksList);
@@ -157,11 +159,11 @@ public class UserBorrowedBooksConfirmationDialogController {
                     String authors = d.getAuthors().stream().reduce("", (a, b) -> a + ", " + b);
                     String categories = d.getCategories().stream().reduce("", (a, b) -> a + ", " + b);
                     SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
-                    String publishedDateStr = (d.getPublishedDate() != null) ?
-                                        outputFormat.format(d.getPublishedDate()) : "Not Available";
+                    String publishedDateStr = (d.getPublishedDate() != null) ? outputFormat.format(d.getPublishedDate())
+                            : "Not Available";
 
                     String[] data = new String[] { d.getIsbn(), d.getCoverUrl(), d.getTitle(), categories, authors,
-                                    String.valueOf(d.getAvailableCopies()), d.getPublisher(), publishedDateStr };
+                            String.valueOf(d.getAvailableCopies()), d.getPublisher(), publishedDateStr };
                     loadBookData(data, orderNumber++);
                 }
                 return null;
@@ -195,8 +197,9 @@ public class UserBorrowedBooksConfirmationDialogController {
 
             String borrowedDateText = borrowedDateLabel.getText();
             Date parsedDate = inputFormat.parse(borrowedDateText);
-            String formattedDate = outputFormat.format(parsedDate); 
+            String formattedDate = outputFormat.format(parsedDate);
 
+            System.out.println("Borrowed size: " + UserGlobalController.getInstance().getBorrowedBooksData().size());
             Loan newBorrowedBookData = new Loan(
                     UserGlobalController.getInstance().getBorrowedBooksData().size() + orderNumber,
                     "23020604",
