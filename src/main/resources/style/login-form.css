@@ -81,18 +81,6 @@
     -fx-background-radius: 40px 0px 0px 40px;
 }
 
-.bookwormText {
-    -fx-font-size: 38px;
-    -fx-font-weight: 600;
-    -fx-text-fill: #fff;
-}
-
-.libraryText {
-    -fx-font-size: 16px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #fff;
-}
-
 .section-3 {
     -fx-background-radius: 0px 40px 40px 0px;
 }
