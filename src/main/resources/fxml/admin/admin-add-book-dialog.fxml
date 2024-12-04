@@ -18,7 +18,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="container" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="500.0" style="-fx-background-color: white; -fx-background-radius: 10;" stylesheets="@../../style/add-book-dialog.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.libmgmt.view.controller.admin.AdminAddBookDialogController">
+<Pane fx:id="container" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="500.0" style="-fx-background-color: white; -fx-background-radius: 10;" stylesheets="@../../style/add-book-dialog.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.libmgmt.view.controller.admin.AdminAddBookDialogController">
   <children>
     <Pane layoutX="32.0" layoutY="19.0" prefHeight="45.0" prefWidth="45.0" style="-fx-background-color: #D7D7D7; -fx-background-radius: 10;">
       <children>
@@ -123,7 +123,7 @@
             <Insets left="15.0" right="15.0" />
           </padding>
         </TextField>
-            <DatePicker fx:id="publishedDatePicker" prefHeight="32.0" prefWidth="174.0" promptText="Published Date*" style="-fx-background-color: #fff; -fx-font-size: 14px; -fx-background-radius: 12px;" />
+            <DatePicker fx:id="publishedDatePicker" prefHeight="32.0" prefWidth="174.0" promptText="Published Date" style="-fx-background-color: #fff; -fx-font-size: 14px; -fx-background-radius: 12px;" />
       </children>
     </HBox>
     <HBox layoutX="32.0" layoutY="255.0" spacing="10.0">

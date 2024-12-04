@@ -96,13 +96,9 @@ public class AdminGlobalController {
 
     // CRUD Operations for Books
     public void insertBooksData(String[] bookData) {
-        // data format: [id, coverURL, name, type, author, quantity, publisher,
-        // publishedDate, webReaderUrl]
         Book book = new Book(bookData);
         getInstance().observableBooksData.add(book);
-        System.out.println("Book data: " + book.getPublishedDate());
-        System.out.println("Book data: " + bookData[0] + " " + bookData[1] + " " + bookData[2] + " " + bookData[3] + " "
-                + bookData[4] + " " + bookData[5] + " " + bookData[6] + " " + bookData[7] + " " + bookData[8]);
+        System.out.println("Book data: " + book.toString());
         // Insert book data to database
         bookService.addBook(book);
     }
@@ -110,11 +106,12 @@ public class AdminGlobalController {
     public void updateBookData(String[] updatedData) {
         Book updatedBook = new Book(updatedData);
         bookService.updateBook(updatedBook);
-
+        System.out.println("Updated data: " + updatedBook.toString());
         for (int i = 0; i < observableBooksData.size(); i++) {
             Book book = observableBooksData.get(i);
 
             if (book.getIsbn().equals(updatedBook.getIsbn())) {
+                System.out.println("Book before update:" + book.toString());
                 observableBooksData.set(i, updatedBook);
                 return;
             }

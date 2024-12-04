@@ -11,6 +11,7 @@ import java.util.Locale;
 public class DateUtils {
 
     private static final String DATE_FORMAT = "yyyy-MM-dd";
+    private static final String DISPLAY_FORMAT = "dd/MM/yyyy";
 
     public static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter
             .ofPattern("dd/MM/yyyy");
@@ -31,20 +32,18 @@ public class DateUtils {
         return dateTimeFormatter.format(originalDatum);
     }
 
-    public static Date parseStringToDate(String originalDatum) {
-        if (originalDatum == null || originalDatum.isEmpty()) {
-            System.err.println("Invalid date format. Expected format: " + DATE_FORMAT);
-            return null;
-        }
-
-        SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
-
+    public static Date parseStringToDate(String dateStr) {
         try {
-            return dateFormat.parse(originalDatum);
+            SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+            return sdf.parse(dateStr);
         } catch (ParseException e) {
-            System.err.println("Invalid date format. Expected format: " + DATE_FORMAT);
-            e.printStackTrace();
-            return null;
+            try {
+                SimpleDateFormat sdf = new SimpleDateFormat(DISPLAY_FORMAT);
+                return sdf.parse(dateStr);
+            } catch (ParseException ex) {
+                System.out.println("Invalid date format. Expected format: yyyy-MM-dd or dd/MM/yyyy");
+                return null;
+            }
         }
     }
 

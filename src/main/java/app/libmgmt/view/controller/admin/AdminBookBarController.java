@@ -165,7 +165,11 @@ public class AdminBookBarController {
         }
 
         if (!publishedDate.equals(data[7])) {
-            publishedDate = data[7];
+            if (data[7].equals("null")) {
+                publishedDate = "Not Available";
+            } else {
+                publishedDate = data[7];
+            }
         }
 
         if (!webReaderUrl.equals(data[8])) {

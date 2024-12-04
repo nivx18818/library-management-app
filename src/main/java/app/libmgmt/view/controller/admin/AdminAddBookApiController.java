@@ -48,12 +48,12 @@ public class AdminAddBookApiController {
     public void initialize() {
         AnimationUtils.hoverCloseIcons(closeDialogButton, imgClose);
 
-        debounceTimeline = new Timeline(new KeyFrame(Duration.millis(500), e -> performSearch()));
+        debounceTimeline = new Timeline(new KeyFrame(Duration.millis(450), e -> performSearch()));
         debounceTimeline.setCycleCount(1);
 
         apiSearchText.setOnKeyTyped(event -> {
-            debounceTimeline.stop(); 
-            debounceTimeline.playFromStart(); 
+            debounceTimeline.stop();
+            debounceTimeline.playFromStart();
         });
     }
 
@@ -103,14 +103,19 @@ public class AdminAddBookApiController {
                                 ? String.join(", ", book.getJSONArray("categories").toList().toArray(new String[0]))
                                 : "Unknown Type";
                         String publisher = book.optString("publisher", "Unknown Publisher");
+
                         String publishedDate = book.optString("publishedDate", "Unknown Date");
                         if (publishedDate.length() == 4) {
                             publishedDate = publishedDate.concat("-01-01");
+                        } else if (publishedDate.length() == 7) {
+                            publishedDate = publishedDate.concat("-01");
                         } else if (publishedDate.equals("Unknown Date")) {
-                            publishedDate = "0000-01-01";
+                            publishedDate = "Not Available";
                         }
+
                         String webReader = items.getJSONObject(i).getJSONObject("accessInfo") != null
-                                ? items.getJSONObject(0).getJSONObject("accessInfo").optString("webReaderLink", "No Web Reader URL")
+                                ? items.getJSONObject(0).getJSONObject("accessInfo").optString("webReaderLink",
+                                        "No Web Reader URL")
                                 : "No Web Reader URL";
 
                         String[] data = new String[] { isbn.equals("No ISBN") ? id : isbn, coverURL, name, authors,

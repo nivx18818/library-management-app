@@ -104,13 +104,19 @@ public class AdminAddBookDialogController {
                             String authorsString = String.join(", ", lastBook.getAuthors());
                             String categoriesString = String.join(", ", lastBook.getCategories());
 
-                            String inputPattern = "EEE MMM dd HH:mm:ss z yyyy";
-                            SimpleDateFormat inputFormat = new SimpleDateFormat(inputPattern, Locale.ENGLISH);
-                            String outputPattern = "yyyy-MM-dd";
-                            SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
-
-                            Date parsedDate = inputFormat.parse(lastBook.getPublishedDate().toString());
-                            String formattedDate = outputFormat.format(parsedDate);
+                            String formattedDate = "Not Available";
+                            if (lastBook.getPublishedDate() != null) {
+                                try {
+                                    String inputPattern = "EEE MMM dd HH:mm:ss z yyyy";
+                                    SimpleDateFormat inputFormat = new SimpleDateFormat(inputPattern, Locale.ENGLISH);
+                                    String outputPattern = "yyyy-MM-dd";
+                                    SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
+                                    Date parsedDate = inputFormat.parse(lastBook.getPublishedDate().toString());
+                                    formattedDate = outputFormat.format(parsedDate);
+                                } catch (Exception e) {
+                                    formattedDate = "Not Available";
+                                }
+                            }
 
                             String[] book_Data = new String[] { lastBook.getIsbn(), lastBook.getCoverUrl(),
                                     lastBook.getTitle(), categoriesString,
@@ -118,7 +124,6 @@ public class AdminAddBookDialogController {
                                     lastBook.getPublisher(), formattedDate, lastBook.getWebReaderUrl() };
                             lastBook = new Book(book_Data);
                             add(lastBook);
-                            System.out.println("Book added: Fac diu vai lc" + lastBook.toString());
                         }
                     };
                     controller.preloadData(data);

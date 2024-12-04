@@ -33,7 +33,8 @@ public class Book {
     public Book(String[] bookData) {
         this.isbn = bookData[0];
         this.title = bookData[2];
-        this.publishedDate = DateUtils.parseStringToDate(bookData[7]);
+        this.publishedDate = (bookData[7].equals("Not Available")) ? null :
+                DateUtils.parseStringToDate(bookData[7]);
         this.publisher = bookData[6];
         this.coverUrl = bookData[1];
         this.availableCopies = Integer.parseInt(bookData[5]);
@@ -104,5 +105,12 @@ public class Book {
 
     public List<String> getCategories() {
         return categories;
+    }
+
+    @Override
+    public String toString() {
+        return "Book [authors=" + authors + ", availableCopies=" + availableCopies + ", categories=" + categories
+                + ", coverUrl=" + coverUrl + ", isbn=" + isbn + ", publishedDate=" + publishedDate + ", publisher="
+                + publisher + ", title=" + title + ", webReaderUrl=" + webReaderUrl + "]";
     }
 }
