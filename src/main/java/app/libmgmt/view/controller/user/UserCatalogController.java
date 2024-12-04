@@ -144,7 +144,6 @@ public class UserCatalogController {
             showReturnedBooksList();
         }
         textSearch.clear();
-        textSearch.setEditable(true);
     }
 
     @FXML
@@ -187,8 +186,16 @@ public class UserCatalogController {
 
     @FXML
     void txtSearchOnAction(ActionEvent event) {
-        // TODO: Implement search functionality by book's name
-        textSearch.setEditable(false);
+        String searchText = textSearch.getText();
+        if (searchText.isEmpty()) {
+            if (currentStateUserCatalog == USER_CATALOG_STATE.BORROWED) {
+                showBorrowedBooksList();
+            } else if (currentStateUserCatalog == USER_CATALOG_STATE.RETURNED) {
+                showReturnedBooksList();
+            }
+        } else {
+            showFilteredData(searchText);
+        }
     }
 
     // Data Display
@@ -202,6 +209,48 @@ public class UserCatalogController {
         preloadData(returnedBooksData, USER_CATALOG_STATE.RETURNED);
     }
 
+    public void showFilteredData(String searchText) {
+        vBoxBooksList.getChildren().clear();
+        String searchLower = searchText.toLowerCase().trim();
+        
+        if (currentStateUserCatalog == USER_CATALOG_STATE.BORROWED) {
+            userGlobalController.getBorrowedBooksData().stream()
+                    .filter(loan -> matchesSearchCriteria(loan, searchLower))
+                    .forEach(loan -> loadBorrowedBookBar(loan, currentStateUserCatalog));
+        } else if (currentStateUserCatalog == USER_CATALOG_STATE.RETURNED) {
+            userGlobalController.getReturnedBooksData().stream()
+                    .filter(loan -> matchesSearchCriteria(loan, searchLower))
+                    .forEach(loan -> loadBorrowedBookBar(loan, currentStateUserCatalog));
+        }
+    }
+    
+    private boolean matchesSearchCriteria(Loan loan, String searchText) {
+        try {
+            // Get book details for the loan
+            List<Book> books = loanService.getBookFromLoan(loan.getIsbn());
+            Book book = books.isEmpty() ? null : books.get(0);
+            
+            // Format dates for searching
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            String borrowedDate = dateFormat.format(loan.getBorrowedDate());
+            String dueDate = dateFormat.format(loan.getDueDate());
+            String returnedDate = loan.getReturnedDate() != null ? 
+                                dateFormat.format(loan.getReturnedDate()) : "";
+    
+            // Check all searchable fields
+            return (loan.getIsbn() != null && loan.getIsbn().toLowerCase().contains(searchText)) ||
+                   (book != null && book.getTitle().toLowerCase().contains(searchText)) ||
+                   borrowedDate.toLowerCase().contains(searchText) ||
+                   dueDate.toLowerCase().contains(searchText) ||
+                   (returnedDate.toLowerCase().contains(searchText)) ||
+                   String.valueOf(loan.getLoanId()).contains(searchText) ||
+                   String.valueOf(loan.getAmount()).contains(searchText);
+        } catch (Exception e) {
+            System.err.println("Error while matching search criteria: " + e.getMessage());
+            return false;
+        }
+    }
+
     // Data Preloading
     public void preloadData(List<Loan> data, USER_CATALOG_STATE currentStatus) {
         Task<Void> preloadTask = new Task<>() {
@@ -209,30 +258,7 @@ public class UserCatalogController {
             protected Void call() {
                 try {
                     for (Loan d : data) {
-                        List<Book> books = loanService.getBookFromLoan(d.getIsbn());
-                        Book book = books.isEmpty() ? null : books.get(0);
-
-                        SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
-                        String dueDateString = outputFormat.format(d.getDueDate());
-                        String borrowedDateString = outputFormat.format(d.getBorrowedDate());
-
-                        String returnedDateString = "Not Available";
-                        if (d.getReturnedDate() != null) {
-                            returnedDateString = outputFormat.format(d.getReturnedDate());
-                        }
-
-                        String[] loanData = new String[] {
-                                d.getIsbn(),
-                                d.getLoanId() + "",
-                                book.getCoverUrl(),
-                                book.getTitle(),
-                                borrowedDateString,
-                                dueDateString,
-                                returnedDateString,
-                                d.getAmount() + ""
-                        };
-                        //data format: [isbn, loanId, coverUrl, title, borrowedDate, dueDate, returnedDate, amount]
-                        loadBorrowedBookBar(loanData, currentStatus);
+                        loadBorrowedBookBar(d, currentStatus);
                     }
                 } catch (Exception e) {
                     System.out.println("Error loading data table: " + e.getMessage());
@@ -251,19 +277,44 @@ public class UserCatalogController {
     }
 
     // Load a single borrowed book bar
-    public void loadBorrowedBookBar(String[] d, USER_CATALOG_STATE currentStatus) {
+    public void loadBorrowedBookBar(Loan d, USER_CATALOG_STATE currentStatus) {
         try {
+            // data format: [isbn, loanId, coverUrl, title, borrowedDate, dueDate,
+            // returnedDate, amount]
+            List<Book> books = loanService.getBookFromLoan(d.getIsbn());
+            Book book = books.isEmpty() ? null : books.get(0);
+
+            SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
+            String dueDateString = outputFormat.format(d.getDueDate());
+            String borrowedDateString = outputFormat.format(d.getBorrowedDate());
+
+            String returnedDateString = "Not Available";
+            if (d.getReturnedDate() != null) {
+                returnedDateString = outputFormat.format(d.getReturnedDate());
+            }
+
+            String[] loanData = new String[] {
+                    d.getIsbn(),
+                    d.getLoanId() + "",
+                    book.getCoverUrl(),
+                    book.getTitle(),
+                    borrowedDateString,
+                    dueDateString,
+                    returnedDateString,
+                    d.getAmount() + ""
+            };
+
             FXMLLoader fxmlLoader = new FXMLLoader(
                     getClass().getResource("/fxml/user/user-catalog-borowed-books-bar.fxml"));
             Pane scene = fxmlLoader.load();
             UserCatalogBorrowedBookBarController controller = fxmlLoader.getController();
             scene.setUserData(controller);
-            controller.setData(d);
+            controller.setData(loanData);
 
             if (currentStatus == USER_CATALOG_STATE.BORROWED) {
                 controller.setVisibleAction(true);
-                String isbn = d[0];
-                int loanId = Integer.parseInt(d[1]);
+                String isbn = loanData[0];
+                int loanId = Integer.parseInt(loanData[1]);
                 boolean isReturned = userGlobalController.isBookReturned(loanId, isbn);
                 controller.setDisableReturnButton(isReturned);
             } else {

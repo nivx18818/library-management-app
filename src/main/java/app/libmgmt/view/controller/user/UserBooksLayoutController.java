@@ -92,11 +92,14 @@ public class UserBooksLayoutController {
                         String authorsString = String.join(", ", d.getAuthors());
                         String categoriesString = String.join(", ", d.getCategories());
                         SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
-                        String publishedDateStr = (d.getPublishedDate() != null) ?
-                                            outputFormat.format(d.getPublishedDate()) : "Not Available";
+                        String publishedDateStr = (d.getPublishedDate() != null)
+                                ? outputFormat.format(d.getPublishedDate())
+                                : "Not Available";
 
-                        String[] data = new String[] { d.getIsbn(), d.getCoverUrl(), d.getTitle(), categoriesString, authorsString,
-                                String.valueOf(d.getAvailableCopies()), d.getPublisher(), publishedDateStr, d.getWebReaderUrl() };
+                        String[] data = new String[] { d.getIsbn(), d.getCoverUrl(), d.getTitle(), categoriesString,
+                                authorsString,
+                                String.valueOf(d.getAvailableCopies()), d.getPublisher(), publishedDateStr,
+                                d.getWebReaderUrl() };
                         loadBookBar(data);
                     }
                 } catch (Exception e) {
@@ -145,20 +148,74 @@ public class UserBooksLayoutController {
         vBoxBooksList.getChildren().clear();
         preloadData(observableBooksData);
         textSearch.clear();
-        textSearch.setEditable(true);
     }
 
     @FXML
     void txtSearchOnAction(ActionEvent event) {
+        String searchText = textSearch.getText();
+        if (!searchText.isEmpty()) {
+            showFilteredData(searchText);
+        } else {
+            refreshBooksList();
+        }
+    }
 
+    public void showFilteredData(String searchText) {
+        vBoxBooksList.getChildren().clear();
+        String searchLower = searchText.toLowerCase().trim();
+
+        // Split search terms by spaces for multi-criteria search
+        String[] searchTerms = searchLower.split("\\s+");
+
+        userGlobalController.getObservableBookData().stream()
+                .filter(book -> matchesAllSearchTerms(book, searchTerms))
+                .forEach(book -> {
+                    SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
+                    String publishedDateStr = (book.getPublishedDate() != null)
+                            ? outputFormat.format(book.getPublishedDate())
+                            : "Not Available";
+                    String authorsString = String.join(", ", book.getAuthors());
+                    String categoriesString = String.join(", ", book.getCategories());
+                    String[] bookData = new String[] {
+                            book.getIsbn(),
+                            book.getCoverUrl(),
+                            book.getTitle(),
+                            categoriesString,
+                            authorsString,
+                            String.valueOf(book.getAvailableCopies()),
+                            book.getPublisher(),
+                            publishedDateStr,
+                            book.getWebReaderUrl()
+                    };
+                    loadBookBar(bookData);
+                });
+    }
+
+    private boolean matchesAllSearchTerms(Book book, String[] searchTerms) {
+        return java.util.Arrays.stream(searchTerms)
+                .allMatch(term -> matchesSingleTerm(book, term));
+    }
+
+    private boolean matchesSingleTerm(Book book, String searchTerm) {
+        // Convert collections to lowercase strings for comparison
+        String authorsLower = String.join(" ", book.getAuthors()).toLowerCase();
+        String categoriesLower = String.join(" ", book.getCategories()).toLowerCase();
+
+        return book.getIsbn().toLowerCase().contains(searchTerm) ||
+                book.getTitle().toLowerCase().contains(searchTerm) ||
+                authorsLower.contains(searchTerm) ||
+                categoriesLower.contains(searchTerm) ||
+                book.getPublisher().toLowerCase().contains(searchTerm);
     }
 
     @FXML
     void btnAcquireOnAction(ActionEvent event) {
         if (!getSelectedBooksList().isEmpty()) {
-            ChangeScene.openAdminPopUp(stackPaneContainer, "/fxml/user/user-borrowed-books-confirmation-dialog.fxml", PopupList.ACQUIRE_BOOK);
+            ChangeScene.openAdminPopUp(stackPaneContainer, "/fxml/user/user-borrowed-books-confirmation-dialog.fxml",
+                    PopupList.ACQUIRE_BOOK);
         } else {
-            ChangeScene.openAdminPopUp(stackPaneContainer, "/fxml/empty-data-notification-dialog.fxml", PopupList.EMPTY_DATA_NOTIFICATION);
+            ChangeScene.openAdminPopUp(stackPaneContainer, "/fxml/empty-data-notification-dialog.fxml",
+                    PopupList.EMPTY_DATA_NOTIFICATION);
         }
     }
 
@@ -169,7 +226,7 @@ public class UserBooksLayoutController {
             if (node instanceof Pane) {
                 Pane bookBar = (Pane) node;
                 UserBookBarController controller = (UserBookBarController) bookBar.getUserData();
-                
+
                 try {
                     if (controller.getCheckBoxButton().isSelected()) {
                         Book book = new Book(controller.getData());
