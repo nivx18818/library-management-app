@@ -50,6 +50,8 @@ public class AdminNavigationController {
         Logger.getLogger("javafx").setLevel(java.util.logging.Level.SEVERE);
         System.out.println("Navigation Controller initialized times");
         AnimationUtils.fadeInLeft(navigationContainer);
+        globalController
+                    .setAdminData((FXCollections.observableArrayList(globalController.preLoadAdminData())));
     }
 
     // Handles the click effect for navigation buttons

@@ -3,6 +3,7 @@ package app.libmgmt.service;
 import app.libmgmt.dao.UserDAO;
 import app.libmgmt.model.User;
 import app.libmgmt.model.Student;
+import app.libmgmt.model.Admin;
 import app.libmgmt.model.ExternalBorrower;
 
 import java.security.SecureRandom;
@@ -99,6 +100,14 @@ public class UserService {
             return userDAO.getAllExternalBorrowers();
         } catch (SQLException e) {
             throw new ServiceException("Error getting all external borrowers", e);
+        }
+    }
+
+    public List<Admin> getAllAdmins() {
+        try {
+            return userDAO.getAllAdmins();
+        } catch (SQLException e) {
+            throw new ServiceException("Error getting all admins", e);
         }
     }
 

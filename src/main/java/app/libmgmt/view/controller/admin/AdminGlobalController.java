@@ -8,6 +8,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 
 import app.libmgmt.util.AnimationUtils;
+import app.libmgmt.model.Admin;
 import app.libmgmt.model.Book;
 import app.libmgmt.model.User;
 import app.libmgmt.model.ExternalBorrower;
@@ -18,7 +19,6 @@ import app.libmgmt.service.LoanService;
 import app.libmgmt.service.UserService;
 import app.libmgmt.util.EnumUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class AdminGlobalController {
@@ -27,7 +27,8 @@ public class AdminGlobalController {
 
     // Data loaded when starting the application
     private final ObservableList<Loan> borrowedBooksData = FXCollections.observableArrayList();
-    private final List<String[]> adminsData = preLoadAdminData();
+    // private final List<Admin> adminsData = preLoadAdminData();
+    private final List<Admin> adminsData = FXCollections.observableArrayList();
 
     // Real time load data
     private final ObservableList<Student> studentsData = FXCollections.observableArrayList();
@@ -85,12 +86,12 @@ public class AdminGlobalController {
         return userService.getAllExternalBorrowers();
     }
 
-    private List<String[]> preLoadAdminData() {
-        List<String[]> data = new ArrayList<>();
-        data.add(new String[] { "H D Thịnh", "23020708@vnu.edu.vn" });
-        data.add(new String[] { "N X Vinh", "23020101@vnu.edu.vn" });
-        data.add(new String[] { "L M Tường", "23020102@vnu.edu.vn" });
-        data.add(new String[] { "N Đ Nguyên", "23020103@vnu.edu.vn" });
+    public List<Admin> preLoadAdminData() {
+        List<Admin> data = userService.getAllAdmins();
+        for (Admin x : data) {
+            System.out.println(x.getName() + " " + x.getEmail());
+        }
+        
         return data;
     }
 
@@ -187,7 +188,7 @@ public class AdminGlobalController {
         return preLoadOverDueLoans();
     }
 
-    public List<String[]> getAdminData() {
+    public List<Admin> getAdminData() {
         return adminsData;
     }
 
@@ -229,6 +230,10 @@ public class AdminGlobalController {
 
     public void setLoansData(List<Loan> data) {
         borrowedBooksData.setAll(data);
+    }
+
+    public void setAdminData(List<Admin> data) {
+        adminsData.addAll(data);
     }
 
     // Getter Methods for UI components

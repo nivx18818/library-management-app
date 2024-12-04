@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXRadioButton;
 
+import app.libmgmt.model.Admin;
 import app.libmgmt.model.Student;
 import app.libmgmt.model.ExternalBorrower;
 
@@ -192,8 +193,9 @@ public class AdminAddUserDialogController {
     // --- User Add Methods ---
     private void addAdmin(String[] adminInfo) {
         if (checkValidAdmin(adminInfo, EnumUtils.UserType.ADMIN)) {
+            Admin admin = new Admin(adminInfo[0], adminInfo[1], adminInfo[2], adminInfo[3], 0);
             // form data: [id, name, email, password, cfPassword]
-            AdminGlobalController.getInstance().getAdminData().add(adminInfo);
+            AdminGlobalController.getInstance().getAdminData().add(admin);
             //TODO: Add admin to database
             AdminDashboardController.getInstance().loadAdminDataTable(adminInfo[1], adminInfo[2]);
             showNotification("Added successfully", "#08a80d");

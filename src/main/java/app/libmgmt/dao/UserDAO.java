@@ -214,6 +214,28 @@ public class UserDAO {
         return externalBorrowers;
     }
 
+    public List<Admin> getAllAdmins() throws SQLException {
+        List<Admin> admins = new ArrayList<>();
+        String sql = "SELECT id, name, email, password, admin_id FROM User WHERE role = 'ADMIN'";
+
+        try (Connection connection = getConnection();
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet rs = statement.executeQuery()) {
+                
+            while(rs.next()) {
+                admins.add(new Admin(
+                    rs.getString("id"),
+                    rs.getString("name"),
+                    rs.getString("email"),
+                    rs.getString("password"),
+                    rs.getInt("admin_id"
+                )));
+            }
+        }
+
+        return admins;
+    }
+
     public User getUserById(String userId) throws SQLException {
         String sql = "SELECT id, name, email, password, role, admin_id, student_id, major, social_id, phone_number FROM User WHERE id = ?";
 

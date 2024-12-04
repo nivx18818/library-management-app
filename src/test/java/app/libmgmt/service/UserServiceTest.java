@@ -1,6 +1,7 @@
 package app.libmgmt.service;
 
 import app.libmgmt.model.User;
+import app.libmgmt.model.Admin;
 import app.libmgmt.model.ExternalBorrower;
 import app.libmgmt.model.Student;
 import app.libmgmt.dao.DatabaseConnection;
@@ -125,6 +126,13 @@ public class UserServiceTest {
         Assertions.assertEquals("External User", externalBorrowers.get(0).getName());
         Assertions.assertEquals("123456789", externalBorrowers.get(0).getSocialId());
         Assertions.assertEquals("1234567890", externalBorrowers.get(0).getPhoneNumber());
+    }
+
+    @Test
+    void testGetAllAdmins() {
+        List<Admin> admins = userService.getAllAdmins();
+        Assertions.assertEquals(1, admins.size());
+        Assertions.assertEquals("Admin User", admins.get(0).getName());
     }
 
     @Test

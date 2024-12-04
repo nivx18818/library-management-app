@@ -11,6 +11,7 @@ import javafx.scene.chart.PieChart;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import app.libmgmt.model.Admin;
 import app.libmgmt.model.Loan;
 
 import java.io.IOException;
@@ -33,7 +34,7 @@ public class AdminDashboardController {
     @FXML
     private VBox vBoxAdmin;
     private List<Loan> borrowedBooksData = adminGlobalController.getBorrowedBooksData();
-    private List<String[]> adminData = adminGlobalController.getAdminData();
+    private List<Admin> adminData = adminGlobalController.getAdminData();
 
     public AdminDashboardController() {
         controller = this;
@@ -133,9 +134,9 @@ public class AdminDashboardController {
     }
 
     public void getVBoxAdmin() {
-        for (String[] data : adminData) {
-            String name = data[0];
-            String email = data[1];
+        for (Admin data : adminData) {
+            String name = data.getName();
+            String email = data.getEmail();
 
             loadAdminDataTable(name, email);
         }
@@ -158,7 +159,7 @@ public class AdminDashboardController {
         }
     }
 
-    public List<String[]> getAdminData() {
+    public List<Admin> getAdminData() {
         return adminData;
     }
 
