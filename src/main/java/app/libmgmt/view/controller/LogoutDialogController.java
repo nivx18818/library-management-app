@@ -13,6 +13,8 @@ import app.libmgmt.util.ChangeScene;
 import app.libmgmt.util.EnumUtils;
 import app.libmgmt.view.controller.admin.AdminGlobalController;
 import app.libmgmt.view.controller.admin.AdminNavigationController;
+import app.libmgmt.view.controller.user.UserGlobalController;
+import app.libmgmt.view.controller.user.UserNavigationController;
 
 import java.io.IOException;
 
@@ -64,8 +66,15 @@ public class LogoutDialogController {
 
     @FXML
     void confirmButtonOnAction(ActionEvent event) throws IOException {
-        AdminNavigationController.getInstance().setLastButtonClicked(EnumUtils.NavigationButton.DASHBOARD);
-        AdminNavigationController.getInstance().setUploadedData(false, false, false);
+        if (AdminGlobalController.getInstance().getGlobalFormContainer() != null) {
+            AdminGlobalController.getInstance().getGlobalFormContainer().getChildren().clear();
+            AdminNavigationController.getInstance().setLastButtonClicked(EnumUtils.NavigationButton.DASHBOARD);
+            AdminNavigationController.getInstance().setUploadedData(false, false, false);
+        } else {
+            UserGlobalController.getInstance().getGlobalFormContainer().getChildren().clear();
+            UserNavigationController.getInstance().setLastButtonClicked(EnumUtils.NavigationButton.DASHBOARD);
+            UserNavigationController.getInstance().setUploadedData(false);
+        }
         ChangeScene.closePopUp();
         backToLoginForm();
     }

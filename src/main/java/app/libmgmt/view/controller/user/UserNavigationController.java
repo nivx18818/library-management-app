@@ -14,6 +14,7 @@ import app.libmgmt.util.ChangeScene;
 // import app.libmgmt.util.ChangeScene;
 import app.libmgmt.util.EnumUtils;
 import app.libmgmt.util.EnumUtils.UserType;
+import app.libmgmt.view.controller.LogoutDialogController;
 
 import java.io.IOException;
 import java.util.logging.Logger;
@@ -123,19 +124,18 @@ public class UserNavigationController {
     public void booksButtonClicked(MouseEvent event) throws IOException {
         if (!uploadedBooksData) {
             globalController.preLoadBooksData(
-                books -> {
-                    globalController.setObservableBookData(FXCollections.observableArrayList(books));
-                    uploadedBooksData = true;
-                    try {
-                        handleNavigation(EnumUtils.NavigationButton.BOOKS, "user-books-layout.fxml", booksButton);
-                    } catch (IOException e) {
-                        showErrorDialog("Error", "Failed to navigate: " + e.getMessage());
-                    }
-                },
-                error -> {
-                    showErrorDialog("Error", "Failed to load books: " + error.getMessage());
-                }
-            );
+                    books -> {
+                        globalController.setObservableBookData(FXCollections.observableArrayList(books));
+                        uploadedBooksData = true;
+                        try {
+                            handleNavigation(EnumUtils.NavigationButton.BOOKS, "user-books-layout.fxml", booksButton);
+                        } catch (IOException e) {
+                            showErrorDialog("Error", "Failed to navigate: " + e.getMessage());
+                        }
+                    },
+                    error -> {
+                        showErrorDialog("Error", "Failed to load books: " + error.getMessage());
+                    });
         } else {
             handleNavigation(EnumUtils.NavigationButton.BOOKS, "user-books-layout.fxml", booksButton);
         }
@@ -143,10 +143,14 @@ public class UserNavigationController {
 
     @FXML
     public void logOutButtonClicked(MouseEvent event) throws IOException {
-        // if (latestButtonClicked == EnumUtils.NavigationButton.LOGOUT) return;
-        // ChangeScene.openAdminPopUp(AdminGlobalController.getInstance().getStackPaneContainer(),
-        // "/fxml/logout-dialog.fxml");
-        // handleEffectButtonClicked(logoutButton);
+        if (latestButtonClicked == EnumUtils.NavigationButton.LOGOUT) {
+            return;
+        }
+
+        ChangeScene.openAdminPopUp(UserGlobalController.getInstance().getStackPaneContainer(),
+                "/fxml/logout-dialog.fxml", EnumUtils.PopupList.LOGOUT);
+        LogoutDialogController.getInstance().setUserType(UserType.ADMIN);
+        handleEffectButtonClicked(logoutButton);
     }
 
     // Handles the navigation between scenes
@@ -172,6 +176,14 @@ public class UserNavigationController {
     }
 
     public static void setUploadedBooksData(boolean uploadedBooksData) {
+        UserNavigationController.uploadedBooksData = uploadedBooksData;
+    }
+
+    public void setLastButtonClicked(EnumUtils.NavigationButton button) {
+        latestButtonClicked = button;
+    }
+
+    public void setUploadedData(boolean uploadedBooksData) {
         UserNavigationController.uploadedBooksData = uploadedBooksData;
     }
 
