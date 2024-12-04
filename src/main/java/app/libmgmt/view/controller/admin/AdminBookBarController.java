@@ -11,8 +11,6 @@ import javafx.scene.input.MouseEvent;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-import java.text.ParseException;
-
 
 import java.io.IOException;
 
@@ -52,19 +50,19 @@ public class AdminBookBarController {
                     String authorsString = String.join(", ", updatedBook.getAuthors());
                     String categoriesString = String.join(", ", updatedBook.getCategories());
 
-                    String inputPattern = "EEE MMM dd HH:mm:ss z yyyy";
-                    SimpleDateFormat inputFormat = new SimpleDateFormat(inputPattern, Locale.ENGLISH);
-                    String outputPattern = "dd/MM/yyyy";
-                    SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
-
-                    Date parsedDate;
-                    try {
-                        parsedDate = inputFormat.parse(updatedBook.getPublishedDate().toString());
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                        parsedDate = new Date();
+                    String formattedDate = "Not Available";
+                    if (updatedBook.getPublishedDate() != null) {
+                        try {
+                            String inputPattern = "EEE MMM dd HH:mm:ss z yyyy";
+                            SimpleDateFormat inputFormat = new SimpleDateFormat(inputPattern, Locale.ENGLISH);
+                            String outputPattern = "dd/MM/yyyy";
+                            SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
+                            Date parsedDate = inputFormat.parse(updatedBook.getPublishedDate().toString());
+                            formattedDate = outputFormat.format(parsedDate);
+                        } catch (Exception e) {
+                            formattedDate = "Not Available";
+                        }
                     }
-                    String formattedDate = outputFormat.format(parsedDate);
 
                     String[] updatedBookData = new String[]{
                         updatedBook.getIsbn(),

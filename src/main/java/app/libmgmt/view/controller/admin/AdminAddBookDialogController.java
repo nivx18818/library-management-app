@@ -12,6 +12,7 @@ import javafx.scene.layout.Pane;
 import app.libmgmt.model.Book;
 import app.libmgmt.util.AnimationUtils;
 import app.libmgmt.util.ChangeScene;
+import app.libmgmt.util.DateUtils;
 import app.libmgmt.util.RegExPatterns;
 
 import java.io.IOException;
@@ -103,7 +104,6 @@ public class AdminAddBookDialogController {
 
                             String authorsString = String.join(", ", lastBook.getAuthors());
                             String categoriesString = String.join(", ", lastBook.getCategories());
-
                             String formattedDate = "Not Available";
                             if (lastBook.getPublishedDate() != null) {
                                 try {
@@ -117,6 +117,7 @@ public class AdminAddBookDialogController {
                                     formattedDate = "Not Available";
                                 }
                             }
+
 
                             String[] book_Data = new String[] { lastBook.getIsbn(), lastBook.getCoverUrl(),
                                     lastBook.getTitle(), categoriesString,
@@ -158,7 +159,7 @@ public class AdminAddBookDialogController {
             return false;
         }
 
-        if (publishedDatePicker.getValue() != null && RegExPatterns.datePattern(publishedDatePicker.getValue().toString())) {
+        if (publishedDatePicker.getValue() != null && !RegExPatterns.datePattern(DateUtils.parseLocalDateToString(publishedDatePicker.getValue()))) {
             notificationLabel.setText("Date is invalid. Please follow the format dd/MM/yyyy.");
             AnimationUtils.playNotificationTimeline(notificationLabel, 3, "#ff0000");
             return false;

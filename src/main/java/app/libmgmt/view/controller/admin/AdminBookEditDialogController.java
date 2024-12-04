@@ -151,7 +151,11 @@ public class AdminBookEditDialogController {
         authorTextField.setText(originalData[4]);
         quantitySpinner.getValueFactory().setValue(Integer.parseInt(originalData[5]));
         publisherTextField.setText(originalData[6]);
-        publishedDatePicker.setValue(DateUtils.parseStringToLocalDate(originalData[7]));
+        if (originalData[7].equals("Not Available")) {
+            publishedDatePicker.setValue(null);
+        } else {
+            publishedDatePicker.setValue(DateUtils.parseStringToLocalDate(originalData[7]));
+        }
     }
 
     private String[] getUpdatedData() {
@@ -301,9 +305,7 @@ public class AdminBookEditDialogController {
 
     public boolean checkValidFields() throws IOException {
         String quantityText = quantitySpinner.getEditor().getText();
-        if (nameTextField.getText().isEmpty() ||
-                publishedDatePicker.getValue() == null ||
-                quantityText.isEmpty()) {
+        if (nameTextField.getText().isEmpty() || quantityText.isEmpty()) {
 
             notificationLabel.setText("Please fill in all required fields.");
             notificationLabel.setStyle("-fx-text-fill: #ff0000;");
@@ -311,8 +313,7 @@ public class AdminBookEditDialogController {
             return false;
         }
 
-        if (publishedDatePicker.getValue() != null
-                && RegExPatterns.datePattern(publishedDatePicker.getValue().toString())) {
+        if (publishedDatePicker.getValue() != null && !RegExPatterns.datePattern(DateUtils.parseLocalDateToString(publishedDatePicker.getValue()))) {
             notificationLabel.setText("Date is invalid. Please follow the format dd/MM/yyyy.");
             AnimationUtils.playNotificationTimeline(notificationLabel, 3, "#ff0000");
             return false;

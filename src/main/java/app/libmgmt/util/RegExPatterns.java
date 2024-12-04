@@ -4,11 +4,6 @@ import javafx.animation.PauseTransition;
 import javafx.scene.control.TextField;
 import javafx.util.Duration;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.time.temporal.ChronoField;
-
 import java.io.IOException;
 
 import java.net.HttpURLConnection;
@@ -56,14 +51,14 @@ public class RegExPatterns {
         String urlWithoutParams = path.split("\\?")[0].toLowerCase();
 
         if (urlWithoutParams.endsWith(".jpg") ||
-            urlWithoutParams.endsWith(".jpeg") ||
-            urlWithoutParams.endsWith(".png") ||
-            urlWithoutParams.endsWith(".gif") ||
-            urlWithoutParams.endsWith(".bmp") ||
-            urlWithoutParams.endsWith(".svg")) {
+                urlWithoutParams.endsWith(".jpeg") ||
+                urlWithoutParams.endsWith(".png") ||
+                urlWithoutParams.endsWith(".gif") ||
+                urlWithoutParams.endsWith(".bmp") ||
+                urlWithoutParams.endsWith(".svg")) {
             return true;
         }
-        
+
         try {
             URI uri = new URI(path);
             URL url = uri.toURL();
@@ -82,7 +77,7 @@ public class RegExPatterns {
         } catch (URISyntaxException e) {
             System.err.println("Invalid URL syntax: " + e.getMessage());
             return false;
-        }catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
             return false;
         }
@@ -93,19 +88,7 @@ public class RegExPatterns {
     }
 
     public static boolean datePattern(String dateStr) {
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-    try {
-        LocalDate date = LocalDate.parse(dateStr, formatter);
-        int day = date.get(ChronoField.DAY_OF_MONTH);
-        System.out.println("Day: " + day); // Debug line
-        int month = date.get(ChronoField.MONTH_OF_YEAR);
-        System.out.println("Month: " + month); // Debug line
-        int year = date.get(ChronoField.YEAR);
-        System.out.println("Year: " + year); // Debug line
-        return day >= 1 && day <= 31 && month >= 1 && month <= 12 && year >= 1900 && year <= 2100;
-    } catch (DateTimeParseException e) {
-        return false;
-    }
+        return dateStr.matches("^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/(\\d{4})$");
     }
 
     public static void invalidPromptText(boolean status, TextField field, String errorMessage) {
