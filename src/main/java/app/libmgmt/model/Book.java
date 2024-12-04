@@ -29,7 +29,7 @@ public class Book {
         this.webReaderUrl = webReaderUrl;
     }
 
-    // data format: [id, coverURL, name, type, author, quantity, publisher, publishedDate]
+    // data format: [id, coverURL, name, type, author, quantity, publisher, publishedDate, webReaderUrl]
     public Book(String[] bookData) {
         this.isbn = bookData[0];
         this.title = bookData[2];

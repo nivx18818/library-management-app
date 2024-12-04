@@ -91,8 +91,8 @@ public class BookDAO {
             statement.setInt(5, book.getAvailableCopies());
             statement.setString(6, authorsString);
             statement.setString(7, categoriesString);
-            statement.setString(8, book.getIsbn());
-            statement.setString(9, book.getWebReaderUrl());
+            statement.setString(8, book.getWebReaderUrl());
+            statement.setString(9, book.getIsbn());
 
             statement.executeUpdate();
         }
