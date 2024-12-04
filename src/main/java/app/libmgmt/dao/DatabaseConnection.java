@@ -16,14 +16,19 @@ public class DatabaseConnection {
     public static HikariDataSource getDataSource() {
         if (dataSource == null) {
             String jdbcUrl;
+            int maximumPoolSize;
 
-            jdbcUrl = isTesting
-                    ? "jdbc:sqlite:file:tmpDb?mode=memory&cache=shared"
-                    : "jdbc:sqlite:src/main/resources/database/database.db";
+            if (isTesting) {
+                jdbcUrl = "jdbc:sqlite:file:tmpDb?mode=memory&cache=shared";
+                maximumPoolSize = 30;
+            } else {
+                jdbcUrl = "jdbc:sqlite:src/main/resources/database/database.db";
+                maximumPoolSize = 10;
+            }
 
             HikariConfig config = new HikariConfig();
             config.setJdbcUrl(jdbcUrl);
-            config.setMaximumPoolSize(10);
+            config.setMaximumPoolSize(maximumPoolSize);
             dataSource = new HikariDataSource(config);
         }
 
