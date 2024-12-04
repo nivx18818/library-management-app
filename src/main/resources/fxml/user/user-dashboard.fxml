@@ -19,7 +19,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane fx:id="stackPaneContainer" prefHeight="718.0" prefWidth="1218.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.libmgmt.view.controller.user.UserDashboardController">
+<StackPane fx:id="stackPaneContainer" prefHeight="718.0" prefWidth="1218.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.libmgmt.view.controller.user.UserDashboardController">
   <children>
     <Pane style="-fx-background-color: #f2f2f2;">
       <children>
@@ -137,7 +137,7 @@
                   <children>
                     <ImageView fitHeight="70.0" fitWidth="90.0" layoutX="58.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                       <image>
-                        <Image url="@../../assets/icon/SvgjsG2242%20(2).png" />
+                        <Image url="@../../assets/icon/SvgjsG2242.png" />
                       </image>
                     </ImageView>
                     <Label alignment="CENTER" layoutY="87.0" prefWidth="200.0" text="BookWorm">
@@ -155,20 +155,10 @@
                         </Lighting>
                       </effect>
                     </Label>
-                    <ImageView fitHeight="40.0" fitWidth="70.0" layoutX="65.0" layoutY="129.0" pickOnBounds="true" preserveRatio="true">
+                    <ImageView fitHeight="11.0" fitWidth="84.0" layoutX="71.0" layoutY="127.0" pickOnBounds="true" preserveRatio="true">
                       <image>
                         <Image url="@../../assets/icon/SvgjsG2244.png" />
                       </image>
-                      <effect>
-                        <Lighting>
-                          <bumpInput>
-                            <Shadow />
-                          </bumpInput>
-                          <light>
-                            <Light.Distant />
-                          </light>
-                        </Lighting>
-                      </effect>
                     </ImageView>
                   </children>
                   <HBox.margin>
@@ -212,7 +202,7 @@
           <children>
             <ImageView fitHeight="50.0" fitWidth="60.0" layoutX="22.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true">
               <image>
-                <Image url="@../../assets/icon/SvgjsG2242%20(2).png" />
+                <Image url="@../../assets/icon/SvgjsG2242.png" />
               </image>
             </ImageView>
             <Circle fill="#3d3e3e" layoutX="127.0" layoutY="35.0" radius="9.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
@@ -231,19 +221,19 @@
           </children>
         </Pane>
             <JFXButton fx:id="borrowedBookButton" layoutX="39.0" layoutY="47.0" onAction="#btnBorrowedBookOnAction" onMouseEntered="#btnOnMouseEntered" onMouseExited="#btnOnMouseExited" prefHeight="150.0" prefWidth="320.0" style="-fx-background-radius: 12;" text=" " textFill="#959595">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
+              <cursor>
+                <Cursor fx:constant="HAND" />
+              </cursor>
             </JFXButton>
             <JFXButton fx:id="returnedBookButton" layoutX="388.0" layoutY="47.0" onAction="#btnReturnedBookOnAction" onMouseEntered="#btnOnMouseEntered" onMouseExited="#btnOnMouseExited" prefHeight="150.0" prefWidth="320.0" style="-fx-background-radius: 12;" text=" " textFill="#9e9e9e">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
+              <cursor>
+                <Cursor fx:constant="HAND" />
+              </cursor>
             </JFXButton>
             <JFXButton fx:id="availableBookButton" layoutX="39.0" layoutY="250.0" onAction="#btnAvailableBookOnAction" onMouseEntered="#btnOnMouseEntered" onMouseExited="#btnOnMouseExited" prefHeight="150.0" prefWidth="389.0" style="-fx-background-radius: 12;" text=" " textFill="#929292">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
+              <cursor>
+                <Cursor fx:constant="HAND" />
+              </cursor>
             </JFXButton>
       </children>
     </Pane>
