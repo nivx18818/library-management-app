@@ -1,0 +1,7 @@
+.date-picker-popup .day-name-cell {
+    -fx-border-width: 0;
+}
+
+.date-picker-popup .day-cell {
+    -fx-border-width: 0;
+}

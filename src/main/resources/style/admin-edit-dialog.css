@@ -1,22 +1,6 @@
 .text-field {
     -fx-padding: 0;
-    -fx-background-color: #ffffff;
-    -fx-border-color: #ffffff;
-}
-
-.image-link {
-    -fx-border-color: #d7d7d7;
-    -fx-border-radius: 12px;
-    -fx-background-color: #fff;
-    -fx-background-radius: 12px;
-    -fx-prompt-text-fill: #b2b2b2;
-    -fx-padding: 10px;
-}
-
-.image-link:focused {
-    -fx-border-color: gray;
-    -fx-background-color: #FFFFFF;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 8, 0.7, 0, 2);
+    -fx-border-color: #fff;
 }
 
 .btn {
@@ -40,4 +24,25 @@
     -fx-font-size: 15px;
     -fx-padding: 0;
     -fx-wrap-text: true;
+}
+
+.text-field:focused,
+.password-field:focused,
+.jfx-combo-box:focused {
+    -fx-border-width: 0;
+}
+
+.image-link {
+    -fx-border-color: #727374;
+    -fx-border-radius: 12px;
+    -fx-background-color: #fff;
+    -fx-background-radius: 12px;
+    -fx-prompt-text-fill: #b2b2b2;
+    -fx-padding: 10px;
+}
+
+.image-link:focused {
+    -fx-border-color: #727374;
+    -fx-background-color: #fff;
+    -fx-border-width: 2px;
 }

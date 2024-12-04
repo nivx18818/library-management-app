@@ -58,6 +58,10 @@
     -fx-background-color: -fx-primary-color;
 }
 
+.date-picker-popup > .month-year-pane .spinner {
+    -fx-background-color: -fx-primary-color;
+}
+
 .date-picker-popup > .month-year-pane .label {
     -fx-text-fill: white;
 }
@@ -75,14 +79,9 @@
     -fx-background-color: -fx-primary-color;
     -fx-text-fill: white;
     -fx-background-insets: 0;
-    -fx-border-width: 0;
     -fx-cursor: default;
 }
 
 .date-picker-popup .day-name-cell:hover {
     -fx-background-color: -fx-primary-color;
-}
-
-.date-picker-popup .day-cell {
-    -fx-border-width: 0;
 }
