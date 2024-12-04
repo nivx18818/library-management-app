@@ -103,7 +103,12 @@ public class AdminBookViewDialogController {
                     break;
                 case 8:
                     // Web reader URL
-                    qrCodeImage.setImage(QRCodeGenerator.generateQRCode(data[i], 120, 120));
+                    if (data[i] == null || data[i].equals("null")) {
+                        String defaultGif = "/assets/gif/7994392.gif";
+                        qrCodeImage.setImage(new Image(getClass().getResource(defaultGif).toExternalForm()));
+                    } else {
+                        qrCodeImage.setImage(QRCodeGenerator.generateQRCode(data[i], 120, 120));
+                    }
                     break;
             }
         }

@@ -129,12 +129,17 @@ public class AdminBookEditDialogController {
         setBookCoverImage(originalData[1]);
         lastImageURL = originalData[1];
         imgUrlTextField.setText(originalData[1]);
-        try {
-            qrCodeImage.setImage(QRCodeGenerator.generateQRCode(originalData[8], 140, 140));
-        } catch (WriterException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (originalData[8] == null || originalData[8].equals("null")) {
+            String defaultGif = "/assets/gif/7994392.gif";
+            qrCodeImage.setImage(new Image(getClass().getResource(defaultGif).toExternalForm()));
+        } else {
+            try {
+                qrCodeImage.setImage(QRCodeGenerator.generateQRCode(originalData[8], 140, 140));
+            } catch (WriterException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         lastQrCodeURL = originalData[8];
         qrCodeTextField.setText(originalData[8]);

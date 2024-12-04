@@ -209,7 +209,7 @@
                   <DropShadow blurType="GAUSSIAN" height="28.0" radius="13.5" spread="0.1" width="28.0" />
                </effect>
                <image>
-                  <Image url="@../../assets/img/images.jpg" />
+                  <Image url="@../../assets/img/9781581175660.gif" />
                </image>
         </ImageView>
         <TextField fx:id="imgUrlTextField" layoutX="142.0" layoutY="47.0" prefHeight="40.0" prefWidth="394.0" promptText="Enter book cover URL" styleClass="image-link">

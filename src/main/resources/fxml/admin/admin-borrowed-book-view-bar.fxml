@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
@@ -15,7 +16,10 @@
         <ImageView fx:id="bookImage" fitHeight="90.0" fitWidth="70.0" layoutX="15.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../assets/img/images.png" />
-               </image></ImageView>
+               </image>
+               <effect>
+                  <DropShadow />
+               </effect></ImageView>
       </children>
     </Pane>
     <Label fx:id="nameBookLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="60.0" layoutY="10.0" prefHeight="100.0" prefWidth="200.0" text="Story Book" textAlignment="CENTER" wrapText="true">
