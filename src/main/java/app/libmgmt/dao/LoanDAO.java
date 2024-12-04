@@ -233,6 +233,22 @@ public class LoanDAO {
         return totalBooks;
     }
 
+    public int getMaxLoanId() throws SQLException {
+        int maxId = Integer.MIN_VALUE;
+        String sql = "SELECT MAX(id) FROM Loan";
+        
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql);
+             ResultSet rs = statement.executeQuery()) {
+             
+            if (rs.next()) {
+                maxId = rs.getInt(1);
+            }
+        }
+        
+        return maxId;
+    }
+
     public void updateLoanReturnedDate(int loanId) throws SQLException {
         String sql = "UPDATE Loan SET returned_date = DATE('now'), status = 'RETURNED' WHERE id = ?";
 

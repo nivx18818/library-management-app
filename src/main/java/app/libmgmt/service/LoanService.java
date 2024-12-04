@@ -104,6 +104,14 @@ public class LoanService {
         }
     }
 
+    public int getMaxLoanId() {
+        try {
+            return loanDAO.getMaxLoanId();
+        } catch (SQLException e) {
+            throw new ServiceException("Error getting min loan id", e);
+        }
+    }
+
     public String getIsbnByUserId(String userId) {
         try {
             return loanDAO.getIsbnByUserId(userId);

@@ -107,7 +107,8 @@ public class UserGlobalController {
     }
 
     public void addReturnedBook(int loanId) {
-        if (loanId <= 0 || loanId > borrowedBooksData.size()) {
+        int max = loanService.getMaxLoanId();
+        if (loanId <= 0 || loanId > max) {
             System.out.println("Invalid loan id");
             return;
         }
