@@ -1,5 +1,6 @@
 package app.libmgmt.view.controller.user;
 
+import java.util.Date;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -102,6 +103,7 @@ public class UserGlobalController {
         for (int i = 0; i < borrowedBooksData.size(); i++) {
             Loan data = borrowedBooksData.get(i);
             if (data.getLoanId() == loanId) {
+                data.setReturnedDate(new Date());
                 returnedBooksData.add(data);
                 break;
             }

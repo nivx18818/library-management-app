@@ -252,7 +252,7 @@ public class LoanDAO {
         String borrowedDateString = rs.getString("borrowed_date");
         Date borrowedDate = borrowedDateString != null ? Date.valueOf(borrowedDateString) : null;
 
-        String dueDateString = rs.getString("borrowed_date");
+        String dueDateString = rs.getString("due_date");
         Date dueDate = dueDateString != null ? Date.valueOf(dueDateString) : null;
 
         String returnedDateString = rs.getString("returned_date");

@@ -1,6 +1,7 @@
 package app.libmgmt.view.controller.user;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import com.jfoenix.controls.JFXButton;
@@ -211,16 +212,27 @@ public class UserCatalogController {
                     for (Loan d : data) {
                         List<Book> books = loanService.getBookFromLoan(d.getIsbn());
                         Book book = books.isEmpty() ? null : books.get(0);
+
+                        SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
+                        String dueDateString = outputFormat.format(d.getDueDate());
+                        String borrowedDateString = outputFormat.format(d.getBorrowedDate());
+                        
+                        String returnedDateString = "Not Available";
+                        if (d.getReturnedDate() != null) {
+                            returnedDateString = outputFormat.format(d.getReturnedDate());
+                        }
+
                         String[] loanData = new String[] {
                                 d.getIsbn(),
                                 d.getLoanId() + "",
                                 book.getCoverUrl(),
                                 book.getTitle(),
-                                DateUtils.parseDateToString(d.getBorrowedDate()),
-                                currentStatus == USER_CATALOG_STATE.BORROWED ? DateUtils.parseDateToString(d.getDueDate())
-                                        : DateUtils.parseDateToString(d.getReturnedDate()),
+                                borrowedDateString,
+                                dueDateString,
+                                returnedDateString,
                                 d.getAmount() + ""
                         };
+                        //data format: [isbn, loanId, coverUrl, title, borrowedDate, dueDate, returnedDate, amount]
                         loadBorrowedBookBar(loanData, currentStatus);
                     }
                 } catch (Exception e) {

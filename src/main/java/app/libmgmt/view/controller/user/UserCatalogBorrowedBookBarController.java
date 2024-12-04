@@ -124,7 +124,7 @@ public class UserCatalogBorrowedBookBarController {
             dueDateLabel.setText(data[5]);
         } else {
             orderLabel.setText(data[0]);
-            returnLabel.setText(data[5]);
+            dueDateLabel.setText(data[6]);
         }
         if (data[2] != null) {
             updateImage(data[2], bookImage);
