@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -144,13 +145,24 @@ public class AdminNavigationController {
 
     @FXML
     public void booksButtonClicked(MouseEvent event) throws IOException {
-        // Preload books data
         if (!uploadedBooksData) {
-            globalController
-                    .setObservableBookData(FXCollections.observableArrayList(globalController.preLoadBooksData()));
-            uploadedBooksData = true;
+            globalController.preLoadBooksData(
+                    books -> {
+                        globalController.setObservableBookData(FXCollections.observableArrayList(books));
+                        uploadedBooksData = true;
+
+                        try {
+                            handleNavigation(EnumUtils.NavigationButton.BOOKS, "admin-books-form.fxml", booksButton);
+                        } catch (IOException e) {
+                            showErrorDialog("Error", "Failed to navigate: " + e.getMessage());
+                        }
+                    },
+                    error -> {
+                        showErrorDialog("Error", "Failed to load books: " + error.getMessage());
+                    });
+        } else {
+            handleNavigation(EnumUtils.NavigationButton.BOOKS, "admin-books-form.fxml", booksButton);
         }
-        handleNavigation(EnumUtils.NavigationButton.BOOKS, "admin-books-form.fxml", booksButton);
     }
 
     @FXML
@@ -159,7 +171,8 @@ public class AdminNavigationController {
         if (!uploadedUsersData) {
             globalController
                     .setStudentsData((FXCollections.observableArrayList(globalController.preLoadStudentsData())));
-            globalController.setExternalBorrowersData((FXCollections.observableArrayList(globalController.preLoadExternalBorrowersData())));
+            globalController.setExternalBorrowersData(
+                    (FXCollections.observableArrayList(globalController.preLoadExternalBorrowersData())));
 
             uploadedUsersData = true;
         }
@@ -194,8 +207,16 @@ public class AdminNavigationController {
     }
 
     // Getter and Setter Methods
-    public void setUploadedData(boolean uploadedBooksData, boolean uploadedUsersData) {
+    public void setUploadedData(boolean uploadedBooksData, boolean uploadedUsersData, boolean uploadedLoansData) {
         AdminNavigationController.uploadedBooksData = uploadedBooksData;
         AdminNavigationController.uploadedUsersData = uploadedUsersData;
+        AdminNavigationController.uploadedLoansData = uploadedLoansData;
+    }
+
+    private void showErrorDialog(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }

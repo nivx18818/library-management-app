@@ -2,6 +2,7 @@ package app.libmgmt.view.controller.admin;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -20,6 +21,7 @@ import app.libmgmt.service.UserService;
 import app.libmgmt.util.EnumUtils;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 public class AdminGlobalController {
 
@@ -60,7 +62,6 @@ public class AdminGlobalController {
 
     @FXML
     public void initialize() {
-        System.out.println("Admin Global Form initialized");
         AnimationUtils.fadeInRight(pagingPane, 1);
     }
 
@@ -74,8 +75,19 @@ public class AdminGlobalController {
         return loanService.getOverdueLoans();
     }
 
-    public List<Book> preLoadBooksData() {
-        return bookService.getAllBooks();
+    public void preLoadBooksData(Consumer<List<Book>> onSuccess, Consumer<Throwable> onFailure) {
+        Task<List<Book>> fetchBooksTask = new Task<>() {
+            @Override
+            protected List<Book> call() {
+                return bookService.getAllBooks();
+            }
+        };
+    
+        fetchBooksTask.setOnSucceeded(event -> onSuccess.accept(fetchBooksTask.getValue()));
+    
+        fetchBooksTask.setOnFailed(event -> onFailure.accept(fetchBooksTask.getException()));
+    
+        new Thread(fetchBooksTask).start();
     }
 
     public List<Student> preLoadStudentsData() {
@@ -111,7 +123,6 @@ public class AdminGlobalController {
             Book book = observableBooksData.get(i);
 
             if (book.getIsbn().equals(updatedBook.getIsbn())) {
-                System.out.println("Book before update:" + book.toString());
                 observableBooksData.set(i, updatedBook);
                 return;
             }
@@ -130,8 +141,9 @@ public class AdminGlobalController {
                 : new ExternalBorrower(updatedData);
 
         userService.updateUser(updatedUser);
-        System.out.println("Updated user: " + updatedUser.getName() + " " + updatedUser.getEmail() + " " + updatedUser.getUserId());
-                
+        System.out.println("Updated user: " + updatedUser.getName() + " " + updatedUser.getEmail() + " "
+                + updatedUser.getUserId());
+
         if (userType == EnumUtils.UserType.STUDENT) {
             for (int i = 0; i < studentsData.size(); i++) {
                 Student student = studentsData.get(i);

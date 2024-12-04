@@ -18,6 +18,7 @@ import javafx.scene.text.Text;
 public class UserDashboardController {
 
     // Singleton Instance
+    UserGlobalController globalController = UserGlobalController.getInstance();
     private static UserDashboardController controller;
     private final UserNavigationController navigationController = UserNavigationController.getInstance();
 
@@ -99,9 +100,8 @@ public class UserDashboardController {
 
         // ObservableList to hold data for the pie chart
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
-            new PieChart.Data("Total Borrowed Books", percentageBorrowed),
-            new PieChart.Data("Total Returned Books", 100 - percentageBorrowed)
-        );
+                new PieChart.Data("Total Borrowed Books", percentageBorrowed),
+                new PieChart.Data("Total Returned Books", 100 - percentageBorrowed));
 
         return pieChartData;
     }
@@ -118,19 +118,40 @@ public class UserDashboardController {
 
     @FXML
     private void btnAvailableBookOnAction(ActionEvent event) throws IOException {
-        navigateTo(EnumUtils.NavigationButton.BOOKS, "user-books-layout.fxml", navigationController.getBooksButton());
+        if (!UserNavigationController.isUploadedBooksData()) {
+            globalController.preLoadBooksData(
+                books -> {
+                    globalController.setObservableBookData(FXCollections.observableArrayList(books));
+                    UserNavigationController.setUploadedBooksData(true);
+                    try {
+                        navigateTo(EnumUtils.NavigationButton.BOOKS, "user-books-layout.fxml", 
+                                 navigationController.getBooksButton());
+                    } catch (IOException e) {
+                        navigationController.showErrorDialog("Error", "Failed to navigate: " + e.getMessage());
+                    }
+                },
+                error -> {
+                    navigationController.showErrorDialog("Error", "Failed to load books: " + error.getMessage());
+                }
+            );
+        } else {
+            navigateTo(EnumUtils.NavigationButton.BOOKS, "user-books-layout.fxml", 
+                      navigationController.getBooksButton());
+        }
     }
 
     @FXML
     private void btnBorrowedBookOnAction(ActionEvent event) throws IOException {
         UserCatalogController.currentStateUserCatalog = UserCatalogController.USER_CATALOG_STATE.BORROWED;
-        navigateTo(EnumUtils.NavigationButton.CATALOG, "user-catalog-form.fxml", navigationController.getCatalogButton());
+        navigateTo(EnumUtils.NavigationButton.CATALOG, "user-catalog-form.fxml",
+                navigationController.getCatalogButton());
     }
 
     @FXML
     private void btnReturnedBookOnAction(ActionEvent event) throws IOException {
         UserCatalogController.currentStateUserCatalog = UserCatalogController.USER_CATALOG_STATE.RETURNED;
-        navigateTo(EnumUtils.NavigationButton.CATALOG, "user-catalog-form.fxml", navigationController.getCatalogButton());
+        navigateTo(EnumUtils.NavigationButton.CATALOG, "user-catalog-form.fxml",
+                navigationController.getCatalogButton());
     }
 
     /**

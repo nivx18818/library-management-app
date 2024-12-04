@@ -65,7 +65,7 @@ public class LogoutDialogController {
     @FXML
     void confirmButtonOnAction(ActionEvent event) throws IOException {
         AdminNavigationController.getInstance().setLastButtonClicked(EnumUtils.NavigationButton.DASHBOARD);
-        AdminNavigationController.getInstance().setUploadedData(false, false);
+        AdminNavigationController.getInstance().setUploadedData(false, false, false);
         ChangeScene.closePopUp();
         backToLoginForm();
     }

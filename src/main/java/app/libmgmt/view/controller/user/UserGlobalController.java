@@ -1,6 +1,7 @@
 package app.libmgmt.view.controller.user;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 import app.libmgmt.model.Loan;
 import app.libmgmt.model.Book;
@@ -9,6 +10,7 @@ import app.libmgmt.service.BookService;
 import app.libmgmt.util.AnimationUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -16,12 +18,12 @@ import javafx.scene.layout.StackPane;
 
 public class UserGlobalController {
 
-    private static volatile UserGlobalController controller;
+    private static UserGlobalController controller;
 
     // Collections for data management
     private final ObservableList<Loan> borrowedBooksData;
     private final ObservableList<Loan> returnedBooksData;
-    private final ObservableList<Book> observableBooksData;
+    private final ObservableList<Book> observableBooksData = FXCollections.observableArrayList();
 
     private final LoanService loanService = new LoanService();
     private final BookService bookService = new BookService();
@@ -38,11 +40,11 @@ public class UserGlobalController {
 
     // Constructor and Singleton Pattern
     public UserGlobalController() {
+        controller = this;
 
         // Initialize collections
         borrowedBooksData = FXCollections.observableArrayList(preLoadLoansData());
         returnedBooksData = FXCollections.observableArrayList(setOriginalReturnedBooksData());
-        observableBooksData = FXCollections.observableArrayList(preLoadBooksData());
     }
 
     public static UserGlobalController getInstance() {
@@ -51,7 +53,6 @@ public class UserGlobalController {
 
     @FXML
     public void initialize() {
-        controller = this;
         AnimationUtils.fadeInRight(pagingPane, 1);
     }
 
@@ -65,8 +66,19 @@ public class UserGlobalController {
         return loanService.getReturnLoansByUserId("23020604");
     }
 
-    public List<Book> preLoadBooksData() {
-        return bookService.getAllBooks();
+    public void preLoadBooksData(Consumer<List<Book>> onSuccess, Consumer<Throwable> onFailure) {
+        Task<List<Book>> fetchBooksTask = new Task<>() {
+            @Override
+            protected List<Book> call() {
+                return bookService.getAllBooks();
+            }
+        };
+    
+        fetchBooksTask.setOnSucceeded(event -> onSuccess.accept(fetchBooksTask.getValue()));
+    
+        fetchBooksTask.setOnFailed(event -> onFailure.accept(fetchBooksTask.getException()));
+    
+        new Thread(fetchBooksTask).start();
     }
 
     // CRUD Methods
@@ -144,6 +156,10 @@ public class UserGlobalController {
 
     public ObservableList<Book> getObservableBooksData() {
         return observableBooksData;
+    }
+
+    public void setObservableBookData(List<Book> data) {
+        observableBooksData.setAll(data);
     }
 
     public ObservableList<Loan> getReturnedBooksData() {
