@@ -57,23 +57,22 @@ public class AdminBorrowedBookViewDialogController {
     }
 
     public List<Book> getBooksData(String id) {
-        return loanService.getBookFromLoan(loanService.getIsbnByUserId(id));
+        return loanService.getBookFromLoan(id);
     }
 
     /**
      * Loads data asynchronously to prevent blocking the main thread.
      */
-    public void loadDataAsync(String id) {
-        List<Book> data = getBooksData(id);
-        List<Loan> loans = loanService.getLoansByUserId(id);
+    public void loadDataAsync(Loan loan) {
+        List<Book> data = getBooksData(loan.getIsbn());
         this.totalBook = data.size();
-        this.totalLoan = loans.size();
+        this.totalLoan = 1;
         setTotalBook();
         Task<Void> preloadTask = new Task<>() {
             @Override
             protected Void call() throws Exception {
                 for (int i = 0; i < data.size(); i++) {
-                    loadBookData(data.get(i), loans.get(i));
+                    loadBookData(data.get(i), loan);
                 }
                 return null;
             }

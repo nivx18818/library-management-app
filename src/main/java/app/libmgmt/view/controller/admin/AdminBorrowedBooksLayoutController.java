@@ -100,7 +100,7 @@ public class AdminBorrowedBooksLayoutController {
             String borrowedDateString = outputFormat.format(d.getBorrowedDate());
             
             //String name, String id, int amount, String dueDate, String borrowedDate
-            controller.setData(d.getUserName(), d.getUserId(), d.getAmount(), dueDateString, borrowedDateString);
+            controller.setData(d.getUserName(), d.getUserId(), d.getAmount(), dueDateString, borrowedDateString, d);
 
             // Add to VBox and animate
             Platform.runLater(() -> {

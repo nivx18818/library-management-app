@@ -5,7 +5,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-
+import app.libmgmt.model.Loan;
 import app.libmgmt.util.ChangeScene;
 import app.libmgmt.util.EnumUtils;
 
@@ -26,6 +26,7 @@ public class AdminBorrowedBooksBarController {
     @FXML
     private Label nameLabel;
 
+    private Loan loan;
     // Singleton pattern
     public AdminBorrowedBooksBarController() {
         controller = this;
@@ -36,12 +37,13 @@ public class AdminBorrowedBooksBarController {
     }
 
     // Set book data to the labels
-    public void setData(String name, String id, int amount, String dueDate, String borrowedDate) {
+    public void setData(String name, String id, int amount, String dueDate, String borrowedDate, Loan loan) {
         idLabel.setText(id);
         nameLabel.setText(name);
         amountLabel.setText(String.valueOf(amount));
         dueDateLabel.setText(dueDate);
         borrowedDateLabel.setText(borrowedDate);
+        this.loan = loan;
     }
 
     // Handle image click event to open borrowed book dialog
@@ -53,7 +55,7 @@ public class AdminBorrowedBooksBarController {
                 idLabel.getText(),
                 EnumUtils.PopupList.BORROWED_BOOK_CATALOG
         );
-        AdminBorrowedBookViewDialogController.getInstance().loadDataAsync(getId());
+        AdminBorrowedBookViewDialogController.getInstance().loadDataAsync(loan);
     }
 
     // Handle image mouse hover
