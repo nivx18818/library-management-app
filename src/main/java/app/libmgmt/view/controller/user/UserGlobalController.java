@@ -92,6 +92,18 @@ public class UserGlobalController {
             borrowedBooksData.add(newBorrowedBooksList.get(i));
             loanService.addLoan(newBorrowedBooksList.get(i));
         }
+
+        for (int i = 0; i < observableBooksData.size(); i++) {
+            Book book = observableBooksData.get(i);
+            for (int j = 0; j < newBorrowedBooksList.size(); j++) {
+                Loan loan = newBorrowedBooksList.get(j);
+                if (book.getIsbn().equals(loan.getIsbn())) {
+                    bookService.updateAvailableCopies(book.getIsbn(), book.getAvailableCopies() - loan.getAmount());
+                    book.setAvailableCopies(book.getAvailableCopies() - loan.getAmount());
+                    break;
+                }
+            }
+        }
     }
 
     public void addReturnedBook(int loanId) {

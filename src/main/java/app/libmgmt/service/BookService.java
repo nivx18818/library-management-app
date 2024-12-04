@@ -79,4 +79,13 @@ public class BookService {
             throw new ServiceException("Error in getting count books: ", e);
         }
     }
+
+    public void updateAvailableCopies(String isbn, int availableCopies) {
+        try {
+            bookDAO.updateAvailableCopies(isbn, availableCopies);
+            System.out.println("Book available copies updated successfully");
+        } catch (SQLException e) {
+            throw new ServiceException("Error in updating available copies: ", e);
+        }
+    }
 }

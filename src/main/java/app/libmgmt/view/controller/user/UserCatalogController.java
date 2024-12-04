@@ -8,7 +8,6 @@ import com.jfoenix.controls.JFXButton;
 
 import app.libmgmt.model.Loan;
 import app.libmgmt.util.AnimationUtils;
-import app.libmgmt.util.DateUtils;
 import app.libmgmt.service.LoanService;
 import app.libmgmt.model.Book;
 import javafx.application.Platform;
@@ -216,7 +215,7 @@ public class UserCatalogController {
                         SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
                         String dueDateString = outputFormat.format(d.getDueDate());
                         String borrowedDateString = outputFormat.format(d.getBorrowedDate());
-                        
+
                         String returnedDateString = "Not Available";
                         if (d.getReturnedDate() != null) {
                             returnedDateString = outputFormat.format(d.getReturnedDate());

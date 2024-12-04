@@ -266,6 +266,18 @@ public class BookDAO {
         return totalBooks;
     }
 
+    public void updateAvailableCopies(String isbn, int newAmount) throws SQLException {
+        String sql = "UPDATE Book SET available_amount = ? WHERE isbn = ?";
+
+        try (Connection connection = getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, newAmount);
+            statement.setString(2, isbn);
+
+            statement.executeUpdate();
+        }
+    }
+
     private List<String> parseStrings(String st) {
         if (st == null || st.isEmpty()) {
             return new ArrayList<>();

@@ -87,6 +87,10 @@ public class Book {
         return availableCopies;
     }
 
+    public void setAvailableCopies(int availableCopies) {
+        this.availableCopies = availableCopies;
+    }
+
     public String getWebReaderUrl() {
         return webReaderUrl;
     }

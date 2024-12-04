@@ -146,16 +146,11 @@ public class UserBookBarController {
 
     private void setQuantityAndStatus(String newQuantityStr) {
         int newQuantity = Integer.parseInt(newQuantityStr);
-        quantity = newQuantity;
-        if (quantity >= 1) {
-            boolean isBorrowed = UserGlobalController.getInstance().isBookBorrowed(bookID);
-            checkBoxButton.setDisable(isBorrowed);
-            statusLabel.setText("Available");
-            statusLabel.setStyle("-fx-text-fill: green");
-        } else {
-            checkBoxButton.setDisable(true);
-            statusLabel.setText("Borrowed");
-            statusLabel.setStyle("-fx-text-fill: red");
+
+        if (quantity != newQuantity) {
+            quantity = newQuantity;
+            statusLabel.setText(quantity >= 1 ? "Available" : "Borrowed");
+            statusLabel.setStyle(quantity >= 1 ? "-fx-text-fill: green" : "-fx-text-fill: red");
         }
     }
 
