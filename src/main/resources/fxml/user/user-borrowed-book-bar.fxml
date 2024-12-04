@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Spinner?>
@@ -10,7 +11,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<HBox alignment="CENTER" maxHeight="122.0" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="110.0" prefWidth="803.0" spacing="50.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.libmgmt.view.controller.user.UserBorrowedBookBarController">
+<HBox alignment="CENTER" maxHeight="122.0" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="110.0" prefWidth="803.0" spacing="50.0" style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.libmgmt.view.controller.user.UserBorrowedBookBarController">
    <children>
       <Label fx:id="orderLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="180.0" layoutY="20.0" prefHeight="100.0" prefWidth="60.0" text="000" textAlignment="CENTER" wrapText="true">
          <font>
@@ -41,11 +42,16 @@
       </Label>
       <Pane prefHeight="200.0" prefWidth="80.0">
          <children>
-            <Spinner fx:id="amountSpinner" layoutX="11.0" layoutY="30.0" prefHeight="30.0" prefWidth="60.0" stylesheets="@../../style/spinner.css" />
+            <Spinner fx:id="amountSpinner" layoutX="11.0" layoutY="30.0" prefHeight="30.0" prefWidth="60.0" />
          </children>
       </Pane>
    </children>
    <padding>
       <Insets bottom="10.0" top="10.0" />
    </padding>
+   <stylesheets>
+      <URL value="@../../style/utils/variables.css" />
+      <URL value="@../../style/components/spinner.css" />
+      <URL value="@../../style/base/common.css" />
+   </stylesheets>
 </HBox>

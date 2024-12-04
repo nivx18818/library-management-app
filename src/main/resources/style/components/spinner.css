@@ -1,0 +1,49 @@
+.spinner {
+    -fx-min-height: 32px;
+    -fx-max-height: 32px;
+    -fx-background-color: #fff;
+}
+
+.spinner > .text-field {
+    -fx-border-width: 1px 0 1px 1px;
+    -fx-border-radius: 12px 0 0 12px;
+}
+
+.spinner > .text-field:focused {
+    -fx-border-color: #727374;
+    -fx-border-width: 2px 0 2px 2px;
+}
+
+.spinner > .increment-arrow-button,
+.spinner > .decrement-arrow-button {
+    -fx-padding: 0 12px 0 11px;
+    -fx-background-color: -fx-primary-color;
+    -fx-background-radius: 0;
+    -fx-background-insets: 0;
+    -fx-cursor: hand;
+}
+
+.spinner > .increment-arrow-button:hover,
+.spinner > .decrement-arrow-button:hover {
+    -fx-background-color: -fx-secondary-color;
+}
+
+.spinner > .increment-arrow-button:hover:pressed,
+.spinner > .decrement-arrow-button:hover:pressed,
+.spinner > .increment-arrow-button:pressed,
+.spinner > .decrement-arrow-button:pressed {
+    -fx-background-color: -fx-secondary-color;
+}
+
+.spinner > .increment-arrow-button {
+    -fx-background-radius: 0 12px 0 0;
+}
+
+.spinner > .decrement-arrow-button {
+    -fx-background-radius: 0 0 12px 0;
+}
+
+.spinner > .increment-arrow-button > .increment-arrow,
+.spinner > .decrement-arrow-button > .decrement-arrow {
+    -fx-background-color: white;
+}
