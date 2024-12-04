@@ -123,7 +123,7 @@ public class UserCatalogBorrowedBookBarController {
             orderLabel.setText(data[1]);
             dueDateLabel.setText(data[5]);
         } else {
-            orderLabel.setText(data[0]);
+            orderLabel.setText(bookId);
             dueDateLabel.setText(data[6]);
         }
         if (data[2] != null) {
@@ -131,7 +131,7 @@ public class UserCatalogBorrowedBookBarController {
         }
         nameLabel.setText(data[3]);
         borrowedDateLabel.setText(data[4]);
-        amountLabel.setText(data[6]);
+        amountLabel.setText(data[7]);
     }
 
     private void updateImage(String imgPath, ImageView bookImage) {

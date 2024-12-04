@@ -2,6 +2,7 @@ package app.libmgmt.view.controller.user;
 
 import java.time.LocalDate;
 
+import app.libmgmt.service.BookService;
 import app.libmgmt.util.DateUtils;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -28,12 +29,13 @@ public class UserBorrowedBookBarController {
 
     @FXML
     private Spinner<Integer> amountSpinner;
+    private String bookId;
 
     public void setData(String[] data) {
         // Form of global data: [id, imgPath, name, type, author, quantity,
         // publisher,publishedDate]
         // Form borrowed book bar data: [orderNumber, book Image, name, due date]
-
+        bookId = data[0];
         try {
             uploadImageAsync(data[1], bookImage);
         } catch (Exception e) {
@@ -75,8 +77,10 @@ public class UserBorrowedBookBarController {
     }
 
     private void setUpSpinner() {
+        BookService bookService = new BookService();
+        int maxAmount = bookService.getBookByIsbn(bookId).getAvailableCopies();
         amountSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1,
-                999, 1));
+        maxAmount, 1));
         amountSpinner.setPromptText("Quantity*");
         amountSpinner.getEditor().setTextFormatter(new TextFormatter<>(change -> {
             String newText = change.getControlNewText();
