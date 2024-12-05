@@ -156,13 +156,13 @@ public class UserBorrowedBooksConfirmationDialogController {
             protected Void call() throws Exception {
                 int orderNumber = 1;
                 for (Book d : selectedBooksList) {
-                    String authors = d.getAuthors().stream().reduce("", (a, b) -> a + ", " + b);
-                    String categories = d.getCategories().stream().reduce("", (a, b) -> a + ", " + b);
+                    String authorsString = String.join(", ", d.getAuthors());
+                    String categoriesString = String.join(", ", d.getCategories());
                     SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
                     String publishedDateStr = (d.getPublishedDate() != null) ? outputFormat.format(d.getPublishedDate())
                             : "Not Available";
 
-                    String[] data = new String[] { d.getIsbn(), d.getCoverUrl(), d.getTitle(), categories, authors,
+                    String[] data = new String[] { d.getIsbn(), d.getCoverUrl(), d.getTitle(), categoriesString, authorsString,
                             String.valueOf(d.getAvailableCopies()), d.getPublisher(), publishedDateStr };
                     loadBookData(data, orderNumber++);
                 }

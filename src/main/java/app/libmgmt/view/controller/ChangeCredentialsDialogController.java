@@ -41,7 +41,11 @@ public class ChangeCredentialsDialogController {
 
     @FXML
     private void addButtonOnAction(ActionEvent event) {
-        handleCredentialsChange(UserGlobalController.getInstance().getUserLoginInfo().getPassword());
+        if (UserGlobalController.getInstance() == null) {
+            handleCredentialsChange(AdminGlobalController.getInstance().getAdminLoginInfo().getPassword());
+        } else {
+            handleCredentialsChange(UserGlobalController.getInstance().getUserLoginInfo().getPassword());
+        }
     }
 
     /**

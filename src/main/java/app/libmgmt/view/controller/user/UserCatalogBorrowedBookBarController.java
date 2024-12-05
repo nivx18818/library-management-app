@@ -95,13 +95,13 @@ public class UserCatalogBorrowedBookBarController {
         openPopUp("/fxml/admin/admin-book-view-dialog.fxml", EnumUtils.PopupList.BOOK_VIEW);
         Book bookData = UserGlobalController.getInstance().getBookDataById(bookId);
 
-        String authors = bookData.getAuthors().stream().reduce("", (a, b) -> a + ", " + b);
-        String categories = bookData.getCategories().stream().reduce("", (a, b) -> a + ", " + b);
+        String authorsString = String.join(", ", bookData.getAuthors());
+        String categoriesString = String.join(", ", bookData.getCategories());
         SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
         String publishedDateStr = (bookData.getPublishedDate() != null) ?
                     outputFormat.format(bookData.getPublishedDate()) : "Not Available";
                                             
-        String[] data = new String[] { bookData.getIsbn(), bookData.getCoverUrl(), bookData.getTitle(), categories, authors,
+        String[] data = new String[] { bookData.getIsbn(), bookData.getCoverUrl(), bookData.getTitle(), categoriesString, authorsString,
                             String.valueOf(bookData.getAvailableCopies()), bookData.getPublisher(), publishedDateStr };
 
         AdminBookViewDialogController.getInstance().setData(data);

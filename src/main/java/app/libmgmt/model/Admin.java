@@ -8,6 +8,11 @@ public class Admin extends User {
         this.adminId = adminId;
     }
 
+    public Admin(String userId, String name, String email, String password, int adminId, String salt) {
+        super(userId, name, email, password, salt);
+        this.adminId = adminId;
+    }
+
     public int getAdminId() {
         return adminId;
     }
