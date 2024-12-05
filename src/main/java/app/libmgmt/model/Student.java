@@ -10,6 +10,12 @@ public class Student extends User {
         this.major = major;
     }
 
+    public Student(String userId, String name, String email, String password, String studentId, String major, String salt) {
+        super(userId, name, email, password, salt);
+        this.studentId = studentId;
+        this.major = major;
+    }
+
     //data format: [name, major, email, id, password]
     public Student(String[] userData) {
         super(userData);

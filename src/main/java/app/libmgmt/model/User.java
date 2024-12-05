@@ -20,6 +20,14 @@ public abstract class User {
         this.password = password;
     }
 
+    public User(String userId, String name, String email, String password, String salt) {
+        this.userId = userId;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.salt = salt;
+    }
+
     //data format: [name, major, email, id, password]
     public User(String[] userData) {
         this.name = userData[0];

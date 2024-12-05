@@ -61,6 +61,7 @@ public class UserHeaderController {
     public void initialize() {
         AnimationUtils.fadeInDown(rootPane);
         setDateAndTimeHeader();
+        setInformation();
     }
 
     public static void setInformation() {

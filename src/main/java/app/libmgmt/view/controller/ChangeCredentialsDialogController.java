@@ -1,5 +1,7 @@
 package app.libmgmt.view.controller;
 
+import java.util.Base64;
+
 import com.jfoenix.controls.JFXButton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -7,8 +9,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import app.libmgmt.service.UserService;
 import app.libmgmt.util.AnimationUtils;
 import app.libmgmt.util.ChangeScene;
+import app.libmgmt.view.controller.user.UserGlobalController;
 
 public class ChangeCredentialsDialogController {
 
@@ -35,28 +39,51 @@ public class ChangeCredentialsDialogController {
 
     @FXML
     private void addButtonOnAction(ActionEvent event) {
-        handleCredentialsChange("password");
+        handleCredentialsChange(UserGlobalController.getInstance().getUserLoginInfo().getPassword());
     }
 
     /**
-     * Handles the credentials change logic, validating input and providing feedback.
+     * Handles the credentials change logic, validating input and providing
+     * feedback.
      *
      * @param correctCurrentPassword The correct current password for validation.
      */
     private void handleCredentialsChange(String correctCurrentPassword) {
-        String curPassword = curPasswordField.getText();
-        String newPassword = newPasswordField.getText();
-        String cfNewPassword = cfNewPasswordField.getText();
+        try {
+            String curPassword = curPasswordField.getText();
+            UserService userService = new UserService();
+            String saltString = UserGlobalController.getInstance().getUserLoginInfo().getSalt();
 
-        if (areFieldsEmpty(curPassword, newPassword, cfNewPassword)) {
-            displayNotification("Please fill all fields", "red");
-        } else if (!isCurrentPasswordCorrect(curPassword, correctCurrentPassword)) {
-            displayNotification("Current password is incorrect", "red");
-        } else if (!doNewPasswordsMatch(newPassword, cfNewPassword)) {
-            displayNotification("New passwords do not match", "red");
-        } else {
-            displayNotification("Credentials changed successfully", "green");
-            setNewPassword(newPassword);
+            // Check if salt is null
+            if (saltString == null) {
+                System.err.println("Salt string is null - user might not be properly initialized");
+                displayNotification("Authentication error", "red");
+                return;
+            }
+
+            // Properly decode the Base64 encoded salt
+            byte[] salt = Base64.getDecoder().decode(saltString);
+
+            String hashCurPassword = userService.hashPassword(curPassword, salt);
+            String newPassword = newPasswordField.getText();
+            String cfNewPassword = cfNewPasswordField.getText();
+
+            if (areFieldsEmpty(curPassword, newPassword, cfNewPassword)) {
+                displayNotification("Please fill all fields", "red");
+            } else if (!isCurrentPasswordCorrect(hashCurPassword, correctCurrentPassword)) {
+                displayNotification("Current password is incorrect", "red");
+            } else if (!doNewPasswordsMatch(newPassword, cfNewPassword)) {
+                displayNotification("New passwords do not match", "red");
+            } else {
+                displayNotification("Credentials changed successfully", "green");
+                setNewPassword(newPassword);
+            }
+        } catch (IllegalArgumentException e) {
+            System.err.println("Invalid Base64 encoded salt: " + e.getMessage());
+            displayNotification("Authentication error", "red");
+        } catch (Exception e) {
+            System.err.println("Error during password hashing: " + e.getMessage());
+            displayNotification("Error changing password", "red");
         }
     }
 
@@ -78,7 +105,8 @@ public class ChangeCredentialsDialogController {
     }
 
     /**
-     * Sets up a mouse click handler on the container to remove focus from any field.
+     * Sets up a mouse click handler on the container to remove focus from any
+     * field.
      */
     private void setupContainerClickFocus() {
         container.setOnMouseClicked(event -> container.requestFocus());
@@ -87,8 +115,8 @@ public class ChangeCredentialsDialogController {
     /**
      * Checks if any of the input fields are empty.
      *
-     * @param curPassword  Current password input.
-     * @param newPassword  New password input.
+     * @param curPassword   Current password input.
+     * @param newPassword   New password input.
      * @param cfNewPassword Confirm new password input.
      * @return true if any field is empty, false otherwise.
      */
@@ -99,7 +127,7 @@ public class ChangeCredentialsDialogController {
     /**
      * Validates the current password.
      *
-     * @param curPassword The entered current password.
+     * @param curPassword            The entered current password.
      * @param correctCurrentPassword The correct current password for comparison.
      * @return true if the password is correct, false otherwise.
      */
@@ -110,7 +138,7 @@ public class ChangeCredentialsDialogController {
     /**
      * Checks if the new passwords match.
      *
-     * @param newPassword The new password.
+     * @param newPassword   The new password.
      * @param cfNewPassword The confirmation of the new password.
      * @return true if passwords match, false otherwise.
      */
@@ -122,7 +150,7 @@ public class ChangeCredentialsDialogController {
      * Displays a notification with the specified message and color.
      *
      * @param message The message to display.
-     * @param color The color of the notification text.
+     * @param color   The color of the notification text.
      */
     private void displayNotification(String message, String color) {
         notificationLabel.setText(message);
@@ -144,6 +172,7 @@ public class ChangeCredentialsDialogController {
      * @param newPassword The new password to set.
      */
     private void setNewPassword(String newPassword) {
-        // TODO: Implement the actual password change logic.
+        UserService userService = new UserService();
+        userService.updateUserPassword(UserGlobalController.getInstance().getUserLoginInfo(), newPassword);
     }
 }
