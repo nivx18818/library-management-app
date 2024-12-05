@@ -20,7 +20,7 @@
    <children>
       <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #f2f2f2;">
          <children>
-            <Pane fx:id="searchPane" layoutX="865.0" layoutY="14.0" prefHeight="30.0" prefWidth="299.0" style="-fx-background-color: white; -fx-background-radius: 12;">
+            <Pane fx:id="searchPane" layoutX="865.0" layoutY="14.0" onMouseEntered="#paneOnMouseEntered" onMouseExited="#paneOnMouseExited" prefHeight="30.0" prefWidth="299.0" style="-fx-background-color: white; -fx-background-radius: 12;">
                <children>
                   <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="14.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -37,14 +37,14 @@
                   </TextField>
                </children>
             </Pane>
-            <Pane fx:id="refreshPaneButton" layoutX="1174.0" layoutY="14.0" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: white; -fx-background-radius: 12px;">
+            <Pane fx:id="refreshPane" layoutX="1174.0" layoutY="14.0" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: white; -fx-background-radius: 12px;">
                <children>
                   <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="3.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../assets/icon/R.png" />
                      </image>
                   </ImageView>
-                  <JFXButton onAction="#btnRefreshTableOnAction" prefHeight="30.0" prefWidth="30.0" style="-fx-background-radius: 12px;" text=" ">
+                  <JFXButton fx:id="refreshButton" onAction="#btnRefreshTableOnAction" onMouseEntered="#paneOnMouseEntered" onMouseExited="#paneOnMouseExited" prefHeight="30.0" prefWidth="30.0" style="-fx-background-radius: 12px;" text=" ">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -131,7 +131,7 @@
                   <Font name="System Bold" size="22.0" />
                </font>
             </Label>
-            <HBox fx:id="hBoxAcquire" alignment="CENTER" fillHeight="false" layoutX="765.0" layoutY="14.0" prefHeight="30.0" prefWidth="90.0" spacing="8.0" style="-fx-background-color: #000; -fx-background-radius: 12; -fx-border-color: #000; -fx-border-width: 1; -fx-border-radius: 12;">
+            <HBox fx:id="hBoxAcquire" alignment="CENTER" fillHeight="false" layoutX="762.0" layoutY="14.0" prefHeight="30.0" prefWidth="90.0" spacing="8.0" style="-fx-background-color: #000; -fx-background-radius: 12; -fx-border-color: #000; -fx-border-width: 1; -fx-border-radius: 12;">
                <children>
                   <ImageView fx:id="acquireImage" fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -148,7 +148,7 @@
                   <Insets left="8.0" right="8.0" />
                </padding>
             </HBox>
-            <JFXButton fx:id="acquireButton" layoutX="765.0" layoutY="15.0" onAction="#btnAcquireOnAction" onMouseEntered="#btnAcquireOnMouseEntered" onMouseExited="#btnAcquireOnMouseExited" prefHeight="30.0" prefWidth="90.0" style="-fx-background-radius: 12;" text=" ">
+            <JFXButton fx:id="acquireButton" layoutX="762.0" layoutY="15.0" onAction="#btnAcquireOnAction" onMouseEntered="#btnAcquireOnMouseEntered" onMouseExited="#btnAcquireOnMouseExited" prefHeight="30.0" prefWidth="90.0" style="-fx-background-radius: 12;" text=" ">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>

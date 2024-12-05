@@ -46,7 +46,7 @@ public class UserBooksLayoutController {
     private HBox hBoxAcquire;
 
     @FXML
-    private Pane refreshPaneButton;
+    private Pane refreshPane;
 
     @FXML
     private Pane searchPane;
@@ -59,6 +59,9 @@ public class UserBooksLayoutController {
 
     @FXML
     private VBox vBoxBooksList;
+
+    @FXML
+    private JFXButton refreshButton;
 
     private final String hoverAcquireLogo = "/assets/icon/acquire-logo-1.png";
     private final String acquireLogo = "/assets/icon/add-circle 1.png";
@@ -247,6 +250,7 @@ public class UserBooksLayoutController {
                 "-fx-background-color: #F2F2F2; -fx-background-radius: 12px; -fx-border-color: #000; -fx-border-radius: 12px; -fx-border-width: 1.2px;");
         acquireImage.setImage(new Image(getClass().getResource(hoverAcquireLogo).toExternalForm()));
         acquireLabel.setStyle("-fx-text-fill: #000;");
+        AnimationUtils.createScaleTransition(AnimationUtils.HOVER_SCALE, hBoxAcquire).play();
     }
 
     @FXML
@@ -254,6 +258,26 @@ public class UserBooksLayoutController {
         hBoxAcquire.setStyle("-fx-background-color: #000; -fx-background-radius: 12px;");
         acquireImage.setImage(new Image(getClass().getResource(acquireLogo).toExternalForm()));
         acquireLabel.setStyle("-fx-text-fill: #F2F2F2;");
+        AnimationUtils.createScaleTransition(AnimationUtils.DEFAULT_SCALE, hBoxAcquire).play();
     }
 
+    @FXML
+    void paneOnMouseEntered(MouseEvent event) {
+        Object source = event.getSource();
+        if (source.equals(searchPane)) {
+            AnimationUtils.createScaleTransition(1.05, searchPane).play();
+        } else if (source.equals(refreshButton)) {
+            AnimationUtils.createScaleTransition(1.15, refreshPane).play();
+        }
+    }
+
+    @FXML
+    void paneOnMouseExited(MouseEvent event) {
+        Object source = event.getSource();
+        if (source.equals(searchPane)) {
+            AnimationUtils.createScaleTransition(AnimationUtils.DEFAULT_SCALE, searchPane).play();
+        } else if (source.equals(refreshButton)) {
+            AnimationUtils.createScaleTransition(AnimationUtils.DEFAULT_SCALE, refreshPane).play();
+        }
+    }
 }
