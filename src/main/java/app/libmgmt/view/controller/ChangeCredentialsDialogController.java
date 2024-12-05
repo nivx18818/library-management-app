@@ -93,6 +93,7 @@ public class ChangeCredentialsDialogController {
                 } else if (UserGlobalController.getInstance() != null) {
                     setNewPassword(newPassword, UserGlobalController.getInstance().getUserLoginInfo());
                 }
+                clearFields();
             }
         } catch (IllegalArgumentException e) {
             System.err.println("Invalid Base64 encoded salt: " + e.getMessage());
@@ -100,7 +101,6 @@ public class ChangeCredentialsDialogController {
         } catch (Exception e) {
             System.err.println("Error during password hashing: " + e.getMessage());
             displayNotification("Error changing password", "red");
-            clearFields();
         }
     }
 
