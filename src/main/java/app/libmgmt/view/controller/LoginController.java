@@ -26,6 +26,7 @@ import app.libmgmt.util.EnumUtils;
 import app.libmgmt.util.RegExPatterns;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.logging.Logger;
 
 public class LoginController {
@@ -185,14 +186,13 @@ public class LoginController {
     }
 
     private boolean checkAccount(String id, String password) {
-        // try {
-        // UserService userService = new UserService();
-        // return userService.verifyPassword(id, password);
-        // } catch (SQLException e) {
-        // e.printStackTrace();
-        // return false;
-        // }
-        return true;
+        try {
+        UserService userService = new UserService();
+        return userService.verifyPassword(id, password);
+        } catch (SQLException e) {
+        e.printStackTrace();
+        return false;
+        }
     }
 
     public User getUserLoginInfo() {

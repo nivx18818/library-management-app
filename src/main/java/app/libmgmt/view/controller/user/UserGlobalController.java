@@ -114,17 +114,16 @@ public class UserGlobalController {
     }
 
     public void addReturnedBook(int loanId) {
-        // int max = loanService.getMaxLoanId();
-        // if (loanId <= 0 || loanId > max) {
-        //     System.out.println("Invalid loan id");
-        //     return;
-        // }
+        int max = loanService.getMaxLoanId();
+        if (loanId <= 0 || loanId > max) {
+            System.out.println("Invalid loan id");
+            return;
+        }
 
         for (int i = 0; i < borrowedBooksData.size(); i++) {
             Loan data = borrowedBooksData.get(i);
             if (data.getLoanId() == loanId) {
                 data.markAsReturned();
-                // data.setReturnedDate(new Date());
                 returnedBooksData.add(data);
                 break;
             }
@@ -194,6 +193,10 @@ public class UserGlobalController {
         return observableBooksData;
     }
 
+    public ObservableList<Book> getObservableBookData() {
+        return observableBooksData;
+    }
+
     public void setObservableBookData(List<Book> data) {
         observableBooksData.setAll(data);
     }
@@ -213,6 +216,10 @@ public class UserGlobalController {
 
     public StackPane getStackPaneContainer() {
         return stackPaneContainer;
+    }
+
+    public HBox getGlobalFormContainer() {
+        return globalFormContainer;
     }
 
 }

@@ -14,7 +14,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="50.0" minWidth="1132.0" prefHeight="50.0" prefWidth="1218.0" style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.libmgmt.view.controller.user.UserHeaderController">
+<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="50.0" minWidth="1132.0" prefHeight="50.0" prefWidth="1218.0" style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.libmgmt.view.controller.user.UserHeaderController">
   <children>
     <HBox id="user-box-container" fx:id="containerUserBox" alignment="CENTER_LEFT" prefHeight="55.0" prefWidth="318.0" spacing="11.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
       <children>
@@ -33,7 +33,7 @@
                         <Font name="System Bold" size="15.0" />
                      </font>
                   </Label>
-                  <Label layoutX="10.0" layoutY="10.0" prefHeight="19.0" prefWidth="251.0" text="User">
+                  <Label fx:id="userRoleLabel" layoutX="10.0" layoutY="10.0" prefHeight="19.0" prefWidth="251.0" text="User">
                      <effect>
                         <Lighting>
                            <bumpInput>
