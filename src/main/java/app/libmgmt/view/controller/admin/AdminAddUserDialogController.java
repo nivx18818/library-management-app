@@ -197,7 +197,7 @@ public class AdminAddUserDialogController {
             // form data: [id, name, email, password, cfPassword]
             AdminGlobalController.getInstance().getAdminData().add(admin);
             //TODO: Add admin to database
-            AdminDashboardController.getInstance().loadAdminDataTable(adminInfo[1], adminInfo[2]);
+            AdminDashboardController.getInstance().loadAdminDataTable(adminInfo[1], adminInfo[2], adminInfo[0]);
             showNotification("Added successfully", "#08a80d");
             setDefaultContent();
         }
@@ -294,7 +294,7 @@ public class AdminAddUserDialogController {
 
         } else if (selectedRadioButton == adminRadioBtn) {
             System.out.println("Add Admin");
-            String[] adminInfo = { txtNameAdmin.getText(), txtEmailAdmin.getText(),
+            String[] adminInfo = {txtIdAdmin.getText(), txtNameAdmin.getText(), txtEmailAdmin.getText(),
                     txtPasswordAdmin.getText(), txtCfPasswordAdmin.getText() };
             addAdmin(adminInfo);
         }

@@ -137,12 +137,13 @@ public class AdminDashboardController {
         for (Admin data : adminData) {
             String name = data.getName();
             String email = data.getEmail();
+            String username = data.getUserId();
 
-            loadAdminDataTable(name, email);
+            loadAdminDataTable(name, email, username);
         }
     }
 
-    public void loadAdminDataTable(String name, String email) {
+    public void loadAdminDataTable(String name, String email, String username) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(AdminDashboardController.class.getResource(
                     "/fxml/bookworm-admin-bar.fxml"));
@@ -150,7 +151,7 @@ public class AdminDashboardController {
             Parent scene = fxmlLoader.load();
 
             BookwormAdminBarController controller = fxmlLoader.getController();
-            controller.setData(name, email);
+            controller.setData(name, email, username);
 
             vBoxAdmin.getChildren().add(scene);
 

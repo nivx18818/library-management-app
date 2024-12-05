@@ -68,7 +68,13 @@ public class AdminUsersViewDialogController {
         majorOrPhoneLabel
                 .setText(userType == EnumUtils.UserType.STUDENT ? "Major : " + data[2] : "Phone number : " + data[2]);
         emailLabel.setText("Email : " + data[3]);
-        userTypeLabel.setText(userType == EnumUtils.UserType.STUDENT ? "Student" : "External Borrower");
+        if (userType == EnumUtils.UserType.STUDENT) {
+            userTypeLabel.setText("User type : Student");
+        } else if (userType == EnumUtils.UserType.ADMIN) {
+            userTypeLabel.setText("User type : Admin");
+        } else {
+            userTypeLabel.setText("User type : Guest");
+        }
     }
 
     /**
