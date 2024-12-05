@@ -149,7 +149,7 @@ public class UserNavigationController {
 
         ChangeScene.openAdminPopUp(UserGlobalController.getInstance().getStackPaneContainer(),
                 "/fxml/logout-dialog.fxml", EnumUtils.PopupList.LOGOUT);
-        LogoutDialogController.getInstance().setUserType(UserType.ADMIN);
+        LogoutDialogController.getInstance().setUserType(UserType.STUDENT);
         handleEffectButtonClicked(logoutButton);
     }
 

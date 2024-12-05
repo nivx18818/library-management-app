@@ -66,7 +66,7 @@ public class LogoutDialogController {
 
     @FXML
     void confirmButtonOnAction(ActionEvent event) throws IOException {
-        if (AdminGlobalController.getInstance().getGlobalFormContainer() != null) {
+        if (AdminGlobalController.getInstance() != null) {
             AdminGlobalController.getInstance().getGlobalFormContainer().getChildren().clear();
             AdminNavigationController.getInstance().setLastButtonClicked(EnumUtils.NavigationButton.DASHBOARD);
             AdminNavigationController.getInstance().setUploadedData(false, false, false);
@@ -92,7 +92,12 @@ public class LogoutDialogController {
     }
 
     public void backToLoginForm() throws IOException {
-        ZoomOut zo = new ZoomOut(AdminGlobalController.getInstance().getGlobalFormContainer());
+        ZoomOut zo;
+        if (AdminGlobalController.getInstance() != null) {
+            zo = new ZoomOut(AdminGlobalController.getInstance().getGlobalFormContainer());
+        } else {
+            zo = new ZoomOut(UserGlobalController.getInstance().getGlobalFormContainer());
+        }
 
         ChangeScene.navigateToScene("loading-form.fxml", userType);
 
