@@ -9,9 +9,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import app.libmgmt.model.User;
 import app.libmgmt.service.UserService;
 import app.libmgmt.util.AnimationUtils;
 import app.libmgmt.util.ChangeScene;
+import app.libmgmt.view.controller.admin.AdminGlobalController;
 import app.libmgmt.view.controller.user.UserGlobalController;
 
 public class ChangeCredentialsDialogController {
@@ -52,7 +54,13 @@ public class ChangeCredentialsDialogController {
         try {
             String curPassword = curPasswordField.getText();
             UserService userService = new UserService();
-            String saltString = UserGlobalController.getInstance().getUserLoginInfo().getSalt();
+            String saltString = "";
+            if (AdminGlobalController.getInstance() != null) {
+                System.out.println("AdminGlobalController is not null");
+                saltString = AdminGlobalController.getInstance().getAdminLoginInfo().getSalt();
+            } else if (UserGlobalController.getInstance() != null) {
+                saltString = UserGlobalController.getInstance().getUserLoginInfo().getSalt();
+            }
 
             // Check if salt is null
             if (saltString == null) {
@@ -76,7 +84,11 @@ public class ChangeCredentialsDialogController {
                 displayNotification("New passwords do not match", "red");
             } else {
                 displayNotification("Credentials changed successfully", "green");
-                setNewPassword(newPassword);
+                if (AdminGlobalController.getInstance() != null) {
+                    setNewPassword(newPassword, AdminGlobalController.getInstance().getAdminLoginInfo());
+                } else if (UserGlobalController.getInstance() != null) {
+                    setNewPassword(newPassword, UserGlobalController.getInstance().getUserLoginInfo());
+                }
             }
         } catch (IllegalArgumentException e) {
             System.err.println("Invalid Base64 encoded salt: " + e.getMessage());
@@ -84,6 +96,7 @@ public class ChangeCredentialsDialogController {
         } catch (Exception e) {
             System.err.println("Error during password hashing: " + e.getMessage());
             displayNotification("Error changing password", "red");
+            clearFields();
         }
     }
 
@@ -171,8 +184,8 @@ public class ChangeCredentialsDialogController {
      *
      * @param newPassword The new password to set.
      */
-    private void setNewPassword(String newPassword) {
+    private void setNewPassword(String newPassword, User currentUser) {
         UserService userService = new UserService();
-        userService.updateUserPassword(UserGlobalController.getInstance().getUserLoginInfo(), newPassword);
+        userService.updateUserPassword(currentUser, newPassword);
     }
 }

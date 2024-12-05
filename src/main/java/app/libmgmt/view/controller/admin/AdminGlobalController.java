@@ -19,6 +19,7 @@ import app.libmgmt.service.BookService;
 import app.libmgmt.service.LoanService;
 import app.libmgmt.service.UserService;
 import app.libmgmt.util.EnumUtils;
+import app.libmgmt.view.controller.LoginController;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -41,6 +42,8 @@ public class AdminGlobalController {
     private final UserService userService = new UserService();
     private final LoanService loanService = new LoanService();
 
+    private final User admin;
+
     // FXML UI components
     @FXML
     private Pane pagingPane;
@@ -54,6 +57,7 @@ public class AdminGlobalController {
     // Constructor and Singleton Pattern
     public AdminGlobalController() {
         controller = this;
+        admin = LoginController.getInstance().getUserLoginInfo();
     }
 
     public static AdminGlobalController getInstance() {
@@ -246,6 +250,10 @@ public class AdminGlobalController {
 
     public void setAdminData(List<Admin> data) {
         adminsData.addAll(data);
+    }
+
+    public User getAdminLoginInfo() {
+        return admin;
     }
 
     // Getter Methods for UI components

@@ -147,18 +147,9 @@ public class UserGlobalController {
         }
         for (int i = 0; i < borrowedBooksData.size(); i++) {
             Loan data = borrowedBooksData.get(i);
-            // boolean check1 = data.getLoanId() == loanId;
-            // System.out.println(check1);
-            // boolean check2 = data.getIsbn().equals(isbn);
-            // System.out.println(check2);
-            // boolean check3 = data.getStatus().equals("RETURNED");
-            // System.out.println(check3);
             if (data.getLoanId() == loanId && data.getIsbn().equals(isbn) && data.getStatus().equals("RETURNED")) {
                 return true;
             }
-            // if (check1 && check2 && check3) {
-            //     return true;
-            // }
         }
 
         return false;
