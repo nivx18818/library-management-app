@@ -279,6 +279,52 @@ public class UserDAO {
         return null;
     }
 
+    public User getUserByEmail(String email) throws SQLException {
+        String sql = "SELECT id, name, email, password, role, admin_id, student_id, major, social_id, phone_number, salt FROM User WHERE email = ?";
+
+        try (Connection connection = getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, email);
+            ResultSet rs = statement.executeQuery();
+
+            if (rs.next()) {
+                String role = rs.getString("role");
+
+                switch (role) {
+                    case "ADMIN":
+                        return new Admin(
+                                rs.getString("id"),
+                                rs.getString("name"),
+                                rs.getString("email"),
+                                rs.getString("password"),
+                                rs.getInt("admin_id"));
+                        
+                    case "STUDENT":
+                        return new Student(
+                                rs.getString("id"),
+                                rs.getString("name"),
+                                rs.getString("email"),
+                                rs.getString("password"),
+                                rs.getString("student_id"),
+                                rs.getString("major"),
+                                rs.getString("salt"));
+
+                    case "EXTERNAL_BORROWER":
+                        return new ExternalBorrower(
+                                rs.getString("id"),
+                                rs.getString("name"),
+                                rs.getString("email"),
+                                rs.getString("password"),
+                                rs.getString("social_id"),
+                                rs.getString("phone_number"),
+                                rs.getString("salt"));
+                }
+            }
+        }
+
+        return null;
+    }
+
     public int countUser() throws SQLException {
         int count = 0;
         String sql = "SELECT COUNT(*) FROM User";

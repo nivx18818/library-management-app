@@ -291,6 +291,19 @@ public class LoginController {
                 return false;
             }
         }
+
+        if (userService.getUserByEmail(email) != null) {
+            registerNoticeText.setText("Email already exists.");
+            AnimationUtils.playNotificationTimeline(registerNoticeText, 3.0, "red");
+            return false;
+        } 
+
+        if (userService.getUserById(username) != null) {
+            registerNoticeText.setText("Username already exists.");
+            AnimationUtils.playNotificationTimeline(registerNoticeText, 3.0, "red");
+            return false;
+        }
+
         return true;
     }
 

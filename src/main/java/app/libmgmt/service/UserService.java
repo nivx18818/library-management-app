@@ -118,6 +118,14 @@ public class UserService {
         }
     }
 
+    public User getUserByEmail(String username) {
+        try {
+            return userDAO.getUserByEmail(username);
+        } catch (SQLException e) {
+            throw new ServiceException("Error getting user by username", e);
+        }
+    }
+
     public int countUser() {
         try {
             return userDAO.countUser();
