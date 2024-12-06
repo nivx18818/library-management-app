@@ -9,6 +9,7 @@ import com.jfoenix.controls.JFXButton;
 
 import app.libmgmt.model.Book;
 import app.libmgmt.model.Loan;
+import app.libmgmt.service.LoanService;
 import app.libmgmt.util.AnimationUtils;
 import app.libmgmt.util.ChangeScene;
 import app.libmgmt.util.DateUtils;
@@ -199,9 +200,9 @@ public class UserBorrowedBooksConfirmationDialogController {
             Date parsedDate = inputFormat.parse(borrowedDateText);
             String formattedDate = outputFormat.format(parsedDate);
 
-            System.out.println("Borrowed size: " + UserGlobalController.getInstance().getBorrowedBooksData().size());
+            LoanService loanService = new LoanService();
             Loan newBorrowedBookData = new Loan(
-                    UserGlobalController.getInstance().getBorrowedBooksData().size() + orderNumber,
+                    loanService.getMaxLoanId() + orderNumber,
                     "23020604",
                     // UserGlobalController.getInstance().getUserLoginInfo().getUserId(),
                     bookData[0],
