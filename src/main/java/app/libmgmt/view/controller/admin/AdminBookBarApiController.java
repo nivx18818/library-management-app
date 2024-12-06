@@ -57,13 +57,20 @@ public class AdminBookBarApiController {
 
     @FXML
     void addBookButtonOnAction() {
-        ChangeScene.openAdminPopUp(AdminBooksLayoutController.getInstance().getStackPaneContainer(),
-                "/fxml/admin/admin-add-book-dialog.fxml", PopupList.ADD_BOOK);
-        System.out.println(webReaderUrl);
-        String[] data = { isbnLabel.getText(), bookImage.getImage().getUrl(), nameLabel.getText(), typeLabel.getText(),
-                authorLabel.getText(), "1", publisher, publishedDate, webReaderUrl };
+        String[] data = { isbnLabel.getText(),
+                bookImage.getImage().getUrl(),
+                nameLabel.getText(),
+                typeLabel.getText(),
+                authorLabel.getText(),
+                "1",
+                publisher,
+                publishedDate,
+                webReaderUrl };
+
         BookService bookService = new BookService();
         if (bookService.getBookByIsbn(isbnLabel.getText()) == null) {
+            ChangeScene.openAdminPopUp(AdminBooksLayoutController.getInstance().getStackPaneContainer(),
+                    "/fxml/admin/admin-add-book-dialog.fxml", PopupList.ADD_BOOK);
             AdminAddBookDialogController.getInstance().setData(data);
             System.out.println("ISBN: " + isbnLabel.getText());
         } else {
