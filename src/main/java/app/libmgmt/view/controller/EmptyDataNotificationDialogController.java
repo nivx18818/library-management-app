@@ -12,6 +12,8 @@ import javafx.scene.layout.Pane;
 
 public class EmptyDataNotificationDialogController {
 
+    private static EmptyDataNotificationDialogController controller;
+
     @FXML
     private JFXButton closeDialogButton;
 
@@ -28,11 +30,23 @@ public class EmptyDataNotificationDialogController {
     private JFXButton closeButton;
 
     @FXML
+    private Label notificationLabel;
+
+    public EmptyDataNotificationDialogController() {
+        controller = this;
+    }
+
+    public static EmptyDataNotificationDialogController getInstance() {
+        return controller;
+    }
+
+    @FXML
     public void initialize() {
         AnimationUtils.hoverCloseIcons(closeDialogButton, imgClose);
 
         closeButton.setOnMouseEntered(event -> {
-            closePane.setStyle("-fx-background-color: #f2f2f2; -fx-background-radius: 10px; border-radius: 10px; -fx-border-radius: 10px; -fx-border-color: black; -fx-border-width: 1.2px;");
+            closePane.setStyle(
+                    "-fx-background-color: #f2f2f2; -fx-background-radius: 10px; border-radius: 10px; -fx-border-radius: 10px; -fx-border-color: black; -fx-border-width: 1.2px;");
         });
 
         closeButton.setOnMouseExited(event -> {
@@ -48,6 +62,10 @@ public class EmptyDataNotificationDialogController {
     @FXML
     void closeButtonOnAction(ActionEvent event) {
         ChangeScene.closePopUp();
+    }
+
+    public void setNotificationLabel(String message) {
+        notificationLabel.setText(message);
     }
 
 }

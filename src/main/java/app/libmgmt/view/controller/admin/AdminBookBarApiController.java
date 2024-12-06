@@ -1,7 +1,9 @@
 package app.libmgmt.view.controller.admin;
 
+import app.libmgmt.service.BookService;
 import app.libmgmt.util.ChangeScene;
 import app.libmgmt.util.EnumUtils.PopupList;
+import app.libmgmt.view.controller.EmptyDataNotificationDialogController;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -55,10 +57,20 @@ public class AdminBookBarApiController {
 
     @FXML
     void addBookButtonOnAction() {
-        // ChangeScene.closePopUp();
-        ChangeScene.openAdminPopUp(AdminBooksLayoutController.getInstance().getStackPaneContainer(), "/fxml/admin/admin-add-book-dialog.fxml", PopupList.ADD_BOOK);
+        ChangeScene.openAdminPopUp(AdminBooksLayoutController.getInstance().getStackPaneContainer(),
+                "/fxml/admin/admin-add-book-dialog.fxml", PopupList.ADD_BOOK);
         System.out.println(webReaderUrl);
-        String[] data = {isbnLabel.getText(), bookImage.getImage().getUrl(), nameLabel.getText(), typeLabel.getText(), authorLabel.getText(), "1", publisher, publishedDate, webReaderUrl};
-        AdminAddBookDialogController.getInstance().setData(data);
+        String[] data = { isbnLabel.getText(), bookImage.getImage().getUrl(), nameLabel.getText(), typeLabel.getText(),
+                authorLabel.getText(), "1", publisher, publishedDate, webReaderUrl };
+        BookService bookService = new BookService();
+        if (bookService.getBookByIsbn(isbnLabel.getText()) == null) {
+            AdminAddBookDialogController.getInstance().setData(data);
+            System.out.println("ISBN: " + isbnLabel.getText());
+        } else {
+            ChangeScene.openAdminPopUp(AdminAddBookApiController.getInstance().getStackPaneContainer(),
+                    "/fxml/empty-data-notification-dialog.fxml",
+                    PopupList.EMPTY_DATA_NOTIFICATION);
+            EmptyDataNotificationDialogController.getInstance().setNotificationLabel("This book already exists!");
+        }
     }
 }

@@ -19,10 +19,16 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
 public class AdminAddBookApiController {
+
+    private static AdminAddBookApiController controller;
+
+    @FXML
+    private StackPane stackPaneContainer;
 
     @FXML
     private TextField apiSearchText;
@@ -43,6 +49,14 @@ public class AdminAddBookApiController {
     private VBox vBoxBooksList;
 
     private Timeline debounceTimeline;
+
+    public AdminAddBookApiController() {
+        controller = this;
+    }
+
+    public static AdminAddBookApiController getInstance() {
+        return controller;
+    }
 
     @FXML
     public void initialize() {
@@ -150,6 +164,10 @@ public class AdminAddBookApiController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public StackPane getStackPaneContainer() {
+        return stackPaneContainer;
     }
 
 }
