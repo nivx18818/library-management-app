@@ -50,6 +50,7 @@ public class AdminAddBookDialogController {
     @FXML
     private ImageView imgClose;
     private String webReaderUrl;
+    private String[] data_api = null;
 
     public AdminAddBookDialogController() {
         controller = this;
@@ -85,8 +86,13 @@ public class AdminAddBookDialogController {
     public void addBook(String[] bookData) {
         // data format: [coverURL, name, type, author, quantity, publisher,
         // publishedDate]
-        String[] newBook = new String[] { "0", bookData[0], bookData[1], bookData[2], bookData[3], bookData[4],
-                bookData[5], bookData[6], bookData[7] };
+        String[] newBook = null;
+        if (data_api != null) {
+            newBook = data_api;
+        } else {
+            newBook = new String[] { "0", bookData[0], bookData[1], bookData[2], bookData[3], bookData[4],
+                    bookData[5], bookData[6], bookData[7] };
+        }
         AdminGlobalController adminGlobalController = AdminGlobalController.getInstance();
         adminGlobalController.insertBooksData(newBook);
         Task<Void> task = new Task<Void>() {
@@ -197,6 +203,7 @@ public class AdminAddBookDialogController {
         }
         txtPublisher.setText(data[6]);
         webReaderUrl = data[8];
+        data_api = data;
     }
 
     public void setDefault() {
