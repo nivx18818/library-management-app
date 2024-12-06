@@ -51,6 +51,7 @@ public class UserReturnBookConfirmationDialogController {
     }
 
     private final LoanService loanService = new LoanService();
+
     @FXML
     public void initialize() {
         System.out.println("User Return Confirmation Dialog initialized");
@@ -65,7 +66,7 @@ public class UserReturnBookConfirmationDialogController {
     private void startReturnBookProcess() {
         lblConfirm.setText("Returning...");
         disableButtons(true);
-        closeDialogAfterDelay();
+        closeDialogAndNavigateToCatalog();
         loanService.updateLoanReturnedDate(loanId);
         UserGlobalController.getInstance().addReturnedBook(loanId);
     }
@@ -81,13 +82,15 @@ public class UserReturnBookConfirmationDialogController {
     /**
      * Closes the dialog after a short delay.
      */
-    private void closeDialogAfterDelay() {
+    private void closeDialogAndNavigateToCatalog() {
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.5), e -> {
             notificationLabel.setText("Return book successfully! Returning to the main page...");
             lblConfirm.setText("Returned!");
         }));
         Timeline timeline2 = new Timeline(new KeyFrame(Duration.seconds(1.5), e -> {
             ChangeScene.closePopUp();
+            UserCatalogController.getInstance().handleChangeReturnedBooksButtonOnAction();
+            UserCatalogController.currentStateUserCatalog = UserCatalogController.USER_CATALOG_STATE.RETURNED;
         }));
         timeline.play();
         timeline2.play();
@@ -95,7 +98,8 @@ public class UserReturnBookConfirmationDialogController {
 
     @FXML
     void btnConfirmOnMouseEntered(MouseEvent event) {
-        confirmPane.setStyle("-fx-background-color: #f2f2f2; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: black");
+        confirmPane.setStyle(
+                "-fx-background-color: #f2f2f2; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: black");
         lblConfirm.setStyle("-fx-text-fill: #000");
     }
 

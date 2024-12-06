@@ -11,7 +11,6 @@ import app.libmgmt.util.AnimationUtils;
 import app.libmgmt.service.LoanService;
 import app.libmgmt.model.Book;
 import javafx.application.Platform;
-import javafx.collections.ListChangeListener;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -62,8 +61,6 @@ public class UserCatalogController {
     @FXML
     private Label columnHeader1Label;
 
-    private String deletedOrderNumber;
-
     // External controllers and data
     private final UserGlobalController userGlobalController = UserGlobalController.getInstance();
     private List<Loan> borrowedBooksData = userGlobalController.getBorrowedBooksData();
@@ -88,42 +85,6 @@ public class UserCatalogController {
             updateStatusUI(USER_CATALOG_STATE.RETURNED);
             showReturnedBooksList();
         }
-
-        listenReturnBookEvent();
-    }
-
-    // TODO:: This method should be reviewed and refactored
-    private void listenReturnBookEvent() {
-        userGlobalController.getReturnedBooksData().addListener((ListChangeListener.Change<? extends Loan> change) -> {
-            while (change.next()) {
-                if (change.wasAdded() && currentStateUserCatalog == USER_CATALOG_STATE.BORROWED) {
-                    try {
-                        int index = Integer.parseInt(deletedOrderNumber) - 1;
-                        if (index >= 0 && index < vBoxBooksList.getChildren().size()) {
-                            Pane bookBar = (Pane) vBoxBooksList.getChildren().get(index);
-
-                            // Retrieve controller from bookBar
-                            UserCatalogBorrowedBookBarController controller = (UserCatalogBorrowedBookBarController) bookBar
-                                    .getUserData();
-                            if (controller != null) {
-                                controller.setDisableReturnButton(true);
-                            } else {
-                                System.err.println("Controller not found for book bar");
-                            }
-                        } else {
-                            System.err.println("Index out of bounds: " + index);
-                        }
-
-                    } catch (IndexOutOfBoundsException e) {
-                        System.err.println("Invalid order number: " + deletedOrderNumber);
-                    } catch (NumberFormatException e) {
-                        System.err.println("Invalid format for order number: " + deletedOrderNumber);
-                    } catch (Exception e) {
-                        System.err.println("Error updating return button: " + e.getMessage());
-                    }
-                }
-            }
-        });
     }
 
     @FXML
@@ -148,6 +109,10 @@ public class UserCatalogController {
 
     @FXML
     void btnReturnedBooksOnAction(ActionEvent event) {
+        handleChangeReturnedBooksButtonOnAction();
+    }
+
+    public void handleChangeReturnedBooksButtonOnAction() {
         if (currentStateUserCatalog == USER_CATALOG_STATE.RETURNED) {
             return;
         }
@@ -341,7 +306,7 @@ public class UserCatalogController {
     private void updateStatusUI(USER_CATALOG_STATE newStatus) {
         setDefaultStyle();
         if (newStatus == USER_CATALOG_STATE.BORROWED) {
-            columnHeader1Label.setText("No.");
+            columnHeader1Label.setText("Loan ID");
             borrowedBooksLabel.setStyle("-fx-text-fill: white;");
             borrowedBooksPane.setStyle("-fx-background-color: black; -fx-background-radius: 12px;");
             dueDateHeaderLabel.setText("Due Date");
@@ -354,7 +319,4 @@ public class UserCatalogController {
         currentStateUserCatalog = newStatus;
     }
 
-    public void setDeletedOrderNumber(String deletedOrderNumber) {
-        this.deletedOrderNumber = deletedOrderNumber;
-    }
 }

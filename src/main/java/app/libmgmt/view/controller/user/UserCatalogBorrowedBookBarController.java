@@ -72,7 +72,6 @@ public class UserCatalogBorrowedBookBarController {
     @FXML
     void btnBookReturnedOnAction(ActionEvent event) {
         openPopUp("/fxml/user/user-return-book-confirmation-dialog.fxml", EnumUtils.PopupList.RETURN_BOOK);
-        UserCatalogController.getInstance().setDeletedOrderNumber(orderLabel.getText());
     }
 
     @FXML
