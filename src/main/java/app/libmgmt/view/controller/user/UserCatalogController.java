@@ -284,4 +284,7 @@ public class UserCatalogController {
         currentStateUserCatalog = newStatus;
     }
 
+    public StackPane getStackPaneContainer() {
+        return stackPaneContainer;
+    }
 }

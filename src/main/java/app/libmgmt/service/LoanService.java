@@ -148,4 +148,12 @@ public class LoanService {
             throw new ServiceException("Error updating loan returned date", e);
         }
     }
+
+    public Loan getLoanById(int loanId) {
+        try {
+            return loanDAO.getLoanById(loanId);
+        } catch (SQLException e) {
+            throw new ServiceException("Error getting loan by id", e);
+        }
+    }
 }

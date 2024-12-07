@@ -280,4 +280,26 @@ public class LoanDAO {
 
         return new Loan(loanId, userId, bookIsbn, amount, borrowedDate, dueDate, returnedDate, status);
     }
+
+    public Loan getLoanById(int loanId) throws SQLException {
+        Loan loan = null;
+        String sql = "SELECT id, user_id, user_name, amount, status, borrowed_date, due_date, returned_date, book_isbn " +
+                     "FROM Loan WHERE id = ?";
+
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, loanId);
+
+            try (ResultSet rs = statement.executeQuery()) {
+                if (rs.next()) {
+                    loan = mapResultSetToLoan(rs);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return loan;
+    }
+
 }

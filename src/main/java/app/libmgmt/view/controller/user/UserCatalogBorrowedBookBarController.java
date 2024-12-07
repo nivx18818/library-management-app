@@ -7,10 +7,9 @@ import com.google.zxing.WriterException;
 
 import app.libmgmt.util.ChangeScene;
 import app.libmgmt.util.EnumUtils;
-import app.libmgmt.view.controller.admin.AdminBookViewDialogController;
 import app.libmgmt.view.controller.user.UserCatalogController.USER_CATALOG_STATE;
-import app.libmgmt.model.Book;
 import app.libmgmt.model.Loan;
+import app.libmgmt.service.LoanService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -53,21 +52,23 @@ public class UserCatalogBorrowedBookBarController {
 
     @FXML
     void imageViewOnMouseClicked(MouseEvent event) throws WriterException, IOException {
-        openPopUp("/fxml/admin/admin-book-view-dialog.fxml", EnumUtils.PopupList.BOOK_VIEW);
-        Book bookData = UserGlobalController.getInstance().getBookDataById(isbnText.getText());
+        openPopUp("/fxml/user/user-borrowed-view-dialog.fxml", EnumUtils.PopupList.BOOK_VIEW);
+        LoanService loanService = new LoanService();
+        UserBorrowedBookViewDialogController.getInstance().loadDataAsync(loanService.getLoanById(Integer.parseInt(loanIdLabel.getText())));
+        
+        
+        // Book bookData = UserGlobalController.getInstance().getBookDataById(isbnText.getText());
 
-        String authorsString = String.join(", ", bookData.getAuthors());
-        String categoriesString = String.join(", ", bookData.getCategories());
-        SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
-        String publishedDateStr = (bookData.getPublishedDate() != null)
-                ? outputFormat.format(bookData.getPublishedDate())
-                : "Not Available";
+        // String authorsString = String.join(", ", bookData.getAuthors());
+        // String categoriesString = String.join(", ", bookData.getCategories());
+        // SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
+        // String publishedDateStr = (bookData.getPublishedDate() != null)
+        //         ? outputFormat.format(bookData.getPublishedDate())
+        //         : "Not Available";
 
-        String[] data = new String[] { bookData.getIsbn(), bookData.getCoverUrl(), bookData.getTitle(),
-                categoriesString, authorsString,
-                String.valueOf(bookData.getAvailableCopies()), bookData.getPublisher(), publishedDateStr };
-
-        AdminBookViewDialogController.getInstance().setData(data);
+        // String[] data = new String[] { bookData.getIsbn(), bookData.getCoverUrl(), bookData.getTitle(),
+        //         categoriesString, authorsString,
+        //         String.valueOf(bookData.getAvailableCopies()), bookData.getPublisher(), publishedDateStr };
     }
 
     @FXML
@@ -105,8 +106,8 @@ public class UserCatalogBorrowedBookBarController {
     }
 
     private void openPopUp(String fxmlPath, EnumUtils.PopupList popupType) {
-        ChangeScene.openAdminPopUp(UserGlobalController.getInstance().getStackPaneContainer(),
-                fxmlPath, loanIdLabel.getText(), popupType);
+        ChangeScene.openAdminPopUp(UserCatalogController.getInstance().getStackPaneContainer(),
+                fxmlPath, popupType);
     }
 
     public void setLoanId(String loanId) {
