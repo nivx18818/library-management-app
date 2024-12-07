@@ -177,6 +177,20 @@ public class AdminBorrowedBookViewDialogController {
         return isbnList;
     }
 
+    public List<String> getSelectedAmountList() {
+        List<String> amountList = new ArrayList<>();
+
+        for (int i = 0; i < vBox.getChildren().size(); i++) {
+            Pane pane = (Pane) vBox.getChildren().get(i);
+            AdminBorrowedBookViewBarController controller = (AdminBorrowedBookViewBarController) pane.getUserData();
+            if (controller.getCheckBoxButton().isSelected()) {
+                amountList.add(controller.getAmount());
+            }
+        }
+        
+        return amountList;
+    }
+
     @FXML
     void btnOnMouseEntered(MouseEvent event) {
         if (event.getSource() == closeButton) {
@@ -200,6 +214,10 @@ public class AdminBorrowedBookViewDialogController {
             returnImage.setImage(new Image(getClass().getResource("/assets/icon/redo 1.png").toExternalForm()));
             returnLabel.setStyle("-fx-text-fill: #f2f2f2;");
         }
+    }
+
+    public int getLoanId() {
+        return Integer.parseInt(lblId.getText());
     }
 
     /**

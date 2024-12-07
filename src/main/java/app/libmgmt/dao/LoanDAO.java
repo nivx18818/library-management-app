@@ -50,7 +50,7 @@ public class LoanDAO {
 
     public void updateLoan(Loan loan) throws SQLException {
         String sql = "UPDATE Loan SET user_id = ?, user_name = ?, amount = ?, status = ?, " +
-                     "borrowed_date = ?, due_date = ?, returned_date = ?, book_isbn = ? WHERE id = ?";
+                     "book_isbn = ? WHERE id = ?";
 
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -60,17 +60,8 @@ public class LoanDAO {
             statement.setString(3, loan.getAmount());
             statement.setString(4, "BORROWED");
 
-            LocalDate borrowedDate = LocalDate.now();
-            DateTimeFormatter outputFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            String borrowedDateString = borrowedDate.format(outputFormat);
-            statement.setString(5, borrowedDateString);
-
-            LocalDate dueDate = borrowedDate.plusDays(14);
-            String dueDateString = dueDate.format(outputFormat);
-            statement.setString(6, dueDateString);
-
-            statement.setString(7, loan.getIsbn());
-
+            statement.setString(5, loan.getIsbn());
+            statement.setInt(6, loan.getLoanId());
             statement.executeUpdate();
         }
     }

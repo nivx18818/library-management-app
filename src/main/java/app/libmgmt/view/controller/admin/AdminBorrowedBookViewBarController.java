@@ -53,6 +53,10 @@ public class AdminBorrowedBookViewBarController {
         return isbn;
     }
 
+    public String getAmount() {
+        return amountLabel.getText();
+    }
+
     private void uploadImageAsync(String newImagePath, ImageView bookImage) {
         // Load the image asynchronously
         Task<Image> imageLoadTask = new Task<>() {

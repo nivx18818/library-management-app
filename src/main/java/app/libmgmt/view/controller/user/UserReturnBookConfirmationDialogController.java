@@ -1,10 +1,12 @@
 package app.libmgmt.view.controller.user;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.jfoenix.controls.JFXButton;
 
+import app.libmgmt.model.Loan;
 import app.libmgmt.service.LoanService;
 import app.libmgmt.util.AnimationUtils;
 import app.libmgmt.util.ChangeScene;
@@ -20,6 +22,8 @@ import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
 public class UserReturnBookConfirmationDialogController {
+    
+    private static UserReturnBookConfirmationDialogController controller;
 
     @FXML
     private JFXButton cancelButton;
@@ -50,17 +54,39 @@ public class UserReturnBookConfirmationDialogController {
 
     private int loanId;
 
+    private Loan loan;
+
     List<String> isbnListReturned = new ArrayList<>();
+    List<String> amountList = new ArrayList<>();
 
     public void setLoanId(int loanId) {
         this.loanId = loanId;
     }
 
+    public void setLoan(Loan loan) {
+        this.loan = loan;
+    }
+
     private final LoanService loanService = new LoanService();
+
+    public UserReturnBookConfirmationDialogController() {
+        controller = this;
+    }
+
+    public static UserReturnBookConfirmationDialogController getInstance() {
+        if (controller == null) {
+            controller = new UserReturnBookConfirmationDialogController();
+        }
+        return controller;
+    }
 
     @FXML
     public void initialize() {
         isbnListReturned = AdminBorrowedBookViewDialogController.getInstance().getSelectedIsbnList();
+        amountList = AdminBorrowedBookViewDialogController.getInstance().getSelectedAmountList();
+        loanId = AdminBorrowedBookViewDialogController.getInstance().getLoanId();
+        loan = loanService.getLoanById(loanId);
+        System.out.println("Loan ID: " + loanId);
         for (String isbn : isbnListReturned) {
             System.out.println(isbn);
         }
@@ -75,7 +101,36 @@ public class UserReturnBookConfirmationDialogController {
     private void startReturnBookProcess() {
         lblConfirm.setText("Returning...");
         disableButtons(true);
-        loanService.updateLoanReturnedDate(loanId);
+
+        List<String> isbnOfLoan = Arrays.asList(loan.getIsbn().split(",\\s*"));
+        List<String> amountOfLoan = Arrays.asList(loan.getAmount().split(",\\s*"));
+        List<String> resultIsbnList = new ArrayList<>();
+        List<String> resultAmountList = new ArrayList<>();
+
+        for (int i = 0; i < isbnOfLoan.size(); i++) {
+            String isbn = isbnOfLoan.get(i);
+            if (!isbnListReturned.contains(isbn)) {
+                resultIsbnList.add(isbn);
+                resultAmountList.add(amountOfLoan.get(i));
+            }
+        }
+
+        String resultIsbnString = String.join(", ", resultIsbnList);
+        String resultAmountString = String.join(", ", resultAmountList);
+
+        if (resultIsbnString.isEmpty()) {
+            loanService.updateLoanReturnedDate(loanId);
+        } else {
+            loan.setIsbn(resultIsbnString);
+            loan.setAmount(resultAmountString);
+            loanService.updateLoan(loan);
+            Loan return_loan = loan;
+            return_loan.setIsbn(String.join(", ", isbnListReturned));
+            return_loan.setAmount(String.join(", ", amountList));
+            loanService.addLoan(return_loan);
+            loanService.updateLoanReturnedDate(loanService.getMaxLoanId());
+        }
+        
         closeDialogAndNavigateToCatalog();
     }
 
