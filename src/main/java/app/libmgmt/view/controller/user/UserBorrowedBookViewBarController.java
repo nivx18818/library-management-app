@@ -3,6 +3,7 @@ package app.libmgmt.view.controller.user;
 import java.text.SimpleDateFormat;
 
 import app.libmgmt.model.Loan;
+import app.libmgmt.model.Book;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -26,13 +27,13 @@ public class UserBorrowedBookViewBarController {
     @FXML
     private Label lblName;
 
-    public void setData(Loan loan) {
-        lblIsbn.setText(loan.getBook().getIsbn());
+    public void setData(Loan loan, Book book, String amount) {
+        lblIsbn.setText(book.getIsbn());
 
         Task<Image> imageLoadTask = new Task<>() {
             @Override
             protected Image call() {
-                Image image = new Image(loan.getBook().getCoverUrl());
+                Image image = new Image(book.getCoverUrl());
                 return image;
             }
         };
@@ -42,13 +43,11 @@ public class UserBorrowedBookViewBarController {
 
         new Thread(imageLoadTask).start();
 
-        lblName.setText(loan.getBook().getTitle());
-
-        // TODO: Set amount and due date
-
+        lblName.setText(book.getTitle());
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         String dueDateString = sdf.format(loan.getDueDate());
         lblDueDate.setText(dueDateString);
+        lblAmount.setText(amount);
     }
 
 }

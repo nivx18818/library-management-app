@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import com.jfoenix.controls.JFXButton;
 
 import app.libmgmt.model.Loan;
+import app.libmgmt.model.Book;
+import app.libmgmt.service.LoanService;
 import app.libmgmt.util.AnimationUtils;
 import app.libmgmt.util.ChangeScene;
 import app.libmgmt.view.controller.admin.AdminBooksLayoutController;
@@ -19,6 +21,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
+import java.util.List;
 
 public class UserBorrowedBookViewDialogController {
 
@@ -68,12 +71,18 @@ public class UserBorrowedBookViewDialogController {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         String borrowedDateString = sdf.format(loan.getBorrowedDate());
         lblBorrowedDate.setText(borrowedDateString);
+
+        LoanService loanService = new LoanService();
+        List<Book> books = loanService.getBookFromLoan(loan.getIsbn());
+        String[] amountString = loan.getAmount().split(",\\s*");
         Task<Void> preloadTask = new Task<>() {
             @Override
             protected Void call() throws Exception {
                 // Load book data from loan.
                 // Format data: [isbn, name book, amount, due date]
-                loadBookData(loan);
+                for (int i = 0; i < books.size(); i++) {
+                    loadBookData(loan, books.get(i), amountString[i]);
+                }
                 return null;
             }
 
@@ -86,13 +95,13 @@ public class UserBorrowedBookViewDialogController {
         new Thread(preloadTask).start();
     }
 
-    private void loadBookData(Loan loan) {
+    private void loadBookData(Loan loan, Book book, String amount) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(AdminBooksLayoutController.class.getResource(
                     "/fxml/user/user-borrowed-view-bar.fxml"));
             Pane scene = fxmlLoader.load();
             UserBorrowedBookViewBarController controller = fxmlLoader.getController();
-            controller.setData(loan);
+            controller.setData(loan, book, amount);
             scene.setUserData(controller);
 
             Platform.runLater(() -> {
