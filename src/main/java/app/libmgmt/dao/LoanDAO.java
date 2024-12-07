@@ -30,7 +30,7 @@ public class LoanDAO {
 
             statement.setString(1, loan.getUserId());
             statement.setString(2, loan.getUserName());
-            statement.setDouble(3, loan.getAmount());
+            statement.setString(3, loan.getAmount());
             statement.setString(4, "BORROWED");
 
             LocalDate borrowedDate = LocalDate.now();
@@ -57,7 +57,7 @@ public class LoanDAO {
 
             statement.setString(1, loan.getUserId());
             statement.setString(2, loan.getUserName());
-            statement.setDouble(3, loan.getAmount());
+            statement.setString(3, loan.getAmount());
             statement.setString(4, "BORROWED");
 
             LocalDate borrowedDate = LocalDate.now();
@@ -263,7 +263,7 @@ public class LoanDAO {
         int loanId = rs.getInt("id");
         String userId = rs.getString("user_id");
         String bookIsbn = rs.getString("book_isbn");
-        int amount = rs.getInt("amount");
+        String amount = rs.getString("amount");
 
         String borrowedDateString = rs.getString("borrowed_date");
         Date borrowedDate = borrowedDateString != null ? Date.valueOf(borrowedDateString) : null;
