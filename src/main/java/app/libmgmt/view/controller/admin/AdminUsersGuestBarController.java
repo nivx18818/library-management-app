@@ -69,8 +69,8 @@ public class AdminUsersGuestBarController {
 
     // Gets user data as an array
     public String[] getData() {
-        return new String[] { idLabel.getText(), nameLabel.getText(), phoneLabel.getText(),
-                emailLabel.getText() };
+        return new String[] { nameLabel.getText(), phoneLabel.getText(),
+                emailLabel.getText(), idLabel.getText() };
     }
 
     @FXML

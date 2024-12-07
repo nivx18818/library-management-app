@@ -144,13 +144,10 @@ public class AdminGlobalController {
                 : new ExternalBorrower(updatedData);
 
         userService.updateUser(updatedUser);
-        System.out.println("Updated user: " + updatedUser.getName() + " " + updatedUser.getEmail() + " "
-                + updatedUser.getUserId());
 
         if (userType == EnumUtils.UserType.STUDENT) {
             for (int i = 0; i < studentsData.size(); i++) {
                 Student student = studentsData.get(i);
-
                 if (student.getStudentId().equals(updatedUser.getUserId())) {
                     studentsData.set(i, (Student) updatedUser);
                     return;

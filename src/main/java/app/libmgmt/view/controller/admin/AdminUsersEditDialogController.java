@@ -124,8 +124,8 @@ public class AdminUsersEditDialogController {
 
     // Populates fields with data based on user type
     private void populateFieldsWithData() {
-        idTextField.setText(originalData[0]);
-        nameTextField.setText(originalData[1]);
+        idTextField.setText(originalData[3]);
+        nameTextField.setText(originalData[0]);
 
         if (userType == EnumUtils.UserType.GUEST) {
             showGuestFields();
@@ -133,7 +133,7 @@ public class AdminUsersEditDialogController {
             showStudentFields();
         }
 
-        emailTextField.setText(originalData[3]);
+        emailTextField.setText(originalData[2]);
         userTypeLabel.setText(userType == EnumUtils.UserType.GUEST ? "External Borrower" : "Student");
     }
 
@@ -141,7 +141,7 @@ public class AdminUsersEditDialogController {
     private void showGuestFields() {
         phoneNumberLabel.setVisible(true);
         phoneNumberTextField.setVisible(true);
-        phoneNumberTextField.setText(originalData[2]);
+        phoneNumberTextField.setText(originalData[1]);
     }
 
     // Shows fields specific to a student user
@@ -149,7 +149,7 @@ public class AdminUsersEditDialogController {
         majorLabel.setVisible(true);
         majorComboBox.getItems().addAll(EnumUtils.UETMajor);
         majorComboBox.setVisible(true);
-        majorComboBox.setValue(originalData[2]);
+        majorComboBox.setValue(originalData[1]);
     }
 
     // Extracts updated data from fields
@@ -166,7 +166,7 @@ public class AdminUsersEditDialogController {
 
     // Checks if any data has changed
     private boolean isDataChanged(String[] updatedData) {
-        for (int i = 0; i < updatedData.length; i++) {
+        for (int i = 0; i < originalData.length; i++) {
             if (!updatedData[i].equals(originalData[i]))
                 return true;
         }

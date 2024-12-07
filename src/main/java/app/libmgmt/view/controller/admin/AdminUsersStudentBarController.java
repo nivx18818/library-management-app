@@ -138,7 +138,7 @@ public class AdminUsersStudentBarController {
     }
 
     public String[] getData() {
-        return new String[] { idLabel.getText(), nameLabel.getText(), majorLabel.getText(), emailLabel.getText() };
+        return new String[] { nameLabel.getText(), majorLabel.getText(), emailLabel.getText(), idLabel.getText() };
     }
 
     // Utility method to update the image on hover and exit events

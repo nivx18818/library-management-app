@@ -63,17 +63,17 @@ public class AdminUsersViewDialogController {
      * @param userType The type of the user (STUDENT or GUEST).
      */
     public void setData(String[] data, EnumUtils.UserType userType) {
-        idLabel.setText("ID : " + data[0]);
-        fullNameLabel.setText("Full name : " + data[1]);
+        idLabel.setText("ID : " + data[3]);
+        fullNameLabel.setText("Full name : " + data[0]);
         majorOrPhoneLabel
-                .setText(userType == EnumUtils.UserType.STUDENT ? "Major : " + data[2] : "Phone number : " + data[2]);
-        emailLabel.setText("Email : " + data[3]);
+                .setText(userType == EnumUtils.UserType.STUDENT ? "Major : " + data[1] : "Phone number : " + data[1]);
+        emailLabel.setText("Email : " + data[2]);
         if (userType == EnumUtils.UserType.STUDENT) {
-            userTypeLabel.setText("User type : Student");
+            userTypeLabel.setText("Student");
         } else if (userType == EnumUtils.UserType.ADMIN) {
-            userTypeLabel.setText("User type : Admin");
+            userTypeLabel.setText("Admin");
         } else {
-            userTypeLabel.setText("User type : Guest");
+            userTypeLabel.setText("Guest");
         }
     }
 
