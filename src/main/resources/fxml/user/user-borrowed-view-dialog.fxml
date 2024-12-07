@@ -24,7 +24,7 @@
                         <Font size="15.0" />
                      </font>
                   </Label>
-                  <Label alignment="CENTER" prefHeight="25.0" prefWidth="280.0" text="Name">
+                  <Label alignment="CENTER" prefHeight="25.0" prefWidth="280.0" text="Book Info">
                      <font>
                         <Font size="15.0" />
                      </font>

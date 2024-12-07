@@ -69,7 +69,7 @@
                     <Font size="13.0" />
                   </font>
                 </Label>
-                <Label alignment="CENTER" prefHeight="14.0" prefWidth="150.0" text="Name">
+                <Label alignment="CENTER" prefHeight="14.0" prefWidth="150.0" text="User Name">
                   <font>
                     <Font size="13.0" />
                   </font>
