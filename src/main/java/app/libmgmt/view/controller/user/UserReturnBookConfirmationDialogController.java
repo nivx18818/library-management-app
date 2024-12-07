@@ -68,7 +68,6 @@ public class UserReturnBookConfirmationDialogController {
         disableButtons(true);
         closeDialogAndNavigateToCatalog();
         loanService.updateLoanReturnedDate(loanId);
-        UserGlobalController.getInstance().addReturnedBook(loanId);
     }
 
     /**
@@ -89,8 +88,6 @@ public class UserReturnBookConfirmationDialogController {
         }));
         Timeline timeline2 = new Timeline(new KeyFrame(Duration.seconds(1.5), e -> {
             ChangeScene.closePopUp();
-            UserCatalogController.getInstance().handleChangeReturnedBooksButtonOnAction();
-            UserCatalogController.currentStateUserCatalog = UserCatalogController.USER_CATALOG_STATE.RETURNED;
         }));
         timeline.play();
         timeline2.play();

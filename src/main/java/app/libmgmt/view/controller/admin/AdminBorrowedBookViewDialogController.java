@@ -8,7 +8,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import app.libmgmt.model.Book;
@@ -44,6 +47,10 @@ public class AdminBorrowedBookViewDialogController {
     private JFXButton closeButton;
     @FXML
     private JFXButton returnButton;
+    @FXML
+    private HBox hBoxReturn;
+    @FXML
+    private ImageView returnImage;
 
     public AdminBorrowedBookViewDialogController() {
         controller = this;
@@ -59,26 +66,26 @@ public class AdminBorrowedBookViewDialogController {
     @FXML
     public void initialize() {
         listenLoanDataChanges();
-    } 
+    }
 
     private void listenLoanDataChanges() {
         AdminGlobalController.getInstance().getBorrowedBooksData()
-            .addListener((ListChangeListener.Change<? extends Loan> change) -> {
-                while (change.next()) {
-                    if (change.wasUpdated() && change.getTo() != -1) {
-                        List<? extends Loan> subList = change.getList().subList(change.getFrom(), change.getTo());
-                        subList.forEach(loan -> {
-                            String bookId = loan.getIsbn();
-                            vBox.getChildren().stream()
-                                .filter(child -> child.getId() != null && child.getId().equals(bookId))
-                                .findFirst()
-                                .ifPresent(child -> Platform.runLater(() -> {
-                                    vBox.getChildren().remove(child);
-                                }));
-                        });
+                .addListener((ListChangeListener.Change<? extends Loan> change) -> {
+                    while (change.next()) {
+                        if (change.wasUpdated() && change.getTo() != -1) {
+                            List<? extends Loan> subList = change.getList().subList(change.getFrom(), change.getTo());
+                            subList.forEach(loan -> {
+                                String bookId = loan.getIsbn();
+                                vBox.getChildren().stream()
+                                        .filter(child -> child.getId() != null && child.getId().equals(bookId))
+                                        .findFirst()
+                                        .ifPresent(child -> Platform.runLater(() -> {
+                                            vBox.getChildren().remove(child);
+                                        }));
+                            });
+                        }
                     }
-                }
-            });   
+                });
     }
 
     public List<Book> getBooksData(String id) {
@@ -142,7 +149,7 @@ public class AdminBorrowedBookViewDialogController {
     @FXML
     void btnReturnOnAction(ActionEvent event) {
         ChangeScene.openAdminPopUp(AdminBorrowedBooksLayoutController.getInstance().getStackPaneContainer(),
-        "/fxml/user/user-return-book-confirmation-dialog.fxml", EnumUtils.PopupList.RETURN_BOOK);
+                "/fxml/user/user-return-book-confirmation-dialog.fxml", EnumUtils.PopupList.RETURN_BOOK);
     }
 
     @FXML
@@ -151,8 +158,9 @@ public class AdminBorrowedBookViewDialogController {
             closePane.setStyle(
                     "-fx-background-color: #d7d7d7; -fx-background-radius: 10;");
         } else if (event.getSource() == returnButton) {
-            returnPane.setStyle(
-                    "-fx-background-color: #F2F2F2; -fx-background-radius: 10; -fx-border-color: #000; -fx-border-radius: 10; -fx-border-width: 1.2;");
+            hBoxReturn.setStyle(
+                    "-fx-background-color: #f2f2f2; -fx-background-radius: 10px; -fx-border-color: #000; -fx-border-radius: 10px; -fx-border-width: 1.2px;");
+            returnImage.setImage(new Image(getClass().getResource("/assets/icon/redo 1 (1).png").toExternalForm()));
             returnLabel.setStyle("-fx-text-fill: #000;");
         }
     }
@@ -163,9 +171,9 @@ public class AdminBorrowedBookViewDialogController {
             closePane.setStyle(
                     "-fx-background-color: #fff; -fx-background-radius: 10;");
         } else if (event.getSource() == returnButton) {
-            returnPane.setStyle(
-                    "-fx-background-color: #000; -fx-background-radius: 10;");
-            returnLabel.setStyle("-fx-text-fill: #fff;");
+            hBoxReturn.setStyle("-fx-background-color: #000; -fx-background-radius: 10px;");
+            returnImage.setImage(new Image(getClass().getResource("/assets/icon/redo 1.png").toExternalForm()));
+            returnLabel.setStyle("-fx-text-fill: #f2f2f2;");
         }
     }
 

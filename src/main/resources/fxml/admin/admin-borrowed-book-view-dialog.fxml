@@ -6,6 +6,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.effect.Bloom?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
@@ -100,15 +102,20 @@
             </Label>
          </children>
       </Pane>
-      <Pane fx:id="returnPane" layoutX="691.0" layoutY="485.0" prefHeight="40.0" prefWidth="140.0" style="-fx-background-color: black; -fx-background-radius: 10;">
+      <HBox fx:id="hBoxReturn" alignment="CENTER" layoutX="691.0" layoutY="488.0" prefHeight="40.0" prefWidth="140.0" spacing="8.0" style="-fx-background-color: black; -fx-background-radius: 10; -fx-border-color: 1px; -fx-border-radius: 10;">
          <children>
-            <Label fx:id="returnLabel" alignment="CENTER" layoutY="8.0" prefHeight="25.0" prefWidth="140.0" text="RETURN" textFill="WHITE">
+            <ImageView fx:id="returnImage" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../assets/icon/redo%201.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="returnLabel" text="RETURN" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
             </Label>
          </children>
-      </Pane>
+      </HBox>
     <JFXButton fx:id="closeButton" layoutX="534.0" layoutY="485.0" onAction="#btnCloseOnAction" onMouseEntered="#btnOnMouseEntered" onMouseExited="#btnOnMouseExited" prefHeight="40.0" prefWidth="140.0" style="-fx-background-radius: 10;" text=" ">
       <cursor>
         <Cursor fx:constant="HAND" />
