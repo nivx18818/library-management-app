@@ -63,14 +63,14 @@
         </ScrollPane>
       </children>
     </Pane>
-    <Pane layoutX="19.0" layoutY="445.0" prefHeight="86.0" prefWidth="401.0" style="-fx-background-color: white; -fx-background-radius: 12; -fx-border-color: #E8E8E8; -fx-border-radius: 12;">
+    <Pane layoutX="19.0" layoutY="445.0" prefHeight="86.0" prefWidth="304.0" style="-fx-background-color: white; -fx-background-radius: 12; -fx-border-color: #E8E8E8; -fx-border-radius: 12;">
       <children>
-        <Label alignment="CENTER" layoutX="7.0" layoutY="13.0" prefHeight="32.0" prefWidth="150.0" text="User ID">
+        <Label alignment="CENTER" layoutY="13.0" prefHeight="32.0" prefWidth="150.0" text="Loan ID">
           <font>
             <Font name="System Bold" size="18.0" />
           </font>
         </Label>
-        <Label fx:id="lblId" alignment="CENTER" layoutX="7.0" layoutY="40.0" prefHeight="32.0" prefWidth="150.0" text="037205005003">
+        <Label fx:id="lblId" alignment="CENTER" layoutY="41.0" prefHeight="32.0" prefWidth="150.0" text="32">
           <font>
             <Font size="18.0" />
           </font>
@@ -78,17 +78,17 @@
             <Bloom threshold="0.26" />
           </effect>
         </Label>
-        <Label layoutX="182.0" layoutY="13.0" prefHeight="32.0" text="Total Borrowed Books:">
+        <Label alignment="CENTER" layoutX="151.0" layoutY="13.0" prefHeight="32.0" prefWidth="150.0" text="User ID">
           <font>
             <Font name="System Bold" size="18.0" />
           </font>
         </Label>
-        <Label fx:id="lblTotalBooks" alignment="CENTER" layoutX="246.0" layoutY="44.0" text="04 Books">
+        <Label fx:id="lblUserId" alignment="CENTER" layoutX="151.0" layoutY="44.0" prefWidth="150.0" text="23020708">
           <font>
             <Font size="18.0" />
           </font>
         </Label>
-        <Line endX="5.54595947265625" endY="9.58831787109375" layoutX="152.0" layoutY="63.0" startX="5.5459442138671875" startY="-47.99774169921875" />
+        <Line endX="5.54595947265625" endY="9.58831787109375" layoutX="145.0" layoutY="64.0" startX="5.5459442138671875" startY="-47.99774169921875" />
       </children>
     </Pane>
       <Pane fx:id="closePane" layoutX="534.0" layoutY="485.0" prefHeight="40.0" prefWidth="140.0" style="-fx-background-radius: 10;">

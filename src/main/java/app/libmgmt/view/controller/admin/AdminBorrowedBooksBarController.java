@@ -59,7 +59,6 @@ public class AdminBorrowedBooksBarController {
         ChangeScene.openAdminPopUp(
                 AdminBorrowedBooksLayoutController.getInstance().getStackPaneContainer(),
                 "/fxml/admin/admin-borrowed-book-view-dialog.fxml",
-                loanIdLabel.getText(),
                 EnumUtils.PopupList.BORROWED_BOOK_CATALOG);
         AdminBorrowedBookViewDialogController.getInstance().loadDataAsync(loan);
     }

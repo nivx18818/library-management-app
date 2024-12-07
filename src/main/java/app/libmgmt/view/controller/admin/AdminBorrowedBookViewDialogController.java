@@ -25,8 +25,6 @@ public class AdminBorrowedBookViewDialogController {
 
     private static AdminBorrowedBookViewDialogController controller;
     private final LoanService loanService = new LoanService();
-    private int totalBook;
-    private int totalLoan;
 
     @FXML
     private Pane closePane;
@@ -39,7 +37,7 @@ public class AdminBorrowedBookViewDialogController {
     @FXML
     private Label lblId;
     @FXML
-    private Label lblTotalBooks;
+    private Label lblUserId;
     @FXML
     private VBox vBox;
     @FXML
@@ -91,10 +89,9 @@ public class AdminBorrowedBookViewDialogController {
      * Loads data asynchronously to prevent blocking the main thread.
      */
     public void loadDataAsync(Loan loan) {
+        setUserId(loan.getUserId());
+        setId(String.valueOf(loan.getLoanId()));
         List<Book> data = getBooksData(loan.getIsbn());
-        this.totalBook = data.size();
-        this.totalLoan = 1;
-        setTotalBook();
         Task<Void> preloadTask = new Task<>() {
             @Override
             protected Void call() throws Exception {
@@ -181,11 +178,7 @@ public class AdminBorrowedBookViewDialogController {
         lblId.setText(id);
     }
 
-    public void setTotalBook() {
-        lblTotalBooks.setText(String.valueOf(this.totalBook) + " Books");
-    }
-
-    public void setTotalLoan() {
-        lblTotalBooks.setText(String.valueOf(this.totalLoan + 1) + " Books");
+    public void setUserId(String userId) {
+        lblUserId.setText(userId);
     }
 }

@@ -1,7 +1,6 @@
 package app.libmgmt.util;
 
 import app.libmgmt.view.controller.LoginController;
-import app.libmgmt.view.controller.admin.AdminBorrowedBookViewDialogController;
 import app.libmgmt.view.controller.admin.AdminDeleteConfirmationDialogController;
 import app.libmgmt.view.controller.admin.AdminGlobalController;
 import app.libmgmt.view.controller.user.UserGlobalController;
@@ -38,25 +37,12 @@ public class ChangeScene {
             FXMLLoader loader;
             loader = new FXMLLoader(LoginController.class.getResource(path));
             Pane content = loader.load();
-            AdminBorrowedBookViewDialogController borrowedController;
 
             JFXDialog dialog = new JFXDialog(stackPane, content,
                     JFXDialog.DialogTransition.CENTER);
             dialogs.add(dialog);
 
             switch (popupList) {
-                case BORROWED_BOOK_CATALOG:
-                    borrowedController = loader.getController();
-                    borrowedController.setId(id);
-                    borrowedController.setTotalBook();
-                    break;
-                case OVERDUE_BOOK_DASHBOARD:
-                    borrowedController = loader.getController();
-                    if (id != null && !id.isEmpty()) {
-                        borrowedController.setId(id);
-                    }
-                    borrowedController.setTotalLoan();
-                    break;
                 case BOOK_DELETE, STUDENT_DELETE, GUEST_DELETE:
                     AdminDeleteConfirmationDialogController deleteController = loader.getController();
                     if (id != null && !id.isEmpty()) {
@@ -68,6 +54,7 @@ public class ChangeScene {
                     if (id != null && !id.isEmpty()) {
                         returnController.setLoanId(Integer.parseInt(id));
                     }
+                case BORROWED_BOOK_CATALOG:
                 case ADD_BOOK:
                 case ADD_USER:
                 case ACQUIRE_BOOK:

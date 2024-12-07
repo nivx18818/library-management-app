@@ -15,7 +15,6 @@ public class EnumUtils {
         FORGOT_PASSWORD,
         ADD_BOOK,
         BORROWED_BOOK_CATALOG,
-        OVERDUE_BOOK_DASHBOARD,
         BOOK_VIEW,
         BOOK_EDIT,
         BOOK_DELETE,
