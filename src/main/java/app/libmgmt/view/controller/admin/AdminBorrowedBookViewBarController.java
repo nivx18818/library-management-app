@@ -25,14 +25,14 @@ public class AdminBorrowedBookViewBarController {
     @FXML
     private JFXCheckBox checkBoxButton;
 
-    public void setData(Book book, Loan loan) {
+    public void setData(Book book, Loan loan, String amount) {
         try {
             uploadImageAsync(book.getCoverUrl(), bookImage);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
         nameBookLabel.setText(book.getTitle());
-        amountLabel.setText(loan.getAmount() + "");
+        amountLabel.setText(amount + "");
         SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
         String dueDateString = outputFormat.format(loan.getDueDate());
         dueDateLabel.setText(dueDateString);

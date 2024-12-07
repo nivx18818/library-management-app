@@ -97,16 +97,17 @@ public class UserGlobalController {
 
         // Merge multiple books into one loan
         List<String> isbn = new ArrayList<>();
-        int totalAmount = 0;
+        List<String> amount = new ArrayList<>();
         for (int i = 0; i < newBorrowedBooksList.size(); i++) {
             Loan loan = newBorrowedBooksList.get(i);
-            totalAmount += loan.getAmount();
             isbn.add(loan.getIsbn());
+            amount.add(String.valueOf(loan.getAmount()));
         }
 
         String isbn_String = String.join(", ", isbn);
+        String amount_String = String.join(", ", amount);   
         Loan new_loan = newBorrowedBooksList.get(0);
-        new_loan.setAmount(totalAmount);
+        new_loan.setAmount(amount_String);
         new_loan.setIsbn(isbn_String);
         loanService.addLoan(new_loan);
         borrowedBooksData.add(new_loan);
@@ -117,8 +118,9 @@ public class UserGlobalController {
             for (int j = 0; j < newBorrowedBooksList.size(); j++) {
                 Loan loan = newBorrowedBooksList.get(j);
                 if (book.getIsbn().equals(loan.getIsbn())) {
-                    bookService.updateAvailableCopies(book.getIsbn(), book.getAvailableCopies() - loan.getAmount());
-                    book.setAvailableCopies(book.getAvailableCopies() - loan.getAmount());
+                    int loanAmount = Integer.parseInt(loan.getAmount());
+                    bookService.updateAvailableCopies(book.getIsbn(), book.getAvailableCopies() - loanAmount);
+                    book.setAvailableCopies(book.getAvailableCopies() - loanAmount);
                     break;
                 }
             }
