@@ -8,6 +8,8 @@ import app.libmgmt.model.Loan;
 import app.libmgmt.util.AnimationUtils;
 import app.libmgmt.util.ChangeScene;
 import app.libmgmt.view.controller.admin.AdminBooksLayoutController;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -16,6 +18,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 
 public class UserBorrowedBookViewDialogController {
 
@@ -49,7 +52,14 @@ public class UserBorrowedBookViewDialogController {
 
     @FXML
     void btnCloseOnAction(ActionEvent event) {
-        ChangeScene.closePopUp();
+        vBox.getChildren().clear();
+        closeButton.setDisable(true);
+        closeLabel.setText("Closing...");
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.2), e -> {
+            closeLabel.setText("Closed!");
+            ChangeScene.closePopUp();
+        }));
+        timeline.play();
     }
 
     // Loads data asynchronously to prevent blocking the main thread.
@@ -91,6 +101,6 @@ public class UserBorrowedBookViewDialogController {
             });
         } catch (Exception e) {
             System.err.println("Error loading book data: " + e.getMessage());
-       }
-    } 
+        }
+    }
 }

@@ -1,6 +1,9 @@
 package app.libmgmt.view.controller.admin;
 
 import com.jfoenix.controls.JFXButton;
+
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
 import javafx.concurrent.Task;
@@ -14,6 +17,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 import app.libmgmt.model.Book;
 import app.libmgmt.model.Loan;
 
@@ -144,7 +148,13 @@ public class AdminBorrowedBookViewDialogController {
     @FXML
     void btnCloseOnAction(ActionEvent event) {
         vBox.getChildren().clear();
-        ChangeScene.closePopUp();
+        closeButton.setDisable(true);
+        closeLabel.setText("Closing...");
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.2), e -> {
+            closeLabel.setText("Closed!");
+            ChangeScene.closePopUp();
+        }));
+        timeline.play();
     }
 
     @FXML

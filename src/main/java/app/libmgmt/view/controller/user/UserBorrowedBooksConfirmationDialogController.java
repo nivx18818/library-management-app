@@ -86,7 +86,13 @@ public class UserBorrowedBooksConfirmationDialogController {
     @FXML
     void btnCloseOnAction(ActionEvent event) {
         vBoxSelectedBooksList.getChildren().clear();
-        ChangeScene.closePopUp();
+        closeButton.setDisable(true);
+        closeLabel.setText("Closing...");
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.2), e -> {
+            closeLabel.setText("Closed!");
+            ChangeScene.closePopUp();
+        }));
+        timeline.play();
     }
 
     @FXML
