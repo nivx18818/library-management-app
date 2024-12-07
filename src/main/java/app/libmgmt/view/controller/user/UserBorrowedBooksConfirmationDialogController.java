@@ -97,7 +97,7 @@ public class UserBorrowedBooksConfirmationDialogController {
             UserBorrowedBookBarController controller = (UserBorrowedBookBarController) node.getUserData();
             if (controller != null) {
                 int amount = controller.getAmount();
-                newBorrowedBooksList.get(idx++).setAmount(amount);
+                newBorrowedBooksList.get(idx++).setAmount(String.valueOf(amount));
             }
         }
         UserGlobalController.getInstance().addBorrowedBook(newBorrowedBooksList);
@@ -211,7 +211,7 @@ public class UserBorrowedBooksConfirmationDialogController {
                     UserGlobalController.getInstance().getUserLoginInfo().getUserId(),
                     bookData.getIsbn(),
                     // temporary amount value
-                    1,
+                    "1",
                     DateUtils.parseStringToDate(formattedDate),
                     "BORROWED");
             newBorrowedBooksList.add(newBorrowedBookData);

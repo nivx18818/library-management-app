@@ -96,7 +96,12 @@ public class UserCatalogBorrowedBookBarController {
         isbnText.setText(loan.getIsbn());
         String borrowedDateString = outputFormat.format(loan.getBorrowedDate());
         borrowedDateLabel.setText(borrowedDateString);
-        amountLabel.setText(String.valueOf(loan.getAmount()));
+        String[] amounts = loan.getAmount().split(",\\s*");
+        int totalAmount = 0;
+        for (String amount : amounts) {
+            totalAmount += Integer.parseInt(amount);
+        }
+        amountLabel.setText(String.valueOf(totalAmount));
     }
 
     private void openPopUp(String fxmlPath, EnumUtils.PopupList popupType) {

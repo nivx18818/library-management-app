@@ -10,7 +10,7 @@ public class Loan {
     private int loanId;
     private String userId;
     private String userName;
-    private int amount;
+    private String amount;
     private Date borrowedDate;
     private Date dueDate;
     private Date returnedDate;
@@ -18,7 +18,7 @@ public class Loan {
     private String status;
     private static final long TWO_WEEKS_IN_MILLIS = 1209600000; // 14L * 24 * 60 * 60 * 1000
 
-    public Loan(String userId, String isbn, int amount, Date borrowedDate, String status) {
+    public Loan(String userId, String isbn, String amount, Date borrowedDate, String status) {
         this.userId = userId;
         this.userName = fetchUserNameFromUserId(userId);
         this.isbn = isbn;
@@ -28,7 +28,7 @@ public class Loan {
         this.status = status;
     }
 
-    public Loan(int loanId, String userId, String isbn, int amount, Date borrowedDate, String status) {
+    public Loan(int loanId, String userId, String isbn, String amount, Date borrowedDate, String status) {
         this.loanId = loanId;
         this.userId = userId;
         this.userName = fetchUserNameFromUserId(userId);
@@ -39,7 +39,7 @@ public class Loan {
         this.status = status;
     }
 
-    public Loan(int loanId, String userId, String isbn, int amount, Date borrowedDate, Date dueDate, Date returnedDate, String status) {
+    public Loan(int loanId, String userId, String isbn, String amount, Date borrowedDate, Date dueDate, Date returnedDate, String status) {
         this.loanId = loanId;
         this.userId = userId;
         this.userName = fetchUserNameFromUserId(userId);
@@ -64,11 +64,11 @@ public class Loan {
         return userId;
     }
 
-    public int getAmount() {
+    public String getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(String amount) {
         this.amount = amount;
     }
 

@@ -82,13 +82,13 @@ public class LoanServiceTest {
 
     @Test
     void testAddLoan() {
-        Loan loan = new Loan("3", "4567890123", 1, new Date(), "BORROWED");
+        Loan loan = new Loan("3", "4567890123", "1", new Date(), "BORROWED");
         loanService.addLoan(loan);
         List<Loan> loans = loanService.getLoansByUserId("3");
         Assertions.assertEquals(2, loans.size());
         Assertions.assertEquals("3", loans.get(1).getUserId());
         Assertions.assertEquals("User3", loans.get(1).getUserName());
-        Assertions.assertEquals(1, loans.get(1).getAmount());
+        Assertions.assertEquals("1", loans.get(1).getAmount());
         // Assertions.assertEquals("BORROWED", loans.get(1).getStatus());
         Assertions.assertNotNull(loans.get(1).getBorrowedDate());
         Assertions.assertNotNull(loans.get(1).getDueDate());
@@ -99,10 +99,10 @@ public class LoanServiceTest {
     @Test
     void testUpdateLoan() {
         Loan loan = loanService.getLoansByUserId("1").get(0);
-        loan.setAmount(2);
+        loan.setAmount("2");
         loanService.updateLoan(loan);
         Loan updatedLoan = loanService.getLoansByUserId("1").get(0);
-        Assertions.assertEquals(1, updatedLoan.getAmount());
+        Assertions.assertEquals("1", updatedLoan.getAmount());
     }
 
     @Test

@@ -99,11 +99,12 @@ public class AdminBorrowedBookViewDialogController {
         setUserId(loan.getUserId());
         setId(String.valueOf(loan.getLoanId()));
         List<Book> data = getBooksData(loan.getIsbn());
+        String[] amountString = loan.getAmount().split(",\\s*");
         Task<Void> preloadTask = new Task<>() {
             @Override
             protected Void call() throws Exception {
                 for (int i = 0; i < data.size(); i++) {
-                    loadBookData(data.get(i), loan);
+                    loadBookData(data.get(i), loan, amountString[i]);
                 }
                 return null;
             }
@@ -122,7 +123,7 @@ public class AdminBorrowedBookViewDialogController {
      * 
      * @param bookData Array containing [imageURL, title, author, date].
      */
-    public void loadBookData(Book bookData, Loan loanData) {
+    public void loadBookData(Book bookData, Loan loanData, String amount) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(AdminBooksLayoutController.class.getResource(
                     "/fxml/admin/admin-borrowed-book-view-bar.fxml"));
@@ -130,7 +131,7 @@ public class AdminBorrowedBookViewDialogController {
             scene.setId(bookData.getIsbn());
             AdminBorrowedBookViewBarController controller = fxmlLoader.getController();
 
-            controller.setData(bookData, loanData);
+            controller.setData(bookData, loanData, amount);
             Platform.runLater(() -> {
                 vBox.getChildren().add(scene);
                 AnimationUtils.zoomIn(scene, 1.0);
