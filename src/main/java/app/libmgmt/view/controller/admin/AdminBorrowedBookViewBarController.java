@@ -1,5 +1,11 @@
 package app.libmgmt.view.controller.admin;
 
+import java.text.SimpleDateFormat;
+
+import com.jfoenix.controls.JFXCheckBox;
+
+import app.libmgmt.model.Book;
+import app.libmgmt.model.Loan;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -15,17 +21,30 @@ public class AdminBorrowedBookViewBarController {
     @FXML
     private Label nameBookLabel;
     @FXML
-    private Label authorBookLabel;
+    private Label amountLabel;
+    @FXML
+    private JFXCheckBox checkBoxButton;
 
-    public void setData(String path, String name, String author, String dueDate) {
+    public void setData(Book book, Loan loan) {
         try {
-            uploadImageAsync(path, bookImage);
+            uploadImageAsync(book.getCoverUrl(), bookImage);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        nameBookLabel.setText(name);
-        authorBookLabel.setText(author);
-        dueDateLabel.setText(dueDate);
+        nameBookLabel.setText(book.getTitle());
+        amountLabel.setText(loan.getAmount() + "");
+        SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
+        String dueDateString = outputFormat.format(loan.getDueDate());
+        dueDateLabel.setText(dueDateString);
+        if (loan.getStatus().equals("RETURNED")) {
+            checkBoxButton.setDisable(true);
+        } else {
+            checkBoxButton.setDisable(false);
+        }
+    }
+
+    public JFXCheckBox getCheckBoxButton() {
+        return checkBoxButton;
     }
 
     private void uploadImageAsync(String newImagePath, ImageView bookImage) {

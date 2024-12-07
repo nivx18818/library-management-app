@@ -5,6 +5,9 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+
+import java.text.SimpleDateFormat;
+
 import app.libmgmt.model.Loan;
 import app.libmgmt.util.ChangeScene;
 import app.libmgmt.util.EnumUtils;
@@ -14,7 +17,7 @@ public class AdminBorrowedBooksBarController {
     private static AdminBorrowedBooksBarController controller;
 
     @FXML
-    private Label amountLabel;
+    private Label loanIdLabel;
     @FXML
     private Label borrowedDateLabel;
     @FXML
@@ -27,6 +30,7 @@ public class AdminBorrowedBooksBarController {
     private Label nameLabel;
 
     private Loan loan;
+
     // Singleton pattern
     public AdminBorrowedBooksBarController() {
         controller = this;
@@ -37,12 +41,15 @@ public class AdminBorrowedBooksBarController {
     }
 
     // Set book data to the labels
-    public void setData(String name, String id, int amount, String dueDate, String borrowedDate, Loan loan) {
-        idLabel.setText(id);
-        nameLabel.setText(name);
-        amountLabel.setText(String.valueOf(amount));
-        dueDateLabel.setText(dueDate);
-        borrowedDateLabel.setText(borrowedDate);
+    public void setData(Loan loan) {
+        idLabel.setText(loan.getUserId());
+        nameLabel.setText(loan.getUserName());
+        loanIdLabel.setText(String.valueOf(loan.getLoanId()));
+        SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
+        String dueDateString = outputFormat.format(loan.getDueDate());
+        String borrowedDateString = outputFormat.format(loan.getBorrowedDate());
+        dueDateLabel.setText(dueDateString);
+        borrowedDateLabel.setText(borrowedDateString);
         this.loan = loan;
     }
 
@@ -52,9 +59,8 @@ public class AdminBorrowedBooksBarController {
         ChangeScene.openAdminPopUp(
                 AdminBorrowedBooksLayoutController.getInstance().getStackPaneContainer(),
                 "/fxml/admin/admin-borrowed-book-view-dialog.fxml",
-                idLabel.getText(),
-                EnumUtils.PopupList.BORROWED_BOOK_CATALOG
-        );
+                loanIdLabel.getText(),
+                EnumUtils.PopupList.BORROWED_BOOK_CATALOG);
         AdminBorrowedBookViewDialogController.getInstance().loadDataAsync(loan);
     }
 

@@ -11,7 +11,7 @@
 
 <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="1080.0" spacing="30.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.libmgmt.view.controller.admin.AdminBorrowedBooksBarController">
   <children>
-    <Label fx:id="nameLabel" alignment="CENTER" prefHeight="60.0" prefWidth="150.0" text="Name" wrapText="true">
+    <Label fx:id="loanIdLabel" alignment="CENTER" prefHeight="60.0" prefWidth="100.0" text="42" wrapText="true">
       <font>
         <Font size="13.0" />
       </font>
@@ -21,17 +21,17 @@
         <Font size="13.0" />
       </font>
     </Label>
-    <Label fx:id="amountLabel" alignment="CENTER" prefHeight="60.0" prefWidth="100.0" text="02 Books" wrapText="true">
-      <font>
-        <Font size="13.0" />
-      </font>
-    </Label>
-    <Label fx:id="dueDateLabel" alignment="CENTER" prefHeight="60.0" prefWidth="170.0" text="13-03-2024" wrapText="true">
+    <Label fx:id="nameLabel" alignment="CENTER" prefHeight="60.0" prefWidth="150.0" text="Name" wrapText="true">
       <font>
         <Font size="13.0" />
       </font>
     </Label>
     <Label fx:id="borrowedDateLabel" alignment="CENTER" prefHeight="60.0" prefWidth="170.0" text="25-02-2024" wrapText="true">
+      <font>
+        <Font size="13.0" />
+      </font>
+    </Label>
+    <Label fx:id="dueDateLabel" alignment="CENTER" prefHeight="60.0" prefWidth="170.0" text="13-03-2024" wrapText="true">
       <font>
         <Font size="13.0" />
       </font>

@@ -15,7 +15,6 @@ import app.libmgmt.model.Loan;
 import app.libmgmt.util.AnimationUtils;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -95,12 +94,8 @@ public class AdminBorrowedBooksLayoutController {
             Pane scene = fxmlLoader.load();
             AdminBorrowedBooksBarController controller = fxmlLoader.getController();
             
-            SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
-            String dueDateString = outputFormat.format(d.getDueDate());
-            String borrowedDateString = outputFormat.format(d.getBorrowedDate());
-            
             //String name, String id, int amount, String dueDate, String borrowedDate
-            controller.setData(d.getUserName(), d.getUserId(), d.getAmount(), dueDateString, borrowedDateString, d);
+            controller.setData(d);
 
             // Add to VBox and animate
             Platform.runLater(() -> {

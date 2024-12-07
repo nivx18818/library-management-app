@@ -2,6 +2,7 @@ package app.libmgmt.view.controller.admin;
 
 import com.jfoenix.controls.JFXButton;
 import javafx.application.Platform;
+import javafx.collections.ListChangeListener;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,8 +17,8 @@ import app.libmgmt.model.Loan;
 import app.libmgmt.service.LoanService;
 import app.libmgmt.util.AnimationUtils;
 import app.libmgmt.util.ChangeScene;
+import app.libmgmt.util.EnumUtils;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class AdminBorrowedBookViewDialogController {
@@ -30,7 +31,11 @@ public class AdminBorrowedBookViewDialogController {
     @FXML
     private Pane closePane;
     @FXML
+    private Pane returnPane;
+    @FXML
     private Label closeLabel;
+    @FXML
+    private Label returnLabel;
     @FXML
     private Label lblId;
     @FXML
@@ -39,11 +44,8 @@ public class AdminBorrowedBookViewDialogController {
     private VBox vBox;
     @FXML
     private JFXButton closeButton;
-
     @FXML
-    public void initialize() {
-        System.out.println("AdminBorrowedBookViewDialogController initialized");
-    }
+    private JFXButton returnButton;
 
     public AdminBorrowedBookViewDialogController() {
         controller = this;
@@ -54,6 +56,31 @@ public class AdminBorrowedBookViewDialogController {
             controller = new AdminBorrowedBookViewDialogController();
         }
         return controller;
+    }
+
+    @FXML
+    public void initialize() {
+        listenLoanDataChanges();
+    } 
+
+    private void listenLoanDataChanges() {
+        AdminGlobalController.getInstance().getBorrowedBooksData()
+            .addListener((ListChangeListener.Change<? extends Loan> change) -> {
+                while (change.next()) {
+                    if (change.wasUpdated() && change.getTo() != -1) {
+                        List<? extends Loan> subList = change.getList().subList(change.getFrom(), change.getTo());
+                        subList.forEach(loan -> {
+                            String bookId = loan.getIsbn();
+                            vBox.getChildren().stream()
+                                .filter(child -> child.getId() != null && child.getId().equals(bookId))
+                                .findFirst()
+                                .ifPresent(child -> Platform.runLater(() -> {
+                                    vBox.getChildren().remove(child);
+                                }));
+                        });
+                    }
+                }
+            });   
     }
 
     public List<Book> getBooksData(String id) {
@@ -96,11 +123,10 @@ public class AdminBorrowedBookViewDialogController {
             FXMLLoader fxmlLoader = new FXMLLoader(AdminBooksLayoutController.class.getResource(
                     "/fxml/admin/admin-borrowed-book-view-bar.fxml"));
             Pane scene = fxmlLoader.load();
+            scene.setId(bookData.getIsbn());
             AdminBorrowedBookViewBarController controller = fxmlLoader.getController();
 
-            SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
-            String dueDateString = outputFormat.format(loanData.getDueDate());
-            controller.setData(bookData.getCoverUrl(), bookData.getTitle(), bookData.getAuthors().toString(), dueDateString);
+            controller.setData(bookData, loanData);
             Platform.runLater(() -> {
                 vBox.getChildren().add(scene);
                 AnimationUtils.zoomIn(scene, 1.0);
@@ -111,21 +137,39 @@ public class AdminBorrowedBookViewDialogController {
     }
 
     @FXML
-    private void btnCloseOnAction(ActionEvent event) {
+    void btnCloseOnAction(ActionEvent event) {
         vBox.getChildren().clear();
         ChangeScene.closePopUp();
     }
 
     @FXML
-    private void btnCloseOnMouseEntered(MouseEvent event) {
-        closePane.setStyle("-fx-background-color: #d7d7d7; -fx-background-radius: 12px");
-        closeLabel.setStyle("-fx-text-fill: #000000");
+    void btnReturnOnAction(ActionEvent event) {
+        ChangeScene.openAdminPopUp(AdminBorrowedBooksLayoutController.getInstance().getStackPaneContainer(),
+        "/fxml/user/user-return-book-confirmation-dialog.fxml", EnumUtils.PopupList.RETURN_BOOK);
     }
 
     @FXML
-    private void btnCloseOnMouseExited(MouseEvent event) {
-        closePane.setStyle("-fx-background-color: #000000; -fx-background-radius: 12px");
-        closeLabel.setStyle("-fx-text-fill: #ffffff");
+    void btnOnMouseEntered(MouseEvent event) {
+        if (event.getSource() == closeButton) {
+            closePane.setStyle(
+                    "-fx-background-color: #d7d7d7; -fx-background-radius: 10;");
+        } else if (event.getSource() == returnButton) {
+            returnPane.setStyle(
+                    "-fx-background-color: #F2F2F2; -fx-background-radius: 10; -fx-border-color: #000; -fx-border-radius: 10; -fx-border-width: 1.2;");
+            returnLabel.setStyle("-fx-text-fill: #000;");
+        }
+    }
+
+    @FXML
+    void btnOnMouseExited(MouseEvent event) {
+        if (event.getSource() == closeButton) {
+            closePane.setStyle(
+                    "-fx-background-color: #fff; -fx-background-radius: 10;");
+        } else if (event.getSource() == returnButton) {
+            returnPane.setStyle(
+                    "-fx-background-color: #000; -fx-background-radius: 10;");
+            returnLabel.setStyle("-fx-text-fill: #fff;");
+        }
     }
 
     /**

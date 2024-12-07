@@ -196,7 +196,7 @@ public class AdminGlobalController {
     }
 
     // Getter and Setter Methods for Data
-    public List<Loan> getBorrowedBooksData() {
+    public ObservableList<Loan> getBorrowedBooksData() {
         return borrowedBooksData;
     }
 
