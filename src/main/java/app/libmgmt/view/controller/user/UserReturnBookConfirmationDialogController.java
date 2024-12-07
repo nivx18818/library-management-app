@@ -1,10 +1,14 @@
 package app.libmgmt.view.controller.user;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.jfoenix.controls.JFXButton;
 
 import app.libmgmt.service.LoanService;
 import app.libmgmt.util.AnimationUtils;
 import app.libmgmt.util.ChangeScene;
+import app.libmgmt.view.controller.admin.AdminBorrowedBookViewDialogController;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -46,6 +50,8 @@ public class UserReturnBookConfirmationDialogController {
 
     private int loanId;
 
+    List<String> isbnListReturned = new ArrayList<>();
+
     public void setLoanId(int loanId) {
         this.loanId = loanId;
     }
@@ -54,7 +60,10 @@ public class UserReturnBookConfirmationDialogController {
 
     @FXML
     public void initialize() {
-        System.out.println("User Return Confirmation Dialog initialized");
+        isbnListReturned = AdminBorrowedBookViewDialogController.getInstance().getSelectedIsbnList();
+        for (String isbn : isbnListReturned) {
+            System.out.println(isbn);
+        }
         setupHoverEffects();
     }
 
@@ -66,8 +75,8 @@ public class UserReturnBookConfirmationDialogController {
     private void startReturnBookProcess() {
         lblConfirm.setText("Returning...");
         disableButtons(true);
-        closeDialogAndNavigateToCatalog();
         loanService.updateLoanReturnedDate(loanId);
+        closeDialogAndNavigateToCatalog();
     }
 
     /**
@@ -138,5 +147,9 @@ public class UserReturnBookConfirmationDialogController {
      */
     private void setupHoverEffects() {
         AnimationUtils.hoverCloseIcons(closeDialogButton, imgClose);
+    }
+
+    public void setIsbnReturned(List<String> isbnListReturned) {
+        this.isbnListReturned = isbnListReturned;
     }
 }

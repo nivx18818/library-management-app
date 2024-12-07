@@ -24,8 +24,10 @@ public class AdminBorrowedBookViewBarController {
     private Label amountLabel;
     @FXML
     private JFXCheckBox checkBoxButton;
+    private String isbn;
 
     public void setData(Book book, Loan loan, String amount) {
+        isbn = book.getIsbn();
         try {
             uploadImageAsync(book.getCoverUrl(), bookImage);
         } catch (Exception e) {
@@ -45,6 +47,10 @@ public class AdminBorrowedBookViewBarController {
 
     public JFXCheckBox getCheckBoxButton() {
         return checkBoxButton;
+    }
+
+    public String getIsbn() {
+        return isbn;
     }
 
     private void uploadImageAsync(String newImagePath, ImageView bookImage) {
