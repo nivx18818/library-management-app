@@ -152,6 +152,9 @@ public class AdminBookBarController {
             }
         }
         orderLabel.setText(Integer.toString(bookIndex + 1));
+        if (data[1].equals("null")) {
+            data[1] = "/assets/img/9781581175660.gif";
+        }
         updateImageIfChanged(data[1], bookImage);
         updateLabelIfChanged(nameLabel, data[2]);
         updateLabelIfChanged(typeLabel, data[3]);

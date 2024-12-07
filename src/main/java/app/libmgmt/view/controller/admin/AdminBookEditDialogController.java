@@ -53,6 +53,7 @@ public class AdminBookEditDialogController {
     private String[] originalData;
     private String lastImageURL;
     private String lastQrCodeURL;
+    private final String defaultGif = "/assets/gif/7994392.gif";
 
     public AdminBookEditDialogController() {
         controller = this;
@@ -130,8 +131,8 @@ public class AdminBookEditDialogController {
         lastImageURL = originalData[1];
         imgUrlTextField.setText(originalData[1]);
         if (originalData[8] == null || originalData[8].equals("null")) {
-            String defaultGif = "/assets/gif/7994392.gif";
             qrCodeImage.setImage(new Image(getClass().getResource(defaultGif).toExternalForm()));
+            originalData[8] = defaultGif;
         } else {
             try {
                 qrCodeImage.setImage(QRCodeGenerator.generateQRCode(originalData[8], 140, 140));
@@ -168,7 +169,7 @@ public class AdminBookEditDialogController {
                 quantitySpinner.getValue().toString(),
                 publisherTextField.getText(),
                 publishedDatePicker.getValue() == null ? "Not Available" : DateUtils.parseLocalDateToString(publishedDatePicker.getValue()),
-                qrCodeTextField.getText().isEmpty() ? originalData[8] : qrCodeTextField.getText()
+                qrCodeTextField.getText().isEmpty() ? defaultGif : qrCodeTextField.getText()
         };
     }
 
