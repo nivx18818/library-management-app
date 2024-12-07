@@ -98,7 +98,6 @@ public class UserBorrowedBooksConfirmationDialogController {
             if (controller != null) {
                 int amount = controller.getAmount();
                 newBorrowedBooksList.get(idx++).setAmount(amount);
-                System.out.println("Amount: " + amount);
             }
         }
         UserGlobalController.getInstance().addBorrowedBook(newBorrowedBooksList);
@@ -157,15 +156,7 @@ public class UserBorrowedBooksConfirmationDialogController {
             protected Void call() throws Exception {
                 int orderNumber = 1;
                 for (Book d : selectedBooksList) {
-                    String authorsString = String.join(", ", d.getAuthors());
-                    String categoriesString = String.join(", ", d.getCategories());
-                    SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
-                    String publishedDateStr = (d.getPublishedDate() != null) ? outputFormat.format(d.getPublishedDate())
-                            : "Not Available";
-
-                    String[] data = new String[] { d.getIsbn(), d.getCoverUrl(), d.getTitle(), categoriesString, authorsString,
-                            String.valueOf(d.getAvailableCopies()), d.getPublisher(), publishedDateStr };
-                    loadBookData(data, orderNumber++);
+                    loadBookData(d, orderNumber++);
                 }
                 return null;
             }
@@ -184,7 +175,7 @@ public class UserBorrowedBooksConfirmationDialogController {
      * 
      * @param bookData Array containing [imageURL, title, author, date].
      */
-    private void loadBookData(String[] bookData, int orderNumber) {
+    private void loadBookData(Book bookData, int orderNumber) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(AdminBooksLayoutController.class.getResource(
                     "/fxml/user/user-borrowed-book-bar.fxml"));
@@ -193,10 +184,24 @@ public class UserBorrowedBooksConfirmationDialogController {
             controller.setOrderNumber(orderNumber);
             controller.setData(bookData);
             scene.setUserData(controller);
-            SimpleDateFormat inputFormat = new SimpleDateFormat("dd/MM/yyyy");
-            SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-            String borrowedDateText = borrowedDateLabel.getText();
+            setNewBorrowedBookData(bookData, orderNumber);
+
+            Platform.runLater(() -> {
+                vBoxSelectedBooksList.getChildren().add(scene);
+                AnimationUtils.zoomIn(scene, 1.0);
+            });
+        } catch (Exception e) {
+            System.err.println("Error loading book data: " + e.getMessage());
+        }
+    }
+
+    public void setNewBorrowedBookData(Book bookData, int orderNumber) {
+        SimpleDateFormat inputFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        String borrowedDateText = borrowedDateLabel.getText();
+        try {
             Date parsedDate = inputFormat.parse(borrowedDateText);
             String formattedDate = outputFormat.format(parsedDate);
 
@@ -204,17 +209,14 @@ public class UserBorrowedBooksConfirmationDialogController {
             Loan newBorrowedBookData = new Loan(
                     loanService.getMaxLoanId() + orderNumber,
                     UserGlobalController.getInstance().getUserLoginInfo().getUserId(),
-                    bookData[0],
+                    bookData.getIsbn(),
+                    // temporary amount value
                     1,
                     DateUtils.parseStringToDate(formattedDate),
                     "BORROWED");
             newBorrowedBooksList.add(newBorrowedBookData);
-            Platform.runLater(() -> {
-                vBoxSelectedBooksList.getChildren().add(scene);
-                AnimationUtils.zoomIn(scene, 1.0);
-            });
         } catch (Exception e) {
-            System.err.println("Error loading book data: " + e.getMessage());
+            System.err.println("Error setting new borrowed book data: " + e.getMessage());
         }
     }
 }

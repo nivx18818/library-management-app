@@ -94,18 +94,24 @@ public class UserGlobalController {
         if (newBorrowedBooksList == null || newBorrowedBooksList.isEmpty()) {
             return;
         }
+
+        // Merge multiple books into one loan
         List<String> isbn = new ArrayList<>();
-        // String authorsString = String.join(", ", updatedBook.getAuthors());
+        int totalAmount = 0;
         for (int i = 0; i < newBorrowedBooksList.size(); i++) {
-            System.out.println(newBorrowedBooksList.get(i).toString());
-            isbn.add(newBorrowedBooksList.get(i).getIsbn());
-            borrowedBooksData.add(newBorrowedBooksList.get(i));
+            Loan loan = newBorrowedBooksList.get(i);
+            totalAmount += loan.getAmount();
+            isbn.add(loan.getIsbn());
         }
+
         String isbn_String = String.join(", ", isbn);
         Loan new_loan = newBorrowedBooksList.get(0);
+        new_loan.setAmount(totalAmount);
         new_loan.setIsbn(isbn_String);
         loanService.addLoan(new_loan);
+        borrowedBooksData.add(new_loan);
 
+        // Update available copies
         for (int i = 0; i < observableBooksData.size(); i++) {
             Book book = observableBooksData.get(i);
             for (int j = 0; j < newBorrowedBooksList.size(); j++) {

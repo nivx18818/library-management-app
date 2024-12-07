@@ -246,45 +246,12 @@ public class UserCatalogController {
         try {
             // data format: [isbn, loanId, coverUrl, title, borrowedDate, dueDate,
             // returnedDate, amount]
-            List<Book> books = loanService.getBookFromLoan(d.getIsbn());
-            Book book = books.isEmpty() ? null : books.get(0);
-
-            SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
-            String dueDateString = outputFormat.format(d.getDueDate());
-            String borrowedDateString = outputFormat.format(d.getBorrowedDate());
-
-            String returnedDateString = "Not Available";
-            if (d.getReturnedDate() != null) {
-                returnedDateString = outputFormat.format(d.getReturnedDate());
-            }
-
-            String[] loanData = new String[] {
-                    d.getIsbn(),
-                    d.getLoanId() + "",
-                    book.getCoverUrl(),
-                    book.getTitle(),
-                    borrowedDateString,
-                    dueDateString,
-                    returnedDateString,
-                    d.getAmount() + ""
-            };
-
             FXMLLoader fxmlLoader = new FXMLLoader(
                     getClass().getResource("/fxml/user/user-catalog-borowed-books-bar.fxml"));
             Pane scene = fxmlLoader.load();
             UserCatalogBorrowedBookBarController controller = fxmlLoader.getController();
             scene.setUserData(controller);
-            controller.setData(loanData);
-
-            if (currentStatus == USER_CATALOG_STATE.BORROWED) {
-                controller.setVisibleAction(true);
-                String isbn = loanData[0];
-                int loanId = Integer.parseInt(loanData[1]);
-                boolean isReturned = userGlobalController.isBookReturned(loanId, isbn);
-                controller.setDisableReturnButton(isReturned);
-            } else {
-                controller.setVisibleAction(false);
-            }
+            controller.setData(d);
 
             Platform.runLater(() -> {
                 vBoxBooksList.getChildren().add(scene);
@@ -306,12 +273,10 @@ public class UserCatalogController {
     private void updateStatusUI(USER_CATALOG_STATE newStatus) {
         setDefaultStyle();
         if (newStatus == USER_CATALOG_STATE.BORROWED) {
-            columnHeader1Label.setText("Loan ID");
             borrowedBooksLabel.setStyle("-fx-text-fill: white;");
             borrowedBooksPane.setStyle("-fx-background-color: black; -fx-background-radius: 12px;");
             dueDateHeaderLabel.setText("Due Date");
         } else {
-            columnHeader1Label.setText("ISBN");
             returnedBooksLabel.setStyle("-fx-text-fill: white;");
             returnedBooksPane.setStyle("-fx-background-color: black; -fx-background-radius: 12px;");
             dueDateHeaderLabel.setText("Returned Date");

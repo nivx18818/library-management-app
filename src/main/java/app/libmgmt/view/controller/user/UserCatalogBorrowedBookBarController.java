@@ -4,30 +4,23 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 
 import com.google.zxing.WriterException;
-import com.jfoenix.controls.JFXButton;
 
 import app.libmgmt.util.ChangeScene;
 import app.libmgmt.util.EnumUtils;
 import app.libmgmt.view.controller.admin.AdminBookViewDialogController;
 import app.libmgmt.view.controller.user.UserCatalogController.USER_CATALOG_STATE;
 import app.libmgmt.model.Book;
-import javafx.concurrent.Task;
+import app.libmgmt.model.Loan;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 
 public class UserCatalogBorrowedBookBarController {
-
-    @FXML
-    private ImageView bookImage;
-
-    @FXML
-    private JFXButton bookReturnedButton;
 
     @FXML
     private Label borrowedDateLabel;
@@ -36,22 +29,7 @@ public class UserCatalogBorrowedBookBarController {
     private Label dueDateLabel;
 
     @FXML
-    private HBox hBoxReturn;
-
-    @FXML
-    private Label nameLabel;
-
-    @FXML
-    private Label orderLabel;
-
-    @FXML
-    private ImageView returnImage;
-
-    @FXML
-    private Label returnLabel;
-
-    @FXML
-    private Pane returnPane;
+    private Label loanIdLabel;
 
     @FXML
     private Pane viewPane;
@@ -62,10 +40,9 @@ public class UserCatalogBorrowedBookBarController {
     @FXML
     private Label amountLabel;
 
-    private String bookId;
+    @FXML
+    private Text isbnText;
 
-    private final String hoverReturnedLogo = "/assets/icon/redo 1 (1).png";
-    private final String returnedLogo = "/assets/icon/redo 1.png";
     private final String hoverViewLogo = "/assets/icon/Property 1=Variant2.png";
     private final String viewLogo = "/assets/icon/btn view.png";
 
@@ -75,33 +52,20 @@ public class UserCatalogBorrowedBookBarController {
     }
 
     @FXML
-    void btnBookReturnedOnMouseEntered(MouseEvent event) {
-        hBoxReturn.setStyle(
-                "-fx-background-color: #f2f2f2; -fx-background-radius: 10px; -fx-border-color: #000; -fx-border-radius: 10px; -fx-border-width: 1.2px;");
-        returnImage.setImage(new Image(getClass().getResource(hoverReturnedLogo).toExternalForm()));
-        returnLabel.setStyle("-fx-text-fill: #000;");
-    }
-
-    @FXML
-    void btnBookReturnedOnMouseExited(MouseEvent event) {
-        hBoxReturn.setStyle("-fx-background-color: #000; -fx-background-radius: 10px;");
-        returnImage.setImage(new Image(getClass().getResource(returnedLogo).toExternalForm()));
-        returnLabel.setStyle("-fx-text-fill: #f2f2f2;");
-    }
-
-    @FXML
     void imageViewOnMouseClicked(MouseEvent event) throws WriterException, IOException {
         openPopUp("/fxml/admin/admin-book-view-dialog.fxml", EnumUtils.PopupList.BOOK_VIEW);
-        Book bookData = UserGlobalController.getInstance().getBookDataById(bookId);
+        Book bookData = UserGlobalController.getInstance().getBookDataById(isbnText.getText());
 
         String authorsString = String.join(", ", bookData.getAuthors());
         String categoriesString = String.join(", ", bookData.getCategories());
         SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
-        String publishedDateStr = (bookData.getPublishedDate() != null) ?
-                    outputFormat.format(bookData.getPublishedDate()) : "Not Available";
-                                            
-        String[] data = new String[] { bookData.getIsbn(), bookData.getCoverUrl(), bookData.getTitle(), categoriesString, authorsString,
-                            String.valueOf(bookData.getAvailableCopies()), bookData.getPublisher(), publishedDateStr };
+        String publishedDateStr = (bookData.getPublishedDate() != null)
+                ? outputFormat.format(bookData.getPublishedDate())
+                : "Not Available";
+
+        String[] data = new String[] { bookData.getIsbn(), bookData.getCoverUrl(), bookData.getTitle(),
+                categoriesString, authorsString,
+                String.valueOf(bookData.getAvailableCopies()), bookData.getPublisher(), publishedDateStr };
 
         AdminBookViewDialogController.getInstance().setData(data);
     }
@@ -116,60 +80,36 @@ public class UserCatalogBorrowedBookBarController {
         imageView.setImage(new Image(getClass().getResource(viewLogo).toExternalForm()));
     }
 
-    public void setData(String[] data) {
-        bookId = data[0];
+    public void setData(Loan loan) {
+        loanIdLabel.setText(String.valueOf(loan.getLoanId()));
+        SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
         if (UserCatalogController.currentStateUserCatalog == USER_CATALOG_STATE.BORROWED) {
-            orderLabel.setText(data[1]);
-            dueDateLabel.setText(data[5]);
+            String dueDateString = outputFormat.format(loan.getDueDate());
+            dueDateLabel.setText(dueDateString);
         } else {
-            orderLabel.setText(bookId);
-            dueDateLabel.setText(data[6]);
-        }
-        if (data[2] != null) {
-            updateImage(data[2], bookImage);
-        }
-        nameLabel.setText(data[3]);
-        borrowedDateLabel.setText(data[4]);
-        amountLabel.setText(data[7]);
-    }
-
-    private void updateImage(String imgPath, ImageView bookImage) {
-        // Load the image asynchronously
-        Task<Image> imageLoadTask = new Task<>() {
-            @Override
-            protected Image call() {
-                Image image = new Image(imgPath);
-                return image;
+            String returnedDateString = "Not Available";
+            if (loan.getReturnedDate() != null) {
+                returnedDateString = outputFormat.format(loan.getReturnedDate());
             }
-        };
-
-        imageLoadTask.setOnSucceeded(event -> bookImage.setImage(imageLoadTask.getValue()));
-        imageLoadTask.setOnFailed(event -> System.out.println("Failed to load image: " + imgPath));
-
-        new Thread(imageLoadTask).start();
-    }
-
-    public void setVisibleAction(boolean isReturned) {
-        returnPane.setVisible(isReturned);
-        viewPane.setVisible(!isReturned);
-    }
-
-    public void setDisableReturnButton(boolean disable) {
-        bookReturnedButton.setDisable(disable);
-        returnPane.setOpacity(disable ? 0.3 : 1);
+            dueDateLabel.setText(returnedDateString);
+        }
+        isbnText.setText(loan.getIsbn());
+        String borrowedDateString = outputFormat.format(loan.getBorrowedDate());
+        borrowedDateLabel.setText(borrowedDateString);
+        amountLabel.setText(String.valueOf(loan.getAmount()));
     }
 
     private void openPopUp(String fxmlPath, EnumUtils.PopupList popupType) {
         ChangeScene.openAdminPopUp(UserGlobalController.getInstance().getStackPaneContainer(),
-                fxmlPath, orderLabel.getText(), popupType);
+                fxmlPath, loanIdLabel.getText(), popupType);
     }
 
-    public void setOrderNumber(String orderNumber) {
-        orderLabel.setText(orderNumber);
+    public void setLoanId(String loanId) {
+        loanIdLabel.setText(loanId);
     }
 
-    public int getOrderNumber() {
-        return Integer.parseInt(orderLabel.getText());
+    public String getLoanId() {
+        return loanIdLabel.getText();
     }
 
 }

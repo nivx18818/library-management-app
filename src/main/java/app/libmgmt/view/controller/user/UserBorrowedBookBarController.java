@@ -2,6 +2,7 @@ package app.libmgmt.view.controller.user;
 
 import java.time.LocalDate;
 
+import app.libmgmt.model.Book;
 import app.libmgmt.service.BookService;
 import app.libmgmt.util.DateUtils;
 import javafx.concurrent.Task;
@@ -31,17 +32,17 @@ public class UserBorrowedBookBarController {
     private Spinner<Integer> amountSpinner;
     private String bookId;
 
-    public void setData(String[] data) {
+    public void setData(Book data) {
         // Form of global data: [id, imgPath, name, type, author, quantity,
         // publisher,publishedDate]
         // Form borrowed book bar data: [orderNumber, book Image, name, due date]
-        bookId = data[0];
+        bookId = data.getIsbn();
         try {
-            uploadImageAsync(data[1], bookImage);
+            uploadImageAsync(data.getCoverUrl(), bookImage);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        bookNameLabel.setText(data[2]);
+        bookNameLabel.setText(data.getTitle());
         dueDateLabel.setText(getDueDate());
         setUpSpinner();
     }
