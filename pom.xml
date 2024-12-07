@@ -121,7 +121,6 @@
           <artifactId>maven-project-info-reports-plugin</artifactId>
           <version>3.0.0</version>
         </plugin>
-
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
@@ -141,7 +140,7 @@
               <id>default-cli</id>
               <configuration>
                 <mainClass>
-                  app.libmgmt.initializer.AdminInitializer
+                  app.libmgmt.App
                 </mainClass>
                 <launcher>app</launcher>
                 <jlinkZipName>app</jlinkZipName>
