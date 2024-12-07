@@ -203,8 +203,7 @@ public class UserBorrowedBooksConfirmationDialogController {
             LoanService loanService = new LoanService();
             Loan newBorrowedBookData = new Loan(
                     loanService.getMaxLoanId() + orderNumber,
-                    "23020604",
-                    // UserGlobalController.getInstance().getUserLoginInfo().getUserId(),
+                    UserGlobalController.getInstance().getUserLoginInfo().getUserId(),
                     bookData[0],
                     1,
                     DateUtils.parseStringToDate(formattedDate),

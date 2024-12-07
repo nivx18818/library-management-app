@@ -1,6 +1,7 @@
 package app.libmgmt.view.controller.user;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.function.Consumer;
 
 import app.libmgmt.model.Loan;
@@ -93,12 +94,17 @@ public class UserGlobalController {
         if (newBorrowedBooksList == null || newBorrowedBooksList.isEmpty()) {
             return;
         }
-
+        List<String> isbn = new ArrayList<>();
+        // String authorsString = String.join(", ", updatedBook.getAuthors());
         for (int i = 0; i < newBorrowedBooksList.size(); i++) {
             System.out.println(newBorrowedBooksList.get(i).toString());
+            isbn.add(newBorrowedBooksList.get(i).getIsbn());
             borrowedBooksData.add(newBorrowedBooksList.get(i));
-            loanService.addLoan(newBorrowedBooksList.get(i));
         }
+        String isbn_String = String.join(", ", isbn);
+        Loan new_loan = newBorrowedBooksList.get(0);
+        new_loan.setIsbn(isbn_String);
+        loanService.addLoan(new_loan);
 
         for (int i = 0; i < observableBooksData.size(); i++) {
             Book book = observableBooksData.get(i);

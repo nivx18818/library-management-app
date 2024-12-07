@@ -122,7 +122,7 @@ public class LoanService {
 
     public List<Book> getBookFromLoan(String string_isbn) {
         List<Book> books = new ArrayList<>();
-        String[] isbnArray = string_isbn.split(",");
+        String[] isbnArray = string_isbn.split(",\\s*");
         
         for (String x : isbnArray) {
             Book book = bookService.getBookByIsbn(x);

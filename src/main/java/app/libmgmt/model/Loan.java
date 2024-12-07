@@ -100,6 +100,10 @@ public class Loan {
         return isbn;
     }
 
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
+    }
+
     public String getStatus() {
         updateStatus();
         return status;
