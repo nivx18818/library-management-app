@@ -154,13 +154,16 @@ public class AdminBorrowedBooksLayoutController {
 
     @FXML
     void btnRefreshTableOnAction(ActionEvent event) {
+        refreshTable();
+        textSearch.clear();
+    }
+
+    public void refreshTable() {
         if (status == STATE.BORROWED) {
             showBorrowedBooksList();
         } else if (status == STATE.OVERDUE) {
             showOverdueBorrowersList();
         }
-        textSearch.clear();
-        textSearch.setEditable(true);
     }
 
     @FXML
@@ -175,7 +178,6 @@ public class AdminBorrowedBooksLayoutController {
         } else {
             showFilteredData(searchText);
         }
-        textSearch.setEditable(true);
     }
 
     // Filtering Logic

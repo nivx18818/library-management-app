@@ -7,10 +7,13 @@ import java.util.List;
 import com.jfoenix.controls.JFXButton;
 
 import app.libmgmt.model.Loan;
+import app.libmgmt.service.BookService;
 import app.libmgmt.service.LoanService;
 import app.libmgmt.util.AnimationUtils;
 import app.libmgmt.util.ChangeScene;
 import app.libmgmt.view.controller.admin.AdminBorrowedBookViewDialogController;
+import app.libmgmt.view.controller.admin.AdminBorrowedBooksLayoutController;
+import app.libmgmt.view.controller.admin.AdminGlobalController;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -104,33 +107,49 @@ public class UserReturnBookConfirmationDialogController {
 
         List<String> isbnOfLoan = Arrays.asList(loan.getIsbn().split(",\\s*"));
         List<String> amountOfLoan = Arrays.asList(loan.getAmount().split(",\\s*"));
+        // isbn and amount of books that are not returned
         List<String> resultIsbnList = new ArrayList<>();
         List<String> resultAmountList = new ArrayList<>();
 
+        AdminGlobalController adminGlobalController = AdminGlobalController.getInstance();
+        BookService bookService = new BookService();
+
         for (int i = 0; i < isbnOfLoan.size(); i++) {
             String isbn = isbnOfLoan.get(i);
+            String amount = amountOfLoan.get(i);
             if (!isbnListReturned.contains(isbn)) {
                 resultIsbnList.add(isbn);
-                resultAmountList.add(amountOfLoan.get(i));
+                resultAmountList.add(amount);
+            } else {
+                adminGlobalController.getObservableBookData().stream().filter(book -> book.getIsbn().equals(isbn)).forEach(book -> {
+                    int newAvailableCopies = book.getAvailableCopies() + Integer.parseInt(amount);
+                    book.setAvailableCopies(newAvailableCopies);
+                    bookService.updateAvailableCopies(isbn, newAvailableCopies);
+                });
             }
         }
 
         String resultIsbnString = String.join(", ", resultIsbnList);
         String resultAmountString = String.join(", ", resultAmountList);
-
+        
         if (resultIsbnString.isEmpty()) {
             loanService.updateLoanReturnedDate(loanId);
+            adminGlobalController.getBorrowedBooksData().removeIf(loan -> loan.getLoanId() == loanId);
         } else {
             loan.setIsbn(resultIsbnString);
             loan.setAmount(resultAmountString);
             loanService.updateLoan(loan);
-            Loan return_loan = loan;
-            return_loan.setIsbn(String.join(", ", isbnListReturned));
-            return_loan.setAmount(String.join(", ", amountList));
-            loanService.addLoan(return_loan);
+            adminGlobalController.getBorrowedBooksData().stream().filter(loan -> loan.getLoanId() == loanId).forEach(loan -> {
+                loan.setIsbn(resultIsbnString);
+                loan.setAmount(resultAmountString);
+            });
+            Loan returnedLoan = loan;
+            returnedLoan.setIsbn(String.join(", ", isbnListReturned));
+            returnedLoan.setAmount(String.join(", ", amountList));
+            loanService.addLoan(returnedLoan);
             loanService.updateLoanReturnedDate(loanService.getMaxLoanId());
         }
-        
+        AdminBorrowedBooksLayoutController.getInstance().refreshTable();
         closeDialogAndNavigateToCatalog();
     }
 
@@ -151,6 +170,7 @@ public class UserReturnBookConfirmationDialogController {
             lblConfirm.setText("Returned!");
         }));
         Timeline timeline2 = new Timeline(new KeyFrame(Duration.seconds(1.5), e -> {
+            ChangeScene.closePopUp();
             ChangeScene.closePopUp();
         }));
         timeline.play();

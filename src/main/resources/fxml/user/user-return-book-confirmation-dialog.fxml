@@ -13,7 +13,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="236.0" prefWidth="600.0" style="-fx-background-color: white; -fx-background-radius: 10;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.libmgmt.view.controller.user.UserReturnBookConfirmationDialogController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="236.0" prefWidth="600.0" style="-fx-background-color: white; -fx-background-radius: 10;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.libmgmt.view.controller.user.UserReturnBookConfirmationDialogController">
    <children>
       <Pane layoutX="32.0" layoutY="19.0" prefHeight="45.0" prefWidth="45.0" style="-fx-background-color: #D7D7D7; -fx-background-radius: 10;">
          <children>
@@ -55,7 +55,7 @@
             </Label>
          </children>
       </Pane>
-      <Label fx:id="notificationLabel" layoutX="34.0" layoutY="84.0" prefHeight="92.0" prefWidth="431.0" text="Are you sure you want to return this book?" wrapText="true">
+      <Label fx:id="notificationLabel" layoutX="34.0" layoutY="84.0" prefHeight="92.0" prefWidth="431.0" text="Are you sure that the ticked books have been returned?" wrapText="true">
          <font>
             <Font size="17.0" />
          </font>
