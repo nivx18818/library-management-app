@@ -103,7 +103,7 @@ public class AdminBookViewDialogController {
                     break;
                 case 8:
                     // Web reader URL
-                    if (data[i] == null || data[i].equals("null")) {
+                    if (data[i] == null || data[i].equals("Not Available")) {
                         String defaultGif = "/assets/gif/7994392.gif";
                         qrCodeImage.setImage(new Image(getClass().getResource(defaultGif).toExternalForm()));
                     } else {

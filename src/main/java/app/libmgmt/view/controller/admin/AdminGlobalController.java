@@ -122,7 +122,6 @@ public class AdminGlobalController {
     public void updateBookData(String[] updatedData) {
         Book updatedBook = new Book(updatedData);
         bookService.updateBook(updatedBook);
-        System.out.println("Updated data: " + updatedBook.toString());
         for (int i = 0; i < observableBooksData.size(); i++) {
             Book book = observableBooksData.get(i);
 

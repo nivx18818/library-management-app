@@ -85,7 +85,7 @@ public class AdminBooksLayoutController {
                             String.valueOf(d.getAvailableCopies()),
                             d.getPublisher(),
                             publishedDateStr,
-                            d.getWebReaderUrl()
+                            d.getWebReaderUrl() != null ? d.getWebReaderUrl() : "Not Available"
                         };
     
                         loadBookBar(bookData);

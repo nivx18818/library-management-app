@@ -40,7 +40,11 @@ public class Book {
         this.availableCopies = Integer.parseInt(bookData[5]);
         this.authors = List.of(bookData[4].split(","));
         this.categories = List.of(bookData[3].split(","));
-        this.webReaderUrl = bookData[8];
+        if (bookData[8].equals("Not Available")) {
+            this.webReaderUrl = null;
+        } else {
+            this.webReaderUrl = bookData[8];
+        }
     }
 
     public String getIsbn() {
