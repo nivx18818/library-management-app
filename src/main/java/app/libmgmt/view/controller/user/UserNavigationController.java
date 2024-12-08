@@ -55,6 +55,9 @@ public class UserNavigationController {
     // Handles the click effect for navigation buttons
     public void handleEffectButtonClicked(JFXButton button) {
         latestButtonClicked = getButtonType(button);
+        if (latestButtonClicked == EnumUtils.NavigationButton.LOGOUT) {
+            return;
+        }
         resetButtonStylesToDefault();
         updateButtonStyle();
     }
@@ -143,10 +146,6 @@ public class UserNavigationController {
 
     @FXML
     public void logOutButtonClicked(MouseEvent event) throws IOException {
-        if (latestButtonClicked == EnumUtils.NavigationButton.LOGOUT) {
-            return;
-        }
-
         ChangeScene.openAdminPopUp(UserGlobalController.getInstance().getStackPaneContainer(),
                 "/fxml/logout-dialog.fxml", EnumUtils.PopupList.LOGOUT);
         LogoutDialogController.getInstance().setUserType(UserType.STUDENT);
