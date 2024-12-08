@@ -181,19 +181,26 @@ public class UserCatalogController {
     public void showFilteredData(String searchText) {
         vBoxBooksList.getChildren().clear();
         String searchLower = searchText.toLowerCase().trim();
+
+        String[] searchTerms = searchLower.split("\\s+");
         
         if (currentStateUserCatalog == USER_CATALOG_STATE.BORROWED) {
             userGlobalController.getBorrowedBooksData().stream()
-                    .filter(loan -> matchesSearchCriteria(loan, searchLower))
+                    .filter(loan -> matchesAllSearchTerms(loan, searchTerms))
                     .forEach(loan -> loadBorrowedBookBar(loan, currentStateUserCatalog));
         } else if (currentStateUserCatalog == USER_CATALOG_STATE.RETURNED) {
             userGlobalController.getReturnedBooksData().stream()
-                    .filter(loan -> matchesSearchCriteria(loan, searchLower))
+                    .filter(loan -> matchesAllSearchTerms(loan, searchTerms))
                     .forEach(loan -> loadBorrowedBookBar(loan, currentStateUserCatalog));
         }
     }
+
+    private boolean matchesAllSearchTerms(Loan loan, String[] searchTerms) {
+        return java.util.Arrays.stream(searchTerms)
+                .allMatch(term -> matchesSingleTerm(loan, term));
+    }
     
-    private boolean matchesSearchCriteria(Loan loan, String searchText) {
+    private boolean matchesSingleTerm(Loan loan, String searchText) {
         try {
             // Get book details for the loan
             List<Book> books = loanService.getBookFromLoan(loan.getIsbn());
