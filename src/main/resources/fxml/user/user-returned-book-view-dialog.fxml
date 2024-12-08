@@ -113,7 +113,7 @@
             </Label>
          </children>
       </Pane>
-      <HBox fx:id="hBoxReborrow" alignment="CENTER" layoutX="691.0" layoutY="488.0" prefHeight="40.0" prefWidth="140.0" spacing="8.0" style="-fx-background-color: black; -fx-background-radius: 10; -fx-border-color: 1px; -fx-border-radius: 10;">
+      <HBox fx:id="hBoxReborrow" alignment="CENTER" layoutX="691.0" layoutY="485.0" prefHeight="40.0" prefWidth="140.0" spacing="8.0" style="-fx-background-color: black; -fx-background-radius: 10; -fx-border-color: 1px; -fx-border-radius: 10;">
          <children>
             <ImageView fx:id="reborrowImage" fitHeight="21.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -132,7 +132,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <JFXButton fx:id="reborrowButton" layoutX="691.0" layoutY="488.0" onAction="#btnReborrowOnAction" onMouseEntered="#btnOnMouseEntered" onMouseExited="#btnOnMouseExited" prefHeight="40.0" prefWidth="140.0" style="-fx-background-radius: 10;" text=" " textFill="WHITE">
+      <JFXButton fx:id="reborrowButton" layoutX="691.0" layoutY="485.0" onAction="#btnReborrowOnAction" onMouseEntered="#btnOnMouseEntered" onMouseExited="#btnOnMouseExited" prefHeight="40.0" prefWidth="140.0" style="-fx-background-radius: 10;" text=" " textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>

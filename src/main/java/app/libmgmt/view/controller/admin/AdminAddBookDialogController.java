@@ -49,8 +49,7 @@ public class AdminAddBookDialogController {
     private JFXButton closeDialogButton;
     @FXML
     private ImageView imgClose;
-    private String webReaderUrl;
-    private String[] data_api = null;
+    private String webReaderUrl = "Not Available";
 
     public AdminAddBookDialogController() {
         controller = this;
@@ -86,13 +85,9 @@ public class AdminAddBookDialogController {
     public void addBook(String[] bookData) {
         // data format: [coverURL, name, type, author, quantity, publisher,
         // publishedDate]
-        String[] newBook = null;
-        if (data_api != null) {
-            newBook = data_api;
-        } else {
-            newBook = new String[] { "0", bookData[0], bookData[1], bookData[2], bookData[3], bookData[4],
+        String[] newBook = new String[] { "0", bookData[0], bookData[1], bookData[2], bookData[3], bookData[4],
                     bookData[5], bookData[6], bookData[7] };
-        }
+        System.out.println(newBook.toString());
         AdminGlobalController adminGlobalController = AdminGlobalController.getInstance();
         adminGlobalController.insertBooksData(newBook);
         Task<Void> task = new Task<Void>() {
@@ -123,12 +118,12 @@ public class AdminAddBookDialogController {
                                     formattedDate = "Not Available";
                                 }
                             }
-
+                            String webUrlString = lastBook.getWebReaderUrl() == null ? "Not Available" : lastBook.getWebReaderUrl();
 
                             String[] book_Data = new String[] { lastBook.getIsbn(), lastBook.getCoverUrl(),
                                     lastBook.getTitle(), categoriesString,
                                     authorsString, String.valueOf(lastBook.getAvailableCopies()),
-                                    lastBook.getPublisher(), formattedDate, lastBook.getWebReaderUrl() };
+                                    lastBook.getPublisher(), formattedDate, webUrlString };
                             lastBook = new Book(book_Data);
                             add(lastBook);
                         }
@@ -203,7 +198,7 @@ public class AdminAddBookDialogController {
         }
         txtPublisher.setText(data[6]);
         webReaderUrl = data[8];
-        data_api = data;
+        // data_api = data;
     }
 
     public void setDefault() {
@@ -211,7 +206,7 @@ public class AdminAddBookDialogController {
         txtName.setText("");
         txtType.setText("");
         txtAuthor.setText("");
-        quantitySpinner.getValueFactory().setValue(0);
+        quantitySpinner.getValueFactory().setValue(1);
         publishedDatePicker.setValue(null);
         txtPublisher.setText("");
     }
@@ -219,7 +214,7 @@ public class AdminAddBookDialogController {
     public void setUpSpinner() {
         quantitySpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0,
                 999, 0));
-        quantitySpinner.getValueFactory().setValue(0);
+        quantitySpinner.getValueFactory().setValue(1);
         quantitySpinner.setPromptText("Quantity*");
         quantitySpinner.getEditor().setTextFormatter(new TextFormatter<>(change -> {
             String newText = change.getControlNewText();

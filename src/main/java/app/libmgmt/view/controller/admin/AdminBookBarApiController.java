@@ -72,7 +72,6 @@ public class AdminBookBarApiController {
             ChangeScene.openAdminPopUp(AdminBooksLayoutController.getInstance().getStackPaneContainer(),
                     "/fxml/admin/admin-add-book-dialog.fxml", PopupList.ADD_BOOK);
             AdminAddBookDialogController.getInstance().setData(data);
-            System.out.println("ISBN: " + isbnLabel.getText());
         } else {
             ChangeScene.openAdminPopUp(AdminAddBookApiController.getInstance().getStackPaneContainer(),
                     "/fxml/empty-data-notification-dialog.fxml",
