@@ -18,7 +18,7 @@ public class GoogleBooksApiService {
         }
 
         try {
-            String apiUrl = buildUrl(title, limit);
+            String apiUrl = buildUrlWithIntitleFilter(title, limit);
 
             HttpURLConnection connection = createHttpConnection(apiUrl);
 
@@ -38,10 +38,11 @@ public class GoogleBooksApiService {
         }
     }
 
-    private static String buildUrl(String title, Integer limit) {
-        String query = title.replace(" ", "+");
-        return "https://www.googleapis.com/books/v1/volumes?q=" + query 
-               + "&maxResults=" + limit 
+    private static String buildUrlWithIntitleFilter(String title, Integer limit) {
+        String baseUrl = "https://www.googleapis.com/books/v1/volumes?q=intitle";
+        String query = ":" + title.replace(" ", "+");
+        return baseUrl + query 
+               + (limit != null ? "&maxResults=" + limit : "")
                + "&key=" + API_KEY;
     }
 
@@ -55,5 +56,4 @@ public class GoogleBooksApiService {
         connection.setReadTimeout(5000);    
         return connection;
     }
-    
 }
