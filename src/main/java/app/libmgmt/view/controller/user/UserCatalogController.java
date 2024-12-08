@@ -89,6 +89,10 @@ public class UserCatalogController {
 
     @FXML
     void btnBorrowedBooksOnAction(ActionEvent event) {
+        handleChangeBorrowedBooksButtonOnAction();
+    }
+
+    public void handleChangeBorrowedBooksButtonOnAction() {
         if (currentStateUserCatalog == USER_CATALOG_STATE.BORROWED) {
             return;
         }

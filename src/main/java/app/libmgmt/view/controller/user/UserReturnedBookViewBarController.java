@@ -55,8 +55,18 @@ public class UserReturnedBookViewBarController {
 
         nameBookLabel.setText(book.getTitle());
         amountLabel.setText(amount);
-        if (book.getAvailableCopies() == 0) {
+        setCheckBoxButtonStatus();
+    }
+
+    public void setCheckBoxButtonStatus() {
+        boolean isOutOfStock = book.getAvailableCopies() == 0;
+        boolean isBookBorrwing = UserGlobalController.getInstance().getBorrowedBooksData().stream()
+                .anyMatch(b -> b.getIsbn().contains(book.getIsbn()) && b.getStatus().equals("BORROWED"));
+        
+        if (isOutOfStock || isBookBorrwing) {
             checkBoxButton.setDisable(true);
+        } else {
+            checkBoxButton.setDisable(false);
         }
     }
 
@@ -91,6 +101,24 @@ public class UserReturnedBookViewBarController {
     @FXML
     void btnViewOnMouseExited(MouseEvent event) {
         viewImage.setImage(new Image(getClass().getResource("/assets/icon/btn view.png").toExternalForm()));
+    }
+
+    public JFXCheckBox getCheckBoxButton() {
+        return checkBoxButton;
+    }
+
+    public String[] getBookData() {
+        return new String[] {
+            book.getIsbn(),
+            book.getCoverUrl(),
+            book.getTitle(),
+            String.join(", ", book.getCategories()),
+            String.join(", ", book.getAuthors()),
+            String.valueOf(book.getAvailableCopies()),
+            book.getPublisher(),
+            new SimpleDateFormat("yyyy-MM-dd").format(book.getPublishedDate()),
+            book.getWebReaderUrl()
+        };
     }
 
 }

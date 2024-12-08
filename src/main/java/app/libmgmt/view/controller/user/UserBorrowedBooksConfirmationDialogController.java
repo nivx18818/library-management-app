@@ -31,6 +31,13 @@ import java.util.Date;
 
 public class UserBorrowedBooksConfirmationDialogController {
 
+    public enum BORROW_TYPE {
+        NORMAL,
+        REBORROW
+    }
+
+    public static BORROW_TYPE borrowType = BORROW_TYPE.NORMAL;
+
     private static UserBorrowedBooksConfirmationDialogController controller;
 
     @FXML
@@ -74,7 +81,11 @@ public class UserBorrowedBooksConfirmationDialogController {
 
     @FXML
     public void initialize() {
-        selectedBooksList = UserBooksLayoutController.getInstance().getSelectedBooksList();
+        if (borrowType == BORROW_TYPE.NORMAL) {
+            selectedBooksList = UserBooksLayoutController.getInstance().getSelectedBooksList();
+        } else if (borrowType == BORROW_TYPE.REBORROW) {
+            selectedBooksList = UserReturnedBookViewDialogController.getInstance().getSelectedBooksList();
+        }
         newBorrowedBooksList = new ArrayList<>();
 
         borrowedDateLabel.setText(DateUtils.parseLocalDateToString(DateUtils.currentLocalTime));
@@ -117,13 +128,19 @@ public class UserBorrowedBooksConfirmationDialogController {
         }));
         Timeline timeline2 = new Timeline(new KeyFrame(Duration.seconds(1.5), e -> {
             ChangeScene.closePopUp();
-            UserCatalogController.currentStateUserCatalog = UserCatalogController.USER_CATALOG_STATE.BORROWED;
-            try {
-                UserNavigationController userNavigationController = UserNavigationController.getInstance();
-                userNavigationController.handleNavigation(EnumUtils.NavigationButton.CATALOG, "user-catalog-form.fxml",
-                        userNavigationController.getCatalogButton());
-            } catch (IOException e1) {
-                e1.printStackTrace();
+            if (borrowType == BORROW_TYPE.NORMAL) {
+                UserCatalogController.currentStateUserCatalog = UserCatalogController.USER_CATALOG_STATE.BORROWED;
+                try {
+                    UserNavigationController userNavigationController = UserNavigationController.getInstance();
+                    userNavigationController.handleNavigation(EnumUtils.NavigationButton.CATALOG, "user-catalog-form.fxml",
+                            userNavigationController.getCatalogButton());
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            } else if (borrowType == BORROW_TYPE.REBORROW) {
+                ChangeScene.closePopUp();
+                UserCatalogController.getInstance().handleChangeBorrowedBooksButtonOnAction();
+                UserCatalogController.currentStateUserCatalog = UserCatalogController.USER_CATALOG_STATE.BORROWED;
             }
         }));
         timeline.play();

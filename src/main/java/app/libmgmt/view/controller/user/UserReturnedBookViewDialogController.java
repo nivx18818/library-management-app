@@ -1,6 +1,8 @@
 package app.libmgmt.view.controller.user;
 
 import java.text.SimpleDateFormat;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.jfoenix.controls.JFXButton;
@@ -10,7 +12,11 @@ import app.libmgmt.model.Loan;
 import app.libmgmt.service.LoanService;
 import app.libmgmt.util.AnimationUtils;
 import app.libmgmt.util.ChangeScene;
+import app.libmgmt.util.DateUtils;
+import app.libmgmt.util.EnumUtils.PopupList;
+import app.libmgmt.view.controller.EmptyDataNotificationDialogController;
 import app.libmgmt.view.controller.admin.AdminBooksLayoutController;
+import app.libmgmt.view.controller.user.UserBorrowedBooksConfirmationDialogController.BORROW_TYPE;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
@@ -18,12 +24,14 @@ import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
@@ -115,7 +123,21 @@ public class UserReturnedBookViewDialogController {
 
     @FXML
     void btnReborrowOnAction(ActionEvent event) {
-
+        StackPane stackPane = UserCatalogController.getInstance().getStackPaneContainer();
+        if (getSelectedBooksList().isEmpty()) {
+            ChangeScene.openAdminPopUp(stackPane, "/fxml/empty-data-notification-dialog.fxml", PopupList.EMPTY_DATA_NOTIFICATION);
+        } else {
+            long daysBetween = ChronoUnit.DAYS.between(DateUtils.parseStringToLocalDate(lblReturnedDate.getText()),
+                    DateUtils.currentLocalTime);
+            if (daysBetween >= 7) {
+                UserBorrowedBooksConfirmationDialogController.borrowType = BORROW_TYPE.REBORROW;
+                ChangeScene.openAdminPopUp(stackPane, "/fxml/user/user-borrowed-books-confirmation-dialog.fxml",
+                        PopupList.ACQUIRE_BOOK);
+            } else {
+                ChangeScene.openAdminPopUp(stackPane, "/fxml/empty-data-notification-dialog.fxml", PopupList.EMPTY_DATA_NOTIFICATION);
+                EmptyDataNotificationDialogController.getInstance().setNotificationLabel("You can only reborrow books after 7 days of returning.");
+            }
+        }
     }
 
     // Loads data asynchronously to prevent blocking the main thread.
@@ -165,6 +187,29 @@ public class UserReturnedBookViewDialogController {
         } catch (Exception e) {
             System.err.println("Error loading book data: " + e.getMessage());
         }
+    }
+
+    public List<Book> getSelectedBooksList() {
+        List<Book> selectedBooks = new ArrayList<>();
+
+        for (Node node : vBox.getChildren()) {
+            if (node instanceof Pane) {
+                Pane bookBar = (Pane) node;
+                UserReturnedBookViewBarController controller = (UserReturnedBookViewBarController) bookBar
+                        .getUserData();
+
+                try {
+                    if (controller.getCheckBoxButton().isSelected()) {
+                        Book book = new Book(controller.getBookData());
+                        selectedBooks.add(book);
+                    }
+                } catch (Exception e) {
+                    System.out.println("Error getting selected books: " + e.getMessage());
+                }
+            }
+        }
+
+        return selectedBooks;
     }
 
 }
