@@ -1,6 +1,9 @@
 package app.libmgmt.view.controller.admin;
 
 import com.jfoenix.controls.JFXButton;
+
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
 import javafx.concurrent.Task;
@@ -12,6 +15,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 import app.libmgmt.model.Book;
 import app.libmgmt.util.AnimationUtils;
 import app.libmgmt.util.ChangeScene;
@@ -44,6 +48,8 @@ public class AdminBooksLayoutController {
 
     private final List<Book> observableBooksData = adminGlobalController.getObservableBookData();
 
+    private Timeline debounceTimeline;
+
     public AdminBooksLayoutController() {
         controller = this;
     }
@@ -56,11 +62,24 @@ public class AdminBooksLayoutController {
     @FXML
     public void initialize() {
         Logger.getLogger("javafx").setLevel(java.util.logging.Level.SEVERE);
-        System.out.println("Admin Books Layout initialized");
+
+        debounceDataSearch();
 
         preloadData(observableBooksData);
         stackPaneContainer.setOnMouseClicked(event -> stackPaneContainer.requestFocus());
         listenBookDataChanges();
+    }
+
+    private void debounceDataSearch() {
+        debounceTimeline = new Timeline(new KeyFrame(Duration.millis(350), e -> performSearch()));
+        debounceTimeline.setCycleCount(1);
+
+        textSearch.setOnKeyTyped(event -> {
+            if (debounceTimeline.getStatus() == Timeline.Status.RUNNING) {
+                debounceTimeline.stop();
+            }
+            debounceTimeline.play();
+        });
     }
 
     // Data Preloading
@@ -71,23 +90,24 @@ public class AdminBooksLayoutController {
                 try {
                     for (Book d : data) {
                         SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
-                        String publishedDateStr = (d.getPublishedDate() != null) ?
-                                outputFormat.format(d.getPublishedDate()) : "Not Available";
+                        String publishedDateStr = (d.getPublishedDate() != null)
+                                ? outputFormat.format(d.getPublishedDate())
+                                : "Not Available";
                         String authorsString = String.join(", ", d.getAuthors());
                         String categoriesString = String.join(", ", d.getCategories());
-    
-                        String[] bookData = new String[]{
-                            d.getIsbn(),
-                            d.getCoverUrl(),
-                            d.getTitle(),
-                            categoriesString,
-                            authorsString,
-                            String.valueOf(d.getAvailableCopies()),
-                            d.getPublisher(),
-                            publishedDateStr,
-                            d.getWebReaderUrl() != null ? d.getWebReaderUrl() : "Not Available"
+
+                        String[] bookData = new String[] {
+                                d.getIsbn(),
+                                d.getCoverUrl(),
+                                d.getTitle(),
+                                categoriesString,
+                                authorsString,
+                                String.valueOf(d.getAvailableCopies()),
+                                d.getPublisher(),
+                                publishedDateStr,
+                                d.getWebReaderUrl() != null ? d.getWebReaderUrl() : "Not Available"
                         };
-    
+
                         loadBookBar(bookData);
                     }
                 } catch (Exception e) {
@@ -96,17 +116,16 @@ public class AdminBooksLayoutController {
                 }
                 return null;
             }
-    
+
             @Override
             protected void failed() {
                 // Handle when task fails
                 System.out.println("Task failed: " + getException().getMessage());
             }
         };
-    
+
         new Thread(preloadTask).start();
     }
-    
 
     private void loadBookBar(String[] data) {
         try {
@@ -205,8 +224,8 @@ public class AdminBooksLayoutController {
     }
 
     // Search Functionality
-    @FXML
-    void txtSearchOnAction(ActionEvent event) {
+    private void performSearch() {
+        vBoxBooksList.getChildren().clear();
         String searchText = textSearch.getText();
         if (!searchText.isEmpty()) {
             showFilteredData(searchText);
@@ -216,7 +235,6 @@ public class AdminBooksLayoutController {
     }
 
     public void showFilteredData(String searchText) {
-        vBoxBooksList.getChildren().clear();
         String searchLower = searchText.toLowerCase().trim();
 
         // Split search terms by spaces for multi-criteria search

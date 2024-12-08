@@ -1,6 +1,9 @@
 package app.libmgmt.view.controller.admin;
 
 import com.jfoenix.controls.JFXButton;
+
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -11,6 +14,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 import app.libmgmt.model.Book;
 import app.libmgmt.model.Loan;
 import app.libmgmt.service.LoanService;
@@ -49,6 +53,8 @@ public class AdminBorrowedBooksLayoutController {
     @FXML
     private Pane overdueBorrowersPane;
 
+    private Timeline debounceTimeline;
+
     // External controllers and data
     private final AdminGlobalController adminGlobalController = AdminGlobalController.getInstance();
     private final List<Loan> borrowedBooksData = adminGlobalController.getBorrowedBooksData();
@@ -67,7 +73,25 @@ public class AdminBorrowedBooksLayoutController {
     @FXML
     public void initialize() {
         Logger.getLogger("javafx").setLevel(java.util.logging.Level.SEVERE);
+
+        debounceDataSearch();
+
         showBorrowedBooksList();
+    }
+
+    // Debounce Search
+    private void debounceDataSearch() {
+        debounceTimeline = new Timeline(new KeyFrame(Duration.millis(300), event -> {
+            performSearch();
+        }));
+        debounceTimeline.setCycleCount(1);
+
+        textSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (debounceTimeline.getStatus() == Timeline.Status.RUNNING) {
+                debounceTimeline.stop();
+            }
+            debounceTimeline.play();
+        });
     }
 
     // Data Preloading
@@ -169,23 +193,22 @@ public class AdminBorrowedBooksLayoutController {
         }
     }
 
-    @FXML
-    void txtSearchOnAction(ActionEvent event) {
+    private void performSearch() {
+        vBoxBorrowedBooks.getChildren().clear();
         String searchText = textSearch.getText();
         if (searchText.isEmpty()) {
-            if (status == STATE.BORROWED) {
-                showBorrowedBooksList();
-            } else if (status == STATE.OVERDUE) {
-                showOverdueBorrowersList();
-            }
+        if (status == STATE.BORROWED) {
+        showBorrowedBooksList();
+        } else if (status == STATE.OVERDUE) {
+        showOverdueBorrowersList();
+        }
         } else {
-            showFilteredData(searchText);
+        showFilteredData(searchText);
         }
     }
 
     // Filtering Logic
     public void showFilteredData(String searchText) {
-        vBoxBorrowedBooks.getChildren().clear();
         String searchLower = searchText.toLowerCase().trim();
 
         // Split search terms by spaces for multi-criteria search

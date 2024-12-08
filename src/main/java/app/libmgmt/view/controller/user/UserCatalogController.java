@@ -10,6 +10,8 @@ import app.libmgmt.model.Loan;
 import app.libmgmt.util.AnimationUtils;
 import app.libmgmt.service.LoanService;
 import app.libmgmt.model.Book;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -21,6 +23,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 
 public class UserCatalogController {
 
@@ -61,6 +64,8 @@ public class UserCatalogController {
     @FXML
     private Label columnHeader1Label;
 
+    private Timeline debounceTimeline;
+
     // External controllers and data
     private final UserGlobalController userGlobalController = UserGlobalController.getInstance();
     private List<Loan> borrowedBooksData = userGlobalController.getBorrowedBooksData();
@@ -78,6 +83,9 @@ public class UserCatalogController {
 
     @FXML
     public void initialize() {
+
+        debounceDataSearch();
+
         if (currentStateUserCatalog == USER_CATALOG_STATE.BORROWED) {
             updateStatusUI(USER_CATALOG_STATE.BORROWED);
             showBorrowedBooksList();
@@ -85,6 +93,21 @@ public class UserCatalogController {
             updateStatusUI(USER_CATALOG_STATE.RETURNED);
             showReturnedBooksList();
         }
+    }
+
+    // Debounce Search
+    private void debounceDataSearch() {
+        debounceTimeline = new Timeline(new KeyFrame(Duration.millis(300), event -> {
+            performSearch();
+        }));
+        debounceTimeline.setCycleCount(1);
+
+        textSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (debounceTimeline.getStatus() == Timeline.Status.RUNNING) {
+                debounceTimeline.stop();
+            }
+            debounceTimeline.play();
+        });
     }
 
     @FXML
@@ -153,8 +176,8 @@ public class UserCatalogController {
         }
     }
 
-    @FXML
-    void txtSearchOnAction(ActionEvent event) {
+    public void performSearch() {
+        vBoxBooksList.getChildren().clear();
         String searchText = textSearch.getText();
         if (searchText.isEmpty()) {
             if (currentStateUserCatalog == USER_CATALOG_STATE.BORROWED) {
@@ -179,7 +202,6 @@ public class UserCatalogController {
     }
 
     public void showFilteredData(String searchText) {
-        vBoxBooksList.getChildren().clear();
         String searchLower = searchText.toLowerCase().trim();
 
         String[] searchTerms = searchLower.split("\\s+");

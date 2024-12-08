@@ -12,6 +12,8 @@ import app.libmgmt.model.Book;
 import app.libmgmt.util.AnimationUtils;
 import app.libmgmt.util.ChangeScene;
 import app.libmgmt.util.EnumUtils.PopupList;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -27,6 +29,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 
 public class UserBooksLayoutController {
 
@@ -63,6 +66,8 @@ public class UserBooksLayoutController {
     @FXML
     private JFXButton refreshButton;
 
+    private Timeline debounceTimeline;
+
     private final String hoverAcquireLogo = "/assets/icon/acquire-logo-1.png";
     private final String acquireLogo = "/assets/icon/add-circle 1.png";
 
@@ -79,10 +84,26 @@ public class UserBooksLayoutController {
     @FXML
     public void initialize() {
         Logger.getLogger("javafx").setLevel(java.util.logging.Level.SEVERE);
-        System.out.println("User Books Layout initialized");
+        
+        debounceDataSearch();
 
         preloadData(observableBooksData);
         stackPaneContainer.setOnMouseClicked(event -> stackPaneContainer.requestFocus());
+    }
+
+    // Debounce Search
+    private void debounceDataSearch() {
+        debounceTimeline = new Timeline(new KeyFrame(Duration.millis(300), event -> {
+            performSearch();
+        }));
+        debounceTimeline.setCycleCount(1);
+
+        textSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (debounceTimeline.getStatus() == Timeline.Status.RUNNING) {
+                debounceTimeline.stop();
+            }
+            debounceTimeline.play();
+        });
     }
 
     // Data Preloading
@@ -153,8 +174,8 @@ public class UserBooksLayoutController {
         textSearch.clear();
     }
 
-    @FXML
-    void txtSearchOnAction(ActionEvent event) {
+    public void performSearch() {
+        vBoxBooksList.getChildren().clear();
         String searchText = textSearch.getText();
         if (!searchText.isEmpty()) {
             showFilteredData(searchText);
@@ -164,7 +185,6 @@ public class UserBooksLayoutController {
     }
 
     public void showFilteredData(String searchText) {
-        vBoxBooksList.getChildren().clear();
         String searchLower = searchText.toLowerCase().trim();
 
         // Split search terms by spaces for multi-criteria search

@@ -62,12 +62,18 @@ public class AdminAddBookApiController {
     public void initialize() {
         AnimationUtils.hoverCloseIcons(closeDialogButton, imgClose);
 
-        debounceTimeline = new Timeline(new KeyFrame(Duration.millis(450), e -> performSearch()));
+        debounceDataSearch();
+    }
+
+    public void debounceDataSearch() {
+        debounceTimeline = new Timeline(new KeyFrame(Duration.millis(300), e -> performSearch()));
         debounceTimeline.setCycleCount(1);
 
         apiSearchText.setOnKeyTyped(event -> {
-            debounceTimeline.stop();
-            debounceTimeline.playFromStart();
+            if (debounceTimeline.getStatus() == Timeline.Status.RUNNING) {
+                debounceTimeline.stop();
+            }
+            debounceTimeline.play();
         });
     }
 
@@ -159,7 +165,6 @@ public class AdminAddBookApiController {
 
             Platform.runLater(() -> {
                 vBoxBooksList.getChildren().add(scene);
-                AnimationUtils.zoomIn(scene, 1.0);
             });
         } catch (IOException e) {
             e.printStackTrace();
