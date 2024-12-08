@@ -18,7 +18,6 @@ import javafx.util.Duration;
 import app.libmgmt.model.Book;
 import app.libmgmt.model.Loan;
 import app.libmgmt.service.LoanService;
-import app.libmgmt.util.AnimationUtils;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -127,7 +126,6 @@ public class AdminBorrowedBooksLayoutController {
             // Add to VBox and animate
             Platform.runLater(() -> {
                 vBoxBorrowedBooks.getChildren().add(scene);
-                AnimationUtils.zoomIn(scene, 1.0);
             });
         } catch (IOException e) {
             throw new RuntimeException(e);

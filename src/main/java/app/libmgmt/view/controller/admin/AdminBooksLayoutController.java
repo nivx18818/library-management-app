@@ -17,7 +17,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import app.libmgmt.model.Book;
-import app.libmgmt.util.AnimationUtils;
 import app.libmgmt.util.ChangeScene;
 import app.libmgmt.util.EnumUtils.PopupList;
 
@@ -141,7 +140,6 @@ public class AdminBooksLayoutController {
 
             Platform.runLater(() -> {
                 vBoxBooksList.getChildren().add(scene);
-                AnimationUtils.zoomIn(scene, 1.0);
             });
         } catch (IOException e) {
             e.printStackTrace();

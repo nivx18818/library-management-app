@@ -156,7 +156,6 @@ public class UserBooksLayoutController {
 
             Platform.runLater(() -> {
                 vBoxBooksList.getChildren().add(scene);
-                AnimationUtils.zoomIn(scene, 1.0);
             });
         } catch (IOException e) {
             e.printStackTrace();

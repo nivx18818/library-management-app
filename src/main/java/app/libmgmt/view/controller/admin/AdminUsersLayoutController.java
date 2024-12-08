@@ -15,7 +15,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import app.libmgmt.model.ExternalBorrower;
 import app.libmgmt.model.Student;
-import app.libmgmt.util.AnimationUtils;
 import app.libmgmt.util.ChangeScene;
 import app.libmgmt.util.EnumUtils;
 
@@ -77,7 +76,8 @@ public class AdminUsersLayoutController {
                 adminGlobalController.getObservableStudentsData()
                         .addListener((ListChangeListener.Change<? extends Student> change) -> {
                             while (change.next()) {
-                                boolean isUpdate = change.wasRemoved() && change.getRemovedSize() == change.getAddedSize();
+                                boolean isUpdate = change.wasRemoved()
+                                        && change.getRemovedSize() == change.getAddedSize();
 
                                 if (change.wasRemoved() && !isUpdate) {
                                     System.out.println("Student removed");
@@ -94,7 +94,8 @@ public class AdminUsersLayoutController {
                 adminGlobalController.getObservableExternalBorrowersData()
                         .addListener((ListChangeListener.Change<? extends ExternalBorrower> change) -> {
                             while (change.next()) {
-                                boolean isUpdate = change.wasRemoved() && change.getRemovedSize() == change.getAddedSize();
+                                boolean isUpdate = change.wasRemoved()
+                                        && change.getRemovedSize() == change.getAddedSize();
 
                                 if (change.wasRemoved() && !isUpdate) {
                                     System.out.println("Guest removed");
@@ -139,8 +140,6 @@ public class AdminUsersLayoutController {
                         scene.setId(externalBorrower.getSocialId());
 
                         Platform.runLater(() -> vBoxUserList.getChildren().add(scene));
-                        AnimationUtils.zoomIn(scene, 1.0);
-
                     } catch (IOException e) {
                         throw new RuntimeException("Error loading FXML: " + e.getMessage(), e);
                     }
@@ -182,8 +181,6 @@ public class AdminUsersLayoutController {
                         scene.setId(student.getStudentId());
 
                         Platform.runLater(() -> vBoxUserList.getChildren().add(scene));
-                        AnimationUtils.zoomIn(scene, 1.0);
-
                     } catch (IOException e) {
                         throw new RuntimeException("Error loading FXML: " + e.getMessage(), e);
                     }
@@ -200,7 +197,7 @@ public class AdminUsersLayoutController {
             }
         };
 
-        new Thread(preloadTask).start();   
+        new Thread(preloadTask).start();
     }
 
     private Pane loadScene(String path, String[] data) throws IOException {
@@ -247,7 +244,6 @@ public class AdminUsersLayoutController {
         studentPane.setStyle("-fx-background-color: #000; -fx-background-radius: 12px;");
         studentLabel.setStyle("-fx-text-fill: white;");
         setVisibility(true, false);
-        AnimationUtils.zoomIn(hBoxStudent, 1.0);
         showStudentsList();
     }
 
@@ -267,7 +263,6 @@ public class AdminUsersLayoutController {
         guestPane.setStyle("-fx-background-color: #000; -fx-background-radius: 12px;");
         guestLabel.setStyle("-fx-text-fill: white;");
         setVisibility(false, true);
-        AnimationUtils.zoomIn(hBoxGuest, 1.0);
         showGuestsList();
     }
 
@@ -279,7 +274,8 @@ public class AdminUsersLayoutController {
     @FXML
     void addUserButtonOnAction(ActionEvent event) {
         Platform.runLater(() -> {
-            ChangeScene.openAdminPopUp(stackPaneContainer, "/fxml/admin/admin-add-user-dialog.fxml", EnumUtils.PopupList.ADD_USER);
+            ChangeScene.openAdminPopUp(stackPaneContainer, "/fxml/admin/admin-add-user-dialog.fxml",
+                    EnumUtils.PopupList.ADD_USER);
         });
     }
 
@@ -329,47 +325,46 @@ public class AdminUsersLayoutController {
         vBoxUserList.getChildren().clear();
         if (status == EnumUtils.UserType.STUDENT) {
             adminGlobalController.getObservableStudentsData().stream()
-                .filter(student -> student.getName().toLowerCase().contains(searchText.toLowerCase()))
-                .forEach(student -> {
-                    try {
-                        String[] studentData = new String[] {
-                        student.getUserRole(),
-                        student.getName(),
-                        student.getMajor(),
-                        student.getEmail(),
-                        student.getStudentId()
-                        };
-                        Pane scene = loadScene("admin-users-student-bar.fxml", studentData);
-                        scene.setId(student.getStudentId());
+                    .filter(student -> student.getName().toLowerCase().contains(searchText.toLowerCase()))
+                    .forEach(student -> {
+                        try {
+                            String[] studentData = new String[] {
+                                    student.getUserRole(),
+                                    student.getName(),
+                                    student.getMajor(),
+                                    student.getEmail(),
+                                    student.getStudentId()
+                            };
+                            Pane scene = loadScene("admin-users-student-bar.fxml", studentData);
+                            scene.setId(student.getStudentId());
 
-                        Platform.runLater(() -> vBoxUserList.getChildren().add(scene));
-                        AnimationUtils.zoomIn(scene, 1.0);
-                    } catch (IOException e) {
-                        throw new RuntimeException("Error loading FXML: " + e.getMessage(), e);
-                    }
+                            Platform.runLater(() -> vBoxUserList.getChildren().add(scene));
+                        } catch (IOException e) {
+                            throw new RuntimeException("Error loading FXML: " + e.getMessage(), e);
+                        }
 
-                });
+                    });
         } else {
             adminGlobalController.getObservableExternalBorrowersData().stream()
-                .filter(externalBorrower -> externalBorrower.getName().toLowerCase().contains(searchText.toLowerCase()))
-                .forEach(externalBorrower -> {
-                    try {
-                        String[] externalBorrowerData = new String[] {
-                        externalBorrower.getUserRole(),
-                        externalBorrower.getName(),
-                        externalBorrower.getPhoneNumber(),
-                        externalBorrower.getEmail(),
-                        externalBorrower.getSocialId()
-                        };
-                        Pane scene = loadScene("admin-users-guest-bar.fxml", externalBorrowerData);
-                        scene.setId(externalBorrower.getSocialId());
+                    .filter(externalBorrower -> externalBorrower.getName().toLowerCase()
+                            .contains(searchText.toLowerCase()))
+                    .forEach(externalBorrower -> {
+                        try {
+                            String[] externalBorrowerData = new String[] {
+                                    externalBorrower.getUserRole(),
+                                    externalBorrower.getName(),
+                                    externalBorrower.getPhoneNumber(),
+                                    externalBorrower.getEmail(),
+                                    externalBorrower.getSocialId()
+                            };
+                            Pane scene = loadScene("admin-users-guest-bar.fxml", externalBorrowerData);
+                            scene.setId(externalBorrower.getSocialId());
 
-                        Platform.runLater(() -> vBoxUserList.getChildren().add(scene));
-                        AnimationUtils.zoomIn(scene, 1.0);
-                    } catch (IOException e) {
-                        throw new RuntimeException("Error loading FXML: " + e.getMessage(), e);
-                    }
-                });
+                            Platform.runLater(() -> vBoxUserList.getChildren().add(scene));
+                        } catch (IOException e) {
+                            throw new RuntimeException("Error loading FXML: " + e.getMessage(), e);
+                        }
+                    });
         }
     }
 

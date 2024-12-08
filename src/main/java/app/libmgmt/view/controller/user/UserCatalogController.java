@@ -288,7 +288,6 @@ public class UserCatalogController {
 
             Platform.runLater(() -> {
                 vBoxBooksList.getChildren().add(scene);
-                AnimationUtils.zoomIn(scene, 1.0);
             });
         } catch (IOException e) {
             throw new RuntimeException(e);
