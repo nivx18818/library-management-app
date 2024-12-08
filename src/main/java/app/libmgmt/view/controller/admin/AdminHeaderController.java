@@ -57,7 +57,7 @@ public class AdminHeaderController {
 
     // Method to set user information in the header
     public static void setInformation() {
-        getInstance().nameUserText.setText("Hello, BookWorm Admin");
+        getInstance().nameUserText.setText("Hello, " + AdminGlobalController.getInstance().getAdminLoginInfo().getName());
         getInstance().typeUserText.setText("Admin");
     }
 

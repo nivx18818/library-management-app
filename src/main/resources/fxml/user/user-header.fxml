@@ -16,19 +16,19 @@
 
 <AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="50.0" minWidth="1132.0" prefHeight="50.0" prefWidth="1218.0" style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.libmgmt.view.controller.user.UserHeaderController">
   <children>
-    <HBox id="user-box-container" fx:id="containerUserBox" alignment="CENTER_LEFT" prefHeight="55.0" prefWidth="318.0" spacing="11.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+    <HBox id="user-box-container" fx:id="containerUserBox" alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="555.0" spacing="11.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
       <children>
         <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
           <image>
             <Image url="@../../assets/icon/user 1.png" />
           </image>
         </ImageView>
-        <VBox alignment="CENTER_LEFT" prefHeight="55.0" prefWidth="288.0">
+        <VBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="504.0">
           <opaqueInsets>
             <Insets />
           </opaqueInsets>
                <children>
-                  <Label fx:id="nameUserLabel" prefHeight="21.0" prefWidth="250.0" text="Hoang Duy Thinh">
+                  <Label fx:id="nameUserLabel" prefHeight="21.0" prefWidth="485.0" text="Hoang Duy Thinh">
                      <font>
                         <Font name="System Bold" size="15.0" />
                      </font>
