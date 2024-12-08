@@ -11,10 +11,13 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import app.libmgmt.model.Book;
 import app.libmgmt.model.Loan;
+import app.libmgmt.service.LoanService;
 import app.libmgmt.util.AnimationUtils;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -93,8 +96,8 @@ public class AdminBorrowedBooksLayoutController {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/admin/admin-borrowed-book-bar.fxml"));
             Pane scene = fxmlLoader.load();
             AdminBorrowedBooksBarController controller = fxmlLoader.getController();
-            
-            //String name, String id, int amount, String dueDate, String borrowedDate
+
+            // String name, String id, int amount, String dueDate, String borrowedDate
             controller.setData(d);
 
             // Add to VBox and animate
@@ -182,16 +185,51 @@ public class AdminBorrowedBooksLayoutController {
 
     // Filtering Logic
     public void showFilteredData(String searchText) {
-        // vBoxBooksList.getChildren().clear();
         vBoxBorrowedBooks.getChildren().clear();
+        String searchLower = searchText.toLowerCase().trim();
+
+        // Split search terms by spaces for multi-criteria search
+        String[] searchTerms = searchLower.split("\\s+");
+
         if (status == STATE.BORROWED) {
             adminGlobalController.getBorrowedBooksData().stream()
-                .filter(loan -> loan.getUserName().toLowerCase().contains(searchText.toLowerCase()))
-                .forEach(loan -> {loadBorrowedBookBar(loan);});
+                    .filter(loan -> matchesAllSearchTerms(loan, searchTerms))
+                    .forEach(loan -> loadBorrowedBookBar(loan));
         } else if (status == STATE.OVERDUE) {
             adminGlobalController.getOverDueLoans().stream()
-                .filter(loan -> loan.getUserName().toLowerCase().contains(searchText.toLowerCase()))
-                .forEach(loan -> {loadBorrowedBookBar(loan);});
+                    .filter(loan -> matchesAllSearchTerms(loan, searchTerms))
+                    .forEach(loan -> loadBorrowedBookBar(loan));
+        }
+    }
+
+    private boolean matchesAllSearchTerms(Loan loan, String[] searchTerms) {
+        return java.util.Arrays.stream(searchTerms)
+                .allMatch(term -> matchesSingleTerm(loan, term));
+    }
+
+    private boolean matchesSingleTerm(Loan loan, String searchText) {
+        try {
+            // Get book details for the loan
+            LoanService loanService = new LoanService();
+            List<Book> books = loanService.getBookFromLoan(loan.getIsbn());
+            Book book = books.isEmpty() ? null : books.get(0);
+
+            // Format dates for searching
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            String borrowedDate = dateFormat.format(loan.getBorrowedDate());
+            String dueDate = dateFormat.format(loan.getDueDate());
+
+            // Check all searchable fields
+            return (loan.getIsbn() != null && loan.getIsbn().toLowerCase().contains(searchText)) ||
+                    (loan.getUserId() != null && loan.getUserId().toLowerCase().contains(searchText)) ||
+                    (loan.getUserName() != null && loan.getUserName().toLowerCase().contains(searchText)) ||
+                    (book != null && book.getTitle().toLowerCase().contains(searchText)) ||
+                    borrowedDate.toLowerCase().contains(searchText) ||
+                    dueDate.toLowerCase().contains(searchText) ||
+                    String.valueOf(loan.getLoanId()).contains(searchText);
+        } catch (Exception e) {
+            System.err.println("Error while matching search criteria: " + e.getMessage());
+            return false;
         }
     }
 

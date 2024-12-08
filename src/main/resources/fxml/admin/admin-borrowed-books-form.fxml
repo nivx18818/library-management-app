@@ -114,7 +114,7 @@
                 <Bloom threshold="0.31" />
               </effect>
             </ImageView>
-            <TextField fx:id="textSearch" layoutX="37.0" onAction="#txtSearchOnAction" prefHeight="30.0" prefWidth="203.0" promptText="Search by Name / ID" style="-fx-background-color: white; -fx-background-radius: 0 12 12 0;">
+            <TextField fx:id="textSearch" layoutX="37.0" onAction="#txtSearchOnAction" prefHeight="30.0" prefWidth="262.0" promptText="Search by any relevant information" style="-fx-background-color: white; -fx-background-radius: 0 12 12 0;">
               <font>
                 <Font size="13.0" />
               </font>

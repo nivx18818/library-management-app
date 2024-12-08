@@ -210,32 +210,57 @@ public class AdminBooksLayoutController {
         String searchText = textSearch.getText();
         if (!searchText.isEmpty()) {
             showFilteredData(searchText);
+        } else {
+            refreshBooksList();
         }
     }
 
-    private void showFilteredData(String searchText) {
+    public void showFilteredData(String searchText) {
         vBoxBooksList.getChildren().clear();
+        String searchLower = searchText.toLowerCase().trim();
+
+        // Split search terms by spaces for multi-criteria search
+        String[] searchTerms = searchLower.split("\\s+");
+
         adminGlobalController.getObservableBookData().stream()
-                .filter(book -> book.getTitle().toLowerCase().contains(searchText.toLowerCase()))
+                .filter(book -> matchesAllSearchTerms(book, searchTerms))
                 .forEach(book -> {
-                    String publishedDateStr = (book.getPublishedDate() != null) 
-                            ? book.getPublishedDate().toString() 
+                    SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
+                    String publishedDateStr = (book.getPublishedDate() != null)
+                            ? outputFormat.format(book.getPublishedDate())
                             : "Not Available";
                     String authorsString = String.join(", ", book.getAuthors());
                     String categoriesString = String.join(", ", book.getCategories());
-                    String[] bookData = new String[]{
-                        book.getIsbn(),
-                        book.getCoverUrl(),
-                        book.getTitle(),
-                        categoriesString,
-                        authorsString,
-                        String.valueOf(book.getAvailableCopies()),
-                        book.getPublisher(),
-                        publishedDateStr,
-                        book.getWebReaderUrl()
+                    String[] bookData = new String[] {
+                            book.getIsbn(),
+                            book.getCoverUrl(),
+                            book.getTitle(),
+                            categoriesString,
+                            authorsString,
+                            String.valueOf(book.getAvailableCopies()),
+                            book.getPublisher(),
+                            publishedDateStr,
+                            book.getWebReaderUrl()
                     };
                     loadBookBar(bookData);
                 });
+    }
+
+    private boolean matchesAllSearchTerms(Book book, String[] searchTerms) {
+        return java.util.Arrays.stream(searchTerms)
+                .allMatch(term -> matchesSingleTerm(book, term));
+    }
+
+    private boolean matchesSingleTerm(Book book, String searchTerm) {
+        // Convert collections to lowercase strings for comparison
+        String authorsLower = String.join(" ", book.getAuthors()).toLowerCase();
+        String categoriesLower = String.join(" ", book.getCategories()).toLowerCase();
+
+        return book.getIsbn().toLowerCase().contains(searchTerm) ||
+                book.getTitle().toLowerCase().contains(searchTerm) ||
+                authorsLower.contains(searchTerm) ||
+                categoriesLower.contains(searchTerm) ||
+                book.getPublisher().toLowerCase().contains(searchTerm);
     }
 
     @FXML
