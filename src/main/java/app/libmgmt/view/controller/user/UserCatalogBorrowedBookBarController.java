@@ -10,7 +10,6 @@ import app.libmgmt.util.EnumUtils;
 import app.libmgmt.view.controller.user.UserCatalogController.USER_CATALOG_STATE;
 import app.libmgmt.model.Loan;
 import app.libmgmt.service.LoanService;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -46,29 +45,16 @@ public class UserCatalogBorrowedBookBarController {
     private final String viewLogo = "/assets/icon/btn view.png";
 
     @FXML
-    void btnBookReturnedOnAction(ActionEvent event) {
-        openPopUp("/fxml/user/user-return-book-confirmation-dialog.fxml", EnumUtils.PopupList.RETURN_BOOK);
-    }
-
-    @FXML
     void imageViewOnMouseClicked(MouseEvent event) throws WriterException, IOException {
-        openPopUp("/fxml/user/user-borrowed-view-dialog.fxml", EnumUtils.PopupList.BOOK_VIEW);
-        LoanService loanService = new LoanService();
-        UserBorrowedBookViewDialogController.getInstance().loadDataAsync(loanService.getLoanById(Integer.parseInt(loanIdLabel.getText())));
-        
-        
-        // Book bookData = UserGlobalController.getInstance().getBookDataById(isbnText.getText());
-
-        // String authorsString = String.join(", ", bookData.getAuthors());
-        // String categoriesString = String.join(", ", bookData.getCategories());
-        // SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
-        // String publishedDateStr = (bookData.getPublishedDate() != null)
-        //         ? outputFormat.format(bookData.getPublishedDate())
-        //         : "Not Available";
-
-        // String[] data = new String[] { bookData.getIsbn(), bookData.getCoverUrl(), bookData.getTitle(),
-        //         categoriesString, authorsString,
-        //         String.valueOf(bookData.getAvailableCopies()), bookData.getPublisher(), publishedDateStr };
+        if (UserCatalogController.currentStateUserCatalog == USER_CATALOG_STATE.BORROWED) {
+            openPopUp("/fxml/user/user-borrowed-view-dialog.fxml", EnumUtils.PopupList.BOOK_VIEW);
+            LoanService loanService = new LoanService();
+            UserBorrowedBookViewDialogController.getInstance().loadDataAsync(loanService.getLoanById(Integer.parseInt(loanIdLabel.getText())));
+        } else {
+            openPopUp("/fxml/user/user-returned-book-view-dialog.fxml", EnumUtils.PopupList.BOOK_VIEW);
+            LoanService loanService = new LoanService();
+            UserReturnedBookViewDialogController.getInstance().loadDataAsync(loanService.getLoanById(Integer.parseInt(loanIdLabel.getText())));
+        }
     }
 
     @FXML
