@@ -28,10 +28,10 @@ public class BookwormAdminBarController {
                 "/fxml/admin/admin-users-view-dialog.fxml", lblEmailAdmin.getText(),
                 EnumUtils.PopupList.USER_VIEW);
         String[] data = {
-            username,
             txtNameAdmin.getText(),
             "N/A",
             lblEmailAdmin.getText(),
+            username,
         };
         AdminUsersViewDialogController.getInstance().setData(data, EnumUtils.UserType.ADMIN);
     }
