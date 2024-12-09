@@ -65,7 +65,7 @@
           </children>
         </VBox>
         <Line endY="35.0" strokeWidth="1.5" />
-        <ImageView fx:id="settingImage" fitHeight="28.0" fitWidth="28.0" onMouseClicked="#handleSettingOnMouseClicked" pickOnBounds="true" preserveRatio="true">
+        <ImageView fx:id="settingImage" fitHeight="28.0" fitWidth="28.0" onMouseClicked="#handleSettingOnMouseClicked" onMouseEntered="#settingImageOnMouseEntered" onMouseExited="#settingImageOnMouseExited" pickOnBounds="true" preserveRatio="true">
           <image>
             <Image url="@../../assets/icon/setting1.png" />
           </image>

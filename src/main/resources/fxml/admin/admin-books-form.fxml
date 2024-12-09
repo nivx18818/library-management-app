@@ -66,28 +66,28 @@
             </ScrollPane>
           </children>
         </Pane>
-        <Pane fx:id="searchPane" layoutX="800.0" layoutY="20.0" prefHeight="30.0" prefWidth="270.0" style="-fx-background-color: white; -fx-background-radius: 12;">
+        <Pane fx:id="searchPane" layoutX="800.0" layoutY="20.0" onMouseEntered="#paneOnMouseEntered" onMouseExited="#paneOnMouseExited" prefHeight="30.0" prefWidth="270.0" style="-fx-background-color: white; -fx-background-radius: 12;">
           <children>
             <ImageView fitHeight="15.0" fitWidth="15.0" layoutX="14.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
               <image>
                 <Image url="@../../assets/icon/search-normal.png" />
               </image>
             </ImageView>
-            <TextField fx:id="textSearch" layoutX="37.0" onMouseMoved="#txtSearchOnMouseMoved" prefHeight="30.0" prefWidth="203.0" promptText="Search by Name or Type" style="-fx-background-color: white; -fx-background-radius: 0 12 12 0;">
+            <TextField fx:id="textSearch" layoutX="37.0" onMouseMoved="#txtSearchOnMouseMoved" prefHeight="30.0" prefWidth="233.0" promptText="Search by Name or Type" style="-fx-background-color: white; -fx-background-radius: 0 12 12 0;">
               <font>
                 <Font size="13.0" />
               </font>
             </TextField>
           </children>
         </Pane>
-        <Pane fx:id="refreshPaneButton" layoutX="1085.0" layoutY="20.0" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: white; -fx-background-radius: 12;">
+        <Pane fx:id="refreshPane" layoutX="1085.0" layoutY="20.0" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: white; -fx-background-radius: 12;">
           <children>
             <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="3.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
               <image>
                 <Image url="@../../assets/icon/R.png" />
               </image>
             </ImageView>
-            <JFXButton layoutY="-2.0" onAction="#btnRefreshTableOnAction" onMouseEntered="#btnRefreshTableOnMouseEntered" onMouseExited="#btnRefreshTableOnMouseExited" prefHeight="30.0" prefWidth="30.0" style="-fx-background-radius: 12;" text=" ">
+            <JFXButton fx:id="refreshButton" layoutY="-2.0" onAction="#btnRefreshTableOnAction" onMouseEntered="#paneOnMouseEntered" onMouseExited="#paneOnMouseExited" prefHeight="30.0" prefWidth="30.0" style="-fx-background-radius: 12;" text=" ">
               <font>
                 <Font size="16.0" />
               </font>
@@ -106,28 +106,28 @@
             </Label>
           </children>
         </Pane>
-            <Pane layoutX="685.0" layoutY="20.0" prefHeight="30.0" prefWidth="106.0" style="-fx-background-radius: 12; -fx-background-color: #000;">
+            <Pane fx:id="apiPane" layoutX="685.0" layoutY="20.0" prefHeight="30.0" prefWidth="106.0" style="-fx-background-radius: 12; -fx-background-color: #000;">
                <children>
-                  <Label layoutX="38.0" layoutY="6.0" text="Using API" textFill="WHITE">
+                  <Label fx:id="apiLabel" layoutX="38.0" layoutY="6.0" text="Using API" textFill="WHITE">
                      <font>
                         <Font size="13.0" />
                      </font>
                   </Label>
-                  <JFXButton fx:id="apiButton" layoutX="25.0" layoutY="-1.0" onMouseClicked="#apiButtonOnMouseClicked" prefHeight="30.0" prefWidth="80.0" style="-fx-background-radius: 12;" text=" " textFill="WHITE">
+                  <JFXButton fx:id="apiButton" layoutX="25.0" layoutY="-1.0" onMouseClicked="#apiButtonOnMouseClicked" onMouseEntered="#paneOnMouseEntered" onMouseExited="#paneOnMouseExited" prefHeight="30.0" prefWidth="80.0" style="-fx-background-radius: 12;" text=" " textFill="WHITE">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </JFXButton>
                </children>
             </Pane>
-        <HBox alignment="CENTER" fillHeight="false" layoutX="616.0" layoutY="20.0" prefHeight="30.0" prefWidth="100.0" spacing="6.0" style="-fx-background-color: #000; -fx-background-radius: 12; -fx-border-color: #F2F2F2; -fx-border-width: 2; -fx-border-radius: 12; -fx-background-insets: 0; -fx-border-insets: -1;">
+        <HBox fx:id="hBoxAddBook" alignment="CENTER" fillHeight="false" layoutX="616.0" layoutY="20.0" prefHeight="30.0" prefWidth="100.0" spacing="6.0" style="-fx-background-color: #000; -fx-background-radius: 12; -fx-border-color: #F2F2F2; -fx-border-width: 2; -fx-border-radius: 12; -fx-background-insets: 0; -fx-border-insets: -1;">
           <children>
-            <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="addBookLogo" fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
               <image>
                 <Image url="@../../assets/icon/add-circle%201.png" />
               </image>
             </ImageView>
-            <Label prefHeight="19.0" prefWidth="62.0" style="-fx-text-fill: white;" text="Add Book" textFill="WHITE">
+            <Label fx:id="addBookLabel" prefHeight="19.0" prefWidth="62.0" style="-fx-text-fill: white;" text="Add Book" textFill="WHITE">
               <font>
                 <Font size="13.0" />
               </font>
@@ -137,7 +137,7 @@
             <Insets left="8.0" right="8.0" />
           </padding>
         </HBox>
-        <JFXButton fx:id="addBookButton" layoutX="618.0" layoutY="20.0" onMouseClicked="#addBookButtonClicked" prefHeight="30.0" prefWidth="100.0" style="-fx-background-radius: 12;" text=" " textFill="WHITE">
+        <JFXButton fx:id="addBookButton" layoutX="618.0" layoutY="20.0" onMouseClicked="#addBookButtonClicked" onMouseEntered="#btnAddBookOnMouseEntered" onMouseExited="#btnAddBookOnMouseExited" prefHeight="30.0" prefWidth="100.0" style="-fx-background-radius: 12;" text=" " textFill="WHITE">
           <cursor>
             <Cursor fx:constant="HAND" />
           </cursor>

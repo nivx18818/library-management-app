@@ -15,7 +15,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="stackPaneContainer" stylesheets="@../../style/components/scroll-bar.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.libmgmt.view.controller.admin.AdminUsersLayoutController">
+<StackPane fx:id="stackPaneContainer" stylesheets="@../../style/components/scroll-bar.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.libmgmt.view.controller.admin.AdminUsersLayoutController">
   <children>
     <Pane fx:id="userContainer" prefHeight="670.0" prefWidth="1132.0" style="-fx-background-color: #F2F2F2;">
       <children>
@@ -111,14 +111,14 @@
             </ScrollPane>
           </children>
         </Pane>
-        <Pane fx:id="searchPane" layoutX="803.0" layoutY="22.0" prefHeight="30.0" prefWidth="270.0" style="-fx-background-color: white; -fx-background-radius: 12;">
+        <Pane fx:id="searchPane" layoutX="803.0" layoutY="22.0" onMouseEntered="#btnOnMouseEntered" onMouseExited="#btnOnMouseExited" prefHeight="30.0" prefWidth="270.0" style="-fx-background-color: white; -fx-background-radius: 12;">
           <children>
             <ImageView fitHeight="15.0" fitWidth="15.0" layoutX="14.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
               <image>
                 <Image url="@../../assets/icon/search-normal.png" />
               </image>
             </ImageView>
-            <TextField fx:id="textSearch" layoutX="37.0" onAction="#txtSearchOnAction" onMouseMoved="#txtSearchOnMouseMoved" prefHeight="30.0" prefWidth="234.0" promptText="Search by Name / ID" style="-fx-background-color: white; -fx-background-radius: 0 12 12 0;">
+            <TextField fx:id="textSearch" layoutX="37.0" onAction="#txtSearchOnAction" prefHeight="30.0" prefWidth="234.0" promptText="Search by Name / ID" style="-fx-background-color: white; -fx-background-radius: 0 12 12 0;">
               <font>
                 <Font size="13.0" />
               </font>
@@ -132,7 +132,7 @@
                 <Image url="@../../assets/icon/R.png" />
               </image>
             </ImageView>
-            <JFXButton onAction="#btnRefreshTableOnAction" onMouseEntered="#btnRefreshTableOnMouseEntered" onMouseExited="#btnRefreshTableOnMouseExited" prefHeight="30.0" prefWidth="30.0" style="-fx-background-radius: 12;" text=" ">
+            <JFXButton fx:id="refreshButton" onAction="#btnRefreshTableOnAction" onMouseEntered="#btnOnMouseEntered" onMouseExited="#btnOnMouseExited" prefHeight="30.0" prefWidth="30.0" style="-fx-background-radius: 12;" text=" ">
               <font>
                 <Font size="16.0" />
               </font>
@@ -142,24 +142,24 @@
             </JFXButton>
           </children>
         </Pane>
-        <JFXButton fx:id="studentButton" layoutX="15.0" layoutY="22.0" onAction="#studentButtonOnAction" prefHeight="30.0" prefWidth="164.0" style="-fx-background-radius: 12px;" styleClass="student-btn" text=" ">
+        <JFXButton fx:id="studentButton" layoutX="15.0" layoutY="22.0" onAction="#studentButtonOnAction" onMouseEntered="#btnOnMouseEntered" onMouseExited="#btnOnMouseExited" prefHeight="30.0" prefWidth="164.0" style="-fx-background-radius: 12px;" styleClass="student-btn" text=" ">
           <cursor>
             <Cursor fx:constant="HAND" />
           </cursor>
         </JFXButton>
-        <JFXButton fx:id="guestButton" layoutX="190.0" layoutY="22.0" onAction="#guestButtonOnAction" prefHeight="30.0" prefWidth="164.0" style="-fx-background-radius: 12px;" styleClass="guest-btn" text=" ">
+        <JFXButton fx:id="guestButton" layoutX="190.0" layoutY="22.0" onAction="#guestButtonOnAction" onMouseEntered="#btnOnMouseEntered" onMouseExited="#btnOnMouseExited" prefHeight="30.0" prefWidth="164.0" style="-fx-background-radius: 12px;" styleClass="guest-btn" text=" ">
           <cursor>
             <Cursor fx:constant="HAND" />
           </cursor>
         </JFXButton>
-        <HBox alignment="CENTER" fillHeight="false" layoutX="686.0" layoutY="22.0" prefHeight="30.0" prefWidth="106.0" spacing="8.0" style="-fx-background-color: #040000; -fx-background-radius: 12;">
+        <HBox fx:id="hBoxAddUser" alignment="CENTER" fillHeight="false" layoutX="686.0" layoutY="22.0" prefHeight="30.0" prefWidth="100.0" spacing="8.0" style="-fx-background-color: #040000; -fx-background-radius: 12;">
           <children>
-            <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="addImage" fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
               <image>
                 <Image url="@../../assets/icon/add-circle%201.png" />
               </image>
             </ImageView>
-            <Label prefHeight="19.0" prefWidth="62.0" style="-fx-text-fill: white;" text="Add User">
+            <Label fx:id="addLabel" prefHeight="19.0" prefWidth="62.0" style="-fx-text-fill: white;" text="Add User">
               <font>
                 <Font size="13.0" />
               </font>
@@ -169,7 +169,7 @@
             <Insets left="8.0" right="8.0" />
           </padding>
         </HBox>
-        <JFXButton fx:id="addUserButton" layoutX="686.0" layoutY="22.0" onAction="#addUserButtonOnAction" prefHeight="30.0" prefWidth="106.0" style="-fx-background-radius: 12;" text=" " textFill="WHITE">
+        <JFXButton fx:id="addUserButton" layoutX="686.0" layoutY="22.0" onAction="#addUserButtonOnAction" onMouseEntered="#btnAddUserOnMouseEntered" onMouseExited="#btnAddUserOnMouseExited" prefHeight="30.0" prefWidth="100.0" style="-fx-background-radius: 12;" text=" " textFill="WHITE">
           <cursor>
             <Cursor fx:constant="HAND" />
           </cursor>

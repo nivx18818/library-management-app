@@ -10,13 +10,18 @@ import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import app.libmgmt.model.Book;
+import app.libmgmt.util.AnimationUtils;
 import app.libmgmt.util.ChangeScene;
 import app.libmgmt.util.EnumUtils.PopupList;
 
@@ -35,19 +40,36 @@ public class AdminBooksLayoutController {
     @FXML
     private JFXButton addBookButton;
     @FXML
-    private Pane refreshPaneButton;
+    private JFXButton apiButton;
+    @FXML
+    private JFXButton refreshButton;
+    @FXML
+    private Pane refreshPane;
     @FXML
     private Pane searchPane;
     @FXML
     private TextField textSearch;
     @FXML
     private VBox vBoxBooksList;
+    @FXML
+    private HBox hBoxAddBook;
+    @FXML
+    private ImageView addBookLogo;
+    @FXML
+    private Label addBookLabel;
+    @FXML
+    private Pane apiPane;
+    @FXML
+    private Label apiLabel;
 
     private String deletedOrderNumber;
 
     private final List<Book> observableBooksData = adminGlobalController.getObservableBookData();
 
     private Timeline debounceTimeline;
+
+    private final String hoverAcquireLogo = "/assets/icon/acquire-logo-1.png";
+    private final String acquireLogo = "/assets/icon/add-circle 1.png";
 
     public AdminBooksLayoutController() {
         controller = this;
@@ -299,11 +321,50 @@ public class AdminBooksLayoutController {
     }
 
     @FXML
-    void btnRefreshTableOnMouseEntered(MouseEvent event) {
+    void paneOnMouseEntered(MouseEvent event) {
+        Object source = event.getSource();
+        if (source.equals(searchPane)) {
+            AnimationUtils.createScaleTransition(1.05, searchPane).play();
+        } else if (source.equals(refreshButton)) {
+            AnimationUtils.createScaleTransition(1.15, refreshPane).play();
+        } else if (source.equals(apiButton)) {
+            apiPane.setStyle(
+                    "-fx-background-color: #F2F2F2; -fx-background-radius: 12px; -fx-border-color: #000; -fx-border-width: 0.5px; -fx-border-radius: 12px; -fx-background-insets: 0; -fx-border-insets: -1;");
+            apiLabel.setStyle("-fx-text-fill: #000;");
+            AnimationUtils.createScaleTransition(1.05, apiPane).play();
+        }
     }
 
     @FXML
-    void btnRefreshTableOnMouseExited(MouseEvent event) {
+    void paneOnMouseExited(MouseEvent event) {
+        Object source = event.getSource();
+        if (source.equals(searchPane)) {
+            AnimationUtils.createScaleTransition(AnimationUtils.DEFAULT_SCALE, searchPane).play();
+        } else if (source.equals(refreshButton)) {
+            AnimationUtils.createScaleTransition(AnimationUtils.DEFAULT_SCALE, refreshPane).play();
+        } else if (source.equals(apiButton)) {
+            apiPane.setStyle(
+                    "-fx-background-color: #000; -fx-background-radius: 12px; -fx-border-color: #F2F2F2; -fx-border-width: 0.5px; -fx-border-radius: 12px; -fx-background-insets: 0; -fx-border-insets: -1;");
+            apiLabel.setStyle("-fx-text-fill: #F2F2F2;");
+            AnimationUtils.createScaleTransition(AnimationUtils.DEFAULT_SCALE, apiPane).play();
+        }
+    }
+
+    @FXML
+    void btnAddBookOnMouseEntered(MouseEvent event) {
+        hBoxAddBook.setStyle(
+                "-fx-background-color: #F2F2F2; -fx-background-radius: 12px; -fx-border-color: #000; -fx-border-width: 2px; -fx-border-radius: 12px; -fx-background-insets: 0; -fx-border-insets: -1;");
+        addBookLogo.setImage(new Image(getClass().getResource(hoverAcquireLogo).toExternalForm()));
+        addBookLabel.setStyle("-fx-text-fill: #000;");
+        AnimationUtils.createScaleTransition(AnimationUtils.HOVER_SCALE, hBoxAddBook).play();
+    }
+
+    @FXML
+    void btnAddBookOnMouseExited(MouseEvent event) {
+        hBoxAddBook.setStyle("-fx-background-color: #000; -fx-background-radius: 12px; -fx-border-color: #F2F2F2; -fx-border-width: 2px; -fx-border-radius: 12px; -fx-background-insets: 0; -fx-border-insets: -1;");
+        addBookLogo.setImage(new Image(getClass().getResource(acquireLogo).toExternalForm()));
+        addBookLabel.setStyle("-fx-text-fill: #F2F2F2;");
+        AnimationUtils.createScaleTransition(AnimationUtils.DEFAULT_SCALE, hBoxAddBook).play();
     }
 
     public StackPane getStackPaneContainer() {

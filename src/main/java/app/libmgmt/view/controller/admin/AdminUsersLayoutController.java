@@ -8,6 +8,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -15,12 +17,15 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import app.libmgmt.model.ExternalBorrower;
 import app.libmgmt.model.Student;
+import app.libmgmt.util.AnimationUtils;
 import app.libmgmt.util.ChangeScene;
 import app.libmgmt.util.EnumUtils;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Logger;
+
+import com.jfoenix.controls.JFXButton;
 
 public class AdminUsersLayoutController {
 
@@ -35,17 +40,38 @@ public class AdminUsersLayoutController {
     @FXML
     private HBox hBoxStudent;
     @FXML
+    private Pane hBoxAddUser;
+    @FXML
     private Pane studentPane;
     @FXML
     private Label studentLabel;
     @FXML
     private Pane guestPane;
     @FXML
+    private Pane searchPane;
+    @FXML
+    private Pane refreshPaneButton;
+    @FXML
     private Label guestLabel;
     @FXML
     private VBox vBoxUserList;
     @FXML
     private TextField textSearch;
+    @FXML
+    private JFXButton studentButton;
+    @FXML
+    private JFXButton guestButton;
+    @FXML
+    private JFXButton addUserButton;
+    @FXML
+    private JFXButton refreshButton;
+    @FXML
+    private Label addLabel;
+    @FXML
+    private ImageView addImage;
+
+    private final String hoverAcquireLogo = "/assets/icon/acquire-logo-1.png";
+    private final String acquireLogo = "/assets/icon/add-circle 1.png";
 
     private EnumUtils.UserType status = EnumUtils.UserType.STUDENT;
 
@@ -296,16 +322,6 @@ public class AdminUsersLayoutController {
     }
 
     @FXML
-    void btnRefreshTableOnMouseEntered(MouseEvent event) {
-
-    }
-
-    @FXML
-    void btnRefreshTableOnMouseExited(MouseEvent event) {
-
-    }
-
-    @FXML
     void txtSearchOnAction(ActionEvent event) {
         String searchText = textSearch.getText();
         if (searchText.isEmpty()) {
@@ -369,8 +385,48 @@ public class AdminUsersLayoutController {
     }
 
     @FXML
-    void txtSearchOnMouseMoved(MouseEvent event) {
+    void btnOnMouseEntered(MouseEvent event) {
+        Object source = event.getSource();
+        if (source == studentButton) {
+            AnimationUtils.createScaleTransition(AnimationUtils.HOVER_SCALE, studentPane).play();
+        } else if (source == guestButton) {
+            AnimationUtils.createScaleTransition(AnimationUtils.HOVER_SCALE, guestPane).play();
+        } else if (source == refreshButton) {
+            AnimationUtils.createScaleTransition(1.15, refreshPaneButton).play();
+        } else if (source == searchPane) {
+            AnimationUtils.createScaleTransition(1.05, searchPane).play();
+        }
+    }
 
+    @FXML
+    void btnOnMouseExited(MouseEvent event) {
+        Object source = event.getSource();
+        if (source == studentButton) {
+            AnimationUtils.createScaleTransition(1, studentPane).play();
+        } else if (source == guestButton) {
+            AnimationUtils.createScaleTransition(1, guestPane).play();
+        } else if (source == refreshButton) {
+            AnimationUtils.createScaleTransition(1, refreshPaneButton).play();
+        } else if (source == searchPane) {
+            AnimationUtils.createScaleTransition(1, searchPane).play();
+        }
+    }
+
+    @FXML
+    void btnAddUserOnMouseEntered(MouseEvent event) {
+        hBoxAddUser.setStyle(
+                "-fx-background-color: #F2F2F2; -fx-background-radius: 12px; -fx-border-color: #000; -fx-border-radius: 12px; -fx-border-width: 1.2px;");
+        addImage.setImage(new Image(getClass().getResource(hoverAcquireLogo).toExternalForm()));
+        addLabel.setStyle("-fx-text-fill: #000;");
+        AnimationUtils.createScaleTransition(AnimationUtils.HOVER_SCALE, hBoxAddUser).play();
+    }
+
+    @FXML
+    void btnAddUserOnMouseExited(MouseEvent event) {
+        hBoxAddUser.setStyle("-fx-background-color: #000; -fx-background-radius: 12px;");
+        addImage.setImage(new Image(getClass().getResource(acquireLogo).toExternalForm()));
+        addLabel.setStyle("-fx-text-fill: #F2F2F2;");
+        AnimationUtils.createScaleTransition(AnimationUtils.DEFAULT_SCALE, hBoxAddUser).play();
     }
 
     public void setDefaultStyle() {

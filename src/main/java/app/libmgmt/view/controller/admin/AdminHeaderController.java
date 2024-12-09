@@ -3,6 +3,7 @@ package app.libmgmt.view.controller.admin;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -57,7 +58,8 @@ public class AdminHeaderController {
 
     // Method to set user information in the header
     public static void setInformation() {
-        getInstance().nameUserText.setText("Hello, " + AdminGlobalController.getInstance().getAdminLoginInfo().getName());
+        getInstance().nameUserText
+                .setText("Hello, " + AdminGlobalController.getInstance().getAdminLoginInfo().getName());
         getInstance().typeUserText.setText("Admin");
     }
 
@@ -102,6 +104,16 @@ public class AdminHeaderController {
         ChangeScene.openAdminPopUp(
                 AdminGlobalController.getInstance().getStackPaneContainer(),
                 "/fxml/change-credentials-dialog.fxml", EnumUtils.PopupList.CHANGE_CREDENTIALS);
+    }
+
+    @FXML
+    void settingImageOnMouseEntered(MouseEvent event) {
+        settingImage.setImage(new Image(getClass().getResource("/assets/icon/setting2.png").toExternalForm()));
+    }
+
+    @FXML
+    void settingImageOnMouseExited(MouseEvent event) {
+        settingImage.setImage(new Image(getClass().getResource("/assets/icon/setting1.png").toExternalForm()));
     }
 
 }

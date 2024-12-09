@@ -13,11 +13,13 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import app.libmgmt.model.Book;
 import app.libmgmt.model.Loan;
 import app.libmgmt.service.LoanService;
+import app.libmgmt.util.AnimationUtils;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -44,6 +46,8 @@ public class AdminBorrowedBooksLayoutController {
     @FXML
     private JFXButton overdueBorrowersButton;
     @FXML
+    private JFXButton refreshButton;
+    @FXML
     private Label borrowedBooksLabel;
     @FXML
     private Label overdueBorrowersLabel;
@@ -51,6 +55,10 @@ public class AdminBorrowedBooksLayoutController {
     private Pane borrowedBooksPane;
     @FXML
     private Pane overdueBorrowersPane;
+    @FXML
+    private Pane refreshPaneButton;
+    @FXML
+    private Pane searchPane;
 
     private Timeline debounceTimeline;
 
@@ -195,13 +203,13 @@ public class AdminBorrowedBooksLayoutController {
         vBoxBorrowedBooks.getChildren().clear();
         String searchText = textSearch.getText();
         if (searchText.isEmpty()) {
-        if (status == STATE.BORROWED) {
-        showBorrowedBooksList();
-        } else if (status == STATE.OVERDUE) {
-        showOverdueBorrowersList();
-        }
+            if (status == STATE.BORROWED) {
+                showBorrowedBooksList();
+            } else if (status == STATE.OVERDUE) {
+                showOverdueBorrowersList();
+            }
         } else {
-        showFilteredData(searchText);
+            showFilteredData(searchText);
         }
     }
 
@@ -251,6 +259,34 @@ public class AdminBorrowedBooksLayoutController {
         } catch (Exception e) {
             System.err.println("Error while matching search criteria: " + e.getMessage());
             return false;
+        }
+    }
+
+    @FXML
+    void btnOnMouseEntered(MouseEvent event) {
+        Object source = event.getSource();
+        if (source == borrowedBooksButton) {
+            AnimationUtils.createScaleTransition(AnimationUtils.HOVER_SCALE, borrowedBooksPane).play();
+        } else if (source == overdueBorrowersButton) {
+            AnimationUtils.createScaleTransition(AnimationUtils.HOVER_SCALE, overdueBorrowersPane).play();
+        } else if (source == refreshButton) {
+            AnimationUtils.createScaleTransition(1.15, refreshPaneButton).play();
+        } else if (source == searchPane) {
+            AnimationUtils.createScaleTransition(1.05, searchPane).play();
+        }
+    }
+
+    @FXML
+    void btnOnMouseExited(MouseEvent event) {
+        Object source = event.getSource();
+        if (source == borrowedBooksButton) {
+            AnimationUtils.createScaleTransition(AnimationUtils.DEFAULT_SCALE, borrowedBooksPane).play();
+        } else if (source == overdueBorrowersButton) {
+            AnimationUtils.createScaleTransition(AnimationUtils.DEFAULT_SCALE, overdueBorrowersPane).play();
+        } else if (source == refreshButton) {
+            AnimationUtils.createScaleTransition(AnimationUtils.DEFAULT_SCALE, refreshPaneButton).play();
+        } else if (source == searchPane) {
+            AnimationUtils.createScaleTransition(AnimationUtils.DEFAULT_SCALE, searchPane).play();
         }
     }
 
