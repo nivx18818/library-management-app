@@ -241,11 +241,15 @@ public class LoanDAO {
     }
 
     public void updateLoanReturnedDate(int loanId) throws SQLException {
-        String sql = "UPDATE Loan SET returned_date = DATE('now'), status = 'RETURNED' WHERE id = ?";
+        String sql = "UPDATE Loan SET returned_date = ?, status = 'RETURNED' WHERE id = ?";
 
+        LocalDate returnedDate = LocalDate.now();
+        DateTimeFormatter outputFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String returnedDateString = returnedDate.format(outputFormat);
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, loanId);
+            statement.setString(1, returnedDateString);
+            statement.setInt(2, loanId);
             statement.executeUpdate();
         }
     }
