@@ -1,5 +1,7 @@
 package app.libmgmt.view.controller.admin;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
 import javafx.concurrent.Task;
@@ -15,6 +17,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 import app.libmgmt.model.ExternalBorrower;
 import app.libmgmt.model.Student;
 import app.libmgmt.util.AnimationUtils;
@@ -70,6 +73,8 @@ public class AdminUsersLayoutController {
     @FXML
     private ImageView addImage;
 
+    private Timeline debounceTimeline;
+
     private final String hoverAcquireLogo = "/assets/icon/acquire-logo-1.png";
     private final String acquireLogo = "/assets/icon/add-circle 1.png";
 
@@ -88,12 +93,29 @@ public class AdminUsersLayoutController {
         Logger.getLogger("javafx").setLevel(java.util.logging.Level.SEVERE);
         System.out.println("Initialize Catalog Layout");
 
+        debounceDataSearch();
+
         setVisibility(true, false);
         showStudentsList();
 
         // Listen for changes in user data for both students and guests
         listenUserListChange(EnumUtils.UserType.STUDENT);
         listenUserListChange(EnumUtils.UserType.GUEST);
+    }
+
+        // Debounce Search
+    private void debounceDataSearch() {
+        debounceTimeline = new Timeline(new KeyFrame(Duration.millis(280), event -> {
+            performSearch();
+        }));
+        debounceTimeline.setCycleCount(1);
+
+        textSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (debounceTimeline.getStatus() == Timeline.Status.RUNNING) {
+                debounceTimeline.stop();
+            }
+            debounceTimeline.play();
+        });
     }
 
     private void listenUserListChange(EnumUtils.UserType userType) {
@@ -321,8 +343,8 @@ public class AdminUsersLayoutController {
         }
     }
 
-    @FXML
-    void txtSearchOnAction(ActionEvent event) {
+    public void performSearch() {
+        vBoxUserList.getChildren().clear();
         String searchText = textSearch.getText();
         if (searchText.isEmpty()) {
             if (status == EnumUtils.UserType.STUDENT) {
@@ -338,10 +360,12 @@ public class AdminUsersLayoutController {
 
     // Filtering Logic
     public void showFilteredData(String searchText) {
-        vBoxUserList.getChildren().clear();
         if (status == EnumUtils.UserType.STUDENT) {
             adminGlobalController.getObservableStudentsData().stream()
-                    .filter(student -> student.getName().toLowerCase().contains(searchText.toLowerCase()))
+                    .filter(student -> (student.getName().toLowerCase().contains(searchText.toLowerCase()) ||
+                            student.getStudentId().toLowerCase().contains(searchText.toLowerCase())) ||
+                            student.getMajor().toLowerCase().contains(searchText.toLowerCase()) ||
+                            student.getEmail().toLowerCase().contains(searchText.toLowerCase()))
                     .forEach(student -> {
                         try {
                             String[] studentData = new String[] {
@@ -362,8 +386,11 @@ public class AdminUsersLayoutController {
                     });
         } else {
             adminGlobalController.getObservableExternalBorrowersData().stream()
-                    .filter(externalBorrower -> externalBorrower.getName().toLowerCase()
-                            .contains(searchText.toLowerCase()))
+                    .filter(externalBorrower -> (externalBorrower.getName().toLowerCase()
+                            .contains(searchText.toLowerCase())) ||
+                            externalBorrower.getSocialId().toLowerCase().contains(searchText.toLowerCase()) ||
+                            externalBorrower.getEmail().toLowerCase().contains(searchText.toLowerCase()) ||
+                            externalBorrower.getPhoneNumber().toLowerCase().contains(searchText.toLowerCase()))
                     .forEach(externalBorrower -> {
                         try {
                             String[] externalBorrowerData = new String[] {
