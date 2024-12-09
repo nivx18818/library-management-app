@@ -13,6 +13,12 @@ public class Admin extends User {
         this.adminId = adminId;
     }
 
+    //data format: [name, major, email, id, password]
+    public Admin(String[] userData) {
+        super(userData);
+        this.adminId = Integer.parseInt(userData[3]);
+    }
+
     public int getAdminId() {
         return adminId;
     }

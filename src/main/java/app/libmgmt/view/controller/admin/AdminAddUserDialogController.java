@@ -106,11 +106,11 @@ public class AdminAddUserDialogController {
 
     // --- Validation Methods ---
     private boolean checkValidAdmin(String[] adminInfo, EnumUtils.UserType userType) {
-        String id = adminInfo[0];
-        String name = adminInfo[1];
+        String id = adminInfo[3];
+        String name = adminInfo[0];
         String email = adminInfo[2];
-        String password = adminInfo[3];
-        String cfPassword = adminInfo[4];
+        String password = adminInfo[4];
+        String cfPassword = adminInfo[5];
 
         if (isFieldEmpty(id, name, email, password, cfPassword)) {
             showNotification("Please fill in all fields.", "red");
@@ -193,10 +193,10 @@ public class AdminAddUserDialogController {
     // --- User Add Methods ---
     private void addAdmin(String[] adminInfo) {
         if (checkValidAdmin(adminInfo, EnumUtils.UserType.ADMIN)) {
-            Admin admin = new Admin(adminInfo[0], adminInfo[1], adminInfo[2], adminInfo[3], 0);
-            // form data: [id, name, email, password, cfPassword]
+            String[] newUser = { adminInfo[0], "major", adminInfo[2], adminInfo[3], adminInfo[4] };
+            Admin admin = new Admin(newUser);
             AdminGlobalController.getInstance().getAdminData().add(admin);
-            //TODO: Add admin to database
+            userService.addUser(admin);
             AdminDashboardController.getInstance().loadAdminDataTable(adminInfo[1], adminInfo[2], adminInfo[0]);
             showNotification("Added successfully", "#08a80d");
             setDefaultContent();
@@ -294,8 +294,9 @@ public class AdminAddUserDialogController {
 
         } else if (selectedRadioButton == adminRadioBtn) {
             System.out.println("Add Admin");
-            String[] adminInfo = {txtIdAdmin.getText(), txtNameAdmin.getText(), txtEmailAdmin.getText(),
-                    txtPasswordAdmin.getText(), txtCfPasswordAdmin.getText() };
+            //data format: [name, major, email, id, password]
+            String[] adminInfo = {txtNameAdmin.getText(), "major", txtEmailAdmin.getText(),
+                    txtIdAdmin.getText(), txtPasswordAdmin.getText(), txtCfPasswordAdmin.getText()};
             addAdmin(adminInfo);
         }
     }
