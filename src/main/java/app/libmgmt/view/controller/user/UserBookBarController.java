@@ -9,13 +9,11 @@ import app.libmgmt.view.controller.admin.AdminBookViewDialogController;
 import javafx.concurrent.Task;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import java.util.Date;
 
 public class UserBookBarController {
 
@@ -46,7 +44,8 @@ public class UserBookBarController {
     private ImageView viewImage;
 
     private int quantity = -1;
-    private String imgPath = "", publisher = "", publishedDate = "", bookID = "", webReaderUrl = "";
+    private String imgPath = "", publisher = "", publishedDate = "Not Available", bookID = "",
+            webReaderUrl = "Not Available";
 
     private final String hoverViewLogo = "/assets/icon/Property 1=Variant2.png";
     private final String viewLogo = "/assets/icon/btn view.png";
@@ -98,28 +97,23 @@ public class UserBookBarController {
         authorLabel.setText(data[4]);
         setQuantityAndStatus(data[5]);
         publisher = data[6];
-        publishedDate = data[7];
-        webReaderUrl = data[8];
+        if (!publishedDate.equals(data[7]) && (data[7] != null || !data[7].equals("null"))) {
+            publishedDate = data[7];
+        }
+
+        if (!webReaderUrl.equals(data[8])) {
+            webReaderUrl = data[8];
+        }
         if (UserGlobalController.getInstance().isBookBorrowed(bookID) || statusLabel.getText().equals("Borrowed")) {
             checkBoxButton.setDisable(true);
         }
     }
 
     public String[] getData() {
-        // data format: [id, coverURL, name, type, author, quantity, publisher, publishedDate]
-        SimpleDateFormat inputFormat = new SimpleDateFormat("dd/MM/yyyy");
-        SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date parsedDate;
-        String formattedDate;
-        try {
-            parsedDate = inputFormat.parse(publishedDate);
-            formattedDate = outputFormat.format(parsedDate);
-        } catch (java.text.ParseException e) {
-            e.printStackTrace();
-            formattedDate = "";
-        }
-        return new String[] { bookID, imgPath, nameLabel.getText(), typeLabel.getText(), authorLabel.getText(),
-                Integer.toString(quantity), publisher, formattedDate, webReaderUrl };
+        // data format: [id, coverURL, name, type, author, quantity, publisher,
+        // publishedDate]
+        return new String[] { bookID, imgPath, nameLabel.getText(), typeLabel.getText(),
+                authorLabel.getText(), Integer.toString(quantity), publisher, publishedDate, webReaderUrl };
     }
 
     /**

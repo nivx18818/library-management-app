@@ -30,7 +30,7 @@ public class AdminBookBarController {
     private ImageView bookImage, editFunction, deleteFunction, viewFunction;
 
     private int quantity = -1;
-    private String imgPath = "", publisher = "", publishedDate = "", bookID = "", webReaderUrl = "Not Available";
+    private String imgPath = "", publisher = "", publishedDate = "Not Available", bookID = "", webReaderUrl = "Not Available";
 
     public AdminBookBarController() {
         controller = this;
@@ -165,12 +165,8 @@ public class AdminBookBarController {
             publisher = data[6];
         }
 
-        if (!publishedDate.equals(data[7])) {
-            if (data[7].equals("null")) {
-                publishedDate = "Not Available";
-            } else {
-                publishedDate = data[7];
-            }
+        if (!publishedDate.equals(data[7]) && (data[7] != null || !data[7].equals("null"))) {
+            publishedDate = data[7];
         }
 
         if (!webReaderUrl.equals(data[8])) {
