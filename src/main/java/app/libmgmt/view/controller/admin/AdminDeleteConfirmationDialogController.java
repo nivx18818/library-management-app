@@ -49,16 +49,19 @@ public class AdminDeleteConfirmationDialogController {
     @FXML
     void closeButtonOnAction(ActionEvent event) {
         closeDialog();
+        setStopListener();
     }
 
     @FXML
     void deleteButtonOnAction(ActionEvent event) {
         startDeleteProcess();
+        setStopListener();
     }
 
     @FXML
     void cancelButtonOnAction(ActionEvent event) {
         closeDialog();
+        setStopListener();
     }
 
     @FXML
@@ -154,5 +157,11 @@ public class AdminDeleteConfirmationDialogController {
         }));
         timeline.play();
         timeline2.play();
+    }
+
+    private void setStopListener() {
+        if (popupType == EnumUtils.PopupList.BOOK_DELETE) {
+            AdminBooksLayoutController.getInstance().stopListeningBookDataChanges();
+        }
     }
 }

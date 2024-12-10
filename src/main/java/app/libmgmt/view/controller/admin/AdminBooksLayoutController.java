@@ -62,6 +62,8 @@ public class AdminBooksLayoutController {
     @FXML
     private Label apiLabel;
 
+    private ListChangeListener<Book> bookDataChangeListener;
+
     private String deletedOrderNumber;
 
     private final List<Book> observableBooksData = adminGlobalController.getObservableBookData();
@@ -88,11 +90,10 @@ public class AdminBooksLayoutController {
 
         preloadData(observableBooksData);
         stackPaneContainer.setOnMouseClicked(event -> stackPaneContainer.requestFocus());
-        listenBookDataChanges();
     }
 
     private void debounceDataSearch() {
-        debounceTimeline = new Timeline(new KeyFrame(Duration.millis(350), e -> performSearch()));
+        debounceTimeline = new Timeline(new KeyFrame(Duration.millis(280), e -> performSearch()));
         debounceTimeline.setCycleCount(1);
 
         textSearch.setOnKeyTyped(event -> {
@@ -169,19 +170,27 @@ public class AdminBooksLayoutController {
     }
 
     // Book Data Changes Listener
-    private void listenBookDataChanges() {
-        adminGlobalController.getObservableBookData()
-                .addListener((ListChangeListener.Change<? extends Book> change) -> {
-                    while (change.next()) {
-                        if (change.wasRemoved() && change.getRemovedSize() != change.getAddedSize()) {
-                            Book book = change.getRemoved().get(0);
-                            if (book != null) {
-                                String bookId = book.getIsbn();
-                                removeBookFromVBox(bookId);
-                            }
-                        }
+    public void listenBookDataChanges() {
+        bookDataChangeListener = change -> {
+            while (change.next()) {
+                if (change.wasRemoved() && change.getRemovedSize() != change.getAddedSize()) {
+                    Book book = change.getRemoved().get(0);
+                    if (book != null) {
+                        String bookId = book.getIsbn();
+                        removeBookFromVBox(bookId);
                     }
-                });
+                }
+            }
+        };
+    
+        adminGlobalController.getObservableBookData().addListener(bookDataChangeListener);
+    }
+    
+    public void stopListeningBookDataChanges() {
+        if (bookDataChangeListener != null) {
+            adminGlobalController.getObservableBookData().removeListener(bookDataChangeListener);
+            bookDataChangeListener = null;
+        }
     }
 
     private void removeBookFromVBox(String bookId) {
@@ -218,6 +227,8 @@ public class AdminBooksLayoutController {
     }
 
     public void refreshBooksList() {
+        vBoxBooksList.getChildren().clear();
+        adminGlobalController.getObservableBookData().clear();
         Task<List<Book>> reloadTask = new Task<>() {
             @Override
             protected List<Book> call() {
@@ -226,9 +237,7 @@ public class AdminBooksLayoutController {
 
             @Override
             protected void succeeded() {
-                observableBooksData.clear();
-                observableBooksData.addAll(getValue());
-                vBoxBooksList.getChildren().clear();
+                adminGlobalController.getObservableBookData().addAll(getValue());
                 preloadData(observableBooksData);
                 textSearch.clear();
                 textSearch.setEditable(true);
@@ -361,7 +370,8 @@ public class AdminBooksLayoutController {
 
     @FXML
     void btnAddBookOnMouseExited(MouseEvent event) {
-        hBoxAddBook.setStyle("-fx-background-color: #000; -fx-background-radius: 12px; -fx-border-color: #F2F2F2; -fx-border-width: 2px; -fx-border-radius: 12px; -fx-background-insets: 0; -fx-border-insets: -1;");
+        hBoxAddBook.setStyle(
+                "-fx-background-color: #000; -fx-background-radius: 12px; -fx-border-color: #F2F2F2; -fx-border-width: 2px; -fx-border-radius: 12px; -fx-background-insets: 0; -fx-border-insets: -1;");
         addBookLogo.setImage(new Image(getClass().getResource(acquireLogo).toExternalForm()));
         addBookLabel.setStyle("-fx-text-fill: #F2F2F2;");
         AnimationUtils.createScaleTransition(AnimationUtils.DEFAULT_SCALE, hBoxAddBook).play();

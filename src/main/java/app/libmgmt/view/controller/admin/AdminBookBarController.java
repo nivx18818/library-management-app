@@ -22,8 +22,6 @@ import app.libmgmt.util.EnumUtils;
 
 public class AdminBookBarController {
 
-    private static AdminBookBarController controller;
-
     @FXML
     private Label orderLabel, authorLabel, nameLabel, statusLabel, typeLabel;
     @FXML
@@ -31,14 +29,6 @@ public class AdminBookBarController {
 
     private int quantity = -1;
     private String imgPath = "", publisher = "", publishedDate = "Not Available", bookID = "", webReaderUrl = "Not Available";
-
-    public AdminBookBarController() {
-        controller = this;
-    }
-
-    public static AdminBookBarController getInstance() {
-        return controller;
-    }
 
     @FXML
     public void initialize() {
@@ -99,6 +89,7 @@ public class AdminBookBarController {
 
     @FXML
     void imgDeleteOnMouseClicked(MouseEvent event) {
+        AdminBooksLayoutController.getInstance().listenBookDataChanges();
         openPopUp("/fxml/admin/admin-delete-confirmation-dialog.fxml", EnumUtils.PopupList.BOOK_DELETE);
         AdminBooksLayoutController.getInstance().setDeletedOrderNumber(orderLabel.getText());
     }
