@@ -9,6 +9,7 @@ import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -24,6 +25,7 @@ import app.libmgmt.service.LoanService;
 import app.libmgmt.util.AnimationUtils;
 import app.libmgmt.util.ChangeScene;
 import app.libmgmt.util.EnumUtils;
+import app.libmgmt.util.EnumUtils.PopupList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,23 +75,24 @@ public class AdminBorrowedBookViewDialogController {
     }
 
     // private void listenLoanDataChanges() {
-    //     AdminGlobalController.getInstance().getBorrowedBooksData()
-    //             .addListener((ListChangeListener.Change<? extends Loan> change) -> {
-    //                 while (change.next()) {
-    //                     if (change.wasUpdated() && change.getTo() != -1) {
-    //                         List<? extends Loan> subList = change.getList().subList(change.getFrom(), change.getTo());
-    //                         subList.forEach(loan -> {
-    //                             String bookId = loan.getIsbn();
-    //                             vBox.getChildren().stream()
-    //                                     .filter(child -> child.getId() != null && child.getId().equals(bookId))
-    //                                     .findFirst()
-    //                                     .ifPresent(child -> Platform.runLater(() -> {
-    //                                         vBox.getChildren().remove(child);
-    //                                     }));
-    //                         });
-    //                     }
-    //                 }
-    //             });
+    // AdminGlobalController.getInstance().getBorrowedBooksData()
+    // .addListener((ListChangeListener.Change<? extends Loan> change) -> {
+    // while (change.next()) {
+    // if (change.wasUpdated() && change.getTo() != -1) {
+    // List<? extends Loan> subList = change.getList().subList(change.getFrom(),
+    // change.getTo());
+    // subList.forEach(loan -> {
+    // String bookId = loan.getIsbn();
+    // vBox.getChildren().stream()
+    // .filter(child -> child.getId() != null && child.getId().equals(bookId))
+    // .findFirst()
+    // .ifPresent(child -> Platform.runLater(() -> {
+    // vBox.getChildren().remove(child);
+    // }));
+    // });
+    // }
+    // }
+    // });
     // }
 
     public List<Book> getBooksData(String id) {
@@ -159,8 +162,13 @@ public class AdminBorrowedBookViewDialogController {
 
     @FXML
     void btnReturnOnAction(ActionEvent event) {
-        ChangeScene.openAdminPopUp(AdminBorrowedBooksLayoutController.getInstance().getStackPaneContainer(),
-                "/fxml/user/user-return-book-confirmation-dialog.fxml", EnumUtils.PopupList.RETURN_BOOK);
+        if (getSelectedBooksList().isEmpty()) {
+            ChangeScene.openAdminPopUp(AdminBorrowedBooksLayoutController.getInstance().getStackPaneContainer(), "/fxml/empty-data-notification-dialog.fxml",
+                    PopupList.EMPTY_DATA_NOTIFICATION);
+        } else {
+            ChangeScene.openAdminPopUp(AdminBorrowedBooksLayoutController.getInstance().getStackPaneContainer(),
+            "/fxml/user/user-return-book-confirmation-dialog.fxml", EnumUtils.PopupList.RETURN_BOOK);
+        }
     }
 
     public List<String> getSelectedIsbnList() {
@@ -173,7 +181,7 @@ public class AdminBorrowedBookViewDialogController {
                 isbnList.add(controller.getIsbn());
             }
         }
-        
+
         return isbnList;
     }
 
@@ -187,7 +195,7 @@ public class AdminBorrowedBookViewDialogController {
                 amountList.add(controller.getAmount());
             }
         }
-        
+
         return amountList;
     }
 
@@ -231,5 +239,28 @@ public class AdminBorrowedBookViewDialogController {
 
     public void setUserId(String userId) {
         lblUserId.setText(userId);
+    }
+
+    public List<Book> getSelectedBooksList() {
+        List<Book> selectedBooks = new ArrayList<>();
+
+        for (Node node : vBox.getChildren()) {
+            if (node instanceof Pane) {
+                Pane bookBar = (Pane) node;
+                AdminBorrowedBookViewBarController controller = (AdminBorrowedBookViewBarController) bookBar
+                        .getUserData();
+
+                try {
+                    if (controller.getCheckBoxButton().isSelected()) {
+                        Book book = new Book(controller.getBookData());
+                        selectedBooks.add(book);
+                    }
+                } catch (Exception e) {
+                    System.out.println("Error getting selected books: " + e.getMessage());
+                }
+            }
+        }
+
+        return selectedBooks;
     }
 }

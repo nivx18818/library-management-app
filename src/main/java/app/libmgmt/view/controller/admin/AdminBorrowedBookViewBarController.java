@@ -24,10 +24,11 @@ public class AdminBorrowedBookViewBarController {
     private Label amountLabel;
     @FXML
     private JFXCheckBox checkBoxButton;
-    private String isbn;
+
+    private Book book;
 
     public void setData(Book book, Loan loan, String amount) {
-        isbn = book.getIsbn();
+        this.book = book;
         try {
             uploadImageAsync(book.getCoverUrl(), bookImage);
         } catch (Exception e) {
@@ -50,7 +51,7 @@ public class AdminBorrowedBookViewBarController {
     }
 
     public String getIsbn() {
-        return isbn;
+        return book.getIsbn();
     }
 
     public String getAmount() {
@@ -71,6 +72,20 @@ public class AdminBorrowedBookViewBarController {
         imageLoadTask.setOnFailed(event -> System.out.println("Failed to load image: " + newImagePath));
 
         new Thread(imageLoadTask).start();
+    }
+
+    public String[] getBookData() {
+        return new String[] {
+            book.getIsbn(),
+            book.getCoverUrl(),
+            book.getTitle(),
+            String.join(", ", book.getCategories()),
+            String.join(", ", book.getAuthors()),
+            String.valueOf(book.getAvailableCopies()),
+            book.getPublisher(),
+            new SimpleDateFormat("yyyy-MM-dd").format(book.getPublishedDate()),
+            book.getWebReaderUrl()
+        };
     }
 
 }
