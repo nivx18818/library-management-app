@@ -134,15 +134,26 @@ public class UserReturnBookConfirmationDialogController {
         
         if (resultIsbnString.isEmpty()) {
             loanService.updateLoanReturnedDate(loanId);
-            adminGlobalController.getBorrowedBooksData().removeIf(loan -> loan.getLoanId() == loanId);
+            if (AdminBorrowedBooksLayoutController.status == AdminBorrowedBooksLayoutController.STATE.BORROWED) {
+                adminGlobalController.getBorrowedBooksData().removeIf(loan -> loan.getLoanId() == loanId);
+            } else {
+                adminGlobalController.getOverDueLoans().removeIf(loan -> loan.getLoanId() == loanId);
+            }
         } else {
             loan.setIsbn(resultIsbnString);
             loan.setAmount(resultAmountString);
             loanService.updateLoan(loan);
-            adminGlobalController.getBorrowedBooksData().stream().filter(loan -> loan.getLoanId() == loanId).forEach(loan -> {
-                loan.setIsbn(resultIsbnString);
-                loan.setAmount(resultAmountString);
-            });
+            if (AdminBorrowedBooksLayoutController.status == AdminBorrowedBooksLayoutController.STATE.BORROWED) {
+                adminGlobalController.getBorrowedBooksData().stream().filter(loan -> loan.getLoanId() == loanId).forEach(loan -> {
+                    loan.setIsbn(resultIsbnString);
+                    loan.setAmount(resultAmountString);
+                });
+            } else {
+                adminGlobalController.getOverDueLoans().stream().filter(loan -> loan.getLoanId() == loanId).forEach(loan -> {
+                    loan.setIsbn(resultIsbnString);
+                    loan.setAmount(resultAmountString);
+                });
+            }
             Loan returnedLoan = loan;
             returnedLoan.setIsbn(String.join(", ", isbnListReturned));
             returnedLoan.setAmount(String.join(", ", amountList));

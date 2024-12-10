@@ -28,7 +28,7 @@ import java.util.logging.Logger;
 
 public class AdminBorrowedBooksLayoutController {
 
-    enum STATE {
+    public enum STATE {
         BORROWED, OVERDUE
     }
 
@@ -66,7 +66,7 @@ public class AdminBorrowedBooksLayoutController {
     private final AdminGlobalController adminGlobalController = AdminGlobalController.getInstance();
     private final List<Loan> borrowedBooksData = adminGlobalController.getBorrowedBooksData();
     private final List<Loan> overdueData = adminGlobalController.getOverDueLoans();
-    private STATE status = STATE.BORROWED;
+    public static STATE status = STATE.BORROWED;
 
     // Constructor and Singleton Access
     public AdminBorrowedBooksLayoutController() {

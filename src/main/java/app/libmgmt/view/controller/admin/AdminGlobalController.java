@@ -28,8 +28,13 @@ public class AdminGlobalController {
 
     private static AdminGlobalController controller;
 
+    private final BookService bookService = new BookService();
+    private final UserService userService = new UserService();
+    private final LoanService loanService = new LoanService();
+
     // Data loaded when starting the application
     private final ObservableList<Loan> borrowedBooksData = FXCollections.observableArrayList();
+    private final ObservableList<Loan> overdueLoansData = FXCollections.observableArrayList(preLoadOverDueLoans());
     // private final List<Admin> adminsData = preLoadAdminData();
     private final List<Admin> adminsData = FXCollections.observableArrayList();
 
@@ -37,10 +42,6 @@ public class AdminGlobalController {
     private final ObservableList<Student> studentsData = FXCollections.observableArrayList();
     private final ObservableList<ExternalBorrower> externalBorrowersData = FXCollections.observableArrayList();
     private final ObservableList<Book> observableBooksData = FXCollections.observableArrayList();
-
-    private final BookService bookService = new BookService();
-    private final UserService userService = new UserService();
-    private final LoanService loanService = new LoanService();
 
     private final User admin;
 
@@ -196,8 +197,8 @@ public class AdminGlobalController {
         return borrowedBooksData;
     }
 
-    public List<Loan> getOverDueLoans() {
-        return preLoadOverDueLoans();
+    public ObservableList<Loan> getOverDueLoans() {
+        return overdueLoansData;
     }
 
     public List<Admin> getAdminData() {
@@ -242,6 +243,10 @@ public class AdminGlobalController {
 
     public void setLoansData(List<Loan> data) {
         borrowedBooksData.setAll(data);
+    }
+
+    public void setOverdueLoansData(List<Loan> data) {
+        overdueLoansData.setAll(data);
     }
 
     public void setAdminData(List<Admin> data) {
