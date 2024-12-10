@@ -93,7 +93,7 @@ public class UserBooksLayoutController {
 
     // Debounce Search
     private void debounceDataSearch() {
-        debounceTimeline = new Timeline(new KeyFrame(Duration.millis(300), event -> {
+        debounceTimeline = new Timeline(new KeyFrame(Duration.millis(280), event -> {
             performSearch();
         }));
         debounceTimeline.setCycleCount(1);

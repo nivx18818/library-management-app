@@ -66,7 +66,7 @@ public class AdminAddBookApiController {
     }
 
     public void debounceDataSearch() {
-        debounceTimeline = new Timeline(new KeyFrame(Duration.millis(300), e -> performSearch()));
+        debounceTimeline = new Timeline(new KeyFrame(Duration.millis(280), e -> performSearch()));
         debounceTimeline.setCycleCount(1);
 
         apiSearchText.setOnKeyTyped(event -> {
