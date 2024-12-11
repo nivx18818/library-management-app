@@ -18,6 +18,7 @@ public class EnumUtils {
         BOOK_VIEW,
         BOOK_EDIT,
         BOOK_DELETE,
+        ALL_BORROWED_BOOKS_VIEW,
         USER_EDIT,
         STUDENT_DELETE,
         GUEST_DELETE,

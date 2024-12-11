@@ -33,6 +33,8 @@ public class AdminUsersStudentBarController {
     private Label nameLabel;
     @FXML
     private ImageView viewFunction;
+    @FXML
+    private ImageView bookViewFunction;
 
     @FXML
     public void initialize() {
@@ -62,6 +64,15 @@ public class AdminUsersStudentBarController {
                         }
                     }
                 });
+    }
+
+    @FXML
+    void imgBookOnMouseClicked(MouseEvent event) {
+        System.out.println("View Borrowed Books");
+        ChangeScene.openAdminPopUp(AdminUsersLayoutController.getInstance().stackPaneContainer,
+                "/fxml/admin/admin-all-borrowed-books-view-dialog.fxml", EnumUtils.PopupList.ALL_BORROWED_BOOKS_VIEW);
+                AdminAllBorrowedBookViewDialogController.getInstance().setData(idLabel.getText());
+                AdminAllBorrowedBookViewDialogController.getInstance().preLoadData();
     }
 
     @FXML
@@ -98,6 +109,7 @@ public class AdminUsersStudentBarController {
                     "/fxml/admin/admin-delete-confirmation-dialog.fxml",
                     idLabel.getText(),
                     EnumUtils.PopupList.STUDENT_DELETE);
+            
         }
     }
 

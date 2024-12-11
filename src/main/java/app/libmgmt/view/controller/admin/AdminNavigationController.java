@@ -185,7 +185,7 @@ public class AdminNavigationController {
     }
 
     // Handles the navigation between scenes
-    private void handleNavigation(EnumUtils.NavigationButton buttonType, String fxmlFile, JFXButton button)
+    void handleNavigation(EnumUtils.NavigationButton buttonType, String fxmlFile, JFXButton button)
             throws IOException {
         if (latestButtonClicked == buttonType) {
             return;
@@ -210,5 +210,9 @@ public class AdminNavigationController {
         alert.setTitle(title);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    public JFXButton getCatalogButton() {
+        return catalogButton;
     }
 }

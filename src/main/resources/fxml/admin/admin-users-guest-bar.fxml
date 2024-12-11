@@ -59,6 +59,14 @@
                 <Cursor fx:constant="HAND" />
               </cursor>
             </ImageView>
+                  <ImageView fx:id="bookViewFunction" fitHeight="22.0" fitWidth="22.0" onMouseClicked="#imgBookOnMouseClicked" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../assets/icon/book-1%201%20(2).png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
           </children>
         </HBox>
       </children>

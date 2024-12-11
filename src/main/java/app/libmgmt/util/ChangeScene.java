@@ -54,6 +54,7 @@ public class ChangeScene {
                     if (id != null && !id.isEmpty()) {
                         returnController.setLoanId(Integer.parseInt(id));
                     }
+                    break;
                 case BORROWED_BOOK_CATALOG:
                 case ADD_BOOK:
                 case ADD_USER:
@@ -66,6 +67,7 @@ public class ChangeScene {
                 case FORGOT_PASSWORD:
                 case LOGOUT:
                 case EMPTY_DATA_NOTIFICATION:
+                case ALL_BORROWED_BOOKS_VIEW:
                 case API:
                     break;
                 default:

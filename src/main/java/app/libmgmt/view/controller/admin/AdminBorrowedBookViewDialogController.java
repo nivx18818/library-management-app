@@ -38,8 +38,6 @@ public class AdminBorrowedBookViewDialogController {
     @FXML
     private Pane closePane;
     @FXML
-    private Pane returnPane;
-    @FXML
     private Label closeLabel;
     @FXML
     private Label returnLabel;
@@ -63,9 +61,6 @@ public class AdminBorrowedBookViewDialogController {
     }
 
     public static AdminBorrowedBookViewDialogController getInstance() {
-        if (controller == null) {
-            controller = new AdminBorrowedBookViewDialogController();
-        }
         return controller;
     }
 
@@ -236,5 +231,10 @@ public class AdminBorrowedBookViewDialogController {
         }
 
         return selectedBooks;
+    }
+
+    public void setReturnButtonVisibility(boolean visibility) {
+        returnButton.setVisible(visibility);
+        hBoxReturn.setOpacity(visibility ? 1.0 : 0.3);
     }
 }

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<HBox alignment="CENTER" maxHeight="122.0" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="80.0" prefWidth="795.0" spacing="20.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.libmgmt.view.controller.admin.AdminAllBorrowedBookBarController">
+   <children>
+      <Label fx:id="lblLoanId" alignment="CENTER" contentDisplay="CENTER" layoutX="368.0" layoutY="20.0" prefHeight="100.0" prefWidth="80.0" text="1" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblIsbn" alignment="CENTER" contentDisplay="CENTER" layoutX="123.0" layoutY="20.0" prefHeight="100.0" prefWidth="220.0" text="1" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblBorrowedDate" alignment="CENTER" contentDisplay="CENTER" layoutX="210.0" layoutY="10.0" prefHeight="100.0" prefWidth="120.0" text="1" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblDueDate" alignment="CENTER" contentDisplay="CENTER" layoutX="460.0" layoutY="10.0" prefHeight="100.0" prefWidth="120.0" text="13/12/2024" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblStatus" alignment="CENTER" contentDisplay="CENTER" layoutX="628.0" layoutY="20.0" prefHeight="100.0" prefWidth="120.0" text="BORROWED" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Pane prefHeight="45.0" prefWidth="80.0">
+         <children>
+            <ImageView fx:id="viewFunction" fitHeight="22.0" fitWidth="22.0" layoutX="22.0" layoutY="19.0" onMouseClicked="#imgViewOnMouseClicked" onMouseEntered="#imgViewOnMouseEntered" onMouseExited="#imgViewOnMouseExited" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../assets/icon/btn%20view.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ImageView>
+         </children>
+      </Pane>
+   </children>
+   <padding>
+      <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+   </padding>
+</HBox>

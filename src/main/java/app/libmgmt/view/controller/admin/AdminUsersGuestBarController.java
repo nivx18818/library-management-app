@@ -12,6 +12,7 @@ import app.libmgmt.model.User;
 import app.libmgmt.service.UserService;
 import app.libmgmt.util.ChangeScene;
 import app.libmgmt.util.EnumUtils;
+
 public class AdminUsersGuestBarController {
 
     @FXML
@@ -19,7 +20,7 @@ public class AdminUsersGuestBarController {
     @FXML
     private HBox hBoxUser;
     @FXML
-    private ImageView deleteFunction, editFunction, viewFunction;
+    private ImageView deleteFunction, editFunction, viewFunction, bookViewFunction;
 
     @FXML
     public void initialize() {
@@ -30,7 +31,7 @@ public class AdminUsersGuestBarController {
                         if (change.wasReplaced() && change.getFrom() >= 0
                                 && change.getFrom() < change.getList().size()) {
                             ExternalBorrower updatedUser = (ExternalBorrower) change.getList().get(change.getFrom());
-                            //data format: [name, phone, email, id, password]
+                            // data format: [name, phone, email, id, password]
                             String[] updatedUserData = new String[] {
                                     updatedUser.getName(),
                                     updatedUser.getPhoneNumber(),
@@ -60,7 +61,7 @@ public class AdminUsersGuestBarController {
 
     // Updates user data when changes occur
     public void setUpdateData(String[] data) {
-        //data format: [name, major, email, id, password]
+        // data format: [name, major, email, id, password]
         idLabel.setText(data[3]);
         nameLabel.setText(data[0]);
         phoneLabel.setText(data[1]);
@@ -74,6 +75,15 @@ public class AdminUsersGuestBarController {
     }
 
     @FXML
+    void imgBookOnMouseClicked(MouseEvent event) {
+        System.out.println("View Borrowed Books");
+        ChangeScene.openAdminPopUp(AdminUsersLayoutController.getInstance().stackPaneContainer,
+                "/fxml/admin/admin-all-borrowed-books-view-dialog.fxml", EnumUtils.PopupList.ALL_BORROWED_BOOKS_VIEW);
+        AdminAllBorrowedBookViewDialogController.getInstance().setData(idLabel.getText());
+        AdminAllBorrowedBookViewDialogController.getInstance().preLoadData();
+    }
+
+    @FXML
     void imgViewOnMouseClicked(MouseEvent event) {
         System.out.println("View");
         ChangeScene.openAdminPopUp(AdminUsersLayoutController.getInstance().stackPaneContainer,
@@ -84,7 +94,8 @@ public class AdminUsersGuestBarController {
     @FXML
     void imgEditOnMouseClicked(MouseEvent event) {
         System.out.println("Edit");
-        ChangeScene.openAdminPopUp(AdminUsersLayoutController.getInstance().stackPaneContainer, "/fxml/admin/admin-users-edit-dialog.fxml", EnumUtils.PopupList.USER_EDIT);
+        ChangeScene.openAdminPopUp(AdminUsersLayoutController.getInstance().stackPaneContainer,
+                "/fxml/admin/admin-users-edit-dialog.fxml", EnumUtils.PopupList.USER_EDIT);
         AdminUsersEditDialogController.getInstance().showOriginalUserData(getData(), EnumUtils.UserType.GUEST);
     }
 
@@ -92,10 +103,10 @@ public class AdminUsersGuestBarController {
     void imgDeleteOnMouseClicked(MouseEvent event) {
         System.out.println("Delete");
         ChangeScene.openAdminPopUp(
-            AdminUsersLayoutController.getInstance().stackPaneContainer,
-            "/fxml/admin/admin-delete-confirmation-dialog.fxml",
-            idLabel.getText(),
-            EnumUtils.PopupList.GUEST_DELETE);
+                AdminUsersLayoutController.getInstance().stackPaneContainer,
+                "/fxml/admin/admin-delete-confirmation-dialog.fxml",
+                idLabel.getText(),
+                EnumUtils.PopupList.GUEST_DELETE);
     }
 
     @FXML
