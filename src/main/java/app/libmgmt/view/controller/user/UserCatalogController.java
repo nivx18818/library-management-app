@@ -154,7 +154,7 @@ public class UserCatalogController {
         if (currentStateUserCatalog == USER_CATALOG_STATE.BORROWED) {
             userGlobalController.getBorrowedBooksData().clear();
         } else {
-            userGlobalController.getReturnedBooksData();
+            userGlobalController.getReturnedBooksData().clear();
         }
         Task<List<Loan>> reloadTask = new Task<>() {
             @Override

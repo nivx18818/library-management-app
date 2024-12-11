@@ -150,7 +150,7 @@ public class AdminBorrowedBooksLayoutController {
         borrowedBooksPane.setStyle("-fx-background-color: #e3e3e3; -fx-background-radius: 12px;");
     }
 
-    private void updateStatusUI(STATE newStatus) {
+    public void updateStatusUI(STATE newStatus) {
         setDefaultStyle();
         if (newStatus == STATE.OVERDUE) {
             overdueBorrowersLabel.setStyle("-fx-text-fill: white;");
@@ -176,10 +176,10 @@ public class AdminBorrowedBooksLayoutController {
     // Event Handlers
     @FXML
     void btnOverdueBorrowersOnAction(ActionEvent event) {
-        if (event.getSource() == overdueBorrowersButton && !(status == STATE.OVERDUE)) {
+        if (event.getSource() == overdueBorrowersButton) {
             updateStatusUI(STATE.OVERDUE);
             showOverdueBorrowersList();
-        } else if (event.getSource() == borrowedBooksButton && !(status == STATE.BORROWED)) {
+        } else if (event.getSource() == borrowedBooksButton) {
             updateStatusUI(STATE.BORROWED);
             showBorrowedBooksList();
         }
