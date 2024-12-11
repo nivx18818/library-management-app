@@ -160,7 +160,7 @@ public class UserReturnBookConfirmationDialogController {
             loanService.addLoan(returnedLoan);
             loanService.updateLoanReturnedDate(loanService.getMaxLoanId());
         }
-        AdminBorrowedBooksLayoutController.getInstance().refreshTable();
+        AdminBorrowedBooksLayoutController.getInstance().refreshBorrowedBooksList();;
         closeDialogAndNavigateToCatalog();
     }
 

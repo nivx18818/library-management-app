@@ -187,16 +187,49 @@ public class AdminBorrowedBooksLayoutController {
 
     @FXML
     void btnRefreshTableOnAction(ActionEvent event) {
-        refreshTable();
-        textSearch.clear();
+        refreshBorrowedBooksList();
+        // textSearch.clear();
     }
 
-    public void refreshTable() {
+    public void refreshBorrowedBooksList() {
+        vBoxBorrowedBooks.getChildren().clear();
         if (status == STATE.BORROWED) {
-            showBorrowedBooksList();
-        } else if (status == STATE.OVERDUE) {
-            showOverdueBorrowersList();
+            adminGlobalController.getBorrowedBooksData().clear();
+        } else {
+            adminGlobalController.getOverDueLoans().clear();
         }
+        Task<List<Loan>> reloadTask = new Task<>() {
+            @Override
+            protected List<Loan> call() {
+                if (status == STATE.BORROWED) {
+                    return adminGlobalController.preLoadBorrowedBooksData();
+                } else {
+                    return adminGlobalController.preLoadOverDueLoans();
+                }
+            }
+
+            @Override
+            protected void succeeded() {
+                if (status == STATE.BORROWED) {
+                    adminGlobalController.getBorrowedBooksData().addAll(getValue());
+                    preloadData(borrowedBooksData);
+                    textSearch.clear();
+                    textSearch.setEditable(true);
+                } else {
+                    adminGlobalController.getOverDueLoans().addAll(getValue());
+                    preloadData(overdueData);
+                    textSearch.clear();
+                    textSearch.setEditable(true);
+                }
+            }
+
+            @Override
+            protected void failed() {
+                System.out.println("Failed to reload" + getException().getMessage());
+            }
+        };
+
+        new Thread(reloadTask).start();
     }
 
     private void performSearch() {

@@ -169,8 +169,28 @@ public class UserBooksLayoutController {
 
     public void refreshBooksList() {
         vBoxBooksList.getChildren().clear();
-        preloadData(observableBooksData);
-        textSearch.clear();
+        userGlobalController.getObservableBookData().clear();
+        Task<List<Book>> reloadTask = new Task<>() {
+            @Override
+            protected List<Book> call() {
+                return userGlobalController.fetchBooksFromDatabase();
+            }
+
+            @Override
+            protected void succeeded() {
+                userGlobalController.getObservableBookData().addAll(getValue());
+                preloadData(observableBooksData);
+                textSearch.clear();
+                textSearch.setEditable(true);
+            }
+
+            @Override
+            protected void failed() {
+                System.out.println("Failed to reload data from database: " + getException().getMessage());
+            }
+        };
+
+        new Thread(reloadTask).start();
     }
 
     public void performSearch() {

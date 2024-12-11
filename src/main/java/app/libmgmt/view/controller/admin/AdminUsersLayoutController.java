@@ -20,6 +20,7 @@ import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import app.libmgmt.model.ExternalBorrower;
 import app.libmgmt.model.Student;
+import app.libmgmt.model.User;
 import app.libmgmt.util.AnimationUtils;
 import app.libmgmt.util.ChangeScene;
 import app.libmgmt.util.EnumUtils;
@@ -333,14 +334,52 @@ public class AdminUsersLayoutController {
     }
 
     public void refreshUsersList() {
-
         vBoxUserList.getChildren().clear();
-
         if (status == EnumUtils.UserType.STUDENT) {
-            showStudentsList();
+            adminGlobalController.getObservableStudentsData().clear();
         } else {
-            showGuestsList();
+            adminGlobalController.getObservableExternalBorrowersData().clear();
         }
+        Task<List<User>> reloadTask = new Task<>() {
+            @Override
+            protected List<User> call() {
+                if (status == EnumUtils.UserType.STUDENT) {
+                    return adminGlobalController.preLoadStudentsData().stream()
+                            .map(student -> (User) student)
+                            .toList();
+                } else {
+                    return adminGlobalController.preLoadExternalBorrowersData().stream()
+                            .map(externalBorrower -> (User) externalBorrower)
+                            .toList();
+                }
+            }
+
+            @Override
+            protected void succeeded() {
+                if (status == EnumUtils.UserType.STUDENT) {
+                    adminGlobalController.getObservableStudentsData().addAll(getValue().stream()
+                            .map(user -> (Student) user)
+                            .toList());
+                    preLoadStudentsData(studentsData, "admin-users-student-bar.fxml", PreloadType.RESET);
+                    textSearch.clear();
+                    textSearch.setEditable(true);
+                } else {
+                    adminGlobalController.getObservableExternalBorrowersData().addAll(
+                        getValue().stream().map(user -> (ExternalBorrower) user).toList()
+                    );
+                    preloadExternalBorrowerData(guestsData, "admin-users-guest-bar.fxml", PreloadType.RESET);
+                    textSearch.clear();
+                    textSearch.setEditable(true);
+                }
+            }
+
+            @Override
+            protected void failed() {
+                System.out.println("Failed to reload" + getException().getMessage());
+            }
+        };
+
+        new Thread(reloadTask).start();
     }
 
     public void performSearch() {
