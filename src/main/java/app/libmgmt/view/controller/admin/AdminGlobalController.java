@@ -33,7 +33,8 @@ public class AdminGlobalController {
     private final LoanService loanService = new LoanService();
 
     // Data loaded when starting the application
-    private final ObservableList<Loan> borrowedBooksData = FXCollections.observableArrayList();
+    private final ObservableList<Loan> borrowedBooksData = FXCollections
+            .observableArrayList(preLoadBorrowedBooksData());
     private final ObservableList<Loan> overdueLoansData = FXCollections.observableArrayList(preLoadOverDueLoans());
     // private final List<Admin> adminsData = preLoadAdminData();
     private final List<Admin> adminsData = FXCollections.observableArrayList();
@@ -87,11 +88,11 @@ public class AdminGlobalController {
                 return bookService.getAllBooks();
             }
         };
-    
+
         fetchBooksTask.setOnSucceeded(event -> onSuccess.accept(fetchBooksTask.getValue()));
-    
+
         fetchBooksTask.setOnFailed(event -> onFailure.accept(fetchBooksTask.getException()));
-    
+
         new Thread(fetchBooksTask).start();
     }
 
@@ -108,7 +109,7 @@ public class AdminGlobalController {
         for (Admin x : data) {
             System.out.println(x.getName() + " " + x.getEmail());
         }
-        
+
         return data;
     }
 

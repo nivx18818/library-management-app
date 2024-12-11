@@ -19,6 +19,7 @@ import com.google.zxing.WriterException;
 import app.libmgmt.model.Book;
 import app.libmgmt.util.ChangeScene;
 import app.libmgmt.util.EnumUtils;
+import app.libmgmt.view.controller.EmptyDataNotificationDialogController;
 
 public class AdminBookBarController {
 
@@ -28,7 +29,8 @@ public class AdminBookBarController {
     private ImageView bookImage, editFunction, deleteFunction, viewFunction;
 
     private int quantity = -1;
-    private String imgPath = "", publisher = "", publishedDate = "Not Available", bookID = "", webReaderUrl = "Not Available";
+    private String imgPath = "", publisher = "", publishedDate = "Not Available", bookID = "",
+            webReaderUrl = "Not Available";
 
     @FXML
     public void initialize() {
@@ -54,16 +56,16 @@ public class AdminBookBarController {
                         }
                     }
 
-                    String[] updatedBookData = new String[]{
-                        updatedBook.getIsbn(),
-                        updatedBook.getCoverUrl(),
-                        updatedBook.getTitle(),
-                        categoriesString,
-                        authorsString,
-                        String.valueOf(updatedBook.getAvailableCopies()),
-                        updatedBook.getPublisher(),
-                        formattedDate,
-                        updatedBook.getWebReaderUrl() != null ? updatedBook.getWebReaderUrl() : "Not Available"
+                    String[] updatedBookData = new String[] {
+                            updatedBook.getIsbn(),
+                            updatedBook.getCoverUrl(),
+                            updatedBook.getTitle(),
+                            categoriesString,
+                            authorsString,
+                            String.valueOf(updatedBook.getAvailableCopies()),
+                            updatedBook.getPublisher(),
+                            formattedDate,
+                            updatedBook.getWebReaderUrl() != null ? updatedBook.getWebReaderUrl() : "Not Available"
                     };
 
                     if (bookID.equals(updatedBookData[0])) {
@@ -89,9 +91,19 @@ public class AdminBookBarController {
 
     @FXML
     void imgDeleteOnMouseClicked(MouseEvent event) {
-        AdminBooksLayoutController.getInstance().listenBookDataChanges();
-        openPopUp("/fxml/admin/admin-delete-confirmation-dialog.fxml", EnumUtils.PopupList.BOOK_DELETE);
-        AdminBooksLayoutController.getInstance().setDeletedOrderNumber(orderLabel.getText());
+        if (AdminGlobalController.getInstance().getBorrowedBooksData().stream()
+                .filter(borrowedBook -> borrowedBook.getIsbn().contains(bookID))
+                .findAny()
+                .isPresent()) {
+            openPopUp("/fxml/empty-data-notification-dialog.fxml", EnumUtils.PopupList.EMPTY_DATA_NOTIFICATION);
+            EmptyDataNotificationDialogController.getInstance()
+                    .setNotificationLabel("Cannot delete book that is currently borrowed.");
+        } else {
+            AdminBooksLayoutController.getInstance().listenBookDataChanges();
+            openPopUp("/fxml/admin/admin-delete-confirmation-dialog.fxml", EnumUtils.PopupList.BOOK_DELETE);
+            AdminBooksLayoutController.getInstance().setDeletedOrderNumber(orderLabel.getText());
+        }
+
     }
 
     @FXML
@@ -129,8 +141,8 @@ public class AdminBookBarController {
     }
 
     public String[] getData() {
-        return new String[]{bookID, imgPath, nameLabel.getText(), typeLabel.getText(),
-                authorLabel.getText(), Integer.toString(quantity), publisher, publishedDate, webReaderUrl};
+        return new String[] { bookID, imgPath, nameLabel.getText(), typeLabel.getText(),
+                authorLabel.getText(), Integer.toString(quantity), publisher, publishedDate, webReaderUrl };
     }
 
     public void setData(String[] data) {
@@ -172,7 +184,8 @@ public class AdminBookBarController {
     }
 
     /**
-     * Updates the image if the path has changed. Uses a placeholder image initially,
+     * Updates the image if the path has changed. Uses a placeholder image
+     * initially,
      * and loads the new image asynchronously if needed.
      */
     private void updateImageIfChanged(String newImagePath, ImageView bookImage) {

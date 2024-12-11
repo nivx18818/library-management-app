@@ -69,32 +69,6 @@ public class AdminBorrowedBookViewDialogController {
         return controller;
     }
 
-    @FXML
-    public void initialize() {
-        // listenLoanDataChanges();
-    }
-
-    // private void listenLoanDataChanges() {
-    // AdminGlobalController.getInstance().getBorrowedBooksData()
-    // .addListener((ListChangeListener.Change<? extends Loan> change) -> {
-    // while (change.next()) {
-    // if (change.wasUpdated() && change.getTo() != -1) {
-    // List<? extends Loan> subList = change.getList().subList(change.getFrom(),
-    // change.getTo());
-    // subList.forEach(loan -> {
-    // String bookId = loan.getIsbn();
-    // vBox.getChildren().stream()
-    // .filter(child -> child.getId() != null && child.getId().equals(bookId))
-    // .findFirst()
-    // .ifPresent(child -> Platform.runLater(() -> {
-    // vBox.getChildren().remove(child);
-    // }));
-    // });
-    // }
-    // }
-    // });
-    // }
-
     public List<Book> getBooksData(String id) {
         return loanService.getBookFromLoan(id);
     }

@@ -7,12 +7,13 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-
+import javafx.scene.layout.StackPane;
 import app.libmgmt.model.User;
 import app.libmgmt.model.Student;
 import app.libmgmt.service.UserService;
 import app.libmgmt.util.ChangeScene;
 import app.libmgmt.util.EnumUtils;
+import app.libmgmt.view.controller.EmptyDataNotificationDialogController;
 
 public class AdminUsersStudentBarController {
 
@@ -42,8 +43,8 @@ public class AdminUsersStudentBarController {
                     while (change.next()) {
                         if (change.wasReplaced() && change.getFrom() >= 0
                                 && change.getFrom() < change.getList().size()) {
-                            Student updatedStudent = (Student)change.getList().get(change.getFrom());
-                            //data format: [name, major, email, id, password]
+                            Student updatedStudent = (Student) change.getList().get(change.getFrom());
+                            // data format: [name, major, email, id, password]
                             String[] updatedStudentData = new String[] {
                                     updatedStudent.getName(),
                                     updatedStudent.getMajor(),
@@ -54,7 +55,7 @@ public class AdminUsersStudentBarController {
                             User updatedStudentObj = new Student(updatedStudentData);
                             UserService userService = new UserService();
                             userService.updateUser(updatedStudentObj);
-                            
+
                             if (idLabel.getText().equals(updatedStudentData[3])) {
                                 updateUserData(updatedStudentData);
                             }
@@ -81,12 +82,23 @@ public class AdminUsersStudentBarController {
 
     @FXML
     private void imgDeleteOnMouseClicked(MouseEvent event) {
-        System.out.println("Delete");
-        ChangeScene.openAdminPopUp(
-                AdminUsersLayoutController.getInstance().stackPaneContainer,
-                "/fxml/admin/admin-delete-confirmation-dialog.fxml",
-                idLabel.getText(),
-                EnumUtils.PopupList.STUDENT_DELETE);
+        StackPane stackPane = AdminUsersLayoutController.getInstance().stackPaneContainer;
+        if (AdminGlobalController.getInstance().getBorrowedBooksData().stream()
+                .filter(borrowedBook -> borrowedBook.getUserId().equals(idLabel.getText()))
+                .findAny()
+                .isPresent()) {
+            ChangeScene.openAdminPopUp(stackPane, "/fxml/empty-data-notification-dialog.fxml",
+                    EnumUtils.PopupList.EMPTY_DATA_NOTIFICATION);
+            EmptyDataNotificationDialogController.getInstance()
+                    .setNotificationLabel("Cannot delete user that has borrowed books.");
+        } else {
+            System.out.println("Delete");
+            ChangeScene.openAdminPopUp(
+                    stackPane,
+                    "/fxml/admin/admin-delete-confirmation-dialog.fxml",
+                    idLabel.getText(),
+                    EnumUtils.PopupList.STUDENT_DELETE);
+        }
     }
 
     @FXML

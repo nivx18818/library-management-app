@@ -69,7 +69,7 @@ public class LogoutDialogController {
         if (AdminGlobalController.getInstance() != null) {
             AdminGlobalController.getInstance().getGlobalFormContainer().getChildren().clear();
             AdminNavigationController.getInstance().setLastButtonClicked(EnumUtils.NavigationButton.DASHBOARD);
-            AdminNavigationController.getInstance().setUploadedData(false, false, false);
+            AdminNavigationController.getInstance().setUploadedData(false, false);
         } else {
             UserGlobalController.getInstance().getGlobalFormContainer().getChildren().clear();
             UserNavigationController.getInstance().setLastButtonClicked(EnumUtils.NavigationButton.DASHBOARD);
