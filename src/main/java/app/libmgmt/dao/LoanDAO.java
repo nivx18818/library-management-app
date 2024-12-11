@@ -166,6 +166,30 @@ public class LoanDAO {
         return loans;
     }
 
+    public List<Loan> getBorrowedLoansByUserId(String userId) throws SQLException {
+        if (userId == null || userId.isEmpty()) {
+            throw new IllegalArgumentException("User ID is null.");
+        }
+    
+        List<Loan> loans = new ArrayList<>();
+        String sql = "SELECT id, user_name, user_id, amount, status, borrowed_date, due_date, returned_date, book_isbn " +
+                     "FROM Loan WHERE user_id = ? and status = 'BORROWED' or status = 'OVERDUE'";
+    
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, userId);
+            
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) {
+                    Loan loan = mapResultSetToLoan(rs);
+                    loans.add(loan);
+                }
+            }
+        }
+    
+        return loans;
+    }
+
     public List<Loan> getReturnLoansByUserId(String userId) throws SQLException {
         if (userId == null || userId.isEmpty()) {
             throw new IllegalArgumentException("User ID is null.");

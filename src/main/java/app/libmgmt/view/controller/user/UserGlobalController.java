@@ -63,15 +63,19 @@ public class UserGlobalController {
     }
 
     // Data Pre-loading Methods
-    private List<Loan> preLoadLoansData() {
+    public List<Loan> preLoadLoansData() {
         // test data
         // return loanService.getLoansByUserId("23020604");
-        return loanService.getLoansByUserId(user.getUserId());
+        return loanService.getBorrowedLoansByUserId(user.getUserId());
     }
 
-    private List<Loan> setOriginalReturnedBooksData() {
+    public List<Loan> setOriginalReturnedBooksData() {
         // return loanService.getReturnLoansByUserId("23020604");
         return loanService.getReturnLoansByUserId(user.getUserId());
+    }
+
+    public List<Book> fetchBooksFromDatabase() {
+        return bookService.getAllBooks();
     }
 
     public void preLoadBooksData(Consumer<List<Book>> onSuccess, Consumer<Throwable> onFailure) {

@@ -88,6 +88,14 @@ public class LoanService {
         }
     }
 
+    public List<Loan> getBorrowedLoansByUserId(String userId) {
+        try {
+            return loanDAO.getBorrowedLoansByUserId(userId);
+        } catch (SQLException e) {
+            throw new ServiceException("Error getting loan by userId", e);
+        }
+    }
+
     public List<Loan> getReturnLoansByUserId(String userId) {
         try {
             return loanDAO.getReturnLoansByUserId(userId);

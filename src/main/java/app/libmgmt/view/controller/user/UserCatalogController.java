@@ -148,6 +148,48 @@ public class UserCatalogController {
         showReturnedBooksList();
     }
 
+    public void refreshLoansList() {
+        vBoxBooksList.getChildren().clear();
+        userGlobalController.getObservableBookData().clear();
+        if (currentStateUserCatalog == USER_CATALOG_STATE.BORROWED) {
+            userGlobalController.getBorrowedBooksData().clear();
+        } else {
+            userGlobalController.getReturnedBooksData();
+        }
+        Task<List<Loan>> reloadTask = new Task<>() {
+            @Override
+            protected List<Loan> call() {
+                if (currentStateUserCatalog == USER_CATALOG_STATE.BORROWED) {
+                    return userGlobalController.preLoadLoansData();
+                } else {
+                    return userGlobalController.setOriginalReturnedBooksData();
+                }
+            }
+
+            @Override
+            protected void succeeded() {
+                if (currentStateUserCatalog == USER_CATALOG_STATE.BORROWED) {
+                    userGlobalController.getBorrowedBooksData().addAll(getValue());
+                    preloadData(borrowedBooksData, USER_CATALOG_STATE.BORROWED);
+                    textSearch.clear();
+                    textSearch.setEditable(true);
+                } else {
+                    userGlobalController.getReturnedBooksData().addAll(getValue());
+                    preloadData(borrowedBooksData, USER_CATALOG_STATE.RETURNED);
+                    textSearch.clear();
+                    textSearch.setEditable(true);
+                }
+            }
+
+            @Override
+            protected void failed() {
+                System.out.println("Failed to reload data from database: " + getException().getMessage());
+            }
+        };
+
+        new Thread(reloadTask).start();
+    }
+
     @FXML
     void btnOnMouseEntered(MouseEvent event) {
         Object source = event.getSource();
@@ -157,6 +199,8 @@ public class UserCatalogController {
             AnimationUtils.createScaleTransition(AnimationUtils.HOVER_SCALE, returnedBooksPane).play();
         } else if (source == refreshButton) {
             AnimationUtils.createScaleTransition(1.15, refreshPaneButton).play();
+            refreshLoansList();
+            System.out.println("Load data from db");
         } else if (source == searchPane) {
             AnimationUtils.createScaleTransition(1.05, searchPane).play();
         }
