@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.Light.Distant?>
+<?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.effect.Shadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="214.0" prefWidth="600.0" style="-fx-background-color: white; -fx-background-radius: 10;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.libmgmt.view.controller.EmptyDataNotificationDialogController">
+   <children>
+      <Pane layoutX="32.0" layoutY="19.0" prefHeight="45.0" prefWidth="45.0" style="-fx-background-color: #D7D7D7; -fx-background-radius: 10;">
+         <children>
+            <ImageView fitHeight="26.0" fitWidth="26.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/icon/7106357_graph_attention_data_infographic_element_icon.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <Label layoutX="89.0" layoutY="28.0" prefHeight="27.0" prefWidth="175.0" text="Notification">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Line endX="431.0" layoutX="135.0" layoutY="85.0" startX="-100.0" />
+      <Pane layoutX="542.0" layoutY="29.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-radius: 10;">
+         <children>
+            <JFXButton fx:id="closeDialogButton" alignment="CENTER" contentDisplay="CENTER" minHeight="24.0" minWidth="24.0" onAction="#closeButtonOnAction" prefHeight="24.0" prefWidth="24.0" text=" " textAlignment="CENTER">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <graphic>
+                  <ImageView fx:id="imgClose" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assets/icon/close-square%201.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+         </children>
+      </Pane>
+      <Label fx:id="notificationLabel" layoutX="34.0" layoutY="84.0" prefHeight="76.0" prefWidth="431.0" text="Nothing to work with. Please check the data source." wrapText="true">
+         <font>
+            <Font size="17.0" />
+         </font>
+         <effect>
+            <Lighting>
+               <bumpInput>
+                  <Shadow />
+               </bumpInput>
+               <light>
+                  <Light.Distant />
+               </light>
+            </Lighting>
+         </effect>
+         <padding>
+            <Insets left="2.0" />
+         </padding>
+      </Label>
+      <Pane fx:id="closePane" layoutX="427.0" layoutY="160.0" prefHeight="41.0" prefWidth="140.0" style="-fx-background-radius: 10; -fx-background-color: #d7d7d7;">
+         <children>
+            <Label fx:id="closeLabel" alignment="CENTER" contentDisplay="CENTER" layoutY="8.0" prefHeight="25.0" prefWidth="140.0" text="CLOSE">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <JFXButton fx:id="closeButton" layoutX="427.0" layoutY="160.0" onAction="#btnCloseOnAction" prefHeight="41.0" prefWidth="140.0" style="-fx-background-radius: 10;" text=" ">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+   </children>
+</Pane>

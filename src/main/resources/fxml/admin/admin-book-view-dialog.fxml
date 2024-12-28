@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.Bloom?>
+<?import javafx.scene.effect.Light.Distant?>
+<?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.effect.Shadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<Pane fx:id="container" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="595.0" prefWidth="850.0" style="-fx-background-color: white; -fx-background-radius: 10;" stylesheets="@../../style/base/common.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.libmgmt.view.controller.admin.AdminBookViewDialogController">
+  <children>
+    <Pane layoutX="32.0" layoutY="19.0" prefHeight="45.0" prefWidth="45.0" style="-fx-background-color: #D7D7D7; -fx-background-radius: 10;">
+      <children>
+        <ImageView fitHeight="28.0" fitWidth="28.0" layoutX="9.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+          <image>
+            <Image url="@../../assets/icon/622395_magnifier_search_explore_look_optimization_icon.png" />
+          </image>
+        </ImageView>
+      </children>
+    </Pane>
+    <Label layoutX="89.0" layoutY="28.0" prefHeight="25.0" prefWidth="87.0" text="View Book">
+      <font>
+        <Font size="18.0" />
+      </font>
+    </Label>
+    <Line endX="687.0" layoutX="135.0" layoutY="85.0" startX="-100.0" />
+    <Pane fx:id="closePane" layoutX="798.0" layoutY="29.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-radius: 10;">
+      <children>
+        <JFXButton fx:id="closeDialogButton" alignment="CENTER" contentDisplay="CENTER" minHeight="24.0" minWidth="24.0" onAction="#closeButtonOnAction" prefHeight="24.0" prefWidth="24.0" text=" " textAlignment="CENTER">
+          <cursor>
+            <Cursor fx:constant="HAND" />
+          </cursor>
+          <graphic>
+            <ImageView fx:id="imgClose" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+              <image>
+                <Image url="@../../assets/icon/close-square%201.png" />
+              </image>
+            </ImageView>
+          </graphic>
+        </JFXButton>
+      </children>
+    </Pane>
+    <Pane fx:id="cancelPane" layoutX="329.0" layoutY="540.0" prefHeight="41.0" prefWidth="200.0" style="-fx-background-color: #D7D7D7; -fx-background-radius: 10;">
+      <children>
+        <Label fx:id="lblCancel" alignment="CENTER" contentDisplay="CENTER" layoutX="70.0" layoutY="8.0" prefHeight="25.0" prefWidth="60.0" text="CLOSE">
+          <font>
+            <Font name="System Bold" size="16.0" />
+          </font>
+        </Label>
+      </children>
+    </Pane>
+  <HBox alignment="CENTER_LEFT" layoutX="34.0" layoutY="117.0" prefHeight="393.0" prefWidth="788.0" style="-fx-background-radius: 10px; -fx-border-color: #dddddd; -fx-border-radius: 10px;">
+    <children>
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="120.0" spacing="12.0">
+        <children>
+          <ImageView fx:id="bookCoverImage" fitHeight="110.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
+            <VBox.margin>
+              <Insets />
+            </VBox.margin>
+                     <image>
+                        <Image url="@../../assets/img/9781581175660.gif" />
+                     </image>
+          </ImageView>
+          <VBox alignment="TOP_CENTER" prefHeight="57.0" prefWidth="120.0">
+            <children>
+              <Label text="Quantity">
+                <font>
+                  <Font size="16.0" />
+                </font>
+                           <effect>
+                              <Bloom />
+                           </effect>
+              </Label>
+              <Label fx:id="quantityLabel" alignment="CENTER" prefHeight="27.0" prefWidth="108.0" textAlignment="CENTER">
+                <font>
+                  <Font name="System Bold" size="20.0" />
+                </font>
+                           <effect>
+                              <Lighting>
+                                 <bumpInput>
+                                    <Shadow />
+                                 </bumpInput>
+                                 <light>
+                                    <Light.Distant />
+                                 </light>
+                              </Lighting>
+                           </effect>
+              </Label>
+            </children>
+          </VBox>
+                  <VBox alignment="TOP_CENTER">
+                     <children>
+              <ImageView fx:id="qrCodeImage" fitHeight="110.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true">
+                <image>
+                  <Image url="@../../assets/gif/7994392.gif" />
+                </image>
+              </ImageView>
+              <Label text="Web Reader">
+                <font>
+                  <Font size="16.0" />
+                </font>
+                           <effect>
+                              <Bloom />
+                           </effect>
+              </Label>
+                     </children>
+                  </VBox>
+        </children>
+        <HBox.margin>
+          <Insets left="5.0" right="5.0" />
+        </HBox.margin>
+        <padding>
+          <Insets bottom="13.0" top="13.0" />
+        </padding>
+      </VBox>
+      <Line endX="-101.45118713378906" endY="366.1004943847656" opacity="0.51" startX="-101.45127868652344" startY="14.887287139892578" />
+      <VBox alignment="CENTER" prefHeight="391.0" prefWidth="634.0" spacing="5.0">
+        <HBox.margin>
+          <Insets left="20.0" />
+        </HBox.margin>
+        <children>
+          <VBox prefHeight="50.0" prefWidth="233.0">
+            <children>
+              <Label fx:id="idLabel" text="Book ID / ISBN: ">
+                <font>
+                  <Font size="15.0" />
+                </font>
+                <VBox.margin>
+                  <Insets left="5.0" />
+                </VBox.margin>
+              </Label>
+              <Line endX="510.0" opacity="0.52" startX="-100.0" />
+            </children>
+          </VBox>
+          <VBox layoutX="10.0" layoutY="25.0" prefHeight="50.0" prefWidth="233.0">
+            <children>
+              <Label fx:id="nameLabel" text="Name: ">
+                <font>
+                  <Font size="15.0" />
+                </font>
+                <VBox.margin>
+                  <Insets left="5.0" />
+                </VBox.margin>
+              </Label>
+              <Line endX="510.0" opacity="0.55" startX="-100.0" />
+            </children>
+          </VBox>
+          <VBox layoutX="10.0" layoutY="73.0" prefHeight="50.0" prefWidth="233.0">
+            <children>
+              <Label fx:id="authorLabel" text="Author: ">
+                <font>
+                  <Font size="15.0" />
+                </font>
+                <VBox.margin>
+                  <Insets left="5.0" />
+                </VBox.margin>
+              </Label>
+              <Line endX="510.0" opacity="0.51" startX="-100.0" />
+            </children>
+          </VBox>
+          <VBox layoutX="10.0" layoutY="155.0" prefHeight="50.0" prefWidth="233.0">
+            <children>
+              <Label fx:id="typeLabel" text="Type: ">
+                <font>
+                  <Font size="15.0" />
+                </font>
+                <VBox.margin>
+                  <Insets left="5.0" />
+                </VBox.margin>
+              </Label>
+              <Line endX="510.0" opacity="0.54" startX="-100.0" />
+            </children>
+          </VBox>
+          <VBox prefHeight="50.0" prefWidth="228.0">
+            <children>
+              <Label fx:id="publisherLabel" text="Publiser: ">
+                <font>
+                  <Font size="15.0" />
+                </font>
+                <VBox.margin>
+                  <Insets left="5.0" />
+                </VBox.margin>
+              </Label>
+              <Line endX="510.0" opacity="0.47" startX="-100.0" />
+            </children>
+            <VBox.margin>
+              <Insets />
+            </VBox.margin>
+          </VBox>
+          <VBox prefHeight="50.0" prefWidth="228.0">
+            <children>
+              <Label fx:id="publishedDateLabel" text="Published Date: ">
+                <font>
+                  <Font size="15.0" />
+                </font>
+                <VBox.margin>
+                  <Insets left="5.0" />
+                </VBox.margin>
+              </Label>
+              <Line endX="510.0" opacity="0.48" startX="-100.0" />
+            </children>
+          </VBox>
+        </children>
+        <padding>
+          <Insets top="8.0" />
+        </padding>
+      </VBox>
+    </children>
+  </HBox>
+    <JFXButton fx:id="cancelButton" layoutX="329.0" layoutY="540.0" onAction="#cancelButtonOnAction" prefHeight="41.0" prefWidth="200.0" style="-fx-background-radius: 10;" text=" ">
+      <cursor>
+        <Cursor fx:constant="HAND" />
+      </cursor>
+    </JFXButton>
+  </children>
+</Pane>

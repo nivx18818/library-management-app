@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Bloom?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<StackPane fx:id="stackPaneContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="718.0" prefWidth="1218.0" stylesheets="@../../style/components/scroll-bar.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.libmgmt.view.controller.user.UserCatalogController">
+   <children>
+      <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #f2f2f2;">
+         <children>
+            <Pane fx:id="borrowedBooksPane" layoutX="14.0" layoutY="14.0" prefHeight="30.0" prefWidth="170.0" style="-fx-background-color: black; -fx-background-radius: 12px;">
+               <children>
+                  <Label fx:id="borrowedBooksLabel" alignment="CENTER" prefHeight="30.0" prefWidth="170.0" text="Borrowed Books" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <JFXButton fx:id="borrowedBooksButton" onAction="#btnBorrowedBooksOnAction" onMouseEntered="#btnOnMouseEntered" onMouseExited="#btnOnMouseExited" prefHeight="30.0" prefWidth="170.0" style="-fx-background-radius: 12px;" text=" ">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </JFXButton>
+               </children>
+            </Pane>
+            <Pane fx:id="returnedBooksPane" layoutX="198.0" layoutY="14.0" prefHeight="30.0" prefWidth="170.0" style="-fx-background-color: #e3e3e3; -fx-background-radius: 12px;">
+               <children>
+                  <Label fx:id="returnedBooksLabel" alignment="CENTER" prefHeight="30.0" prefWidth="170.0" text="Returned Books" textAlignment="CENTER">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <JFXButton fx:id="returnedBooksButton" onAction="#btnReturnedBooksOnAction" onMouseEntered="#btnOnMouseEntered" onMouseExited="#btnOnMouseExited" prefHeight="30.0" prefWidth="170.0" style="-fx-background-radius: 12px;" text=" ">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </JFXButton>
+               </children>
+            </Pane>
+            <Pane fx:id="searchPane" layoutX="865.0" layoutY="14.0" onMouseEntered="#btnOnMouseEntered" onMouseExited="#btnOnMouseExited" prefHeight="30.0" prefWidth="299.0" style="-fx-background-color: white; -fx-background-radius: 12;">
+               <children>
+                  <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="14.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../assets/icon/search-normal.png" />
+                     </image>
+                     <effect>
+                        <Bloom threshold="0.31" />
+                     </effect>
+                  </ImageView>
+                  <TextField fx:id="textSearch" layoutX="37.0" prefHeight="30.0" prefWidth="262.0" promptText="Search by any relevant information" style="-fx-background-color: white; -fx-background-radius: 0 12 12 0;">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </TextField>
+               </children>
+            </Pane>
+            <Pane fx:id="refreshPaneButton" layoutX="1174.0" layoutY="14.0" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: white; -fx-background-radius: 12px;">
+               <children>
+                  <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="3.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../assets/icon/R.png" />
+                     </image>
+                  </ImageView>
+                  <JFXButton fx:id="refreshButton" onAction="#btnRefreshTableOnAction" onMouseEntered="#btnOnMouseEntered" onMouseExited="#btnOnMouseExited" prefHeight="30.0" prefWidth="30.0" style="-fx-background-radius: 12px;" text=" ">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </JFXButton>
+               </children>
+            </Pane>
+            <Pane layoutX="14.0" layoutY="63.0" prefHeight="645.0" prefWidth="1114.0" style="-fx-background-color: white; -fx-background-radius: 12px;">
+               <children>
+                  <Line endX="1010.0" layoutX="90.0" layoutY="40.0" startX="-74.0" />
+                  <HBox alignment="CENTER" prefHeight="45.0" prefWidth="1102.0" spacing="25.0">
+                     <children>
+                        <Label fx:id="columnHeader1Label" alignment="CENTER" prefHeight="14.0" prefWidth="110.0" text="Loan ID">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" layoutX="10.0" layoutY="30.0" prefHeight="14.0" prefWidth="250.0" text="ISBN">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="columnHeader1Label1" alignment="CENTER" prefHeight="14.0" prefWidth="100.0" text="Amount">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" layoutX="62.0" layoutY="30.0" prefHeight="14.0" prefWidth="170.0" text="Borrowed Date">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="dueDateHeaderLabel" alignment="CENTER" layoutX="729.0" layoutY="23.0" prefHeight="14.0" prefWidth="170.0" text="Due Date">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" layoutX="79.0" layoutY="30.0" prefHeight="14.0" prefWidth="140.0" text="Action">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <effect>
+                        <Bloom threshold="0.34" />
+                     </effect>
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                  </HBox>
+                  <ScrollPane hbarPolicy="NEVER" layoutY="43.0" prefHeight="602.0" prefWidth="1114.0" style="-fx-background-color: white;">
+                     <content>
+                        <VBox fx:id="vBoxBooksList" alignment="TOP_CENTER" prefHeight="601.0" prefWidth="1102.0" style="-fx-background-color: white;" />
+                     </content>
+                  </ScrollPane>
+               </children>
+            </Pane>
+            <VBox alignment="CENTER" layoutX="1138.0" layoutY="63.0" prefHeight="655.0" prefWidth="80.0" style="-fx-background-color: black; -fx-background-radius: 12 0 0 0;">
+               <children>
+                  <Label alignment="CENTER" prefHeight="180.0" prefWidth="18.0" text="BOOK" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                     <font>
+                        <Font size="28.0" />
+                     </font>
+                     <effect>
+                        <Bloom threshold="0.78" />
+                     </effect>
+                  </Label>
+                  <Label alignment="CENTER" prefHeight="180.0" prefWidth="18.0" text="WORM" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                     <font>
+                        <Font size="28.0" />
+                     </font>
+                     <effect>
+                        <Bloom threshold="0.78" />
+                     </effect>
+                  </Label>
+               </children>
+            </VBox>
+         </children>
+      </Pane>
+   </children>
+</StackPane>

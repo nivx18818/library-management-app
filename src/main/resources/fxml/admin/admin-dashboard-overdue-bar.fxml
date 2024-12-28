@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.Bloom?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<HBox fx:id="hBoxOverdueBorrowers" alignment="CENTER_LEFT" fillHeight="false" maxWidth="229.0" minHeight="45.0" minWidth="220.0" prefHeight="45.0" prefWidth="220.0" spacing="10.0" style="-fx-background-radius: 10px; -fx-border-color: #000; -fx-border-width: 1px;       -fx-border-radius: 10px;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.libmgmt.view.controller.admin.AdminDashboardOverdueBarController">
+  <children>
+    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+      <image>
+        <Image url="@../../assets/icon/user-search%201.png" />
+      </image>
+    </ImageView>
+    <Line startY="25.0" />
+    <VBox alignment="CENTER_LEFT" prefHeight="43.0" prefWidth="138.0">
+      <children>
+        <Label fx:id="name" prefHeight="20.0" prefWidth="132.0">
+          <font>
+            <Font size="14.0" />
+          </font>
+        </Label>
+        <Label fx:id="id" layoutX="10.0" layoutY="22.0" prefHeight="14.0" prefWidth="132.0">
+          <font>
+            <Font name="System Italic" size="11.0" />
+          </font>
+        </Label>
+      </children>
+    </VBox>
+    <ImageView fitHeight="18.0" fitWidth="18.0" onMouseClicked="#handleViewImageOnMouseClicked" pickOnBounds="true" preserveRatio="true">
+      <image>
+        <Image url="@../../assets/icon/maximize-circle%201.png" />
+      </image>
+      <cursor>
+        <Cursor fx:constant="HAND" />
+      </cursor>
+      <effect>
+        <Bloom />
+      </effect>
+    </ImageView>
+  </children>
+  <padding>
+    <Insets left="10.0" right="10.0" />
+  </padding>
+</HBox>

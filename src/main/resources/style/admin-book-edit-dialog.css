@@ -1,0 +1,45 @@
+/* Date picker: BEGIN */
+
+.date-picker > .text-field,
+.date-picker > .text-field:focused {
+    -fx-border-width: 0;
+}
+
+.date-picker > .text-field {
+    -fx-alignment: center;
+}
+
+.date-picker > .arrow-button {
+    -fx-padding: 8px 9px 10px 9px;
+    -fx-border-radius: 0;
+    -fx-background-radius: 0;
+}
+
+/* Date picker: END */
+
+/* Spinner: BEGIN */
+
+.spinner > .text-field,
+.spinner > .text-field:focused {
+    -fx-border-width: 0;
+}
+
+.spinner > .text-field {
+    -fx-font-size: 15px;
+    -fx-alignment: center;
+}
+
+.spinner > .increment-arrow-button,
+.spinner > .decrement-arrow-button {
+    -fx-background-radius: 0;
+}
+
+.spinner > .increment-arrow-button {
+    -fx-background-insets: 0 0 -1 0, 1 1 0 1, 2 2 1 2;
+}
+
+.spinner > .decrement-arrow-button {
+    -fx-background-insets: 0, 1 1 1 1, 1 2 2 2;
+}
+
+/* Spinner: END */

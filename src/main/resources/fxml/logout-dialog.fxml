@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.Light.Distant?>
+<?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.effect.Shadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<Pane fx:id="container" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="260.0" prefWidth="500.0" style="-fx-background-color: white; -fx-background-radius: 10;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.libmgmt.view.controller.LogoutDialogController">
+  <children>
+    <Pane layoutX="32.0" layoutY="19.0" prefHeight="45.0" prefWidth="45.0" style="-fx-background-color: #D7D7D7; -fx-background-radius: 10;">
+      <children>
+        <ImageView fitHeight="28.0" fitWidth="28.0" layoutX="9.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+          <image>
+            <Image url="@../assets/icon/1564506_close_exit_logout_power_icon.png" />
+          </image>
+        </ImageView>
+      </children>
+    </Pane>
+    <Label layoutX="89.0" layoutY="28.0" prefHeight="27.0" prefWidth="175.0" text="Logout Confirmation">
+      <font>
+        <Font size="18.0" />
+      </font>
+    </Label>
+    <Line endX="330.0" endY="-7.62939453125E-6" layoutX="135.0" layoutY="85.0" startX="-100.0" />
+    <Pane fx:id="closePane" layoutX="445.0" layoutY="25.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-radius: 10;">
+      <children>
+        <JFXButton fx:id="closeDialogButton" alignment="CENTER" contentDisplay="CENTER" minHeight="24.0" minWidth="24.0" onAction="#closeButtonOnAction" prefHeight="24.0" prefWidth="24.0" text=" " textAlignment="CENTER">
+          <cursor>
+            <Cursor fx:constant="HAND" />
+          </cursor>
+          <graphic>
+            <ImageView fx:id="imgClose" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+              <image>
+                <Image url="@../assets/icon/close-square%201.png" />
+              </image>
+            </ImageView>
+          </graphic>
+        </JFXButton>
+      </children>
+    </Pane>
+    <Pane fx:id="confirmPane" layoutX="150.0" layoutY="194.0" prefHeight="41.0" prefWidth="200.0" style="-fx-background-color: black; -fx-background-radius: 10;">
+      <children>
+        <Label fx:id="confirmLabel" alignment="CENTER" contentDisplay="CENTER" layoutY="8.0" prefHeight="25.0" prefWidth="200.0" text="CONFIRM" textFill="WHITE">
+          <font>
+            <Font name="System Bold" size="16.0" />
+          </font>
+        </Label>
+      </children>
+    </Pane>
+    <JFXButton fx:id="confirmButton" layoutX="150.0" layoutY="194.0" onAction="#confirmButtonOnAction" onMouseEntered="#confirmButtonOnMouseEntered" onMouseExited="#confirmButtonOnMouseExited" prefHeight="41.0" prefWidth="200.0" style="-fx-background-radius: 10;" text=" " textFill="WHITE">
+      <cursor>
+        <Cursor fx:constant="HAND" />
+      </cursor>
+    </JFXButton>
+    <Label alignment="CENTER" layoutY="97.0" prefHeight="81.0" prefWidth="500.0" text="Are you sure you want to log out?" wrapText="true">
+      <font>
+        <Font size="17.0" />
+      </font>
+      <effect>
+        <Lighting>
+          <bumpInput>
+            <Shadow />
+          </bumpInput>
+          <light>
+            <Light.Distant />
+          </light>
+        </Lighting>
+      </effect>
+    </Label>
+  </children>
+</Pane>

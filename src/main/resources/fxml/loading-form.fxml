@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+
+<Pane fx:id="loadingPane" prefHeight="768.0" prefWidth="1366.0" style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.libmgmt.view.controller.LoadingPageController">
+  <children>
+    <ImageView id="loading-gif" fx:id="loadingGif" fitHeight="55.0" fitWidth="55.0" layoutX="636.0" layoutY="380.0" pickOnBounds="true" preserveRatio="true">
+      <image>
+        <Image url="@../assets/gif/Dual%20Ring@1x-1.1s-200px-200px.gif" />
+      </image>
+    </ImageView>
+    <ImageView fx:id="loadingLogo" fitHeight="80.0" fitWidth="100.0" layoutX="617.0" layoutY="290.0" pickOnBounds="true" preserveRatio="true" styleClass="logo-image">
+      <image>
+        <Image url="@../assets/icon/logoImageBlack.png" />
+      </image>
+    </ImageView>
+  </children>
+</Pane>

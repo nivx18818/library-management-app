@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXCheckBox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<HBox alignment="CENTER" maxHeight="122.0" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="110.0" prefWidth="795.0" spacing="50.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.libmgmt.view.controller.user.UserReturnedBookViewBarController">
+   <children>
+      <Pane minHeight="110.0" minWidth="100.0">
+         <children>
+            <ImageView fx:id="bookImage" fitHeight="90.0" fitWidth="70.0" layoutX="15.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../assets/img/images.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <Label fx:id="nameBookLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="60.0" layoutY="10.0" prefHeight="100.0" prefWidth="200.0" text="Story Book" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="amountLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="210.0" layoutY="10.0" prefHeight="100.0" prefWidth="80.0" text="1" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Pane prefHeight="200.0" prefWidth="100.0">
+         <children>
+            <ImageView fx:id="viewImage" fitHeight="22.0" fitWidth="22.0" layoutX="36.0" layoutY="34.0" onMouseClicked="#btnViewOnMouseClicked" onMouseEntered="#btnViewOnMouseEntered" onMouseExited="#btnViewOnMouseExited" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../assets/icon/btn%20view.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ImageView>
+         </children>
+      </Pane>
+      <Pane prefHeight="100.0" prefWidth="100.0">
+         <children>
+            <JFXCheckBox fx:id="checkBoxButton" checkedColor="BLACK" layoutX="38.0" layoutY="36.0" prefHeight="18.0" text="." textFill="WHITE" unCheckedColor="BLACK">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </JFXCheckBox>
+         </children>
+      </Pane>
+   </children>
+   <padding>
+      <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+   </padding>
+</HBox>

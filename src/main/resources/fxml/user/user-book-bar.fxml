@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXCheckBox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="110.0" prefWidth="1114.0" spacing="30.0" style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.libmgmt.view.controller.user.UserBookBarController">
+   <children>
+      <Label fx:id="orderLabel" alignment="CENTER" prefHeight="115.0" prefWidth="40.0" text="1" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <HBox alignment="CENTER_LEFT" fillHeight="false" prefHeight="110.0" prefWidth="240.0" spacing="10.0">
+         <HBox.margin>
+            <Insets />
+         </HBox.margin>
+         <padding>
+            <Insets bottom="10.0" left="5.0" top="10.0" />
+         </padding>
+         <children>
+            <VBox alignment="CENTER" minHeight="80.0" minWidth="68.0" prefHeight="86.0" prefWidth="65.0">
+               <HBox.margin>
+                  <Insets right="5.0" />
+               </HBox.margin>
+               <children>
+                  <ImageView fx:id="bookImage" fitHeight="86.0" fitWidth="68.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <image>
+                        <Image url="@../../assets/img/images.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </VBox>
+            <Label fx:id="nameLabel" prefHeight="101.0" prefWidth="150.0" text="Story Book" wrapText="true">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <Label fx:id="typeLabel" alignment="CENTER" prefHeight="120.0" prefWidth="120.0" text="Category" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="authorLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="117.0" prefWidth="180.0" text="Thomas Edison" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="statusLabel" alignment="CENTER" prefHeight="116.0" prefWidth="90.0" text="Available" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Pane prefHeight="100.0" prefWidth="100.0">
+         <children>
+            <ImageView fx:id="viewImage" fitHeight="25.0" fitWidth="25.0" layoutX="38.0" layoutY="43.0" onMouseClicked="#imgViewOnMouseClicked" onMouseEntered="#imgViewOnMouseEntered" onMouseExited="#imgViewOnMouseExited" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../assets/icon/btn%20view.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ImageView>
+         </children>
+      </Pane>
+      <Pane layoutX="927.0" layoutY="10.0" prefHeight="100.0" prefWidth="100.0">
+         <children>
+            <JFXCheckBox fx:id="checkBoxButton" checkedColor="BLACK" layoutX="40.0" layoutY="46.0" prefHeight="18.0" prefWidth="0.0" text="." textFill="WHITE" unCheckedColor="BLACK">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </JFXCheckBox>
+         </children>
+      </Pane>
+   </children>
+</HBox>
