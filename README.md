@@ -4,7 +4,7 @@ A Java-based application for managing library resources, including books, member
 
 ## Video Demo
 
-[![Watch the demo](https://i9.ytimg.com/vi_webp/Pxo9lj7mPVg/sddefault.webp?v=68b92497&sqp=CNzO5MUG&rs=AOn4CLDLk2Gdk90z2oYD4tzdhGCiMzgMjA)](https://youtu.be/3doJ6HVvleg)
+[![Watch the demo](https://img.youtube.com/vi/3doJ6HVvleg/0.jpg)](https://youtu.be/3doJ6HVvleg)
 
 ## Features
 
@@ -18,7 +18,7 @@ A Java-based application for managing library resources, including books, member
 1. Clone the repository:
 
     ```sh
-    git clone https://github.com/ichigawr/library-management-app.git
+    git clone https://github.com/nivx18818/library-management-app.git
     cd library-management-app
     ```
 
@@ -60,4 +60,4 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) for d
 
 ## Contact
 
-For any inquiries, please contact [ichigawr](https://github.com/ichigawr).
+For any inquiries, please contact [nivx18818](https://github.com/nivx18818).
