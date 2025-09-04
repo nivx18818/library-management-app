@@ -2,6 +2,10 @@
 
 A Java-based application for managing library resources, including books, members, and transactions, developed as a major assignment for the Object-Oriented Programming course at the University of Engineering and Technology, Vietnam National University, Hanoi.
 
+## Video Demo
+
+[![Watch the demo](https://i9.ytimg.com/vi_webp/Pxo9lj7mPVg/sddefault.webp?v=68b92497&sqp=CNzO5MUG&rs=AOn4CLDLk2Gdk90z2oYD4tzdhGCiMzgMjA)](https://www.youtube.com/watch?v=Pxo9lj7mPVg)
+
 ## Features
 
 - Manage library books and resources
